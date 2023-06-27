@@ -1,0 +1,16 @@
+﻿﻿@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+
+@inject NavigationManager Navigation
+
+<AuthorizeView>
+    <Authorized>
+        Приветствуем вас!
+        <a href="/logout">Выйти</a>
+    </Authorized>
+    <NotAuthorized>
+        <a href="/login">Войти</a>
+        <a href="/register">Зарегистрироватся</a>
+    </NotAuthorized>
+</AuthorizeView>
+

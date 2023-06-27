@@ -1,0 +1,30 @@
+﻿@page "/register"
+@inherits CancellableComponent
+<div>
+    <p class="text-danger">@ErrorMessage</p>
+</div>
+<EditForm Model="@Data" OnValidSubmit="RegisterAsync" class="form">
+    <FluentValidationValidator DisableAssemblyScanning=@true />
+    <ValidationSummary />
+    <div class="row">
+        <div class="col bg-success bg-opacity-10 p-2">
+            <h2>Данные</h2>
+            <div class="form-group">
+                <label class="form-label">Почта</label>
+                <InputText id="email" @bind-Value="@Data.Email" class="form-control" />
+            </div>
+        </div>
+        <div class="col bg-danger bg-opacity-10 p-2">
+            <h2>Пароль</h2>
+            <div class="form-group">
+                <label class="form-label">Пароль</label>
+                <InputText @bind-Value="@Data.Password" type="password" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label class="form-label">Повторите пароль</label>
+                <InputText @bind-Value="@Data.RePassword" type="password" class="form-control" />
+            </div>
+        </div>
+    </div>
+    <input class="btn btn-primary" type="submit" />
+</EditForm>
