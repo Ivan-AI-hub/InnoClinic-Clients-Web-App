@@ -1,11 +1,10 @@
-﻿using Microsoft.AspNetCore.Components;
-using ClientsWebApp.Services;
+﻿using ClientsWebApp.Blazor.Components;
 using ClientsWebApp.Blazor.Pages.Identity.Models;
-using System.IdentityModel.Tokens.Jwt;
-using ClientsWebApp.Blazor.Components;
-using System.Security.Claims;
-using ClientsWebApp.Domain.Identity.Tokens;
 using ClientsWebApp.Domain.Identity;
+using ClientsWebApp.Domain.Identity.Tokens;
+using Microsoft.AspNetCore.Components;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace ClientsWebApp.Blazor.Pages.Identity
 {

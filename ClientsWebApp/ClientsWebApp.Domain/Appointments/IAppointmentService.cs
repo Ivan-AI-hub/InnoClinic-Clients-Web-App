@@ -2,10 +2,10 @@
 {
     public interface IAppointmentService
     {
-        public Task<Appointment> CreateAsync(CreateAppointmentModel model, CancellationToken cancellationTokend);
-        public Task ApproveAsync(Guid id, CancellationToken cancellationTokend);
-        public Task<IEnumerable<Appointment>> GetPageAsync(Page page, AppointmentFiltrationModel filtrationModel, CancellationToken cancellationTokend);
-        public Task DeleteAsync(Guid id, CancellationToken cancellationTokend);
-        public Task RescheduleAsync(Guid id, RescheduleAppointmentModel model, CancellationToken cancellationTokend);
+        public Task<Appointment> CreateAsync(CreateAppointmentModel model, CancellationToken cancellationToken);
+        public Task ApproveAsync(Guid id, CancellationToken cancellationToken);
+        public Task<IEnumerable<Appointment>> GetPageAsync(Page page, AppointmentFiltrationModel filtrationModel, CancellationToken cancellationToken);
+        public Task DeleteAsync(Guid id, CancellationToken cancellationToken);
+        public Task RescheduleAsync(Guid id, RescheduleAppointmentModel model, CancellationToken cancellationToken);
     }
 }

@@ -2,7 +2,7 @@
 using ClientsWebApp.Domain.Identity.HttpClients;
 using System.Net.Http.Json;
 
-namespace ClientsWebApp.Services
+namespace ClientsWebApp.Services.Abstractions
 {
     public abstract class BaseService
     {

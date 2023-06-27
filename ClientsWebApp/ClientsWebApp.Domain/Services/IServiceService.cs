@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ClientsWebApp.Domain.Services
+﻿namespace ClientsWebApp.Domain.Services
 {
-    internal interface IServiceService
+    public interface IServiceService
     {
         public Task<IEnumerable<Service>> GetByCategoryAsync(string categoryName, Page page, CancellationToken cancellationToken);
         public Task<Service> GetByIdAsync(Guid id, CancellationToken cancellationToken);

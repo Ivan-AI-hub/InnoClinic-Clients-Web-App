@@ -2,9 +2,9 @@
 {
     public interface IReceptionistService
     {
-        public Task<Receptionist> CreateAsync(CreateReceptionistModel model, CancellationToken cancellationTokend);
-        public Task UpdateAsync(Guid id, UpdateReceptionistModel model, CancellationToken cancellationTokend);
-        public Task DeleteAsync(Guid id, CancellationToken cancellationTokend);
-        public Task<IEnumerable<Receptionist>> GetPageAsync(Page page, ReceptionistFiltrationModel filtrationModel, CancellationToken cancellationTokend);
+        public Task<Receptionist> CreateAsync(CreateReceptionistModel model, CancellationToken cancellationToken);
+        public Task UpdateAsync(Guid id, UpdateReceptionistModel model, CancellationToken cancellationToken);
+        public Task DeleteAsync(Guid id, CancellationToken cancellationToken);
+        public Task<IEnumerable<Receptionist>> GetPageAsync(Page page, ReceptionistFiltrationModel filtrationModel, CancellationToken cancellationToken);
     }
 }

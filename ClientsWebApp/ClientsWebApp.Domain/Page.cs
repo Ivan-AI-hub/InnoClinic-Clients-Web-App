@@ -1,6 +1,4 @@
 ﻿namespace ClientsWebApp.Domain
 {
-    public class Page
-    {
-    }
+    public record Page(int Size, int Number);
 }

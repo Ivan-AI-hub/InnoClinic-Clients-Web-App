@@ -1,15 +1,12 @@
-﻿using ClientsWebApp.Domain.Exceptions;
-using ClientsWebApp.Services.Settings;
-using Microsoft.Extensions.Options;
-using System.Net.Http;
-using System.Net.Http.Json;
-using System.Text.Json;
-using System.Text;
+﻿using ClientsWebApp.Domain.Identity;
 using ClientsWebApp.Domain.Identity.HttpClients;
 using ClientsWebApp.Domain.Identity.Tokens;
-using ClientsWebApp.Domain.Identity;
+using ClientsWebApp.Services.Abstractions;
+using ClientsWebApp.Services.Settings;
+using Microsoft.Extensions.Options;
+using System.Net.Http.Json;
 
-namespace ClientsWebApp.Services
+namespace ClientsWebApp.Services.Services
 {
     public class AuthorizationService : BaseService, IAuthorizationService
     {
@@ -32,7 +29,7 @@ namespace ClientsWebApp.Services
             var quary = $"?{nameof(email)}={email}&{nameof(password)}={password}";
             var requestUri = _baseUri + $"/SingIn" + quary;
 
-            var httpResponseMessage = await (await RequestClient).GetAsync(requestUri,cancellationToken);
+            var httpResponseMessage = await (await RequestClient).GetAsync(requestUri, cancellationToken);
 
             return await GetFromJsonAsync<AccessToken>(httpResponseMessage, cancellationToken);
         }

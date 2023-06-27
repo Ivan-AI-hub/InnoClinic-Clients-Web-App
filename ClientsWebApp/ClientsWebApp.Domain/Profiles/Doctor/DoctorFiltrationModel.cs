@@ -6,6 +6,6 @@
         public string? LastName { get; set; }
         public string? MiddleName { get; set; }
         public string? Specialization { get; set; }
-        public Guid? OfficeId { get; set; }
+        public Guid OfficeId { get; set; } = default;
     }
 }

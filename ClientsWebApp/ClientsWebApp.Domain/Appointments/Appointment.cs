@@ -6,7 +6,7 @@ namespace ClientsWebApp.Domain.Appointments
 {
     public class Appointment
     {
-        public Guid Id { get;  private set; }
+        public Guid Id { get; private set; }
         public DateOnly Date { get; private set; }
         public TimeOnly Time { get; private set; }
         public bool IsApproved { get; private set; }

@@ -1,12 +1,11 @@
 ﻿using ClientsWebApp.Blazor.Components;
 using ClientsWebApp.Blazor.Pages.Identity.Models;
-using ClientsWebApp.Domain;
 using ClientsWebApp.Domain.Identity;
 using Microsoft.AspNetCore.Components;
 
 namespace ClientsWebApp.Blazor.Pages.Identity
 {
-    public partial class Register: CancellableComponent
+    public partial class Register : CancellableComponent
     {
         [Inject] public IAuthorizationService AuthorizationService { get; set; }
         [Inject] public NavigationManager Navigation { get; set; }
@@ -26,7 +25,7 @@ namespace ClientsWebApp.Blazor.Pages.Identity
                 var user = await AuthorizationService.SingUpAsync(new SingUpModel(Data.Email, Data.Password, Data.RePassword), _cts.Token);
                 await AuthorizationService.ConfirmEmailAsync(user.Id, _cts.Token);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 ErrorMessage = ex.Message;
                 return;

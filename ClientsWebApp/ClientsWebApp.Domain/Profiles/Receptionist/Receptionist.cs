@@ -1,6 +1,4 @@
-﻿using ClientsWebApp.Domain.Offices;
-
-namespace ClientsWebApp.Domain.Profiles.Receptionist
+﻿namespace ClientsWebApp.Domain.Profiles.Receptionist
 {
     public class Receptionist
     {

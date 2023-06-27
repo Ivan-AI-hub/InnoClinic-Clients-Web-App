@@ -1,6 +1,6 @@
 ﻿namespace ClientsWebApp.Domain.Specializations
 {
-    public interface ISpecializationSpecialization
+    public interface ISpecializationService
     {
         public Task<IEnumerable<Specialization>> GetInfoAsync(Page page, CancellationToken cancellationToken);
         public Task<Specialization> GetByIdAsync(Guid id, CancellationToken cancellationToken);

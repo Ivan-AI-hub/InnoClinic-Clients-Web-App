@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace ClientsWebApp.Blazor.Pages.Identity.Models
+﻿namespace ClientsWebApp.Blazor.Pages.Identity.Models
 {
     public class LoginData
     {
