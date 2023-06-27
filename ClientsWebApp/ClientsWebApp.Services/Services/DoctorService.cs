@@ -1,6 +1,7 @@
 ﻿using ClientsWebApp.Domain;
 using ClientsWebApp.Domain.Identity.HttpClients;
 using ClientsWebApp.Domain.Profiles.Doctor;
+using ClientsWebApp.Domain.Profiles.Patient;
 using ClientsWebApp.Services.Abstractions;
 using ClientsWebApp.Services.Settings;
 using ClientsWebApp.Services.UriConstructors;
@@ -21,6 +22,15 @@ namespace ClientsWebApp.Services.Services
         {
             string requestUri = _baseUri;
             var httpResponseMessage = await (await RequestClient).PostAsJsonAsync(requestUri, model, cancellationToken);
+
+            return await GetFromJsonAsync<Doctor>(httpResponseMessage, cancellationToken);
+        }
+
+        public async Task<Doctor> GetByEmailAsync(string email, CancellationToken cancellationToken)
+        {
+            string requestUri = _baseUri + $"/{email}";
+
+            var httpResponseMessage = await(await RequestClient).GetAsync(requestUri, cancellationToken);
 
             return await GetFromJsonAsync<Doctor>(httpResponseMessage, cancellationToken);
         }

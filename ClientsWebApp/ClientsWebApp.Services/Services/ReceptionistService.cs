@@ -1,5 +1,6 @@
 ﻿using ClientsWebApp.Domain;
 using ClientsWebApp.Domain.Identity.HttpClients;
+using ClientsWebApp.Domain.Profiles.Patient;
 using ClientsWebApp.Domain.Profiles.Receptionist;
 using ClientsWebApp.Services.Abstractions;
 using ClientsWebApp.Services.Settings;
@@ -31,6 +32,15 @@ namespace ClientsWebApp.Services.Services
             var httpResponseMessage = await (await RequestClient).DeleteAsync(requestUri, cancellationToken);
 
             await EnsureSuccessStatusCode(httpResponseMessage, cancellationToken);
+        }
+
+        public async Task<Receptionist> GetByEmailAsync(string email, CancellationToken cancellationToken)
+        {
+            string requestUri = _baseUri + $"/{email}";
+
+            var httpResponseMessage = await(await RequestClient).GetAsync(requestUri, cancellationToken);
+
+            return await GetFromJsonAsync<Receptionist>(httpResponseMessage, cancellationToken);
         }
 
         public async Task<IEnumerable<Receptionist>> GetPageAsync(Page page, ReceptionistFiltrationModel filtrationModel, CancellationToken cancellationToken)

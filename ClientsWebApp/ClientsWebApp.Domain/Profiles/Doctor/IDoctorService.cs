@@ -6,5 +6,6 @@
         public Task UpdateAsync(Guid id, UpdateDoctorModel model, CancellationToken cancellationToken);
         public Task UpdateStatusAsync(Guid id, WorkStatus status, CancellationToken cancellationToken);
         public Task<IEnumerable<Doctor>> GetPageAsync(Page page, DoctorFiltrationModel filtrationModel, CancellationToken cancellationToken);
+        public Task<Doctor> GetByEmailAsync(string email, CancellationToken cancellationToken);
     }
 }

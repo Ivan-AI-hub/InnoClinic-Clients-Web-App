@@ -33,6 +33,15 @@ namespace ClientsWebApp.Services.Services
             await EnsureSuccessStatusCode(httpResponseMessage, cancellationToken);
         }
 
+        public async Task<Patient> GetByEmailAsync(string email, CancellationToken cancellationToken)
+        {
+            string requestUri = _baseUri + $"/{email}";
+
+            var httpResponseMessage = await(await RequestClient).GetAsync(requestUri, cancellationToken);
+
+            return await GetFromJsonAsync<Patient>(httpResponseMessage, cancellationToken);
+        }
+
         public async Task<IEnumerable<Patient>> GetPageAsync(Page page, PatientFiltrationModel filtrationModel, CancellationToken cancellationToken)
         {
             string requestUri = _baseUri + $"/{page.Size}/{page.Number}" + PatientUriConstructor.GenerateFiltrationQuery(filtrationModel);
