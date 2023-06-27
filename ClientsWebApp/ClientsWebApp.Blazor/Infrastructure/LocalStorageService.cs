@@ -1,4 +1,4 @@
-﻿using ClientsWebApp.Domain;
+﻿using ClientsWebApp.Domain.Identity;
 using Microsoft.JSInterop;
 using System.Text.Json;
 

@@ -1,4 +1,4 @@
-﻿namespace ClientsWebApp.Domain.HttpClients
+﻿namespace ClientsWebApp.Domain.Identity.HttpClients
 {
     public interface IAuthorizedClient
     {

@@ -1,13 +1,13 @@
-﻿using ClientsWebApp.Domain;
-using ClientsWebApp.Domain.Exceptions;
-using ClientsWebApp.Domain.HttpClients;
-using ClientsWebApp.Domain.Tokens;
+﻿using ClientsWebApp.Domain.Exceptions;
 using ClientsWebApp.Services.Settings;
 using Microsoft.Extensions.Options;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text.Json;
 using System.Text;
+using ClientsWebApp.Domain.Identity.HttpClients;
+using ClientsWebApp.Domain.Identity.Tokens;
+using ClientsWebApp.Domain.Identity;
 
 namespace ClientsWebApp.Services
 {

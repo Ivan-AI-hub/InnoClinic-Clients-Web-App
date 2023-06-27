@@ -1,7 +1,7 @@
-﻿using ClientsWebApp.Domain.Tokens;
+﻿using ClientsWebApp.Domain.Identity.Tokens;
 using System.Net.Http.Headers;
 
-namespace ClientsWebApp.Domain.HttpClients
+namespace ClientsWebApp.Domain.Identity.HttpClients
 {
     public class AuthorizedClient : IAuthorizedClient
     {

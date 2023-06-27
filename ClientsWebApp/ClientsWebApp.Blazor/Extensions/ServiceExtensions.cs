@@ -1,6 +1,6 @@
 ﻿using ClientsWebApp.Blazor.Infrastructure;
-using ClientsWebApp.Domain;
-using ClientsWebApp.Domain.HttpClients;
+using ClientsWebApp.Domain.Identity;
+using ClientsWebApp.Domain.Identity.HttpClients;
 using ClientsWebApp.Services;
 
 namespace ClientsWebApp.Blazor.Extensions

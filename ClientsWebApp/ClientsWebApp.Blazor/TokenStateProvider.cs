@@ -1,5 +1,5 @@
-﻿using ClientsWebApp.Domain;
-using ClientsWebApp.Domain.Tokens;
+﻿using ClientsWebApp.Domain.Identity;
+using ClientsWebApp.Domain.Identity.Tokens;
 using Microsoft.AspNetCore.Components.Authorization;
 using System.Security.Claims;
 

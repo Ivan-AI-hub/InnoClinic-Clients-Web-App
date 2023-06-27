@@ -1,6 +1,6 @@
-﻿using ClientsWebApp.Domain.Tokens;
+﻿using ClientsWebApp.Domain.Identity.Tokens;
 
-namespace ClientsWebApp.Domain
+namespace ClientsWebApp.Domain.Identity
 {
     public interface IAuthorizationService
     {

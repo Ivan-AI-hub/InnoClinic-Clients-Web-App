@@ -1,5 +1,5 @@
 ﻿using ClientsWebApp.Domain.Exceptions;
-using ClientsWebApp.Domain.HttpClients;
+using ClientsWebApp.Domain.Identity.HttpClients;
 using System.Net.Http.Json;
 
 namespace ClientsWebApp.Services

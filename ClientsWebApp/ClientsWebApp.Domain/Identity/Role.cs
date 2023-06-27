@@ -1,4 +1,4 @@
-﻿namespace ClientsWebApp.Domain
+﻿namespace ClientsWebApp.Domain.Identity
 {
     public enum Role
     {

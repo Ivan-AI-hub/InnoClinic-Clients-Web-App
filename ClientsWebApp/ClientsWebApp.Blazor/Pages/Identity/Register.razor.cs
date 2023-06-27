@@ -1,7 +1,7 @@
 ﻿using ClientsWebApp.Blazor.Components;
 using ClientsWebApp.Blazor.Pages.Identity.Models;
 using ClientsWebApp.Domain;
-using ClientsWebApp.Domain.Exceptions;
+using ClientsWebApp.Domain.Identity;
 using Microsoft.AspNetCore.Components;
 
 namespace ClientsWebApp.Blazor.Pages.Identity

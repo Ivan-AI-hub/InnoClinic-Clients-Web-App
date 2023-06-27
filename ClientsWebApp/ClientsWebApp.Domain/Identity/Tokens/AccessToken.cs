@@ -1,4 +1,4 @@
-﻿namespace ClientsWebApp.Domain.Tokens
+﻿namespace ClientsWebApp.Domain.Identity.Tokens
 {
     public class AccessToken
     {
