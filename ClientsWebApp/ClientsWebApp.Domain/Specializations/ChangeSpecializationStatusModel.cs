@@ -1,4 +1,4 @@
 ﻿namespace ClientsWebApp.Domain.Specializations
 {
-    public record ChangeSpecializationStatusModel(Guid Id, bool IsActive);
+    public record ChangeSpecializationStatusModel(bool IsActive);
 }

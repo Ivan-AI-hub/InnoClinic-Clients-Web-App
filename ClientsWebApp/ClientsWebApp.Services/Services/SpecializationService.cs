@@ -8,7 +8,7 @@ using System.Net.Http.Json;
 
 namespace ClientsWebApp.Services.Services
 {
-    internal class SpecializationService : BaseService, ISpecializationService
+    public class SpecializationService : BaseService, ISpecializationService
     {
         private string _baseUri;
         public SpecializationService(IAuthorizedClient client, IOptions<ServicesUriSettings> settings) : base(client)

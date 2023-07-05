@@ -17,5 +17,10 @@
             MiddleName = middleName;
             BirthDay = birthDay;
         }
+
+        public string GetFullName()
+        {
+            return $"{LastName} {FirstName} {MiddleName}";
+        }
     }
 }

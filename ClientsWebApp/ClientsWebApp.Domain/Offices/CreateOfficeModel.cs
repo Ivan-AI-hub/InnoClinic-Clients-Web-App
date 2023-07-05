@@ -1,6 +1,6 @@
 ﻿namespace ClientsWebApp.Domain.Offices
 {
-    public record CreateOfficeModel(ImageName PhotoName,
+    public record CreateOfficeModel(ImageName Photo,
                             string City,
                             string Street,
                             int HouseNumber,

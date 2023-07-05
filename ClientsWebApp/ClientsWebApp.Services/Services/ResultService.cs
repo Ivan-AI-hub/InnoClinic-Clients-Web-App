@@ -7,7 +7,7 @@ using System.Net.Http.Json;
 
 namespace ClientsWebApp.Services.Services
 {
-    internal class ResultService : BaseService, IResultService
+    public class ResultService : BaseService, IResultService
     {
         private string _baseUri;
         public ResultService(IAuthorizedClient client, IOptions<ServicesUriSettings> settings) : base(client)

@@ -8,7 +8,7 @@ using System.Net.Http.Headers;
 
 namespace ClientsWebApp.Services.Services
 {
-    internal class ImageService : BaseService, IImageService
+    public class ImageService : BaseService, IImageService
     {
         private string _baseUri;
         public ImageService(IAuthorizedClient client, IOptions<ServicesUriSettings> settings) : base(client)

@@ -7,7 +7,7 @@
         public Address Address { get; private set; }
         public int OfficeNumber { get; private set; }
         public string PhoneNumber { get; private set; }
-        public bool Status { get; private set; }
+        public bool Status { get; set; }
 
         public Office(Guid id, ImageName? photo, Address address, int officeNumber, string phoneNumber, bool status)
         {

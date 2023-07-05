@@ -28,7 +28,16 @@ namespace ClientsWebApp.Services.Services
 
         public async Task<Doctor> GetByEmailAsync(string email, CancellationToken cancellationToken)
         {
-            string requestUri = _baseUri + $"/{email}";
+            string requestUri = _baseUri + $"/email/{email}";
+
+            var httpResponseMessage = await(await RequestClient).GetAsync(requestUri, cancellationToken);
+
+            return await GetFromJsonAsync<Doctor>(httpResponseMessage, cancellationToken);
+        }
+
+        public async Task<Doctor> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+        {
+            string requestUri = _baseUri + $"/{id}";
 
             var httpResponseMessage = await(await RequestClient).GetAsync(requestUri, cancellationToken);
 

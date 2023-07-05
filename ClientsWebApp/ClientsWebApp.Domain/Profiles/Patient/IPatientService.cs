@@ -7,5 +7,6 @@
         public Task DeleteAsync(Guid id, CancellationToken cancellationToken);
         public Task<IEnumerable<Patient>> GetPageAsync(Page page, PatientFiltrationModel filtrationModel, CancellationToken cancellationToken);
         public Task<Patient> GetByEmailAsync(string email, CancellationToken cancellationToken);
+        public Task<Patient> GetByIdAsync(Guid id, CancellationToken cancellationToken);
     }
 }

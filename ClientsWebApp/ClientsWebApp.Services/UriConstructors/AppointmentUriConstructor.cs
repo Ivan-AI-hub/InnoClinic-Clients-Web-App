@@ -42,7 +42,7 @@ namespace ClientsWebApp.Services.UriConstructors
             }
             if (filtrationModel.Date != default)
             {
-                quary.Append($"&Date={filtrationModel.Date}");
+                quary.Append($"&Date={filtrationModel.Date.ToString("yyyy-MM-dd")}");
             }
 
             return quary.ToString();

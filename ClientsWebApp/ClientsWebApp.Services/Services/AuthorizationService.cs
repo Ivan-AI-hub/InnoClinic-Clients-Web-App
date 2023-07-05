@@ -44,12 +44,9 @@ namespace ClientsWebApp.Services.Services
 
         public async Task UpdateRole(string email, Role role, CancellationToken cancellationToken = default)
         {
-            var parameters = new Dictionary<string, string>()
-            {
-                {"Role", role.ToString() }
-            };
+            var request = new SendRoleRequest(role);
             var requestUri = _baseUri + $"/{email}/role";
-            var httpResponseMessage = await (await RequestClient).PutAsync(requestUri, new FormUrlEncodedContent(parameters), cancellationToken);
+            var httpResponseMessage = await (await RequestClient).PutAsJsonAsync(requestUri, request, cancellationToken);
             await EnsureSuccessStatusCode(httpResponseMessage, cancellationToken);
         }
     }

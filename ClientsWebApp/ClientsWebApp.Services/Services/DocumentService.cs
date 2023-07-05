@@ -8,10 +8,10 @@ using System.Net.Http.Headers;
 
 namespace ClientsWebApp.Services.Services
 {
-    public class DocumentsService : BaseService, IDocumentService
+    public class DocumentService : BaseService, IDocumentService
     {
         private string _baseUri;
-        public DocumentsService(IAuthorizedClient client, IOptions<ServicesUriSettings> settings) : base(client)
+        public DocumentService(IAuthorizedClient client, IOptions<ServicesUriSettings> settings) : base(client)
         {
             _baseUri = settings.Value.DocumentsBaseUri;
         }

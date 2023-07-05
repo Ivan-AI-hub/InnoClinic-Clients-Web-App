@@ -7,5 +7,6 @@
         public Task DeleteAsync(Guid id, CancellationToken cancellationToken);
         public Task<IEnumerable<Receptionist>> GetPageAsync(Page page, ReceptionistFiltrationModel filtrationModel, CancellationToken cancellationToken);
         public Task<Receptionist> GetByEmailAsync(string email, CancellationToken cancellationToken);
+        public Task<Receptionist> GetByIdAsync(Guid id, CancellationToken cancellationToken);
     }
 }

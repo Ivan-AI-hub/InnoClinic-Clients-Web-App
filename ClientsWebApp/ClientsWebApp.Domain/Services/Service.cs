@@ -13,8 +13,9 @@ namespace ClientsWebApp.Domain.Services
         public Guid CategoryId { get; private set; }
         public Specialization? Specialization { get; private set; }
         public Category? Category { get; private set; }
-        public Service(string name, int price, bool status, Specialization specialization, Category category, Guid specializationId, Guid categoryId)
+        public Service(Guid id, string name, int price, bool status, Specialization specialization, Category category, Guid specializationId, Guid categoryId)
         {
+            Id = id;
             Name = name;
             Price = price;
             Status = status;

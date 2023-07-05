@@ -8,6 +8,7 @@
         public OfficeId Office { get; private set; }
         public int CareerStartYear { get; private set; }
         public WorkStatus Status { get; private set; }
+        public int Experience => DateTime.UtcNow.Year - CareerStartYear + 1;
         public Doctor(Guid id, HumanInfo info, string specialization, OfficeId office, int careerStartYear, WorkStatus status)
         {
             Id = id;

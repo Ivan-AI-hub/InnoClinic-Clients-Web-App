@@ -10,11 +10,11 @@ namespace ClientsWebApp.Domain.Appointments
         public DateOnly Date { get; private set; }
         public TimeOnly Time { get; private set; }
         public bool IsApproved { get; private set; }
-        public Patient Patient { get; private set; }
-        public Doctor Doctor { get; private set; }
-        public Service Service { get; private set; }
+        public PatientInfo Patient { get; private set; }
+        public DoctorInfo Doctor { get; private set; }
+        public ServiceInfo Service { get; private set; }
 
-        public Appointment(Guid id, DateOnly date, TimeOnly time, bool isApproved, Patient patient, Doctor doctor, Service serviceDTO)
+        public Appointment(Guid id, DateOnly date, TimeOnly time, bool isApproved, PatientInfo patient, DoctorInfo doctor, ServiceInfo service)
         {
             Id = id;
             Date = date;
@@ -22,7 +22,7 @@ namespace ClientsWebApp.Domain.Appointments
             IsApproved = isApproved;
             Patient = patient;
             Doctor = doctor;
-            Service = serviceDTO;
+            Service = service;
         }
     }
 }

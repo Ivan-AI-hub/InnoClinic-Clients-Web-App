@@ -11,5 +11,10 @@
             Street = street;
             HouseNumber = houseNumber;
         }
+
+        public override string ToString()
+        {
+            return $"{City} {Street} {HouseNumber}";
+        }
     }
 }
