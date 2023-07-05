@@ -1,0 +1,63 @@
+﻿@using ClientsWebApp.Blazor.Pages.Appointments.Models;
+@using ClientsWebApp.Blazor.Pages.Identity.Models;
+@inherits CancellableComponent
+@inject IAppointmentService AppointmentService
+@attribute [Authorize(Roles = "Doctor,Admin")]
+
+<div class="col">
+    @if (IsLoading)
+    {
+        <Loading />
+    }
+    else
+    {
+        <AuthorizeView Roles="Admin,Doctor">
+            <Authorized Context="editDate">
+                @if (IsDateChanges)
+                {
+                    <EditForm Model="@Data" OnValidSubmit="ChangeAsync" class="form">
+                        <div class="row">
+                            <div class="col bg-success bg-opacity-10 p-2">
+                                <FormInputDate Label="Дата" Id="date" @bind-Value="Data.Date"/>
+                            </div>
+                        </div>
+                        <input class="btn btn-primary" type="submit" />
+                    </EditForm>
+                }
+                else
+                {
+                    <input type="button" value="Изменить Дату" @onclick="StartChanging" />
+                }
+            </Authorized>
+        </AuthorizeView>
+    }
+</div>
+
+@code {
+    [Parameter] public Appointment Appointment { get; set; }
+    [Parameter] public EventCallback OnDateChanged { get; set; }
+
+    private bool IsDateChanges { get; set; }
+    private bool IsLoading { get; set; } = false;
+    private ChangeDateData Data { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Data = new ChangeDateData() { Date = Appointment.Date.ToDateTime(Appointment.Time) };
+    }
+
+    private void StartChanging()
+    {
+        IsDateChanges = true;
+    }
+    private async Task ChangeAsync()
+    {
+        IsLoading = true;
+
+        var rescheduleData = new RescheduleAppointmentModel(Appointment.Doctor.Id, DateOnly.FromDateTime(Data.Date), TimeOnly.FromDateTime(Data.Date));
+        await AppointmentService.RescheduleAsync(Appointment.Id, rescheduleData, _cts.Token);
+        await OnDateChanged.InvokeAsync();
+        IsDateChanges = false;
+        IsLoading = false;
+    }
+}

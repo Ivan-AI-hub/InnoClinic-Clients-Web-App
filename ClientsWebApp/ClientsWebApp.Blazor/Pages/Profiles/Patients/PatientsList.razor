@@ -1,0 +1,58 @@
+﻿@page "/patients"
+@using ClientsWebApp.Blazor.Pages.Identity
+@using ClientsWebApp.Domain;
+@inherits CancellableComponent
+
+<div class="row">
+    <div class="col-sm-3">
+        <EditForm Model="FiltrationModel" OnValidSubmit="PatientsUpdateAsync">
+            <div class="container">
+                <div class="col ">
+                    <label class="form-label">Фильтрация</label>
+                    <FormInputText Label="Имя" Id="firstName" @bind-Value="FiltrationModel.FirstName" />
+                    <FormInputText Label="Фамилия" Id="lastName" @bind-Value="FiltrationModel.LastName" />
+                    <FormInputText Label="Отчество" Id="middleName" @bind-Value="FiltrationModel.MiddleName" />
+                </div>
+                <input type="submit" class="btn btn-primary align-self-center" value="Найти" />
+            </div>
+        </EditForm>
+    </div>
+    <div class="col-sm">
+        @if(Patients != null)
+        {
+            <div class="row">
+                <div class="d-flex align-items-center justify-content-start col">
+                    @if (@Status != PageStatus.FirstPage && Status != PageStatus.OnlyPage)
+                    {
+                        <button class="btn btn-info" @onclick="SetPreviousPage">←Предидущая страница</button>
+                    }
+                    else
+                    {
+                        <button class="btn btn-info disabled">←Предидущая страница</button>
+                    }
+                </div>
+                <div class="d-flex align-items-center justify-content-end col">
+                    @if (@Status != PageStatus.LastPage && @Status != PageStatus.OnlyPage)
+                    {
+                        <button class="btn btn-info" @onclick="SetNextPage">Следующая страница→</button>
+                    }
+                    else
+                    {
+                        <a href="undifinite" class="btn btn-info disabled">Следующая страница→</a>
+                    }
+                </div>
+            </div>
+            @foreach (var patient in Patients)
+            {
+                <PatientCard Patient="patient">
+                    <ChangeRole Email="@patient.Info.Email" OnRoleChanged="PatientsUpdateAsync"/>
+                </PatientCard>
+            }
+        }
+        else
+        {
+            <Loading />
+        }
+    </div>
+
+</div>

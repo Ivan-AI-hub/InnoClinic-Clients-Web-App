@@ -1,0 +1,28 @@
+﻿@inject NavigationManager navigationManager
+@inherits CancellableComponent
+
+<div class="row mb-3 align-items-center bg-success" @onclick="NavigateToInfoPage">
+    @if (Specialization != null)
+    {
+        <div class="col">
+            <div>@Specialization.Name</div>
+            <input type="radio" checked="@Specialization.IsActive" class="disabled" />
+        </div>
+        @if (ChildContent != null)
+        {
+            @ChildContent
+        }
+
+    }
+</div>
+
+
+@code {
+    [Parameter] public Specialization Specialization { get; set; }
+    [Parameter] public RenderFragment ChildContent { get; set; }
+
+    private void NavigateToInfoPage()
+    {
+        navigationManager.NavigateTo($"/specializations/{Specialization.Id}");
+    }
+}

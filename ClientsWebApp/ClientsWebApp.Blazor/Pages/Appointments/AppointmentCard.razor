@@ -1,0 +1,45 @@
+@inherits CancellableComponent
+@inject NavigationManager NavigationManager
+
+<div class="row mb-3 align-items-center">
+    @if (Appointment != null)
+    {
+        <div class="col">
+            <div>Date @Appointment.Date Time @Appointment.Time-@Appointment.Time.AddMinutes(10)</div>
+            <button class="btn btn-info" @onclick="@NavigateToDoctorPage">Doctor @Appointment.Doctor.GetFullName()</button><br/>
+            <button class="btn btn-info" @onclick="@NavigateToPatientPage">Patient @Appointment.Patient.GetFullName()</button>
+            <div>Service @Appointment.Service.Name</div>
+            <div>IsApproved @Appointment.IsApproved</div>
+            @if (Appointment.IsApproved && Appointment.Date > DateOnly.FromDateTime(DateTime.UtcNow) && Appointment.Time > TimeOnly.FromDateTime(DateTime.UtcNow))
+            {
+                <button class="btn btn-info" @onclick="@NavigateToResultPage">Result</button>
+            }
+        </div>
+        @if (ChildContent != null)
+        {
+            @ChildContent
+        }
+
+    }
+</div>
+
+
+@code {
+    [Parameter] public Appointment Appointment { get; set; }
+    [Parameter] public RenderFragment ChildContent { get; set;}
+
+    private void NavigateToDoctorPage()
+    {
+        NavigationManager.NavigateTo($"/doctors/{Appointment.Doctor.Id}");
+    }
+
+    private void NavigateToPatientPage()
+    {
+        NavigationManager.NavigateTo($"/patients/{Appointment.Patient.Id}");
+    }
+
+    private void NavigateToResultPage()
+    {
+        NavigationManager.NavigateTo($"/appointments/{Appointment.Id}/result");
+    }
+}

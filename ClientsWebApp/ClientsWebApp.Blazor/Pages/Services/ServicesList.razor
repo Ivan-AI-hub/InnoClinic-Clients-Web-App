@@ -1,0 +1,14 @@
+﻿@page "/services"
+@inherits CancellableComponent
+
+@if (Services != null)
+{
+    @foreach (var service in Services)
+    {
+        <ServiceCard Service="service"/>
+    }
+}
+else
+{
+    <Loading/>
+}

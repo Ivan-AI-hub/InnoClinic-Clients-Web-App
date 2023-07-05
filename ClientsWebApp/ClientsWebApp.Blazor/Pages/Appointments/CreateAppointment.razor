@@ -1,0 +1,32 @@
+﻿@page "/appointments/create"
+@inherits CancellableComponent
+@attribute [Authorize(Roles = "Patient")]
+<div>
+    <p class="text-danger">@ErrorMessage</p>
+</div>
+@if (Data == null)
+{
+    <Loading />
+}
+else
+{
+    <EditForm Model="@Data" OnValidSubmit="CreateAsync" class="form">
+        <FluentValidationValidator DisableAssemblyScanning=true />
+        <ValidationSummary />
+        <div class="row">
+            <div class="col bg-success bg-opacity-10 p-2">
+                <h2>Данные</h2>
+                <FormInputSelect Label="Офис" Id="office" @bind-Value="Data.OfficeId" Values="Offices" GetLabelHandler="@(x => x.Address)" GetValueHandler="@(x => x.Id)" @oninput="OfficeWasSelected" />
+                <FormInputSelect Label="Специализация" Id="specialization" @bind-Value="Data.Specialization" Values="Specializations" GetLabelHandler="@(x => x.Name)" GetValueHandler="@(x => x.Name)" @oninput="SpecializationWasSelected" />
+                <FormInputSelect Label="Доктор" Id="doctors" @bind-Value="Data.DoctorId" Values="Doctors" GetLabelHandler="@(x => x.Info.GetFullName())" GetValueHandler="@(x => x.Id)" @oninput="DoctorWasSelected" />
+                <FormInputSelect Label="Категория" Id="doctors" @bind-Value="Data.Category" Values="Categories" GetLabelHandler="@(x => x)" GetValueHandler="@(x => x)" @oninput="CategoryWasSelected" />
+                <FormInputSelect Label="Сервис" Id="doctors" @bind-Value="Data.ServiceId" Values="Services" GetLabelHandler="@(x => x.Name)" GetValueHandler="@(x => x.Id)" />
+                @if(Data.DoctorId != default && Data.Category != default)
+                {
+                    <TimeSlots Category="@(new Category(default, Data.Category, 10, Services.ToList()))" DoctorId="@Data.DoctorId" OnTimeSlotSelected="@TimeSlotSelected" @ref="@TimeSlots" />
+                }
+            </div>
+        </div>
+        <input class="btn btn-primary" type="submit" />
+    </EditForm>
+}

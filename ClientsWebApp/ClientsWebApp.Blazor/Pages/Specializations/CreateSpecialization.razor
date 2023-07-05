@@ -1,0 +1,53 @@
+﻿@page "/specializations/create"
+@using ClientsWebApp.Blazor.Pages.Services
+@attribute [Authorize(Roles = "Admin")]
+@inherits CancellableComponent
+
+<div>
+    <p class="text-danger"> @ErrorMessage</p>
+</div>
+<EditForm Model="@Data" OnValidSubmit="CreateAsync" class="form">
+    <FluentValidationValidator DisableAssemblyScanning=true />
+    <ValidationSummary />
+    <div class="row">
+        <div class="col bg-success bg-opacity-10 p-2">
+            <h2>Данные</h2>
+            <FormInputText Label="Название специализации" Id="firstName" @bind-Value="@Data.Name" />
+            <FormInputCheckBox Label="Активный" Id="lastName" @bind-Value="@Data.IsActive" />
+        </div>
+        <div class="col bg-success bg-opacity-10 p-2">
+            <h2>Сервисы</h2>
+            @if (IsServiceCreating)
+            {
+                <CreateService SpecializationId="default" OnModelCreated="@StopCreateService" />
+            }
+            else
+            {
+                <input type="button" value="Create a service" @onclick="@StartCreateService" />
+            }
+            <div class="row">
+                @foreach (var service in Services)
+                {
+                    <div class="col">
+                        <p>@service.Name</p>
+                        <p>@service.Price</p>
+                        <p>@service.Status</p>
+                        <p>@service.CategoryName</p>
+                    </div>
+                    <div class="col">
+                        <input type="button" class="btn btn-danger" value="-" @onclick="@(()=>RemoveService(service))" />
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    @if (IsLoading)
+    {
+        <input class="btn btn-primary disabled" type="submit"/>
+        <Loading />
+    }
+    else
+    {
+        <input class="btn btn-primary" type="submit" />
+    }
+</EditForm>

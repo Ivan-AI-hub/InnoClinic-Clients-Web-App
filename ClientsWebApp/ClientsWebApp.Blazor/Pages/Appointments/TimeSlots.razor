@@ -1,0 +1,75 @@
+﻿@inherits CancellableComponent
+
+<EditForm Model="@Data" class="form">
+    <div class="row">
+        <div class="col bg-success bg-opacity-10 p-2">
+            <h2>Данные</h2>
+            <FormInputDate Label="Дата" Id="Date" @bind-Value="Data.Date" @oninput="@DateWasSelected" />
+        </div>
+    </div>
+</EditForm>
+
+<table class="table">
+    <tr>
+        <td>Час</td>
+        @for (int i = 10; i < 60; i += 10)
+        {
+            <td>@i минута</td>
+        }
+    </tr>
+
+    @if (isTableReloading)
+    {
+        <Loading />
+    }
+    else
+    {
+        int k = 0;
+        @for (int i = 1; i < 24; i++)
+        {
+            <tr>
+                <td>@i</td>
+
+                @for (int j = 10; j < 60; j += 10)
+                {
+
+                    TimeOnly time = new TimeOnly(i, j);
+                    if (Data.Time == time && Times[time])
+                    {
+                        <td class="btn btn-success">@j</td>
+                        k = Category.TimeSlotSize / 10 - 1;
+                    }
+                    else if (Data.Time == time && !Times[time])
+                    {
+                        <td class="btn btn-danger">@j</td>
+                        k = 0;
+                        Data.Time = default;
+                    }
+                    else if (k > 0 && !Times[time])
+                    {
+                        <td class="btn btn-danger">@j</td>
+                        Data.Time = default;
+                        k = 0;
+                    }
+                    else if (k > 0)
+                    {
+                        <td class="btn btn-success" @onclick="@(() => SelectTimeSlot(time))">@j</td>
+                        k--;
+                    }
+                    else if (Times[time])
+                    {
+                        <td class="btn btn-info" @onclick="@(() => SelectTimeSlot(time))">@j</td>
+                    }
+                    else
+                    {
+                        <td class="btn btn-danger">@j</td>
+                    }
+
+
+                }
+            </tr>
+        }
+    }
+
+</table>
+

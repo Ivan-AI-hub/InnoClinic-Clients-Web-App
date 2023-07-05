@@ -1,0 +1,12 @@
+﻿@page "/doctors/home"
+@inherits CancellableComponent
+@if(!IsLoading)
+{
+    <DoctorCard Doctor="@Doctor"/>
+    <input type="button" value="Edit" @onclick="@NavigateToEditPage"/>
+    <input type="button" value="Schedule" @onclick="@NavigateToSchedulePage"/>
+}
+else
+{
+    <Loading/>
+}

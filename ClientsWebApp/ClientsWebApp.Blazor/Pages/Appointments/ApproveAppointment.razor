@@ -1,0 +1,54 @@
+﻿@using ClientsWebApp.Blazor.Pages.Appointments.Models;
+@using ClientsWebApp.Blazor.Pages.Identity.Models;
+@inherits CancellableComponent
+@inject IAppointmentService AppointmentService
+@attribute [Authorize(Roles = "Doctor,Admin")]
+
+<div class="col">
+    @if (IsLoading)
+    {
+        <Loading />
+    }
+    else
+    {
+        <AuthorizeView Roles="Admin,Doctor">
+            <Authorized Context="editDate">
+                @if (IsDateChanges)
+                {
+                    <input type="button" class="btn btn-success" value="Подтвердить" @onclick="ChangeAsync" />
+                    <input type="button" class="btn btn-danger" value="Отмена" @onclick="StopChanging" />
+                }
+                else
+                {
+                    <input type="button" value="Подтвердить" @onclick="StartChanging" />
+                }
+            </Authorized>
+        </AuthorizeView>
+    }
+</div>
+
+@code {
+    [Parameter] public Guid AppointmentId { get; set; }
+    [Parameter] public EventCallback OnAppointmentApproved { get; set; }
+
+    private bool IsDateChanges { get; set; }
+    private bool IsLoading { get; set; } = false;
+
+    private void StartChanging()
+    {
+        IsDateChanges = true;
+    }
+    private void StopChanging()
+    {
+        IsDateChanges = false;
+    }
+    private async Task ChangeAsync()
+    {
+        IsLoading = true;
+
+        await AppointmentService.ApproveAsync(AppointmentId, _cts.Token);
+        await OnAppointmentApproved.InvokeAsync();
+        StopChanging();
+        IsLoading = false;
+    }
+}

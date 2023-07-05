@@ -1,0 +1,25 @@
+﻿@page "/receptionists/delete"
+@inherits CancellableComponent
+@attribute [Authorize(Roles = "Admin")]
+@inject IReceptionistService ReceptionistService
+@inject AuthenticationStateHelper AuthHelper
+@inject NavigationManager Navigator
+
+<p>Do you really want to delete? Data will be lost.</p>
+<button @onclick="DeleteAsync">Yes</button>
+<button @onclick="Cancel">No</button>
+
+@code
+{
+    private async Task DeleteAsync()
+    {
+        var email = await AuthHelper.GetEmailAsync();
+        var patient = await ReceptionistService.GetByEmailAsync(email, _cts.Token);
+        await ReceptionistService.DeleteAsync(patient.Id, _cts.Token);
+        Navigator.NavigateTo("/");
+    }
+    private void Cancel()
+    {
+        Navigator.NavigateTo("/");
+    }
+}

@@ -1,0 +1,14 @@
+﻿@page "/receptionists/home"
+@inherits CancellableComponent
+<h3>Вы админ, поздравляю</h3>
+
+@if(!IsLoading)
+{
+    <ReceptionistCard Receptionist="Receptionist"/>
+    <button @onclick="NavigateToEditPage" class="btn btn-info">Edit</button>
+    <button @onclick="NavigateToDeletePage" class="btn btn-danger">Delete</button>
+}
+else
+{
+    <Loading/>
+}

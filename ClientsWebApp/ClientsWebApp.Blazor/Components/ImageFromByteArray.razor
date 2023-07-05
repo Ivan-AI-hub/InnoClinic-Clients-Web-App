@@ -1,0 +1,15 @@
+﻿@if (!IsSvgImage)
+{
+    <img src="data:image/@ImageType;base64, @Convert.ToBase64String(Image)" @attributes="InputAttributes"/>
+}
+else
+{
+    <image href="data:image/@ImageType;base64, @Convert.ToBase64String(Image)" @attributes="InputAttributes" />
+}
+
+@code {
+    [Parameter] public byte[] Image { get; set; }
+    [Parameter] public string ImageType { get; set; } = "png";
+    [Parameter] public bool IsSvgImage { get; set; } = false;
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? InputAttributes { get; set; }
+}

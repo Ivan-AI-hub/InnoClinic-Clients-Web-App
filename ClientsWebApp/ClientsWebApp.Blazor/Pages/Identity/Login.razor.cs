@@ -32,7 +32,7 @@ namespace ClientsWebApp.Blazor.Pages.Identity
                 var accessToken = await Service.SingIn(LoginData.Email, LoginData.Password, _cts.Token);
                 var jwt = new JwtSecurityTokenHandler().ReadJwtToken(accessToken.Token);
 
-                var token = new SecurityToken(accessToken.Token, LoginData.Email, Enum.Parse<Role>(jwt.Claims.First(x => x.Type == ClaimTypes.Role).Value), DateTime.UtcNow.AddTicks(long.Parse(jwt.Claims.First(x => x.Type == "exp").Value)));
+                var token = new SecurityToken(accessToken.Token, LoginData.Email, Enum.Parse<Role>(jwt.Claims.First(x => x.Type == ClaimTypes.Role).Value), DateTime.UtcNow.AddMinutes(60));
 
                 await LocalStorageService.SetAsync(nameof(SecurityToken), token);
                 Navigation.NavigateTo("/", true);

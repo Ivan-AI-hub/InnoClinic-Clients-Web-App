@@ -1,0 +1,49 @@
+﻿@page "/specializations/{specializationId:guid}"
+@using ClientsWebApp.Blazor.Pages.Services
+
+@inject ISpecializationService specializationService
+@inject NavigationManager navigationManager
+@inherits CancellableComponent
+@if (Specialization != null)
+{
+    <div class="row mb-3 align-items-center">
+        <div class="col">
+            <div>@Specialization.Name</div>
+            <EditForm Model="@Specialization" class="form">
+                <InputCheckbox @bind-Value="@Specialization.IsActive" @oninput="@CheckBoxChanged" />
+            </EditForm>
+        </div>
+        <div class="col">
+            <button class="btn btn-info" @onclick="NavigateToEditPage">Изменить</button>
+        </div>
+    </div>
+    <div class="row mb-3 align-items-center">
+        <div class="col">
+            @foreach(var service in Specialization.Services)
+            {
+                <ServiceCard Service="service"/>
+            }
+        </div>
+    </div>
+}
+
+
+@code {
+    [Parameter] public Guid SpecializationId { get; set; }
+    private Specialization Specialization;
+    private Image? image;
+    protected async override Task OnInitializedAsync()
+    {
+        Specialization = await specializationService.GetByIdAsync(SpecializationId, _cts.Token);
+    }
+
+    private async void CheckBoxChanged(ChangeEventArgs args)
+    {
+        await specializationService.ChangeStatusAsync(SpecializationId, new ChangeSpecializationStatusModel(@Specialization.IsActive), _cts.Token);
+    }
+
+    private void NavigateToEditPage()
+    {
+        navigationManager.NavigateTo($"/specializations/{SpecializationId}/edit");
+    }
+}

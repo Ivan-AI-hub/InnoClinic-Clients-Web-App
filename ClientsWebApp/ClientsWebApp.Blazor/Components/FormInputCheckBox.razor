@@ -1,0 +1,15 @@
+﻿@inherits InputCheckbox
+
+<div class="form-group">
+    @if (Label != null)
+    {
+        <label for="@Id" class="form-label">@Label</label>
+    }
+    <InputCheckbox id="@Id" @attributes="AdditionalAttributes" @bind-Value="CurrentValue"/>
+</div>
+
+@code
+{
+    [Parameter] public string Label { get; set; }
+    [Parameter] public string Id { get; set; }
+}

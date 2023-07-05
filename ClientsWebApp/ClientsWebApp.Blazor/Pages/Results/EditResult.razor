@@ -1,0 +1,24 @@
+﻿@page "/appointments/{AppointmentId:guid}/result/edit"
+@inherits CancellableComponent
+@attribute [Authorize(Roles = "Doctor")]
+
+@if (Data == null)
+{
+    <Loading />
+}
+else
+{
+    <EditForm Model="@Data" OnValidSubmit="EditAsync" class="form">
+        <FluentValidationValidator DisableAssemblyScanning=true />
+        <ValidationSummary />
+        <div class="row">
+            <div class="col bg-success bg-opacity-10 p-2">
+                <h2>Данные</h2>
+                <FormInputText Label="Жалобы" Id="Name" @bind-Value="@Data.Complaints" />
+                <FormInputText Label="Заключение" Id="Name" @bind-Value="@Data.Conclusion" />
+                <FormInputText Label="Рекомендации" Id="Name" @bind-Value="@Data.Recomendations" />
+            </div>
+        </div>
+        <input class="btn btn-primary" type="submit" value="Изменить" />
+    </EditForm>
+}

@@ -1,0 +1,19 @@
+@page "/doctors/{DoctorId:guid}"
+@inherits CancellableComponent
+
+@inject IDoctorService DoctorService;
+
+@if (doctor != null)
+{
+    <DoctorCard Doctor="doctor" />
+}
+
+@code
+{
+    [Parameter] public Guid DoctorId {get;set;}
+    private Doctor doctor;
+    protected async override Task OnInitializedAsync()
+    {
+        doctor = await DoctorService.GetByIdAsync(DoctorId, _cts.Token);
+    }
+}

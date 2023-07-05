@@ -10,10 +10,8 @@
         <EditForm Model="@LoginData" OnValidSubmit="LoginAsync">
             <FluentValidationValidator DisableAssemblyScanning=@true />
             <ValidationSummary />
-            <label for="username">Email</label>
-            <InputText id="username" @bind-Value="LoginData.Email" class="form-control" />
-            <label for="password">Password</label>
-            <InputText id="password" @bind-Value="LoginData.Password" type="password" class="form-control" />
+            <FormInputText Label="Email" Id="email" @bind-Value="@LoginData.Email" />
+            <FormInputText Label="Password" Id="password" type="password" @bind-Value="@LoginData.Password" />
             @if (!IsLoading)
             {
                 <div class="row">

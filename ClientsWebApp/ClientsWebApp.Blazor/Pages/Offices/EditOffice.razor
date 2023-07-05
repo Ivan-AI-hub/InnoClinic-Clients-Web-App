@@ -1,0 +1,30 @@
+﻿@page "/offices/{officeId:guid}/edit"
+@inherits CancellableComponent
+
+<div>
+    <p class="text-danger">@ErrorMessage</p>
+</div>
+@if (Data != null)
+{
+    <EditForm Model="@Data" OnValidSubmit="EditAsync" class="form">
+        <FluentValidationValidator DisableAssemblyScanning=true />
+        <ValidationSummary />
+        <div class="row">
+            <div class="col bg-success bg-opacity-10 p-2">
+                <h2>Данные</h2>
+                <FormInputText Label="Город" Id="city" @bind-Value="@Data.City" />
+                <FormInputText Label="Улица" Id="street" @bind-Value="@Data.Street" />
+                <FormInputNumber Label="Номер дома" Id="houseNumber" @bind-Value="@Data.HouseNumber" />
+                <FormInputNumber Label="Номер офиса" Id="officeNumber" @bind-Value="@Data.OfficeNumber" />
+                <FormInputText Label="Номер телефона" Id="phoneNumber" @bind-Value="@Data.PhoneNumber" />
+                <FormInputCheckBox Label="Статус" Id="status" @bind-Value="@Data.Status" />
+                <SelectImage Title="Фото" @bind-Value="@Data.Picture" SelectedImageData="OldPicture" />
+            </div>
+        </div>
+        <input class="btn btn-primary" type="submit" />
+    </EditForm>
+}
+else
+{
+    <Loading />
+}

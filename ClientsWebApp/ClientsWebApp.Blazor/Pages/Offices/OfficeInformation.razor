@@ -1,0 +1,70 @@
+﻿@page "/offices/{officeId:guid}"
+
+@inject IOfficeService officeService
+@inject IImageService imageService
+@inject NavigationManager navigationManager
+@inherits CancellableComponent
+
+<div class="row mb-3 align-items-center">
+    @if (Office != null)
+    {
+        @if (@Office.Photo != null)
+        {
+            <div class="col">
+                @if (image != null)
+                {
+                    <ImageFromByteArray Image="@image.Content" imgClass="img-thumbnail rounded float-right" width="100" height="100" />
+                }
+                else
+                {
+                    <Loading />
+                }
+            </div>
+        }
+        <div class="col">
+            <div>@Office.Address</div>
+            <div>@Office.OfficeNumber</div>
+            <div>@Office.PhoneNumber</div>
+            <EditForm Model="@Office" class="form">
+                <InputCheckbox @bind-Value="@Office.Status" @oninput="@CheckBoxChanged" />
+            </EditForm>
+        </div>
+        <div class="col">
+            <button class="btn btn-info" @onclick="NavigateToEditPage">Изменить</button>
+        </div>
+
+    }
+</div>
+
+
+@code {
+    [Parameter] public Guid OfficeId { get; set; }
+    private Office Office;
+    private Image? image;
+    protected async override Task OnInitializedAsync()
+    {
+        Office = await officeService.GetByIdAsync(OfficeId, _cts.Token);
+        if (image == null && Office.Photo != null)
+        {
+            try
+            {
+                image = await imageService.GetAsync(Office.Photo.Name, _cts.Token);
+                this.StateHasChanged();
+            }
+            catch
+            {
+                image = null;
+            }
+        }
+    }
+
+    private async void CheckBoxChanged(ChangeEventArgs args)
+    {
+        await officeService.UpdateStatusAsync(OfficeId, @Office.Status, _cts.Token);
+    }
+
+    private void NavigateToEditPage()
+    {
+        navigationManager.NavigateTo($"/offices/{OfficeId}/edit");
+    }
+}

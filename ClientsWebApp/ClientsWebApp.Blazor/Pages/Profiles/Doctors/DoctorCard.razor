@@ -1,0 +1,51 @@
+﻿
+@inject IImageService imageService
+@inject IOfficeService officeService
+@inherits CancellableComponent
+
+<div class="row mb-3 align-items-center">
+    @if (Doctor != null)
+    {
+        @if (image != null)
+        {
+            <ImageFromByteArray Image="image.Content" ImageType="image.ContentType" IsSvgImage="false" height="200" />
+        }
+        <p>@Doctor.Info.GetFullName()</p>
+        <p>@Doctor.Specialization</p>
+        <p>@Doctor.Experience</p>
+        @if (Doctor.Office != null)
+        {
+            @if (office != null)
+            {
+                <p>@office.Address</p>
+            }
+            else
+            {
+                <Loading />
+            }
+        }
+        else
+        {
+            <p>Не назначен в офис.</p>
+        }
+
+    }
+</div>
+
+
+@code {
+    [Parameter] public Doctor Doctor { get; set; }
+    private Image? image;
+    private Office? office;
+    protected async override Task OnInitializedAsync()
+    {
+        if (Doctor.Office != null)
+        {
+            office = await officeService.GetByIdAsync(Doctor.Office.Id, _cts.Token);
+        }
+        if (Doctor.Info.Photo != null)
+        {
+            image = await imageService.GetAsync(Doctor.Info.Photo.Name, _cts.Token);
+        }
+    }
+}

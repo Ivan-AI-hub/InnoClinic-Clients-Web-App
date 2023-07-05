@@ -1,0 +1,63 @@
+@inherits CancellableComponent
+
+@inject IResultService ResultService;
+@inject NavigationManager NavigationManager;
+
+@if (IsNotFound)
+{
+    <p>К сожалению данное назначение еще не имеет результат:(</p>
+    <AuthorizeView Roles="Doctor">
+        <Authorized>
+            <input type="button" @onclick="@NavigateToCreateResultPage" value="Create" />
+        </Authorized>
+    </AuthorizeView>
+}
+else
+{
+    @if (result == null)
+    {
+        <Loading />
+    }
+    else
+    {
+        <div>
+            <p>Complains @result.Complaints</p>
+            <p>Conclusion @result.Conclusion</p>
+            <p>Recomendations @result.Recomendations</p>
+            <AuthorizeView Roles="Doctor">
+                <Authorized>
+                    <input type="button" @onclick="@NavigateToEditPage" value="Edit" />
+                </Authorized>
+            </AuthorizeView>
+        </div>
+    }
+}
+@code
+{
+    [Parameter] public Guid AppointmentId { get; set; }
+    private AppointmentResult result;
+    private bool IsNotFound = false;
+    protected async override Task OnInitializedAsync()
+    {
+        try
+        {
+            result = await ResultService.GetForAppointmentAsync(AppointmentId, _cts.Token);
+        }
+        catch (Domain.Exceptions.NotFoundException ex)
+        {
+            IsNotFound = true;
+        }
+    }
+
+    private void NavigateToEditPage()
+    {
+        NavigationManager.NavigateTo($"/appointments/{AppointmentId}/result/edit");
+    }
+
+        private void NavigateToCreateResultPage()
+        {
+            NavigationManager.NavigateTo($"/appointments/{AppointmentId}/result/create");
+        }
+
+
+}

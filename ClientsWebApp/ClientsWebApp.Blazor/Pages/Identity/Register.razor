@@ -9,21 +9,12 @@
     <div class="row">
         <div class="col bg-success bg-opacity-10 p-2">
             <h2>Данные</h2>
-            <div class="form-group">
-                <label class="form-label">Почта</label>
-                <InputText id="email" @bind-Value="@Data.Email" class="form-control" />
-            </div>
+            <FormInputText Label="Почта" Id="email" @bind-Value="@Data.Email"/>
         </div>
         <div class="col bg-danger bg-opacity-10 p-2">
             <h2>Пароль</h2>
-            <div class="form-group">
-                <label class="form-label">Пароль</label>
-                <InputText @bind-Value="@Data.Password" type="password" class="form-control" />
-            </div>
-            <div class="form-group">
-                <label class="form-label">Повторите пароль</label>
-                <InputText @bind-Value="@Data.RePassword" type="password" class="form-control" />
-            </div>
+            <FormInputText Label="Пароль" Id="password" type="password" @bind-Value="@Data.Password" />
+            <FormInputText Label="Повторите пароль" Id="rePassword" type="password" @bind-Value="@Data.RePassword" />
         </div>
     </div>
     <input class="btn btn-primary" type="submit" />
