@@ -2,8 +2,7 @@
     <FluentValidationValidator DisableAssemblyScanning=true />
     <ValidationSummary />
     <div class="row">
-        <div class="col bg-success bg-opacity-10 p-2">
-            <h2>Данные</h2>
+        <div class="col p-2">
             <FormInputText Label="Название" Id="Name" @bind-Value="@Data.Name" />
             <FormInputNumber Label="Цена" Id="Price" @bind-Value="@Data.Price" />
             <FormInputCheckBox Label="Статус" Id="Status" @bind-Value="@Data.Status" />

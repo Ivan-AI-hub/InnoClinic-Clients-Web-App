@@ -9,8 +9,22 @@
         <a href="/logout">Выйти</a>
     </Authorized>
     <NotAuthorized>
-        <a href="/login">Войти</a>
-        <a href="/register">Зарегистрироватся</a>
+        <button class="btn btn-primary m-2" @onclick="OpenLoginModal">Войти</button>
+        <button class="btn btn-primary m-2" @onclick="OpenRegisterModal">Зарегистрироватся</button>
     </NotAuthorized>
 </AuthorizeView>
+
+@code {
+    [CascadingParameter] public IModalService Modal { get; set; }
+
+    private void OpenLoginModal()
+    {
+        Modal.Show<Login>("Sign in");
+    }
+
+    private void OpenRegisterModal()
+    {
+        Modal.Show<Register>("Sign up");
+    }
+}
 

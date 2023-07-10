@@ -1,4 +1,6 @@
-﻿using ClientsWebApp.Blazor.Components;
+﻿using Blazored.Modal;
+using Blazored.Modal.Services;
+using ClientsWebApp.Blazor.Components;
 using ClientsWebApp.Domain;
 using ClientsWebApp.Domain.Specializations;
 using Microsoft.AspNetCore.Authorization;
@@ -9,8 +11,8 @@ namespace ClientsWebApp.Blazor.Pages.Specializations
     [Authorize(Roles = "Admin")]
     public partial class SpecializationsList : CancellableComponent
     {
+        [CascadingParameter] public IModalService Modal { get; set; }
         [Inject] public ISpecializationService SpecializationService { get; set; }
-        [Inject] public NavigationManager NavigationManager { get; set; }
 
         private Page Page { get; set; }
         private IEnumerable<Specialization>? Specializations { get; set; }
@@ -45,7 +47,11 @@ namespace ClientsWebApp.Blazor.Pages.Specializations
         }
         private void ToCreatePage()
         {
-            NavigationManager.NavigateTo("/specializations/create");
+            var options = new ModalOptions() 
+            { 
+                Size = ModalSize.Large 
+            };
+            Modal.Show<CreateSpecialization>("Create", options);
         }
     }
 }

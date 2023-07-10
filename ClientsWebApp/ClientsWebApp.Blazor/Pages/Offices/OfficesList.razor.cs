@@ -1,4 +1,6 @@
-﻿using ClientsWebApp.Blazor.Components;
+﻿using Blazored.Modal;
+using Blazored.Modal.Services;
+using ClientsWebApp.Blazor.Components;
 using ClientsWebApp.Domain;
 using ClientsWebApp.Domain.Offices;
 using Microsoft.AspNetCore.Authorization;
@@ -9,8 +11,8 @@ namespace ClientsWebApp.Blazor.Pages.Offices
     [Authorize(Roles = "Admin")]
     public partial class OfficesList : CancellableComponent
     {
+        [CascadingParameter] public IModalService Modal { get; set; }
         [Inject] public IOfficeService OfficeService { get; set; }
-        [Inject] public NavigationManager NavigationManager { get; set; }
 
         private Page Page { get; set; }
         private IEnumerable<Office>? Offices { get; set; }
@@ -45,7 +47,11 @@ namespace ClientsWebApp.Blazor.Pages.Offices
         }
         private void ToCreatePage()
         {
-            NavigationManager.NavigateTo("/offices/create");
+            var options = new ModalOptions()
+            {
+                Size = ModalSize.Large
+            };
+            Modal.Show<CreateOffice>("Create", options);
         }
     }
 }

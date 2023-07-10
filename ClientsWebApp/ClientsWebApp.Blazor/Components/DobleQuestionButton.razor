@@ -7,12 +7,12 @@
     @if (IsDateChanges)
     {
         <label class="form-label">@QuestionLabel</label>
-        <input type="button" class="btn btn-success w-100" value="@AgreeButtonValue" @onclick="SuccessAnswerAsync" />
-        <input type="button" class="btn btn-danger w-100" value="@DisagreeButtonValue" @onclick="StopChanging" />
+        <input type="button" class="btn btn-success w-100 m-3" value="@AgreeButtonValue" @onclick="SuccessAnswerAsync" />
+        <input type="button" class="btn btn-danger w-100 m-3" value="@DisagreeButtonValue" @onclick="StopChanging" />
     }
     else
     {
-        <input type="button" class="btn btn-danger w-100" value="@PreviewButtonValue" @onclick="StartChanging" />
+        <input type="button" class="btn btn-danger w-100 m-3" value="@PreviewButtonValue" @onclick="StartChanging" />
     }
 
 </div>

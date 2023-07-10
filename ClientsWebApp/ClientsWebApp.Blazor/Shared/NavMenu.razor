@@ -18,7 +18,7 @@
         <AuthorizeView Roles="Patient">
             <Authorized>
                 <div class="nav-item px-3">
-                    <NavLink class="nav-link" href="/appointments/create">
+                    <NavLink class="nav-link" @onclick="OpenCreateAppointmentModal" Match="NavLinkMatch.All">
                         <span class="oi oi-people" aria-hidden="true"></span> Create appointment
                     </NavLink>
                 </div>
@@ -71,9 +71,24 @@
 </div>
 
 @code {
+    [CascadingParameter] public IModalService Modal { get; set; }
     private bool collapseNavMenu = true;
 
     private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private void OpenCreateAppointmentModal()
+    {
+        var options = new ModalOptions() 
+        { 
+            Size = ModalSize.Large 
+        };
+        Modal.Show<CreateAppointment>("Create appointment", options);
+    }
+
+    private void OpenRegisterModal()
+    {
+        Modal.Show<Register>("Sign up");
+    }
 
     private void ToggleNavMenu()
     {

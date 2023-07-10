@@ -12,8 +12,7 @@ else
         <FluentValidationValidator DisableAssemblyScanning=true />
         <ValidationSummary />
         <div class="row">
-            <div class="col bg-success bg-opacity-10 p-2">
-                <h2>Данные</h2>
+            <div class="col p-2">
                 <FormInputText Label="Жалобы" Id="Name" @bind-Value="@Data.Complaints" />
                 <FormInputText Label="Заключение" Id="Name" @bind-Value="@Data.Conclusion" />
                 <FormInputText Label="Рекомендации" Id="Name" @bind-Value="@Data.Recomendations" />

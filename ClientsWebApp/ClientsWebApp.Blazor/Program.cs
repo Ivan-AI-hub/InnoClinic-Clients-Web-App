@@ -1,3 +1,4 @@
+using Blazored.Modal;
 using ClientsWebApp.Blazor;
 using ClientsWebApp.Blazor.Extensions;
 using ClientsWebApp.Blazor.Infrastructure;
@@ -13,6 +14,7 @@ builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
 //builder.Services.AddDateOnlyTimeOnlyStringConverters();
+builder.Services.AddBlazoredModal();
 builder.Services.ConfigureServices();
 builder.Services.ConfigureHttpClient();
 builder.Services.AddScoped<AuthenticationStateProvider, TokenStateProvider>();

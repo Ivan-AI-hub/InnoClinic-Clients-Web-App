@@ -9,12 +9,12 @@
     <FluentValidationValidator DisableAssemblyScanning=true />
     <ValidationSummary />
     <div class="row">
-        <div class="col bg-success bg-opacity-10 p-2">
+        <div class="col p-2">
             <h2>Данные</h2>
             <FormInputText Label="Название специализации" Id="firstName" @bind-Value="@Data.Name" />
             <FormInputCheckBox Label="Активный" Id="lastName" @bind-Value="@Data.IsActive" />
         </div>
-        <div class="col bg-success bg-opacity-10 p-2">
+        <div class="col p-2">
             <h2>Сервисы</h2>
             @if (IsServiceCreating)
             {

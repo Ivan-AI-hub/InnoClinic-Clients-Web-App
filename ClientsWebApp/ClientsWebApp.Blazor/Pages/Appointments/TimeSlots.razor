@@ -9,13 +9,6 @@
 </EditForm>
 
 <table class="table text-center">
-    <thead>
-    <th>Минута</th>
-        @for (int i = 1; i < 24; i++)
-        {
-        <th scope="col">@i час</th>
-        }
-    </thead>
     <tbody>
         @if (isTableReloading)
         {
@@ -26,17 +19,15 @@
             @for (int j = 0; j < 60; j += 10)
             {
                 <tr>
-                    <th scope="row">@j</th>
-
-                    @for (int i = 1; i < 24; i++)
+                    @for (int i = 12; i < 18; i++)
                     {
-
+                        var value = $"{i}:{j:00}";
                         TimeOnly time = new TimeOnly(i, j);
                         if (Data.StartTime <= time && Data.EndTime >= time && !Times[time])
                         {
 
                             <td>
-                                <input type="button" class="w-100 btn btn-danger" value="@j" />
+                                <input type="button" class="w-100 btn btn-danger" value="@value" />
                             </td>
                             Data.StartTime = default;
                             Data.EndTime = default;
@@ -44,19 +35,19 @@
                         else if (Data.StartTime <= time && Data.EndTime >= time && Times[time])
                         {
                             <td>
-                                <input type="button" class="w-100 btn btn-success" @onclick="@(() => SelectTimeSlot(time))" value="@j" />
+                                <input type="button" class="w-100 btn btn-success" @onclick="@(() => SelectTimeSlot(time))" value="@value" />
                             </td>
                         }
                         else if (Times[time])
                         {
                             <td>
-                                <input type="button" class="w-100 btn btn-info" @onclick="@(() => SelectTimeSlot(time))" value="@j" />
+                                <input type="button" class="w-100 btn btn-info" @onclick="@(() => SelectTimeSlot(time))" value="@value" />
                             </td>
                         }
                         else
                         {
                             <td>
-                                <input type="button" class="w-100 btn btn-danger" value="@j" />
+                                <input type="button" class="w-100 btn btn-danger" value="@value" />
                             </td>
                         }
                     }

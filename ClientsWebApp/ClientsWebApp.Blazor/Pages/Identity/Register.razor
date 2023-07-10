@@ -7,13 +7,9 @@
     <FluentValidationValidator DisableAssemblyScanning=@true />
     <ValidationSummary />
     <div class="row">
-        <div class="col bg-success bg-opacity-10 p-2">
             <FormInputText Label="Email" Id="email" @bind-Value="@Data.Email" />
-        </div>
-        <div class="col bg-danger bg-opacity-10 p-2">
             <FormInputText Label="Password" Id="password" type="password" @bind-Value="@Data.Password" />
             <FormInputText Label="Repeat entered password" Id="rePassword" type="password" @bind-Value="@Data.RePassword" />
-        </div>
     </div>
     <FormSubmitButton @ref="@SubmitButton" ButtonValue="Sign up" />
 </EditForm>
