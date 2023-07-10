@@ -1,0 +1,41 @@
+<Row>
+    <Left>
+        @if (@Status != PageStatus.FirstPage && Status != PageStatus.OnlyPage)
+        {
+            <button class="btn btn-info" @onclick="PreviousPageClick">←Previous page</button>
+        }
+        else
+        {
+            <button class="btn btn-info disabled">←Previous page</button>
+        }
+    </Left>
+    <Right>
+        @if (@Status != PageStatus.LastPage && @Status != PageStatus.OnlyPage)
+        {
+            <button class="btn btn-info" @onclick="NextPageClick">Next page→</button>
+        }
+        else
+        {
+            <a href="undifinite" class="btn btn-info disabled">Next page→</a>
+        }
+    </Right>
+</Row>
+
+@code
+{
+    [Parameter] public Func<PageStatus>? GetStatus { get; set; }
+    [Parameter] public EventCallback OnNextPageClicked {get; set;}
+    [Parameter] public EventCallback OnPreviousPageClicked {get; set;}
+
+    private PageStatus Status => GetStatus?.Invoke() ?? PageStatus.OnlyPage;
+
+    private async Task NextPageClick()
+    {
+        await OnNextPageClicked.InvokeAsync();
+    }
+
+    private async Task PreviousPageClick()
+    {
+        await OnPreviousPageClicked.InvokeAsync();
+    }
+}

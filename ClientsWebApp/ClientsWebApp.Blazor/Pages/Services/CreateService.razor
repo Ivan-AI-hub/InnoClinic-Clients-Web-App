@@ -7,8 +7,9 @@
             <FormInputText Label="Название" Id="Name" @bind-Value="@Data.Name" />
             <FormInputNumber Label="Цена" Id="Price" @bind-Value="@Data.Price" />
             <FormInputCheckBox Label="Статус" Id="Status" @bind-Value="@Data.Status" />
-            <FormInputSelect Label="Категория" Id="CategoryName" @bind-Value="@Data.CategoryName" Values="@Categories" GetLabelHandler="@(x => x)" GetValueHandler="@(x => x)" />
+            <FormInputSelect Label="Категория" Id="CategoryName" @bind-Value="@Data.CategoryName" Values="@Categories"
+                             GetLabelHandler="@(x => x)" GetValueHandler="@(x => x)" />
         </div>
     </div>
-    <input class="btn btn-primary" type="submit" value="Создать" />
+    <FormSubmitButton @ref="@SubmitButton" ButtonValue="Create" />
 </EditForm>

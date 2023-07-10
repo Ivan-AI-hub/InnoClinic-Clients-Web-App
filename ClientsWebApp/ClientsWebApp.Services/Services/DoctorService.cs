@@ -1,7 +1,6 @@
 ﻿using ClientsWebApp.Domain;
 using ClientsWebApp.Domain.Identity.HttpClients;
 using ClientsWebApp.Domain.Profiles.Doctor;
-using ClientsWebApp.Domain.Profiles.Patient;
 using ClientsWebApp.Services.Abstractions;
 using ClientsWebApp.Services.Settings;
 using ClientsWebApp.Services.UriConstructors;
@@ -30,7 +29,7 @@ namespace ClientsWebApp.Services.Services
         {
             string requestUri = _baseUri + $"/email/{email}";
 
-            var httpResponseMessage = await(await RequestClient).GetAsync(requestUri, cancellationToken);
+            var httpResponseMessage = await (await RequestClient).GetAsync(requestUri, cancellationToken);
 
             return await GetFromJsonAsync<Doctor>(httpResponseMessage, cancellationToken);
         }
@@ -39,7 +38,7 @@ namespace ClientsWebApp.Services.Services
         {
             string requestUri = _baseUri + $"/{id}";
 
-            var httpResponseMessage = await(await RequestClient).GetAsync(requestUri, cancellationToken);
+            var httpResponseMessage = await (await RequestClient).GetAsync(requestUri, cancellationToken);
 
             return await GetFromJsonAsync<Doctor>(httpResponseMessage, cancellationToken);
         }
@@ -61,14 +60,10 @@ namespace ClientsWebApp.Services.Services
             await EnsureSuccessStatusCode(httpResponseMessage, cancellationToken);
         }
 
-        public async Task UpdateStatusAsync(Guid id, WorkStatus status, CancellationToken cancellationToken)
+        public async Task UpdateStatusAsync(Guid id, ChangeDoctorStatusModel model, CancellationToken cancellationToken)
         {
-            var parameters = new Dictionary<string, string>()
-            {
-                {"workStatus", status.ToString()}
-            };
             string requestUri = _baseUri + $"/{id}/status";
-            var httpResponseMessage = await (await RequestClient).PutAsJsonAsync(requestUri, new FormUrlEncodedContent(parameters), cancellationToken);
+            var httpResponseMessage = await (await RequestClient).PutAsJsonAsync(requestUri, model, cancellationToken);
 
             await EnsureSuccessStatusCode(httpResponseMessage, cancellationToken);
         }

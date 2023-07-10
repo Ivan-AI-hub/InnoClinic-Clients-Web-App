@@ -1,10 +1,13 @@
 ﻿using ClientsWebApp.Blazor.Components;
 using ClientsWebApp.Blazor.Infrastructure;
+using ClientsWebApp.Domain.Exceptions;
 using ClientsWebApp.Domain.Profiles.Doctor;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ClientsWebApp.Blazor.Pages.Profiles.Doctors
 {
+    [Authorize(Roles = "Doctor")]
     public partial class DoctorHome : CancellableComponent
     {
         [Inject] AuthenticationStateHelper StateHelper { get; set; }
@@ -20,7 +23,7 @@ namespace ClientsWebApp.Blazor.Pages.Profiles.Doctors
             {
                 Doctor = await DoctorService.GetByEmailAsync(email, _cts.Token);
             }
-            catch
+            catch (NotFoundException ex)
             {
                 NavigationManager.NavigateTo("/doctors/create");
             }
@@ -35,6 +38,11 @@ namespace ClientsWebApp.Blazor.Pages.Profiles.Doctors
         private void NavigateToSchedulePage()
         {
             NavigationManager.NavigateTo($"/doctors/{Doctor.Id}/schedule");
+        }
+
+        private void Reload()
+        {
+            NavigationManager.NavigateTo($"/");
         }
     }
 }

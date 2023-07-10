@@ -50,15 +50,10 @@ namespace ClientsWebApp.Services.Services
             await EnsureSuccessStatusCode(httpResponseMessage, cancellationToken);
         }
 
-        public async Task UpdateStatusAsync(Guid id, bool newStatus, CancellationToken cancellationToken)
+        public async Task UpdateStatusAsync(Guid id, UpdateOfficeStatusModel model, CancellationToken cancellationToken)
         {
-            var parameters = new Dictionary<string, string>()
-            {
-                {"status", newStatus.ToString()}
-            };
-
             string requestUri = _baseUri + $"/{id}/status";
-            var httpResponseMessage = await (await RequestClient).PutAsJsonAsync(requestUri, new FormUrlEncodedContent(parameters), cancellationToken);
+            var httpResponseMessage = await (await RequestClient).PutAsJsonAsync(requestUri, model, cancellationToken);
 
             await EnsureSuccessStatusCode(httpResponseMessage, cancellationToken);
         }

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace ClientsWebApp.Blazor.Pages.Profiles.Doctors.Models
 {
-    public class EditDoctorData 
+    public class EditDoctorData
     {
         public IFormFile? Picture { get; set; }
         public string FirstName { get; set; }

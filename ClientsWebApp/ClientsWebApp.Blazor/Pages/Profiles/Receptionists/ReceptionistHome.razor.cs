@@ -1,10 +1,12 @@
 ﻿using ClientsWebApp.Blazor.Components;
 using ClientsWebApp.Blazor.Infrastructure;
 using ClientsWebApp.Domain.Profiles.Receptionist;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 
 namespace ClientsWebApp.Blazor.Pages.Profiles.Receptionists
 {
+    [Authorize(Roles = "Admin")]
     public partial class ReceptionistHome : CancellableComponent
     {
         [Inject] AuthenticationStateHelper StateHelper { get; set; }

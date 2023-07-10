@@ -1,40 +1,63 @@
-﻿
-@inject IImageService imageService
+﻿@inject IImageService imageService
 @inject IOfficeService officeService
+@inject NavigationManager NavigationManager
 @inherits CancellableComponent
 
 <div class="row mb-3 align-items-center">
     @if (Doctor != null)
     {
-        @if (image != null)
+        if (Doctor.Info.Photo != null)
         {
-            <ImageFromByteArray Image="image.Content" ImageType="image.ContentType" IsSvgImage="false" height="200" />
+            <div class="col">
+                @if (image != null)
+                {
+                    <ImageFromByteArray Image="image.Content" ImageType="image.ContentType" IsSvgImage="false" height="200" />
+                }
+                else
+                {
+                    <Loading />
+                }
+            </div>
         }
-        <p>@Doctor.Info.GetFullName()</p>
-        <p>@Doctor.Specialization</p>
-        <p>@Doctor.Experience</p>
-        @if (Doctor.Office != null)
-        {
-            @if (office != null)
+        <div class="col">
+            <p>Full name: @Doctor.Info.GetFullName() @Doctor.Status</p>
+            <p>Specialization: @Doctor.Specialization</p>
+            <p>Experience: @Doctor.Experience</p>
+            <p>
+                Office:
+                @if (Doctor.Office != null)
+                {
+                    @if (office != null)
+                    {
+                        @office.Address
+                    }
+                    else
+                    {
+                        <span>Loading...</span>
+                    }
+                }
+                else
+                {
+                    <span>Не назначен в офис.</span>
+                }
+            </p>
+            @if (IsIncludeDetailsButton)
             {
-                <p>@office.Address</p>
+                <input type="button" class="btn btn-success" value="Details" @onclick="ToDoctorInfoPage" />
             }
-            else
-            {
-                <Loading />
-            }
-        }
-        else
+        </div>
+        @if (ChildContent != null)
         {
-            <p>Не назначен в офис.</p>
+            @ChildContent
         }
-
     }
 </div>
 
 
 @code {
     [Parameter] public Doctor Doctor { get; set; }
+    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public bool IsIncludeDetailsButton { get; set; } = false;
     private Image? image;
     private Office? office;
     protected async override Task OnInitializedAsync()
@@ -47,5 +70,10 @@
         {
             image = await imageService.GetAsync(Doctor.Info.Photo.Name, _cts.Token);
         }
+    }
+
+    private void ToDoctorInfoPage()
+    {
+        NavigationManager.NavigateTo($"/doctors/{Doctor.Id}");
     }
 }

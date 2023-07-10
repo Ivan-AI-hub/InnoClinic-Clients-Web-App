@@ -15,7 +15,7 @@ namespace ClientsWebApp.Blazor.Pages.Identity
         [Inject] public IAuthorizationService Service { get; set; }
 
         protected LoginData LoginData { get; set; }
-        protected bool IsLoading { get; set; }
+        protected FormSubmitButton SubmitButton { get; set; }
         protected string ErrorMessage { get; set; }
 
         protected override void OnInitialized()
@@ -26,7 +26,7 @@ namespace ClientsWebApp.Blazor.Pages.Identity
 
         protected async Task LoginAsync()
         {
-            IsLoading = true;
+            SubmitButton.StartLoading();
             try
             {
                 var accessToken = await Service.SingIn(LoginData.Email, LoginData.Password, _cts.Token);
@@ -44,7 +44,7 @@ namespace ClientsWebApp.Blazor.Pages.Identity
             }
             finally
             {
-                IsLoading = false;
+                SubmitButton.StopLoading();
             }
         }
     }

@@ -16,17 +16,50 @@ else
         <div class="row">
             <div class="col bg-success bg-opacity-10 p-2">
                 <h2>Данные</h2>
-                <FormInputSelect Label="Офис" Id="office" @bind-Value="Data.OfficeId" Values="Offices" GetLabelHandler="@(x => x.Address)" GetValueHandler="@(x => x.Id)" @oninput="OfficeWasSelected" />
-                <FormInputSelect Label="Специализация" Id="specialization" @bind-Value="Data.Specialization" Values="Specializations" GetLabelHandler="@(x => x.Name)" GetValueHandler="@(x => x.Name)" @oninput="SpecializationWasSelected" />
-                <FormInputSelect Label="Доктор" Id="doctors" @bind-Value="Data.DoctorId" Values="Doctors" GetLabelHandler="@(x => x.Info.GetFullName())" GetValueHandler="@(x => x.Id)" @oninput="DoctorWasSelected" />
-                <FormInputSelect Label="Категория" Id="doctors" @bind-Value="Data.Category" Values="Categories" GetLabelHandler="@(x => x)" GetValueHandler="@(x => x)" @oninput="CategoryWasSelected" />
-                <FormInputSelect Label="Сервис" Id="doctors" @bind-Value="Data.ServiceId" Values="Services" GetLabelHandler="@(x => x.Name)" GetValueHandler="@(x => x.Id)" />
-                @if(Data.DoctorId != default && Data.Category != default)
+                @if (IsDateTimeSelection)
                 {
-                    <TimeSlots Category="@(new Category(default, Data.Category, 10, Services.ToList()))" DoctorId="@Data.DoctorId" OnTimeSlotSelected="@TimeSlotSelected" @ref="@TimeSlots" />
+                    <TimeSlots Category="@(new Category(default, Data.Category, 10, Services.ToList()))"
+                       DoctorId="@Data.DoctorId" OnTimeSlotSelected="@TimeSlotSelected" />
+                }
+                else
+                {
+                    <FormInputSelect HasDefaultOption="@true" DefaultValueLabel="Nothing" Label="Офис" Id="office"
+                             @bind-Value="Data.OfficeId" Values="Offices" GetLabelHandler="@(x => x.Address)"
+                             GetValueHandler="@(x => x.Id)" @oninput="OfficeWasSelected" />
+
+                    <FormInputSelect HasDefaultOption="@true" DefaultValueLabel="Nothing" Label="Специализация"
+                             Id="specialization" @bind-Value="Data.Specialization" Values="Specializations"
+                             GetLabelHandler="@(x => x.Name)" GetValueHandler="@(x => x.Name)"
+                             @oninput="SpecializationWasSelected" />
+
+                    <FormInputSelect HasDefaultOption="@true" DefaultValueLabel="Nothing" Label="Доктор" Id="doctors"
+                             @bind-Value="Data.DoctorId" Values="Doctors" GetLabelHandler="@(x => x.Info.GetFullName())"
+                             GetValueHandler="@(x => x.Id)" @oninput="DoctorWasSelected" />
+
+                    <FormInputSelect HasDefaultOption="@true" DefaultValueLabel="Nothing" Label="Категория" Id="doctors"
+                             @bind-Value="Data.Category" Values="Categories" GetLabelHandler="@(x => x)" GetValueHandler="@(x => x)"
+                             @oninput="CategoryWasSelected" />
+
+                    <FormInputSelect HasDefaultOption="@true" DefaultValueLabel="Nothing" Label="Сервис" Id="doctors"
+                             @bind-Value="Data.ServiceId" Values="Services" GetLabelHandler="@(x => x.Name)"
+                             GetValueHandler="@(x => x.Id)" />
                 }
             </div>
         </div>
-        <input class="btn btn-primary" type="submit" />
+        @if (IsDateTimeSelection)
+        {
+            <div class="row">
+                <div class="col">
+                    <input type="button" class="btn btn-info" value="Back to value" @onclick="@StopSelectDateAndTime" />
+                </div>
+                <div class="col">
+                    <FormSubmitButton @ref="@SubmitButton" ButtonValue="Create Appointment" />
+                </div>
+            </div>
+        }
+        else
+        {
+            <input type="button" class="btn btn-info" value="Select date and time" @onclick="@StartSelectDateAndTime" />
+        }
     </EditForm>
 }

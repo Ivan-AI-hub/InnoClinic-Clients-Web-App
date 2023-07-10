@@ -1,5 +1,4 @@
-﻿using ClientsWebApp.Domain.Profiles.Patient;
-using ClientsWebApp.Domain.Profiles.Receptionist;
+﻿using ClientsWebApp.Domain.Profiles.Receptionist;
 using Microsoft.AspNetCore.Http;
 
 namespace ClientsWebApp.Blazor.Pages.Profiles.Receptionists.Models

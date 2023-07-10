@@ -1,9 +1,10 @@
 ﻿@page "/offices/{officeId:guid}"
+@inherits CancellableComponent
+@attribute [Authorize(Roles = "Admin")]
 
 @inject IOfficeService officeService
 @inject IImageService imageService
 @inject NavigationManager navigationManager
-@inherits CancellableComponent
 
 <div class="row mb-3 align-items-center">
     @if (Office != null)
@@ -60,7 +61,9 @@
 
     private async void CheckBoxChanged(ChangeEventArgs args)
     {
-        await officeService.UpdateStatusAsync(OfficeId, @Office.Status, _cts.Token);
+        var value = bool.Parse(args.Value.ToString());
+        Office.Status = value;
+        await officeService.UpdateStatusAsync(OfficeId, new UpdateOfficeStatusModel(value), _cts.Token);
     }
 
     private void NavigateToEditPage()

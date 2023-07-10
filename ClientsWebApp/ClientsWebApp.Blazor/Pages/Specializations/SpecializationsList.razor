@@ -1,38 +1,17 @@
 ﻿@page "/specializations"
-@using ClientsWebApp.Domain;
-@inherits CancellableComponent
 @attribute [Authorize(Roles = "Admin")]
+@inherits CancellableComponent
 
 <div class="row">
     <button @onclick="ToCreatePage">Create</button>
     <div class="col-sm">
-        @if(Specializations != null)
+        @if (Specializations != null)
         {
-            <div class="row">
-                <div class="d-flex align-items-center justify-content-start col">
-                    @if (@Status != PageStatus.FirstPage && Status != PageStatus.OnlyPage)
-                    {
-                        <button class="btn btn-info" @onclick="SetPreviousPage">←Предидущая страница</button>
-                    }
-                    else
-                    {
-                        <button class="btn btn-info disabled">←Предидущая страница</button>
-                    }
-                </div>
-                <div class="d-flex align-items-center justify-content-end col">
-                    @if (@Status != PageStatus.LastPage && @Status != PageStatus.OnlyPage)
-                    {
-                        <button class="btn btn-info" @onclick="SetNextPage">Следующая страница→</button>
-                    }
-                    else
-                    {
-                        <a href="undifinite" class="btn btn-info disabled">Следующая страница→</a>
-                    }
-                </div>
-            </div>
+            <PageSwitcher OnNextPageClicked="@SetNextPage" OnPreviousPageClicked="@SetPreviousPage"
+                      GetStatus="@GetPageStatus" />
             @foreach (var specialization in Specializations)
             {
-                <SpecializationCard Specialization="specialization"/>
+                <SpecializationCard Specialization="specialization" />
             }
         }
         else

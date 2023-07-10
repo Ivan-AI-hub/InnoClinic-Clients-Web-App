@@ -11,6 +11,7 @@ namespace ClientsWebApp.Blazor.Pages.Identity
         [Inject] public NavigationManager Navigation { get; set; }
 
         private RegisterData Data;
+        protected FormSubmitButton SubmitButton { get; set; }
         private string ErrorMessage;
         protected override void OnInitialized()
         {
@@ -20,6 +21,7 @@ namespace ClientsWebApp.Blazor.Pages.Identity
 
         private async Task RegisterAsync()
         {
+            SubmitButton.StartLoading();
             try
             {
                 var user = await AuthorizationService.SingUpAsync(new SingUpModel(Data.Email, Data.Password, Data.RePassword), _cts.Token);
@@ -29,6 +31,10 @@ namespace ClientsWebApp.Blazor.Pages.Identity
             {
                 ErrorMessage = ex.Message;
                 return;
+            }
+            finally
+            {
+                SubmitButton.StopLoading();
             }
             this.StateHasChanged();
 

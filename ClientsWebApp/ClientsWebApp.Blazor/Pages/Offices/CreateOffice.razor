@@ -1,5 +1,6 @@
 ﻿@page "/offices/create"
 @inherits CancellableComponent
+@attribute [Authorize(Roles = "Admin")]
 
 <div>
     <p class="text-danger">@ErrorMessage</p>
@@ -19,5 +20,13 @@
             <SelectImage Title="Фото" @bind-Value="@Data.Picture" />
         </div>
     </div>
-    <input class="btn btn-primary" type="submit" />
+    <div class="row">
+        <div class="col m-3 w-100">
+            <FormSubmitButton @ref="@SubmitButton" ButtonValue="Save Changes" />
+        </div>
+        <div class="col">
+            <DobleQuestionButton OnSuccessAnswerClicked="@Cancel" PreviewButtonValue="Cancel"
+                                 QuestionLabel="Do you really want to cancel? Changes will not be saved." />
+        </div>
+    </div>
 </EditForm>

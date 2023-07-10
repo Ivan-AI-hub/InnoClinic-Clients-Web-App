@@ -1,6 +1,5 @@
 ﻿using ClientsWebApp.Blazor.Components;
 using ClientsWebApp.Domain;
-using ClientsWebApp.Domain.Identity;
 using ClientsWebApp.Domain.Profiles.Patient;
 using Microsoft.AspNetCore.Components;
 
@@ -9,7 +8,7 @@ namespace ClientsWebApp.Blazor.Pages.Profiles.Patients
     public partial class PatientsList : CancellableComponent
     {
         [Inject] public IPatientService PatientService { get; set; }
-
+        private FormSubmitButton SubmitButton { get; set; }
         private Page Page { get; set; }
         private PageStatus Status => Page.GetPageStatus(Patients == null ? 0 : Patients.Count());
         private PatientFiltrationModel FiltrationModel { get; set; }
@@ -24,8 +23,14 @@ namespace ClientsWebApp.Blazor.Pages.Profiles.Patients
 
         private async Task PatientsUpdateAsync()
         {
+            SubmitButton?.StartLoading();
+
+            Patients = null;
+
             Patients = await PatientService.GetPageAsync(Page, FiltrationModel, _cts.Token);
             this.StateHasChanged();
+
+            SubmitButton?.StopLoading();
         }
 
         protected async Task SetPreviousPage()
@@ -37,6 +42,10 @@ namespace ClientsWebApp.Blazor.Pages.Profiles.Patients
         {
             Page.Number++;
             await PatientsUpdateAsync();
+        }
+        protected PageStatus GetPageStatus()
+        {
+            return Page.GetPageStatus(Patients == null ? 0 : Patients.Count());
         }
 
     }

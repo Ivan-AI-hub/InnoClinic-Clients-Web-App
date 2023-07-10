@@ -8,7 +8,7 @@
     <p>К сожалению данное назначение еще не имеет результат:(</p>
     <AuthorizeView Roles="Doctor">
         <Authorized>
-            <input type="button" @onclick="@NavigateToCreateResultPage" value="Create" />
+            <input class="btn btn-success w-100" type="button" @onclick="@NavigateToCreateResultPage" value="Create" />
         </Authorized>
     </AuthorizeView>
 }
@@ -26,7 +26,7 @@ else
             <p>Recomendations @result.Recomendations</p>
             <AuthorizeView Roles="Doctor">
                 <Authorized>
-                    <input type="button" @onclick="@NavigateToEditPage" value="Edit" />
+                    <input class="btn btn-info w-100" type="button" @onclick="@NavigateToEditPage" value="Edit" />
                 </Authorized>
             </AuthorizeView>
         </div>
@@ -54,10 +54,10 @@ else
         NavigationManager.NavigateTo($"/appointments/{AppointmentId}/result/edit");
     }
 
-        private void NavigateToCreateResultPage()
-        {
-            NavigationManager.NavigateTo($"/appointments/{AppointmentId}/result/create");
-        }
+    private void NavigateToCreateResultPage()
+    {
+        NavigationManager.NavigateTo($"/appointments/{AppointmentId}/result/create");
+    }
 
 
 }

@@ -1,19 +1,61 @@
 @inherits CancellableComponent
 @inject NavigationManager NavigationManager
 
-<div class="row mb-3 align-items-center">
+<div class="row mb-3 align-items-center border border-dark bg-success bg-opacity-10">
     @if (Appointment != null)
     {
         <div class="col">
-            <div>Date @Appointment.Date Time @Appointment.Time-@Appointment.Time.AddMinutes(10)</div>
-            <button class="btn btn-info" @onclick="@NavigateToDoctorPage">Doctor @Appointment.Doctor.GetFullName()</button><br/>
-            <button class="btn btn-info" @onclick="@NavigateToPatientPage">Patient @Appointment.Patient.GetFullName()</button>
-            <div>Service @Appointment.Service.Name</div>
-            <div>IsApproved @Appointment.IsApproved</div>
-            @if (Appointment.IsApproved && Appointment.Date > DateOnly.FromDateTime(DateTime.UtcNow) && Appointment.Time > TimeOnly.FromDateTime(DateTime.UtcNow))
+            <Row>
+                <Left>
+                    @Appointment.Date
+                </Left>
+                <Right>
+                    @Appointment.Time-@Appointment.Time.AddMinutes(10)
+                </Right>
+            </Row>
+            @if (Appointment.IsApproved)
             {
-                <button class="btn btn-info" @onclick="@NavigateToResultPage">Result</button>
+                <button class="btn btn-outline-primary w-100" @onclick="@NavigateToDoctorPage">
+                    Doctor:
+                    @Appointment.Doctor.GetFullName()
+                </button>
+
+                <br />
+
+                <button class="btn btn-outline-success w-100" @onclick="@NavigateToPatientPage">
+                    Patient:
+                    @Appointment.Patient.GetFullName()
+                </button>
             }
+            else
+            {
+                <button class="btn btn-outline-primary w-100 disabled">
+                    Doctor:
+                    @Appointment.Doctor.GetFullName()
+                </button>
+
+                <br />
+
+                <button class="btn btn-outline-success w-100 disabled">
+                    Patient:
+                    @Appointment.Patient.GetFullName()
+                </button>
+            }
+            <Row>
+                <Left>
+                    @Appointment.Service.Name
+                </Left>
+                <Right>
+                    @if (Appointment.IsApproved)
+                    {
+                        <div>Approved</div>
+                    }
+                    else
+                    {
+                        <div>Not approved</div>
+                    }
+                </Right>
+            </Row>
         </div>
         @if (ChildContent != null)
         {
@@ -26,7 +68,7 @@
 
 @code {
     [Parameter] public Appointment Appointment { get; set; }
-    [Parameter] public RenderFragment ChildContent { get; set;}
+    [Parameter] public RenderFragment ChildContent { get; set; }
 
     private void NavigateToDoctorPage()
     {
@@ -36,10 +78,5 @@
     private void NavigateToPatientPage()
     {
         NavigationManager.NavigateTo($"/patients/{Appointment.Patient.Id}");
-    }
-
-    private void NavigateToResultPage()
-    {
-        NavigationManager.NavigateTo($"/appointments/{Appointment.Id}/result");
     }
 }

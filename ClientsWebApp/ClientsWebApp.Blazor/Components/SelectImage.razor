@@ -4,14 +4,14 @@
 @inherits InputBase<IFormFile>;
 
 <div class="form-group row">
-    <div class="col">s
+    <div class="col">
         <label class="form-label">@Title</label>
         <InputFile OnChange="@OnFileSelected" accept=".jpeg,.jpg,.png" class="form-control" />
     </div>
     @if (SelectedImageData != null)
     {
-        <div class="col">
-            <ImageFromByteArray Image="SelectedImageData" height="300" />
+        <div class="col m-3">
+            <ImageFromByteArray Image="SelectedImageData" height="200" />
         </div>
     }
 </div>

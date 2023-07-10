@@ -41,7 +41,7 @@ namespace ClientsWebApp.Services.Services
 
         public async Task CancelAsync(Guid id, CancellationToken cancellationToken)
         {
-            string requestUri = _baseUri + $"/{id}/cancel";
+            string requestUri = _baseUri + $"/{id}";
             var httpResponseMessage = await (await RequestClient).DeleteAsync(requestUri, cancellationToken);
 
             await EnsureSuccessStatusCode(httpResponseMessage, cancellationToken);
@@ -68,7 +68,7 @@ namespace ClientsWebApp.Services.Services
         {
             string requestUri = _baseUri + $"/{id}";
 
-            var httpResponseMessage = await(await RequestClient).GetAsync(requestUri, cancellationToken);
+            var httpResponseMessage = await (await RequestClient).GetAsync(requestUri, cancellationToken);
 
             return await GetFromJsonAsync<Appointment>(httpResponseMessage, cancellationToken, _jsonOptions);
         }

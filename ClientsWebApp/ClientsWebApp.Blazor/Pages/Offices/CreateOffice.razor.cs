@@ -5,8 +5,6 @@ using ClientsWebApp.Domain.Images;
 using ClientsWebApp.Domain.Offices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Forms;
-using Microsoft.AspNetCore.Http.Internal;
 
 namespace ClientsWebApp.Blazor.Pages.Offices
 {
@@ -16,6 +14,7 @@ namespace ClientsWebApp.Blazor.Pages.Offices
         [Inject] public IOfficeService OfficeService { get; set; }
         [Inject] public IImageService ImageService { get; set; }
         [Inject] NavigationManager NavigationManager { get; set; }
+        private FormSubmitButton SubmitButton { get; set; }
         private CreateOfficeData Data { get; set; }
         private string ErrorMessage;
         protected override void OnInitialized()
@@ -25,6 +24,7 @@ namespace ClientsWebApp.Blazor.Pages.Offices
 
         private async Task CreateAsync()
         {
+            SubmitButton?.StartLoading();
             var createModel = new CreateOfficeModel(new ImageName(Data.Picture.FileName), Data.City, Data.Street, Data.HouseNumber, Data.OfficeNumber, Data.PhoneNumber, Data.Status);
             try
             {
@@ -36,7 +36,16 @@ namespace ClientsWebApp.Blazor.Pages.Offices
                 ErrorMessage = ex.Message;
                 return;
             }
-            NavigationManager.NavigateTo("/offices");
+            finally
+            {
+                SubmitButton?.StopLoading();
+            }
+            Cancel();
+        }
+        private void Cancel()
+        {
+            NavigationManager.NavigateTo($"/offices");
         }
     }
 }
+

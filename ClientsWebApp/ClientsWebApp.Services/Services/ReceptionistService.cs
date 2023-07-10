@@ -1,6 +1,5 @@
 ﻿using ClientsWebApp.Domain;
 using ClientsWebApp.Domain.Identity.HttpClients;
-using ClientsWebApp.Domain.Profiles.Patient;
 using ClientsWebApp.Domain.Profiles.Receptionist;
 using ClientsWebApp.Services.Abstractions;
 using ClientsWebApp.Services.Settings;
@@ -38,7 +37,7 @@ namespace ClientsWebApp.Services.Services
         {
             string requestUri = _baseUri + $"/email/{email}";
 
-            var httpResponseMessage = await(await RequestClient).GetAsync(requestUri, cancellationToken);
+            var httpResponseMessage = await (await RequestClient).GetAsync(requestUri, cancellationToken);
 
             return await GetFromJsonAsync<Receptionist>(httpResponseMessage, cancellationToken);
         }
@@ -47,7 +46,7 @@ namespace ClientsWebApp.Services.Services
         {
             string requestUri = _baseUri + $"/{id}";
 
-            var httpResponseMessage = await(await RequestClient).GetAsync(requestUri, cancellationToken);
+            var httpResponseMessage = await (await RequestClient).GetAsync(requestUri, cancellationToken);
 
             return await GetFromJsonAsync<Receptionist>(httpResponseMessage, cancellationToken);
         }

@@ -1,4 +1,5 @@
 ﻿@page "/receptionists/home"
+@attribute [Authorize(Roles = "Admin")]
 @inherits CancellableComponent
 <h3>Вы админ, поздравляю</h3>
 

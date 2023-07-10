@@ -19,10 +19,11 @@ namespace ClientsWebApp.Blazor.Pages.Profiles.Receptionists
         [Inject] public IReceptionistService ReceptionistService { get; set; }
         [Inject] public IOfficeService OfficeService { get; set; }
         [Inject] public IImageService ImageService { get; set; }
+        private FormSubmitButton SubmitButton { get; set; }
         private CreateReceptionistData Data { get; set; } = new CreateReceptionistData();
         private IEnumerable<Office> Offices { get; set; } = new List<Office>();
         private string ErrorMessage = "";
-        private string Email="";
+        private string Email = "";
         protected override async Task OnInitializedAsync()
         {
             var page = new Page(100, 1);
@@ -33,6 +34,8 @@ namespace ClientsWebApp.Blazor.Pages.Profiles.Receptionists
 
         private async Task CreateAsync()
         {
+            SubmitButton?.StartLoading();
+
             var info = new CreateHumanInfo(new ImageName(Data.Picture.FileName), Email, Data.FirstName, Data.LastName, Data.MiddleName, Data.BirthDay);
             var createModel = new CreateReceptionistModel(info, new OfficeId(Data.OfficeId));
             try
@@ -44,6 +47,10 @@ namespace ClientsWebApp.Blazor.Pages.Profiles.Receptionists
             {
                 ErrorMessage = ex.Message;
                 return;
+            }
+            finally
+            {
+                SubmitButton?.StopLoading();
             }
             NavigationManager.NavigateTo("/");
         }

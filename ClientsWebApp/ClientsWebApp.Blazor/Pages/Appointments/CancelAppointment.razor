@@ -4,7 +4,7 @@
 @inject IAppointmentService AppointmentService
 @attribute [Authorize(Roles = "Admin")]
 
-<div class="col">
+<div class="col m-3">
     @if (IsLoading)
     {
         <Loading />
@@ -15,12 +15,12 @@
             <Authorized Context="editDate">
                 @if (IsDateChanges)
                 {
-                    <input type="button" class="btn btn-success" value="Подтвердить" @onclick="ChangeAsync" />
-                    <input type="button" class="btn btn-danger" value="Отмена" @onclick="StopChanging" />
+                    <input type="button" class="btn btn-success w-100" value="Подтвердить" @onclick="ChangeAsync" />
+                    <input type="button" class="btn btn-danger w-100" value="Отмена" @onclick="StopChanging" />
                 }
                 else
                 {
-                    <input type="button" value="Удалить" @onclick="StartChanging" />
+                    <input type="button" class="btn btn-danger w-100" value="Удалить" @onclick="StartChanging" />
                 }
             </Authorized>
         </AuthorizeView>
@@ -29,7 +29,7 @@
 
 @code {
     [Parameter] public Guid AppointmentId { get; set; }
-    [Parameter] public EventCallback OnAppointmentApproved { get; set; }
+    [Parameter] public EventCallback OnAppointmentCanceled { get; set; }
 
     private bool IsDateChanges { get; set; }
     private bool IsLoading { get; set; } = false;
@@ -47,7 +47,7 @@
         IsLoading = true;
 
         await AppointmentService.CancelAsync(AppointmentId, _cts.Token);
-        await OnAppointmentApproved.InvokeAsync();
+        await OnAppointmentCanceled.InvokeAsync();
         StopChanging();
         IsLoading = false;
     }

@@ -4,7 +4,7 @@
 @inject IAppointmentService AppointmentService
 @attribute [Authorize(Roles = "Doctor,Admin")]
 
-<div class="col">
+<div class="col m-3">
     @if (IsLoading)
     {
         <Loading />
@@ -17,16 +17,17 @@
                 {
                     <EditForm Model="@Data" OnValidSubmit="ChangeAsync" class="form">
                         <div class="row">
-                            <div class="col bg-success bg-opacity-10 p-2">
-                                <FormInputDate Label="Дата" Id="date" @bind-Value="Data.Date"/>
+                            <div class="col p-2">
+                                <FormInputDate Label="Дата" Id="date" @bind-Value="Data.Date" />
                             </div>
                         </div>
-                        <input class="btn btn-primary" type="submit" />
+                        <input type="submit" class="btn btn-success w-100" value="Изменить" />
+                        <input type="button" class="btn btn-danger w-100" value="Отмена" @onclick="@StopChanging" />
                     </EditForm>
                 }
                 else
                 {
-                    <input type="button" value="Изменить Дату" @onclick="StartChanging" />
+                    <input type="button" class="btn-primary w-100" value="Изменить Дату" @onclick="StartChanging" />
                 }
             </Authorized>
         </AuthorizeView>
@@ -50,6 +51,10 @@
     {
         IsDateChanges = true;
     }
+    private void StopChanging()
+    {
+        IsDateChanges = false;
+    }
     private async Task ChangeAsync()
     {
         IsLoading = true;
@@ -57,7 +62,7 @@
         var rescheduleData = new RescheduleAppointmentModel(Appointment.Doctor.Id, DateOnly.FromDateTime(Data.Date), TimeOnly.FromDateTime(Data.Date));
         await AppointmentService.RescheduleAsync(Appointment.Id, rescheduleData, _cts.Token);
         await OnDateChanged.InvokeAsync();
-        IsDateChanges = false;
+        StopChanging();
         IsLoading = false;
     }
 }

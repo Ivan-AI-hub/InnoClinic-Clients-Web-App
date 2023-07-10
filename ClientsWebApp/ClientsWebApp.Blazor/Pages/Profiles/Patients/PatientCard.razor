@@ -8,17 +8,22 @@
     {
         @if (image != null)
         {
-            <div class="col">
+            <div class="col-sm-1">
                 <ImageFromByteArray Image="@image.Content" imgClass="img-thumbnail rounded float-right" width="100" height="100" />
             </div>
         }
-        <div class="col">
-            <div>@Patient.Info.FirstName @Patient.Info.LastName</div>
+        <div class="col-sm m-lg-3">
+            <div>@Patient.Info.GetFullName()</div>
             <div>@Patient.PhoneNumber</div>
+            <div>@Patient.Info.BirthDay.ToShortDateString()</div>
         </div>
-        <div class="col">
-            <button @onclick="NavigateToHistoryPage" class="btn btn-info">History</button>
-        </div>
+        <AuthorizeView Roles="Admin">
+            <NotAuthorized Context="editDate">
+                <div class="col-sm">
+                    <button @onclick="NavigateToHistoryPage" class="btn btn-info">History</button>
+                </div>
+            </NotAuthorized>
+        </AuthorizeView>
         @if (ChildContent != null)
         {
             @ChildContent
@@ -40,8 +45,8 @@
         }
     }
 
-        private void NavigateToHistoryPage()
-        {
-            NavigationManager.NavigateTo($"/patients/{Patient.Id}/appointmentsHistory");
-        }
+    private void NavigateToHistoryPage()
+    {
+        NavigationManager.NavigateTo($"/patients/{Patient.Id}/appointmentsHistory");
+    }
 }

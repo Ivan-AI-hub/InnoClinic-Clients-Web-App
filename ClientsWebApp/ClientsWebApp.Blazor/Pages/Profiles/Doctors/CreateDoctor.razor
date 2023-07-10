@@ -1,12 +1,13 @@
 ﻿@page "/doctors/create"
 @inherits CancellableComponent
+@attribute [Authorize(Roles = "Doctor")]
 
 <div>
     <p class="text-danger">@ErrorMessage</p>
 </div>
 @if (Data == null)
 {
-        <Loading/>
+    <Loading />
 }
 else
 {
@@ -15,17 +16,16 @@ else
         <ValidationSummary />
         <div class="row">
             <div class="col bg-success bg-opacity-10 p-2">
-                <h2>Данные</h2>
-                <FormInputText Label="Имя" Id="firstName" @bind-Value="@Data.FirstName" />
-                <FormInputText Label="Фамилия" Id="lastName" @bind-Value="@Data.LastName" />
-                <FormInputText Label="Отчество" Id="middleName" @bind-Value="@Data.MiddleName" />
-                <FormInputNumber Label="Старт карьеры" Id="careerStartYear" @bind-Value="@Data.CareerStartYear" />
-                <FormInputSelect Label="Офис" Id="office" @bind-Value="Data.OfficeId" Values="Offices" GetLabelHandler="@(x => x.Address)" GetValueHandler="@(x => x.Id)" />
-                <FormInputSelect Label="Специализация" Id="specialization" @bind-Value="Data.Specialization" Values="Specializations" GetLabelHandler="@(x => x.Name)" GetValueHandler="@(x => x.Name)" />
-                <FormInputDate Label="День рождения" Id="birthDay" @bind-Value="@Data.BirthDay" />
-                <SelectImage Title="Аватарка" @bind-Value="@Data.Picture" />
+                <FormInputText Label="FirstName" Id="firstName" @bind-Value="@Data.FirstName" />
+                <FormInputText Label="LastName" Id="lastName" @bind-Value="@Data.LastName" />
+                <FormInputText Label="MiddleName" Id="middleName" @bind-Value="@Data.MiddleName" />
+                <FormInputNumber Label=".Career start year" Id="careerStartYear" @bind-Value="@Data.CareerStartYear" />
+                <FormInputSelect Label="Office" Id="office" @bind-Value="Data.OfficeId" Values="Offices" GetLabelHandler="@(x => x.Address)" GetValueHandler="@(x => x.Id)" />
+                <FormInputSelect Label="Specialization" Id="specialization" @bind-Value="Data.Specialization" Values="Specializations" GetLabelHandler="@(x => x.Name)" GetValueHandler="@(x => x.Name)" />
+                <FormInputDate Label="BirthDay" Id="birthDay" @bind-Value="@Data.BirthDay" />
+                <SelectImage Title="Picture" @bind-Value="@Data.Picture" />
             </div>
         </div>
-        <input class="btn btn-primary" type="submit" />
+        <FormSubmitButton @ref="@SubmitButton" ButtonValue="Sign in" />
     </EditForm>
 }

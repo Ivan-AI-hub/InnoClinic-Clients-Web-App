@@ -4,7 +4,7 @@
 @inject IAppointmentService AppointmentService
 @attribute [Authorize(Roles = "Doctor,Admin")]
 
-<div class="col">
+<div class="col m-3">
     @if (IsLoading)
     {
         <Loading />
@@ -15,12 +15,12 @@
             <Authorized Context="editDate">
                 @if (IsDateChanges)
                 {
-                    <input type="button" class="btn btn-success" value="Подтвердить" @onclick="ChangeAsync" />
-                    <input type="button" class="btn btn-danger" value="Отмена" @onclick="StopChanging" />
+                    <input type="button" class="btn btn-success w-100" value="Я уверен" @onclick="ChangeAsync" />
+                    <input type="button" class="btn btn-danger w-100" value="Отмена" @onclick="StopChanging" />
                 }
                 else
                 {
-                    <input type="button" value="Подтвердить" @onclick="StartChanging" />
+                    <input type="button" class="btn btn-success w-100" value="Подтвердить назначение" @onclick="StartChanging" />
                 }
             </Authorized>
         </AuthorizeView>

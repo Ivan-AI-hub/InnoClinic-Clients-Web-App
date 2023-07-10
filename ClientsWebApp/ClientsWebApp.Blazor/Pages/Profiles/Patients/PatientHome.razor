@@ -1,14 +1,14 @@
 ﻿@page "/patients/home"
-@using ClientsWebApp.Blazor.Pages.Appointments
+@attribute [Authorize(Roles = "Patient")]
 @inherits CancellableComponent
 
-@if(!IsLoading)
+@if (!IsLoading)
 {
-    <PatientCard Patient="@Patient"/>
+    <PatientCard Patient="@Patient" />
     <button @onclick="NavigateToEditPage" class="btn btn-info">Edit</button>
     <button @onclick="NavigateToDeletePage" class="btn btn-danger">Delete</button>
 }
 else
 {
-    <Loading/>
+    <Loading />
 }

@@ -1,19 +1,18 @@
 ﻿using ClientsWebApp.Blazor.Components;
 using ClientsWebApp.Blazor.Infrastructure;
 using ClientsWebApp.Blazor.Pages.Profiles.Doctors.Models;
-using ClientsWebApp.Domain.Images;
-using ClientsWebApp.Domain.Profiles.Doctor;
-using ClientsWebApp.Domain.Profiles;
 using ClientsWebApp.Domain;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Components.Forms;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Http.Internal;
-using ClientsWebApp.Domain.Specializations;
+using ClientsWebApp.Domain.Images;
 using ClientsWebApp.Domain.Offices;
+using ClientsWebApp.Domain.Profiles;
+using ClientsWebApp.Domain.Profiles.Doctor;
+using ClientsWebApp.Domain.Specializations;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Components;
 
 namespace ClientsWebApp.Blazor.Pages.Profiles.Doctors
 {
+    [Authorize(Roles = "Doctor")]
     public partial class CreateDoctor : CancellableComponent
     {
         [Inject] public AuthenticationStateHelper authStateHelper { get; set; }
@@ -22,6 +21,7 @@ namespace ClientsWebApp.Blazor.Pages.Profiles.Doctors
         [Inject] public IOfficeService OfficeService { get; set; }
         [Inject] public IImageService ImageService { get; set; }
         private CreateDoctorData Data { get; set; }
+        protected FormSubmitButton SubmitButton { get; set; }
         private IEnumerable<Specialization> Specializations { get; set; }
         private IEnumerable<Office> Offices { get; set; }
         private string ErrorMessage;
@@ -37,6 +37,7 @@ namespace ClientsWebApp.Blazor.Pages.Profiles.Doctors
 
         private async Task CreateAsync()
         {
+            SubmitButton.StartLoading();
             var info = new CreateHumanInfo(new ImageName(Data.Picture.FileName), Email, Data.FirstName, Data.LastName, Data.MiddleName, Data.BirthDay);
             var createModel = new CreateDoctorModel(info, Data.Specialization, Data.OfficeId, Data.CareerStartYear);
             try
@@ -48,6 +49,10 @@ namespace ClientsWebApp.Blazor.Pages.Profiles.Doctors
             {
                 ErrorMessage = ex.Message;
                 return;
+            }
+            finally
+            {
+                SubmitButton.StopLoading();
             }
         }
     }

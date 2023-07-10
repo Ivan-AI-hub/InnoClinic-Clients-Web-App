@@ -1,14 +1,11 @@
 ﻿using ClientsWebApp.Blazor.Components;
 using ClientsWebApp.Blazor.Infrastructure;
 using ClientsWebApp.Blazor.Pages.Profiles.Patients.Models;
+using ClientsWebApp.Domain;
 using ClientsWebApp.Domain.Images;
 using ClientsWebApp.Domain.Profiles.Patient;
-using ClientsWebApp.Domain.Profiles;
-using ClientsWebApp.Domain;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Http.Internal;
 
 namespace ClientsWebApp.Blazor.Pages.Profiles.Patients
 {
@@ -19,6 +16,7 @@ namespace ClientsWebApp.Blazor.Pages.Profiles.Patients
         [Inject] public IPatientService PatientService { get; set; }
         [Inject] public IImageService ImageService { get; set; }
         [Inject] NavigationManager NavigationManager { get; set; }
+        private FormSubmitButton SubmitButton { get; set; }
         private EditPatientData Data { get; set; }
         private string ErrorMessage;
         private Patient OldPatient;
@@ -37,6 +35,8 @@ namespace ClientsWebApp.Blazor.Pages.Profiles.Patients
 
         private async Task EditAsync()
         {
+            SubmitButton?.StartLoading();
+
             var imageName = Data.Picture == null ? OldPatient.Info.Photo : new ImageName(Data.Picture.FileName);
             var update = new UpdatePatientModel(imageName, Data.FirstName, Data.LastName, Data.MiddleName, Data.BirthDay, Data.PhoneNumber);
             try
@@ -52,6 +52,10 @@ namespace ClientsWebApp.Blazor.Pages.Profiles.Patients
             {
                 ErrorMessage = ex.Message;
                 return;
+            }
+            finally
+            {
+                SubmitButton?.StopLoading();
             }
             Cancel();
         }

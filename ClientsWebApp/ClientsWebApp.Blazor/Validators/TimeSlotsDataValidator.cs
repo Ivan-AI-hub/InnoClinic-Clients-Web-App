@@ -8,7 +8,8 @@ namespace ClientsWebApp.Blazor.Validators
         public TimeSlotsDataValidator()
         {
             RuleFor(x => x.Date).GreaterThanOrEqualTo(DateOnly.FromDateTime(DateTime.Now));
-            RuleFor(x => x.Time).GreaterThanOrEqualTo(TimeOnly.FromDateTime(DateTime.Now));
+            RuleFor(x => x.StartTime).GreaterThanOrEqualTo(TimeOnly.FromDateTime(DateTime.Now));
+            RuleFor(x => x.EndTime).NotEmpty();
         }
     }
 }

@@ -14,14 +14,20 @@
                 <span class="oi oi-home" aria-hidden="true"></span> Home
             </NavLink>
         </div>
+
+        <AuthorizeView Roles="Patient">
+            <Authorized>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="/appointments/create">
+                        <span class="oi oi-people" aria-hidden="true"></span> Create appointment
+                    </NavLink>
+                </div>
+            </Authorized>
+        </AuthorizeView>
+
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="/appointments/create">
-                <span class="oi oi-people" aria-hidden="true"></span> /appointments/create
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="patients">
-                <span class="oi oi-people" aria-hidden="true"></span> Patients
+            <NavLink class="nav-link" href="/services">
+                <span class="oi oi-people" aria-hidden="true"></span> Services
             </NavLink>
         </div>
         <div class="nav-item px-3">
@@ -34,25 +40,31 @@
         <AuthorizeView Roles="Admin">
             <Authorized>
                 <div class="nav-item px-3">
-            <NavLink class="nav-link" href="appointments">
-                <span class="oi oi-people" aria-hidden="true"></span> Appointments
-            </NavLink>
-        </div>
-                        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="offices">
-                <span class="oi oi-people" aria-hidden="true"></span> Offices
-            </NavLink>
-        </div>
+                    <NavLink class="nav-link" href="receptionists">
+                        <span class="oi oi-people" aria-hidden="true"></span> Receptionists
+                    </NavLink>
+                </div>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="patients">
+                        <span class="oi oi-people" aria-hidden="true"></span> Patients
+                    </NavLink>
+                </div>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="appointments">
+                        <span class="oi oi-people" aria-hidden="true"></span> Appointments
+                    </NavLink>
+                </div>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="offices">
+                        <span class="oi oi-people" aria-hidden="true"></span> Offices
+                    </NavLink>
+                </div>
                 <div class="nav-item px-3">
                     <NavLink class="nav-link" href="/specializations">
                         <span class="oi oi-plus" aria-hidden="true"></span> Specializations
                     </NavLink>
                 </div>
-                <div class="nav-item px-3">
-                    <NavLink class="nav-link" href="receptionists">
-                        <span class="oi oi-people" aria-hidden="true"></span> Receptionists
-                    </NavLink>
-                </div>
+
             </Authorized>
         </AuthorizeView>
     </nav>

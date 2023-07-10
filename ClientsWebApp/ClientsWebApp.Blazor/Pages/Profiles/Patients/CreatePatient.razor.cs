@@ -11,13 +11,14 @@ using Microsoft.AspNetCore.Components;
 namespace ClientsWebApp.Blazor.Pages.Profiles.Patients
 {
     [Authorize(Roles = "Patient")]
-    public partial class CreatePatient: CancellableComponent
+    public partial class CreatePatient : CancellableComponent
     {
         [Inject] public AuthenticationStateHelper authStateHelper { get; set; }
         [Inject] public IPatientService PatientService { get; set; }
         [Inject] public IImageService ImageService { get; set; }
         [Inject] NavigationManager NavigationManager { get; set; }
         private CreatePatientData Data { get; set; }
+        protected FormSubmitButton SubmitButton { get; set; }
 
         private string ErrorMessage;
         private string Email;
@@ -26,9 +27,10 @@ namespace ClientsWebApp.Blazor.Pages.Profiles.Patients
             Data = new CreatePatientData();
             Email = await authStateHelper.GetEmailAsync();
         }
-        
+
         private async Task CreateAsync()
         {
+            SubmitButton.StartLoading();
             var info = new CreateHumanInfo(new ImageName(Data.Picture.FileName), Email, Data.FirstName, Data.LastName, Data.MiddleName, Data.BirthDay);
             var createModel = new CreatePatientModel(info, Data.PhoneNumber);
             try
@@ -40,6 +42,10 @@ namespace ClientsWebApp.Blazor.Pages.Profiles.Patients
             {
                 ErrorMessage = ex.Message;
                 return;
+            }
+            finally
+            {
+                SubmitButton.StopLoading();
             }
             NavigationManager.NavigateTo("/");
         }

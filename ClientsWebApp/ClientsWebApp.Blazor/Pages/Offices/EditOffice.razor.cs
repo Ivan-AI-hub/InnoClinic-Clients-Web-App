@@ -15,6 +15,7 @@ namespace ClientsWebApp.Blazor.Pages.Offices
         [Inject] public IOfficeService OfficeService { get; set; }
         [Inject] public IImageService ImageService { get; set; }
         [Inject] NavigationManager NavigationManager { get; set; }
+        private FormSubmitButton SubmitButton { get; set; }
         private EditOfficeData Data { get; set; }
         private string ErrorMessage;
         private Office OldOffice;
@@ -32,6 +33,8 @@ namespace ClientsWebApp.Blazor.Pages.Offices
 
         private async Task EditAsync()
         {
+            SubmitButton?.StartLoading();
+
             var imageName = Data.Picture == null ? OldOffice.Photo : new ImageName(Data.Picture.FileName);
             var update = new UpdateOfficeModel(imageName, Data.City, Data.Street, Data.HouseNumber, Data.OfficeNumber, Data.PhoneNumber, Data.Status);
             try
@@ -47,6 +50,10 @@ namespace ClientsWebApp.Blazor.Pages.Offices
             {
                 ErrorMessage = ex.Message;
                 return;
+            }
+            finally
+            {
+                SubmitButton?.StopLoading();
             }
             Cancel();
         }

@@ -1,5 +1,4 @@
-﻿using ClientsWebApp.Blazor.Pages.Profiles.Patients.Models;
-using ClientsWebApp.Blazor.Pages.Results.Models;
+﻿using ClientsWebApp.Blazor.Pages.Results.Models;
 using FluentValidation;
 
 namespace ClientsWebApp.Blazor.Validators

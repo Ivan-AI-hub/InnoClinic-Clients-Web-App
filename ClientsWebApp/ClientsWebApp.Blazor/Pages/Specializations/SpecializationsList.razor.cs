@@ -1,8 +1,8 @@
-﻿using ClientsWebApp.Domain;
-using Microsoft.AspNetCore.Components;
-using ClientsWebApp.Blazor.Components;
+﻿using ClientsWebApp.Blazor.Components;
+using ClientsWebApp.Domain;
 using ClientsWebApp.Domain.Specializations;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Components;
 
 namespace ClientsWebApp.Blazor.Pages.Specializations
 {
@@ -13,7 +13,6 @@ namespace ClientsWebApp.Blazor.Pages.Specializations
         [Inject] public NavigationManager NavigationManager { get; set; }
 
         private Page Page { get; set; }
-        private PageStatus Status => Page.GetPageStatus(Specializations == null ? 0 : Specializations.Count());
         private IEnumerable<Specialization>? Specializations { get; set; }
         protected override async Task OnInitializedAsync()
         {
@@ -40,7 +39,10 @@ namespace ClientsWebApp.Blazor.Pages.Specializations
             Page.Number++;
             await SpecializationsUpdateAsync();
         }
-
+        protected PageStatus GetPageStatus()
+        {
+            return Page.GetPageStatus(Specializations == null ? 0 : Specializations.Count());
+        }
         private void ToCreatePage()
         {
             NavigationManager.NavigateTo("/specializations/create");

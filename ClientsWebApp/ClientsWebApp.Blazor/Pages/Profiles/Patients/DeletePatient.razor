@@ -1,6 +1,6 @@
 ﻿@page "/patients/delete"
-@inherits CancellableComponent
 @attribute [Authorize(Roles = "Patient")]
+@inherits CancellableComponent
 @inject IPatientService PatientService
 @inject AuthenticationStateHelper AuthHelper
 @inject NavigationManager Navigator

@@ -9,13 +9,22 @@ namespace ClientsWebApp.Blazor.Validators
         public RegisterDataValidator()
         {
             RuleFor(x => x.Email)
-                .NotEmpty()
-                .Matches(_emailRegex);
+                .NotEmpty().WithMessage("Please, enter the email")
+                .Matches(_emailRegex).WithMessage("You've entered an invalid email");
 
-            RuleFor(x => x.Password).NotEmpty().MinimumLength(6).MaximumLength(15);
-            RuleFor(x => x.RePassword).NotEmpty().MinimumLength(6).MaximumLength(15);
+            RuleFor(x => x.Password)
+                .NotEmpty().WithMessage("Please, enter the password")
+                .MinimumLength(6)
+                .MaximumLength(15);
 
-            RuleFor(x => x.Password).Matches(x => x.RePassword).WithMessage("Password and repassword are not matchs");
+            RuleFor(x => x.RePassword)
+                .NotEmpty().WithMessage("Please, reenter the password")
+                .MinimumLength(6)
+                .MaximumLength(15);
+
+            RuleFor(x => x.Password)
+                .Matches(x => x.RePassword)
+                .WithMessage("The passwords you’ve entered don’t coincide");
 
         }
     }

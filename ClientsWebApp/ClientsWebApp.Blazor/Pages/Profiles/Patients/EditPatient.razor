@@ -21,7 +21,15 @@
                 <SelectImage Title="Аватарка" @bind-Value="@Data.Picture" SelectedImageData="OldPicture" />
             </div>
         </div>
-        <input class="btn btn-primary" type="submit" value="Сохранить изменения" />
+        <div class="row">
+            <div class="col m-3 w-100">
+                <FormSubmitButton @ref="@SubmitButton" ButtonValue="Save Changes" />
+            </div>
+            <div class="col">
+                <DobleQuestionButton OnSuccessAnswerClicked="@Cancel" PreviewButtonValue="Cancel"
+                                 QuestionLabel="Do you really want to cancel? Changes will not be saved." />
+            </div>
+        </div>
     </EditForm>
     <button class="btn btn-danger" @onclick="Cancel">Отмена</button>
 }

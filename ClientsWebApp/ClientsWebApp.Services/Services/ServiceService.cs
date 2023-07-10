@@ -41,6 +41,15 @@ namespace ClientsWebApp.Services.Services
             return await GetFromJsonAsync<IEnumerable<Service>>(httpResponseMessage, cancellationToken);
         }
 
+        public async Task<IEnumerable<Service>> GetBySpecializationAsync(string specializationName, CancellationToken cancellationToken)
+        {
+            string requestUri = _baseUri + $"/specialization/{specializationName}";
+
+            var httpResponseMessage = await (await RequestClient).GetAsync(requestUri, cancellationToken);
+
+            return await GetFromJsonAsync<IEnumerable<Service>>(httpResponseMessage, cancellationToken);
+        }
+
         public async Task<Service> GetByIdAsync(Guid id, CancellationToken cancellationToken)
         {
             string requestUri = _baseUri + $"/{id}";

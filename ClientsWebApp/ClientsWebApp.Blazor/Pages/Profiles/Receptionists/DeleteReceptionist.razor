@@ -1,6 +1,6 @@
 ﻿@page "/receptionists/delete"
-@inherits CancellableComponent
 @attribute [Authorize(Roles = "Admin")]
+@inherits CancellableComponent
 @inject IReceptionistService ReceptionistService
 @inject AuthenticationStateHelper AuthHelper
 @inject NavigationManager Navigator

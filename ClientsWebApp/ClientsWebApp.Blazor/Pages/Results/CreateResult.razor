@@ -1,6 +1,6 @@
 ﻿@page "/appointments/{AppointmentId:guid}/result/create"
-@inherits CancellableComponent
 @attribute [Authorize(Roles = "Doctor")]
+@inherits CancellableComponent
 
 @if (Data != null)
 {
@@ -26,7 +26,15 @@
                 <FormInputText Label="Рекомендации" Id="Name" @bind-Value="@Data.Recomendations" />
             </div>
         </div>
-        <input class="btn btn-primary" type="submit" value="Создать" />
+        <div class="row">
+            <div class="col m-3 w-100">
+                <FormSubmitButton @ref="@SubmitButton" ButtonValue="Save Changes" />
+            </div>
+            <div class="col">
+                <DobleQuestionButton OnSuccessAnswerClicked="@Cancel" PreviewButtonValue="Cancel"
+                                 QuestionLabel="Do you really want to cancel? Changes will not be saved." />
+            </div>
+        </div>
     </EditForm>
 }
 else

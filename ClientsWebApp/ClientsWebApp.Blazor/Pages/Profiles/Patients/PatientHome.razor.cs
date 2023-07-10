@@ -3,12 +3,13 @@ using ClientsWebApp.Blazor.Infrastructure;
 using ClientsWebApp.Domain;
 using ClientsWebApp.Domain.Appointments;
 using ClientsWebApp.Domain.Profiles.Patient;
-using ClientsWebApp.Services.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 
 namespace ClientsWebApp.Blazor.Pages.Profiles.Patients
 {
-    public partial class PatientHome: CancellableComponent
+    [Authorize(Roles = "Patient")]
+    public partial class PatientHome : CancellableComponent
     {
         [Inject] AuthenticationStateHelper StateHelper { get; set; }
         [Inject] IPatientService PatientService { get; set; }
@@ -30,7 +31,7 @@ namespace ClientsWebApp.Blazor.Pages.Profiles.Patients
                 NavigationManager.NavigateTo("/patients/create");
             }
 
-            Appointments = await AppointmentService.GetPageAsync(new Page(5, 1), new AppointmentFiltrationModel(){PatientId = Patient.Id}, _cts.Token);
+            Appointments = await AppointmentService.GetPageAsync(new Page(5, 1), new AppointmentFiltrationModel() { PatientId = Patient.Id }, _cts.Token);
             IsLoading = false;
             this.StateHasChanged();
         }

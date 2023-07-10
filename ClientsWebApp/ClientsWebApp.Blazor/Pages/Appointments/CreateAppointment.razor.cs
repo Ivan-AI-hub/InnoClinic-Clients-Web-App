@@ -3,13 +3,11 @@ using ClientsWebApp.Blazor.Infrastructure;
 using ClientsWebApp.Blazor.Pages.Appointments.Models;
 using ClientsWebApp.Domain;
 using ClientsWebApp.Domain.Appointments;
-using ClientsWebApp.Domain.Identity;
 using ClientsWebApp.Domain.Offices;
 using ClientsWebApp.Domain.Profiles.Doctor;
 using ClientsWebApp.Domain.Profiles.Patient;
 using ClientsWebApp.Domain.Services;
 using ClientsWebApp.Domain.Specializations;
-using ClientsWebApp.Services.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 
@@ -27,25 +25,26 @@ namespace ClientsWebApp.Blazor.Pages.Appointments
         [Inject] public IOfficeService OfficeService { get; set; }
         [Inject] public ILogger<CreateAppointment> Logger { get; set; }
 
+        [Parameter]
+        [SupplyParameterFromQuery(Name = "DoctorId")]
+        public Guid InitialDoctorId { get; set; } = default;
         private Patient? Patient { get; set; }
-        private TimeSlots TimeSlots { get; set; }
-        private IEnumerable<Specialization>? Specializations { get; set; }
-        private IEnumerable<Doctor>? Doctors { get; set; }
-        private IEnumerable<Service>? Services { get; set; }
-        private IEnumerable<Office>? Offices { get; set; }
-        private CreateAppointmentData Data { get; set; }
-        private Page Page { get; set; }
-        private DoctorFiltrationModel FiltrationModel { get; set; }
+        private bool IsDateTimeSelection { get; set; }
+        private IEnumerable<Specialization> Specializations { get; set; } = new List<Specialization>();
+        private IEnumerable<Doctor> Doctors { get; set; } = new List<Doctor>();
+        private IEnumerable<Service> Services { get; set; } = new List<Service>();
+        private IEnumerable<Office> Offices { get; set; } = new List<Office>();
+        private IEnumerable<string> Categories = new List<string>() { "consultation", "analyses", "diagnostics" };
+        private CreateAppointmentData Data { get; set; } = new CreateAppointmentData();
+        protected FormSubmitButton SubmitButton { get; set; }
+        private Page Page { get; set; } = new Page(100, 1);
+        private DoctorFiltrationModel FiltrationModel { get; set; } = new DoctorFiltrationModel();
 
-        private List<string> Categories = new List<string>() { "consultation", "analyses", "diagnostics" };
-        private string ErrorMessage { get; set; }
+
+        private string ErrorMessage { get; set; } = "";
 
         protected async override Task OnInitializedAsync()
         {
-            Page = new Page(100, 1);
-            Data = new CreateAppointmentData();
-
-            FiltrationModel = new DoctorFiltrationModel();
             var email = await authStateHelper.GetEmailAsync();
 
             Patient = await PatientService.GetByEmailAsync(email, _cts.Token);
@@ -56,33 +55,41 @@ namespace ClientsWebApp.Blazor.Pages.Appointments
             Data.PatientId = Patient.Id;
             Data.Specialization = Specializations.First().Name;
             await UpdateDoctorsAsync();
+            if (InitialDoctorId != default)
+            {
+                await DoctorWasSelected(InitialDoctorId);
+            }
         }
 
         protected async Task UpdateDoctorsAsync()
         {
             FiltrationModel.OfficeId = Data.OfficeId;
             FiltrationModel.Specialization = Data.Specialization;
-            
+
             Doctors = await DoctorService.GetPageAsync(Page, FiltrationModel, _cts.Token);
             Data.DoctorId = Doctors.FirstOrDefault()?.Id ?? default;
-            await DoctorWasSelected(Data.DoctorId);
             this.StateHasChanged();
+            await DoctorWasSelected(Data.DoctorId);
         }
         protected async Task UpdateServicesAsync()
         {
-            var specialization = Specializations.First(x => x.Name == Data.Specialization);
+            var specialization = Specializations.FirstOrDefault(x => x.Name == Data.Specialization);
             Services = await ServiceService.GetByCategoryAsync(Data.Category, Page, _cts.Token);
-            Services = Services.Where(x => x.SpecializationId == specialization.Id);
+            Services = Services.Where(x => x.SpecializationId == specialization?.Id);
 
             Data.ServiceId = Services.FirstOrDefault()?.Id ?? default;
             this.StateHasChanged();
         }
 
-        private async Task DoctorWasSelected(ChangeEventArgs args)
+        private void StartSelectDateAndTime()
         {
-            var doctorId = Guid.Parse(args.Value.ToString()); 
-
-            await DoctorWasSelected(doctorId);
+            IsDateTimeSelection = true;
+            this.StateHasChanged();
+        }
+        private void StopSelectDateAndTime()
+        {
+            IsDateTimeSelection = false;
+            this.StateHasChanged();
         }
         private async Task DoctorWasSelected(Guid doctorId)
         {
@@ -93,28 +100,32 @@ namespace ClientsWebApp.Blazor.Pages.Appointments
                 Data.DoctorId = doctor.Id;
                 Data.Specialization = doctor.Specialization;
                 Data.OfficeId = doctor.Office.Id;
-                if(TimeSlots != null)
-                {
-                    await TimeSlots.UpdateTimesAsync(doctor.Id);
-                }
                 await UpdateServicesAsync();
             }
             this.StateHasChanged();
+        }
+
+        private async Task DoctorWasSelected(ChangeEventArgs args)
+        {
+            var doctorId = Guid.Parse(args.Value.ToString());
+
+            await DoctorWasSelected(doctorId);
         }
 
         private async Task OfficeWasSelected(ChangeEventArgs args)
         {
             var officeId = Guid.Parse(args.Value.ToString());
             Data.OfficeId = officeId;
-            await UpdateDoctorsAsync();
             this.StateHasChanged();
+
+            await UpdateDoctorsAsync();
         }
 
         private async Task SpecializationWasSelected(ChangeEventArgs args)
         {
             Data.Specialization = args.Value.ToString();
-            await UpdateDoctorsAsync();
             this.StateHasChanged();
+            await UpdateDoctorsAsync();
         }
 
         private async Task CategoryWasSelected(ChangeEventArgs args)
@@ -127,12 +138,12 @@ namespace ClientsWebApp.Blazor.Pages.Appointments
         private void TimeSlotSelected(TimeSlotsData data)
         {
             Data.Date = data.Date;
-            Data.Time = data.Time;
+            Data.Time = data.StartTime;
             this.StateHasChanged();
         }
         private async Task CreateAsync()
         {
-
+            SubmitButton.StartLoading();
             try
             {
                 var appointment = await AppointmentService.CreateAsync(new CreateAppointmentModel(Data.PatientId, Data.DoctorId, Data.ServiceId, Data.Date, Data.Time), _cts.Token);
@@ -141,6 +152,10 @@ namespace ClientsWebApp.Blazor.Pages.Appointments
             {
                 ErrorMessage = ex.Message;
                 return;
+            }
+            finally
+            {
+                SubmitButton.StopLoading();
             }
         }
     }

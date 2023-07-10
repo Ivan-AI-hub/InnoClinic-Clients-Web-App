@@ -17,7 +17,7 @@ namespace ClientsWebApp.Blazor.Pages.Appointments
         [Inject] public IServiceService ServiceService { get; set; }
         [Inject] public ILogger<TimeSlots> Logger { get; set; }
 
-        private bool isTableReloading {get;set;} = false;
+        private bool isTableReloading { get; set; } = false;
         private TimeSlotsData Data { get; set; } = new TimeSlotsData();
         private Page Page { get; set; } = new Page(100, 1);
         private AppointmentFiltrationModel FiltrationModel { get; set; } = new AppointmentFiltrationModel();
@@ -28,7 +28,7 @@ namespace ClientsWebApp.Blazor.Pages.Appointments
 
             for (int i = 1; i < 24; i++)
             {
-                for (int j = 10; j < 60; j += 10)
+                for (int j = 0; j < 60; j += 10)
                 {
                     Times.Add(new TimeOnly(i, j), true);
                 }
@@ -36,42 +36,39 @@ namespace ClientsWebApp.Blazor.Pages.Appointments
             await UpdateTimesAsync();
         }
 
-        public async Task UpdateTimesAsync(Guid doctorId)
-        {   
-            FiltrationModel.DoctorId = doctorId;
-            await UpdateTimesAsync();
-        }
         private async Task UpdateTimesAsync()
         {
-                isTableReloading = true;
-                foreach(var time in Times)
-                {
-                    Times[time.Key] = true;
-                }
-                FiltrationModel.Date = Data.Date;
-                var appointments = await AppointmentService.GetPageAsync(Page, FiltrationModel, _cts.Token);
-            
-                foreach(var appointment in appointments)
-                {
-                    var service = await ServiceService.GetByIdAsync(appointment.Service.Id, _cts.Token);
+            isTableReloading = true;
+            foreach (var time in Times)
+            {
+                Times[time.Key] = true;
+            }
+            FiltrationModel.Date = Data.Date;
+            var appointments = await AppointmentService.GetPageAsync(Page, FiltrationModel, _cts.Token);
 
-                    int timeSlots = service.Category.TimeSlotSize/10;
+            foreach (var appointment in appointments)
+            {
+                var service = await ServiceService.GetByIdAsync(appointment.Service.Id, _cts.Token);
 
-                    var time = appointment.Time;
-                    Times[time] = false;
-                    for(int i = 1; i < timeSlots; i++)
-                    {
-                        Times[time.AddMinutes(10)] = false;
-                        time = time.AddMinutes(10);
-                    }
+                int timeSlots = service.Category.TimeSlotSize / 10;
+
+                var time = appointment.Time;
+                Times[time] = false;
+                for (int i = 1; i < timeSlots; i++)
+                {
+                    Times[time.AddMinutes(10)] = false;
+                    time = time.AddMinutes(10);
                 }
-                isTableReloading = false;
-                this.StateHasChanged();
+            }
+            isTableReloading = false;
+            this.StateHasChanged();
         }
 
         private async Task SelectTimeSlot(TimeOnly time)
         {
-            Data.Time = time;
+            Data.StartTime = time;
+            Data.EndTime = time.AddMinutes(Category.TimeSlotSize - 1 * 10);
+            this.StateHasChanged();
             await OnTimeSlotSelected.InvokeAsync(Data);
         }
 
@@ -79,9 +76,9 @@ namespace ClientsWebApp.Blazor.Pages.Appointments
         {
             var date = DateOnly.Parse(args.Value.ToString());
             Data.Date = date;
+            this.StateHasChanged();
 
             await UpdateTimesAsync();
-            this.StateHasChanged();
         }
     }
 }

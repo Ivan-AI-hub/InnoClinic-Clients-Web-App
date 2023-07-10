@@ -1,8 +1,4 @@
-﻿using ClientsWebApp.Domain.Profiles.Doctor;
-using ClientsWebApp.Domain.Profiles.Patient;
-using ClientsWebApp.Domain.Services;
-
-namespace ClientsWebApp.Domain.Appointments
+﻿namespace ClientsWebApp.Domain.Appointments
 {
     public class Appointment
     {

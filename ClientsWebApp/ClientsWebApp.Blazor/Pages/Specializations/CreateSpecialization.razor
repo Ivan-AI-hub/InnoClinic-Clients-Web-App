@@ -1,5 +1,4 @@
 ﻿@page "/specializations/create"
-@using ClientsWebApp.Blazor.Pages.Services
 @attribute [Authorize(Roles = "Admin")]
 @inherits CancellableComponent
 
@@ -29,25 +28,22 @@
                 @foreach (var service in Services)
                 {
                     <div class="col">
-                        <p>@service.Name</p>
-                        <p>@service.Price</p>
-                        <p>@service.Status</p>
-                        <p>@service.CategoryName</p>
+                        <CreateServiceModelCard Service="@service" />
                     </div>
-                    <div class="col">
+                    <div class="col-1 m-3">
                         <input type="button" class="btn btn-danger" value="-" @onclick="@(()=>RemoveService(service))" />
                     </div>
                 }
             </div>
         </div>
     </div>
-    @if (IsLoading)
-    {
-        <input class="btn btn-primary disabled" type="submit"/>
-        <Loading />
-    }
-    else
-    {
-        <input class="btn btn-primary" type="submit" />
-    }
+    <div class="row">
+        <div class="col m-3 w-100">
+            <FormSubmitButton @ref="@SubmitButton" ButtonValue="Save Changes" />
+        </div>
+        <div class="col">
+            <DobleQuestionButton OnSuccessAnswerClicked="@Cancel" PreviewButtonValue="Cancel"
+                                 QuestionLabel="Do you really want to cancel? Changes will not be saved." />
+        </div>
+    </div>
 </EditForm>

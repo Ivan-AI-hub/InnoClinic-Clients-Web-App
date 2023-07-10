@@ -1,8 +1,5 @@
 ﻿using ClientsWebApp.Blazor.Components;
-using ClientsWebApp.Blazor.Infrastructure;
 using ClientsWebApp.Blazor.Pages.Specializations.Models;
-using ClientsWebApp.Domain;
-using ClientsWebApp.Domain.Images;
 using ClientsWebApp.Domain.Services;
 using ClientsWebApp.Domain.Specializations;
 using Microsoft.AspNetCore.Authorization;
@@ -11,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 namespace ClientsWebApp.Blazor.Pages.Specializations
 {
     [Authorize(Roles = "Admin")]
-    public partial class CreateSpecialization: CancellableComponent
+    public partial class CreateSpecialization : CancellableComponent
     {
         [Inject] public ISpecializationService SpecializationService { get; set; }
         [Inject] public IServiceService ServiceService { get; set; }
@@ -19,10 +16,10 @@ namespace ClientsWebApp.Blazor.Pages.Specializations
         private CreateSpecializationData Data { get; set; } = new CreateSpecializationData();
 
         private List<CreateServiceModel> Services = new List<CreateServiceModel>();
-        private bool IsLoading = false;
+        private FormSubmitButton SubmitButton { get; set; }
         private bool IsServiceCreating = false;
         private string ErrorMessage;
-        
+
         private void StartCreateService()
         {
             IsServiceCreating = true;
@@ -40,10 +37,11 @@ namespace ClientsWebApp.Blazor.Pages.Specializations
 
         private async Task CreateAsync()
         {
-            IsLoading = true;
-            if(Services.Count  == 0) 
+            SubmitButton?.StartLoading();
+
+            if (Services.Count == 0)
             {
-                IsLoading = false;
+                SubmitButton?.StopLoading();
                 ErrorMessage = "Создайте по меньшей мере 1 сервис";
                 return;
             }
@@ -52,18 +50,26 @@ namespace ClientsWebApp.Blazor.Pages.Specializations
             try
             {
                 var specialization = await SpecializationService.CreateAsync(createModel, _cts.Token);
-                foreach(var service in Services)
+                foreach (var service in Services)
                 {
                     service.SpecializationId = specialization.Id;
                     await ServiceService.CreateAsync(service, _cts.Token);
-                }    
+                }
             }
             catch (Exception ex)
             {
                 ErrorMessage = ex.Message;
                 return;
             }
-            IsLoading = false;
+            finally
+            {
+                SubmitButton?.StopLoading();
+            }
+
+            Cancel();
+        }
+        private void Cancel()
+        {
             NavigationManager.NavigateTo("/specializations");
         }
     }

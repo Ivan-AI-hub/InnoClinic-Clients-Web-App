@@ -1,8 +1,8 @@
-﻿using ClientsWebApp.Domain;
-using Microsoft.AspNetCore.Components;
-using ClientsWebApp.Blazor.Components;
+﻿using ClientsWebApp.Blazor.Components;
+using ClientsWebApp.Domain;
 using ClientsWebApp.Domain.Offices;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Components;
 
 namespace ClientsWebApp.Blazor.Pages.Offices
 {
@@ -13,7 +13,6 @@ namespace ClientsWebApp.Blazor.Pages.Offices
         [Inject] public NavigationManager NavigationManager { get; set; }
 
         private Page Page { get; set; }
-        private PageStatus Status => Page.GetPageStatus(Offices == null ? 0 : Offices.Count());
         private IEnumerable<Office>? Offices { get; set; }
         protected override async Task OnInitializedAsync()
         {
@@ -40,7 +39,10 @@ namespace ClientsWebApp.Blazor.Pages.Offices
             Page.Number++;
             await OfficesUpdateAsync();
         }
-
+        protected PageStatus GetPageStatus()
+        {
+            return Page.GetPageStatus(Offices == null ? 0 : Offices.Count());
+        }
         private void ToCreatePage()
         {
             NavigationManager.NavigateTo("/offices/create");

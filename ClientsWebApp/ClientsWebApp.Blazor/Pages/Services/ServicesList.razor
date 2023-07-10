@@ -1,14 +1,39 @@
 ﻿@page "/services"
 @inherits CancellableComponent
 
-@if (Services != null)
-{
-    @foreach (var service in Services)
+<div class="row bg mb-2">
+    @foreach (var category in Categories)
     {
-        <ServiceCard Service="service"/>
+        <div class="col text-center">
+            @if (category == Data.CategoryName)
+            {
+                <input type="button" value="@category" class="btn btn-success disabled" />
+            }
+            else
+            {
+                <input type="button" value="@category" class="btn btn-info" @onclick="@(() => ServicesUpdateAsync(category))" />
+            }
+        </div>
     }
-}
-else
-{
-    <Loading/>
-}
+</div>
+<div>
+    <PageSwitcher OnNextPageClicked="@SetNextPage" OnPreviousPageClicked="@SetPreviousPage" GetStatus="@GetPageStatus" />
+    @if (Services != null)
+    {
+        @if (Services.Count() == 0)
+        {
+            <h1>Services was not found (((( </h1>
+        }
+        else
+        {
+            @foreach (var Service in Services)
+            {
+                <ServiceCard Service="Service" />
+            }
+        }
+    }
+    else
+    {
+        <Loading />
+    }
+</div>

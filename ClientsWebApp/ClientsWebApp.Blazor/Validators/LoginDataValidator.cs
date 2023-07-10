@@ -9,10 +9,13 @@ namespace ClientsWebApp.Blazor.Validators
         public LoginDataValidator()
         {
             RuleFor(x => x.Email)
-                    .NotEmpty()
-                    .Matches(_emailRegex);
+                .NotEmpty().WithMessage("Please, enter the email")
+                .Matches(_emailRegex).WithMessage("You've entered an invalid email"); ;
 
-            RuleFor(x => x.Password).NotEmpty().MinimumLength(6).MaximumLength(15);
+            RuleFor(x => x.Password)
+                .NotEmpty().WithMessage("Please, enter the password")
+                .MinimumLength(6)
+                .MaximumLength(15);
         }
     }
 }

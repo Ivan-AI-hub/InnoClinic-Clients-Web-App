@@ -1,9 +1,5 @@
 ﻿using ClientsWebApp.Blazor.Components;
-using ClientsWebApp.Blazor.Infrastructure;
-using ClientsWebApp.Blazor.Pages.Services.Models;
 using ClientsWebApp.Blazor.Pages.Specializations.Models;
-using ClientsWebApp.Domain;
-using ClientsWebApp.Domain.Images;
 using ClientsWebApp.Domain.Services;
 using ClientsWebApp.Domain.Specializations;
 using Microsoft.AspNetCore.Authorization;
@@ -12,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 namespace ClientsWebApp.Blazor.Pages.Specializations
 {
     [Authorize(Roles = "Admin")]
-    public partial class EditSpecialization: CancellableComponent
+    public partial class EditSpecialization : CancellableComponent
     {
         [Parameter] public Guid SpecializationId { get; set; }
         [Inject] public ISpecializationService SpecializationService { get; set; }
@@ -25,7 +21,7 @@ namespace ClientsWebApp.Blazor.Pages.Specializations
         private List<CreateServiceModel> AddedServices = new List<CreateServiceModel>();
         private List<Service> RemovedServices = new List<Service>();
 
-        private bool IsLoading = false;
+        private FormSubmitButton SubmitButton { get; set; }
         private bool IsServiceCreating = false;
         private string ErrorMessage;
         protected async override Task OnInitializedAsync()
@@ -57,10 +53,10 @@ namespace ClientsWebApp.Blazor.Pages.Specializations
 
         private async Task EditAsync()
         {
-            IsLoading = true;
+            SubmitButton?.StartLoading();
             if (Services.Count + AddedServices.Count == 0)
             {
-                IsLoading = false;
+                SubmitButton?.StopLoading();
                 ErrorMessage = "Создайте по меньшей мере 1 сервис";
                 return;
             }
@@ -84,7 +80,15 @@ namespace ClientsWebApp.Blazor.Pages.Specializations
                 ErrorMessage = ex.Message;
                 return;
             }
-            IsLoading = false;
+            finally
+            {
+                SubmitButton?.StopLoading();
+            }
+
+            Cancel();
+        }
+        private void Cancel()
+        {
             NavigationManager.NavigateTo($"/specializations/{SpecializationId}");
         }
     }

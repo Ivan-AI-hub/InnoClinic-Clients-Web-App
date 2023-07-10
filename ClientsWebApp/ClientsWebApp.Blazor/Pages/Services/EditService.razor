@@ -1,0 +1,27 @@
+﻿@page "/specializations/{SpecializationId:guid}/services/{ServiceId:guid}/edit"
+@attribute [Authorize(Roles = "Admin")]
+@inherits CancellableComponent
+
+<EditForm Model="@Data" OnValidSubmit="EditAsync" class="form">
+    <FluentValidationValidator DisableAssemblyScanning=true />
+    <ValidationSummary />
+    <div class="row">
+        <div class="col bg-success bg-opacity-10 p-2">
+            <h2>Данные</h2>
+            <FormInputText Label="Название" Id="Name" @bind-Value="@Data.Name" />
+            <FormInputNumber Label="Цена" Id="Price" @bind-Value="@Data.Price" />
+            <FormInputCheckBox Label="Статус" Id="Status" @bind-Value="@Data.Status" />
+            <FormInputSelect Label="Категория" Id="CategoryName" @bind-Value="@Data.CategoryName" Values="@Categories"
+                             GetLabelHandler="@(x => x)" GetValueHandler="@(x => x)" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col m-3 w-100">
+            <FormSubmitButton @ref="@SubmitButton" ButtonValue="Save Changes" />
+        </div>
+        <div class="col">
+            <DobleQuestionButton OnSuccessAnswerClicked="@Cancel" PreviewButtonValue="Cancel"
+                                 QuestionLabel="Do you really want to cancel? Changes will not be saved." />
+        </div>
+    </div>
+</EditForm>

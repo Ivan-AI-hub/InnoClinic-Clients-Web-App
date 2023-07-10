@@ -1,6 +1,5 @@
-﻿using ClientsWebApp.Blazor.Pages.Appointments;
+﻿using ClientsWebApp.Blazor.Pages.Appointments.Models;
 using FluentValidation;
-using ClientsWebApp.Blazor.Pages.Appointments.Models;
 
 namespace ClientsWebApp.Blazor.Validators
 {
@@ -14,8 +13,8 @@ namespace ClientsWebApp.Blazor.Validators
             RuleFor(x => x.DoctorId).NotEmpty();
             RuleFor(x => x.ServiceId).NotEmpty();
             RuleFor(x => x.OfficeId).NotEmpty();
-            RuleFor(x => x.Date).NotEmpty();
-            RuleFor(x => x.Time).NotEmpty();
+            RuleFor(x => x.Date).GreaterThanOrEqualTo(DateOnly.FromDateTime(DateTime.Now));
+            RuleFor(x => x.Time).GreaterThanOrEqualTo(TimeOnly.FromDateTime(DateTime.Now));
         }
     }
 }

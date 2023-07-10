@@ -12,18 +12,7 @@
             <ValidationSummary />
             <FormInputText Label="Email" Id="email" @bind-Value="@LoginData.Email" />
             <FormInputText Label="Password" Id="password" type="password" @bind-Value="@LoginData.Password" />
-            @if (!IsLoading)
-            {
-                <div class="row">
-                    <div class="col-md-6 offset-md-4">
-                        <input type="submit" class="btn btn-primary" value="Войти" />
-                    </div>
-                </div>
-            }
-            else
-            {
-                <Loading />
-            }
+            <FormSubmitButton @ref="@SubmitButton" ButtonValue="Sign in" />
         </EditForm>
     </div>
 </div>

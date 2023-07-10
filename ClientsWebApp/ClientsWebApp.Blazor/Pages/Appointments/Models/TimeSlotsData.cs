@@ -3,6 +3,7 @@
     public class TimeSlotsData
     {
         public DateOnly Date { get; set; } = DateOnly.FromDateTime(DateTime.Now);
-        public TimeOnly Time { get; set; }
+        public TimeOnly StartTime { get; set; }
+        public TimeOnly EndTime { get; set; }
     }
 }

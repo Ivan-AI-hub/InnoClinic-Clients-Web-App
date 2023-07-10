@@ -3,14 +3,14 @@
 @inject AuthenticationStateProvider stateProvider
 @attribute [Authorize]
 
-@code{
+@code {
     protected async override Task OnInitializedAsync()
     {
         var state = await stateProvider.GetAuthenticationStateAsync();
         var role = state.User.FindFirst(ClaimTypes.Role)?.Value ?? throw new Exception("Token auth failed");
-        switch(role)
+        switch (role)
         {
-            case "Patient" : 
+            case "Patient":
                 NavigateToPatientHome();
                 break;
             case "Admin":

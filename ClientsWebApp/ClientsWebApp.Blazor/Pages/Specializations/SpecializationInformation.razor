@@ -1,9 +1,9 @@
 ﻿@page "/specializations/{specializationId:guid}"
-@using ClientsWebApp.Blazor.Pages.Services
-
+@attribute [Authorize(Roles = "Admin")]
+@inherits CancellableComponent
 @inject ISpecializationService specializationService
 @inject NavigationManager navigationManager
-@inherits CancellableComponent
+
 @if (Specialization != null)
 {
     <div class="row mb-3 align-items-center">
@@ -19,9 +19,9 @@
     </div>
     <div class="row mb-3 align-items-center">
         <div class="col">
-            @foreach(var service in Specialization.Services)
+            @foreach (var service in Specialization.Services)
             {
-                <ServiceCard Service="service"/>
+                <ServiceCard Service="service" />
             }
         </div>
     </div>

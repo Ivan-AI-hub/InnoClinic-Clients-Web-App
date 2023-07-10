@@ -1,6 +1,5 @@
 ﻿using ClientsWebApp.Blazor.Components;
 using ClientsWebApp.Domain;
-using ClientsWebApp.Domain.Identity;
 using ClientsWebApp.Domain.Profiles.Receptionist;
 using Microsoft.AspNetCore.Components;
 
@@ -9,9 +8,8 @@ namespace ClientsWebApp.Blazor.Pages.Profiles.Receptionists
     public partial class ReceptionistsList : CancellableComponent
     {
         [Inject] public IReceptionistService ReceptionistService { get; set; }
-
+        private FormSubmitButton SubmitButton { get; set; }
         private Page Page { get; set; }
-        private PageStatus Status => Page.GetPageStatus(Receptionists == null ? 0 : Receptionists.Count());
         private ReceptionistFiltrationModel FiltrationModel { get; set; }
         private IEnumerable<Receptionist>? Receptionists { get; set; }
         protected override async Task OnInitializedAsync()
@@ -24,10 +22,14 @@ namespace ClientsWebApp.Blazor.Pages.Profiles.Receptionists
 
         private async Task ReceptionistsUpdateAsync()
         {
+            SubmitButton?.StartLoading();
+
             Receptionists = null;
             this.StateHasChanged();
             Receptionists = await ReceptionistService.GetPageAsync(Page, FiltrationModel, _cts.Token);
             this.StateHasChanged();
+
+            SubmitButton?.StopLoading();
         }
 
         protected async Task SetPreviousPage()
@@ -40,6 +42,9 @@ namespace ClientsWebApp.Blazor.Pages.Profiles.Receptionists
             Page.Number++;
             await ReceptionistsUpdateAsync();
         }
-
+        protected PageStatus GetPageStatus()
+        {
+            return Page.GetPageStatus(Receptionists == null ? 0 : Receptionists.Count());
+        }
     }
 }

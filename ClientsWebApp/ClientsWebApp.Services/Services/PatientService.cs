@@ -37,7 +37,7 @@ namespace ClientsWebApp.Services.Services
         {
             string requestUri = _baseUri + $"/email/{email}";
 
-            var httpResponseMessage = await(await RequestClient).GetAsync(requestUri, cancellationToken);
+            var httpResponseMessage = await (await RequestClient).GetAsync(requestUri, cancellationToken);
 
             return await GetFromJsonAsync<Patient>(httpResponseMessage, cancellationToken);
         }
@@ -46,7 +46,7 @@ namespace ClientsWebApp.Services.Services
         {
             string requestUri = _baseUri + $"/{id}";
 
-            var httpResponseMessage = await(await RequestClient).GetAsync(requestUri, cancellationToken);
+            var httpResponseMessage = await (await RequestClient).GetAsync(requestUri, cancellationToken);
 
             return await GetFromJsonAsync<Patient>(httpResponseMessage, cancellationToken);
         }

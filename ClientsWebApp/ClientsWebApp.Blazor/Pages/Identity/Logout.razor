@@ -4,9 +4,9 @@
 @attribute [Authorize]
 @code {
 
-	protected override void OnInitialized()
-	{
-		((TokenStateProvider)StateProvider).MakeUserAnonymous();
-		Navigator.NavigateTo("/");
-	}
+    protected override void OnInitialized()
+    {
+        ((TokenStateProvider)StateProvider).MakeUserAnonymous();
+        Navigator.NavigateTo("/");
+    }
 }
