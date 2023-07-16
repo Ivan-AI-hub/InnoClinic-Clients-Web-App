@@ -7,8 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Blazored.FluentValidation" Version="2.1.0" />
-    <PackageReference Include="Blazored.Modal" Version="7.1.0" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.5.2" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="6.0.19" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.14" />
@@ -22,7 +20,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ClientsWebApp.Application\ClientsWebApp.Application.csproj" />
     <ProjectReference Include="..\ClientsWebApp.Domain\ClientsWebApp.Domain.csproj" />
+    <ProjectReference Include="..\ClientsWebApp.Pages\ClientsWebApp.Pages.csproj" />
     <ProjectReference Include="..\ClientsWebApp.Services\ClientsWebApp.Services.csproj" />
   </ItemGroup>
 

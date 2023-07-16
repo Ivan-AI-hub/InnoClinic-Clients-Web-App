@@ -1,8 +1,8 @@
 using Blazored.Modal;
+using ClientsWebApp.Application.Validators;
 using ClientsWebApp.Blazor;
 using ClientsWebApp.Blazor.Extensions;
-using ClientsWebApp.Blazor.Infrastructure;
-using ClientsWebApp.Blazor.Validators;
+using ClientsWebApp.Pages;
 using ClientsWebApp.Services.Settings;
 using FluentValidation;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -13,7 +13,6 @@ var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
-//builder.Services.AddDateOnlyTimeOnlyStringConverters();
 builder.Services.AddBlazoredModal();
 builder.Services.ConfigureServices();
 builder.Services.ConfigureHttpClient();
