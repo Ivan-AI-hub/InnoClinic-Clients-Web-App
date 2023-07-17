@@ -1,14 +1,5 @@
-﻿using ClientsWebApp.Domain.Profiles;
-using ClientsWebApp.Domain;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ClientsWebApp.Application.Models.Offices;
+﻿using ClientsWebApp.Application.Models.Offices;
 using ClientsWebApp.Domain.Offices;
-using ClientsWebApp.Domain.Profiles.Doctor;
-using ClientsWebApp.Domain.Specializations;
 using ClientsWebApp.Domain.Profiles.Receptionist;
 
 namespace ClientsWebApp.Application.Models.Receptionists

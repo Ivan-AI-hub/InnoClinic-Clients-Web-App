@@ -1,6 +1,6 @@
 ﻿using ClientsWebApp.Application.Models.Appointments;
-using ClientsWebApp.Domain.Appointments;
 using ClientsWebApp.Domain;
+using ClientsWebApp.Domain.Appointments;
 
 namespace ClientsWebApp.Application.Abstraction
 {

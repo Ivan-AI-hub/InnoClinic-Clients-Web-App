@@ -1,6 +1,6 @@
 ﻿using ClientsWebApp.Application.Models.Services;
-using ClientsWebApp.Domain.Services;
 using ClientsWebApp.Domain;
+using ClientsWebApp.Domain.Services;
 
 namespace ClientsWebApp.Application.Abstraction
 {

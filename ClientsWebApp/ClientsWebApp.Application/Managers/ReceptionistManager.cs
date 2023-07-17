@@ -2,9 +2,9 @@
 using ClientsWebApp.Application.Models.Receptionists;
 using ClientsWebApp.Domain;
 using ClientsWebApp.Domain.Images;
-using ClientsWebApp.Domain.Profiles.Receptionist;
-using ClientsWebApp.Domain.Profiles;
 using ClientsWebApp.Domain.Offices;
+using ClientsWebApp.Domain.Profiles;
+using ClientsWebApp.Domain.Profiles.Receptionist;
 
 namespace ClientsWebApp.Application.Managers
 {

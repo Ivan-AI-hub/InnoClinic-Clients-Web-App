@@ -1,0 +1,36 @@
+﻿@page "/patients"
+@inherits CancellableComponent
+
+<div class="row">
+    <div class="col-sm-3">
+        <EditForm Model="FiltrationModel" OnValidSubmit="PatientsUpdateAsync">
+            <div class="container">
+                <div class="col ">
+                    <label class="form-label">Фильтрация</label>
+                    <FormInputText Label="Имя" Id="firstName" @bind-Value="FiltrationModel.FirstName" />
+                    <FormInputText Label="Фамилия" Id="lastName" @bind-Value="FiltrationModel.LastName" />
+                    <FormInputText Label="Отчество" Id="middleName" @bind-Value="FiltrationModel.MiddleName" />
+                </div>
+                <FormSubmitButton @ref="@SubmitButton" ButtonValue="Search" />
+            </div>
+        </EditForm>
+    </div>
+    <div class="col-sm">
+        @if (Patients != null)
+        {
+            <PageSwitcher OnNextPageClicked="@SetNextPage" OnPreviousPageClicked="@SetPreviousPage"
+                      GetStatus="@GetPageStatus" />
+            @foreach (var patient in Patients)
+            {
+                <PatientCard Patient="patient">
+                    <ChangeRole Email="@patient.Info.Email" OnRoleChanged="PatientsUpdateAsync" />
+                </PatientCard>
+            }
+        }
+        else
+        {
+            <Loading />
+        }
+    </div>
+
+</div>

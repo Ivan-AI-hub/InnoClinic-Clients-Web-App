@@ -1,6 +1,6 @@
 ﻿using ClientsWebApp.Application.Models.Doctors;
-using ClientsWebApp.Domain.Profiles.Doctor;
 using ClientsWebApp.Domain;
+using ClientsWebApp.Domain.Profiles.Doctor;
 
 namespace ClientsWebApp.Application.Abstraction
 {

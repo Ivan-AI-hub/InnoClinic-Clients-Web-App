@@ -1,6 +1,6 @@
-﻿using ClientsWebApp.Domain.Profiles.Doctor;
-using ClientsWebApp.Application.Models.Offices;
+﻿using ClientsWebApp.Application.Models.Offices;
 using ClientsWebApp.Domain.Offices;
+using ClientsWebApp.Domain.Profiles.Doctor;
 
 namespace ClientsWebApp.Application.Models.Doctors
 {

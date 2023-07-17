@@ -1,10 +1,4 @@
-﻿using ClientsWebApp.Domain.Profiles;
-using ClientsWebApp.Domain.Profiles.Patient;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ClientsWebApp.Domain.Profiles.Patient;
 
 namespace ClientsWebApp.Application.Models.Patients
 {

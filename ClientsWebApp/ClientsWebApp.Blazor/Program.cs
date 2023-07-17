@@ -2,7 +2,6 @@ using Blazored.Modal;
 using ClientsWebApp.Application.Validators;
 using ClientsWebApp.Blazor;
 using ClientsWebApp.Blazor.Extensions;
-using ClientsWebApp.Pages;
 using ClientsWebApp.Services.Settings;
 using FluentValidation;
 using Microsoft.AspNetCore.Components.Authorization;

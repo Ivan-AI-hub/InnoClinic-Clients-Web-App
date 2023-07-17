@@ -2,8 +2,8 @@
 using ClientsWebApp.Application.Models.Patients;
 using ClientsWebApp.Domain;
 using ClientsWebApp.Domain.Images;
-using ClientsWebApp.Domain.Profiles.Patient;
 using ClientsWebApp.Domain.Profiles;
+using ClientsWebApp.Domain.Profiles.Patient;
 
 namespace ClientsWebApp.Application.Managers
 {
@@ -55,6 +55,11 @@ namespace ClientsWebApp.Application.Managers
         {
             var patientData = await _patientService.GetByIdAsync(id, cancellationToken);
             return await PatientToPatientDTOConvertor(patientData, cancellationToken);
+        }
+
+        public Task<Patient> GetInfoByEmailAsync(string email, CancellationToken cancellationToken)
+        {
+            return _patientService.GetByEmailAsync(email, cancellationToken);
         }
 
         public Task<IEnumerable<Patient>> GetInfoPageAsync(Page page, PatientFiltrationModel filtrationModel, CancellationToken cancellationToken)

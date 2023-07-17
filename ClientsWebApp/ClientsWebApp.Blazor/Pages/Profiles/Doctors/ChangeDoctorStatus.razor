@@ -1,0 +1,28 @@
+@inherits CancellableComponent
+@inject IDoctorManager DoctorManager
+@attribute [Authorize(Roles = "Doctor,Admin")]
+
+<div class="col m-3">
+    @if (IsLoading)
+    {
+        <Loading />
+    }
+    else
+    {
+        @if (IsDateChanges)
+        {
+            <EditForm Model="@Data" OnValidSubmit="ChangeAsync" class="form">
+                <FormInputSelect @bind-Value="@Data.Status" Label="Status" Id="status"
+                         Values="@Statuses" GetLabelHandler="@(x => x)" GetValueHandler="@(x => x)" />
+                <input type="submit" class="btn btn-success w-100" value="Изменить" />
+                <input type="button" class="btn btn-danger w-100" value="Отмена" @onclick="@StopChanging" />
+            </EditForm>
+        }
+        else
+        {
+            <input type="button" class="btn-primary w-100" value="Change status" @onclick="StartChanging" />
+        }
+    }
+</div>
+
+

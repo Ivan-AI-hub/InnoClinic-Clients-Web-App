@@ -1,0 +1,57 @@
+﻿@page "/specializations/{SpecializationId:guid}/edit"
+@attribute [Authorize(Roles = "Admin")]
+@inherits CancellableComponent
+
+<div>
+    <p class="text-danger"> @ErrorMessage</p>
+</div>
+@if (Data != null)
+{
+    <EditForm Model="@Data" OnValidSubmit="EditAsync" class="form">
+        <FluentValidationValidator DisableAssemblyScanning=true />
+        <ValidationSummary />
+        <div class="row">
+            <div class="col p-2">
+                <h2>Данные</h2>
+                <FormInputText Label="Название специализации" Id="firstName" @bind-Value="@Data.Name" />
+                <FormInputCheckBox Label="Активный" Id="lastName" @bind-Value="@Data.IsActive" />
+            </div>
+            <div class="col p-2">
+                <h2>Сервисы</h2>
+                @if (IsManagerCreating)
+                {
+                    <CreateManager SpecializationId="default" OnModelCreated="@StopCreateService" />
+                }
+                else
+                {
+                    <input type="button" value="Create a service" @onclick="@StartCreateManager" />
+                }
+
+                @foreach (var service in Services)
+                {
+                    <ManagerCard Manager="@service" />
+                }
+                @foreach (var service in AddedServices)
+                {
+                    <div class="row">
+                        <div class="col">
+                            <CreateServiceModelCard Service="@service" />
+                        </div>
+                        <div class="col-1 m-3">
+                            <input type="button" class="btn btn-danger" value="-" @onclick="@(()=>RemoveService(service))" />
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="row">
+            <div class="col m-3 w-100">
+                <FormSubmitButton @ref="@SubmitButton" ButtonValue="Save Changes" />
+            </div>
+            <div class="col">
+                <DobleQuestionButton OnSuccessAnswerClicked="@Cancel" PreviewButtonValue="Cancel"
+                                 QuestionLabel="Do you really want to cancel? Changes will not be saved." />
+            </div>
+        </div>
+    </EditForm>
+}

@@ -41,7 +41,7 @@ namespace ClientsWebApp.Application.Managers
         public async Task UpdateStatusAsync(Guid id, bool newStatus, CancellationToken cancellationToken)
         {
             var model = new UpdateOfficeStatusModel(newStatus);
-            await _officeService.UpdateStatusAsync(id, model, cancellationToken); 
+            await _officeService.UpdateStatusAsync(id, model, cancellationToken);
         }
 
         public async Task<OfficeDTO> GetByIdAsync(Guid id, CancellationToken cancellationToken)

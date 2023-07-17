@@ -1,6 +1,6 @@
 ﻿using ClientsWebApp.Application.Models.Specializations;
-using ClientsWebApp.Domain.Specializations;
 using ClientsWebApp.Domain;
+using ClientsWebApp.Domain.Specializations;
 
 namespace ClientsWebApp.Application.Abstraction
 {

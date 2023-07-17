@@ -1,0 +1,23 @@
+﻿@page "/offices"
+@inherits CancellableComponent
+@attribute [Authorize(Roles = "Admin")]
+
+<div class="row">
+    <button @onclick="ToCreatePage">Create</button>
+    <div class="col-sm">
+        @if (Offices != null)
+        {
+            <PageSwitcher OnNextPageClicked="@SetNextPage" OnPreviousPageClicked="@SetPreviousPage"
+                      GetStatus="@GetPageStatus" />
+            @foreach (var office in Offices)
+            {
+                <OfficeCard Office="office" />
+            }
+        }
+        else
+        {
+            <Loading />
+        }
+    </div>
+
+</div>

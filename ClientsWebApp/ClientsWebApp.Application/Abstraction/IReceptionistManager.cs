@@ -1,6 +1,6 @@
 ﻿using ClientsWebApp.Application.Models.Receptionists;
-using ClientsWebApp.Domain.Profiles.Receptionist;
 using ClientsWebApp.Domain;
+using ClientsWebApp.Domain.Profiles.Receptionist;
 
 namespace ClientsWebApp.Application.Abstraction
 {

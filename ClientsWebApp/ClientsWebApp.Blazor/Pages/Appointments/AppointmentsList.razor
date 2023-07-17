@@ -1,0 +1,54 @@
+﻿@page "/appointments"
+@inherits CancellableComponent
+@attribute [Authorize(Roles = "Admin")]
+
+<div class="row">
+    <div class="col-sm-3">
+        <EditForm Model="FiltrationModel" OnSubmit="AppointmentsUpdateAsync">
+            <div class="container">
+                <div class="col ">
+                    <FormInputText Label="DoctorFirstName" Id="firstName"
+                        @bind-Value="FiltrationModel.DoctorFirstName" />
+                    <FormInputText Label="DoctorLastName" Id="lastName" @bind-Value="FiltrationModel.DoctorLastName" />
+                    <FormInputText Label="DoctorMiddleName" Id="middleName"
+                        @bind-Value="FiltrationModel.DoctorMiddleName" />
+                    <FormInputText Label="Service" Id="firstName" @bind-Value="FiltrationModel.ServiceName" />
+                    <FormInputDate Label="Date" Id="firstName" @bind-Value="FiltrationModel.Date" />
+                    <FilterInputBool Label="Status" Id="status" @bind-Value="FiltrationModel.Status" />
+                </div>
+                <FormSubmitButton @ref="@SubmitButton" ButtonValue="Search" />
+            </div>
+        </EditForm>
+    </div>
+    <div class="col-sm">
+        @if (Appointments != null)
+        {
+            <PageSwitcher OnNextPageClicked="@SetNextPage" OnPreviousPageClicked="@SetPreviousPage"
+                GetStatus="@GetPageStatus" />
+            @foreach (var appointment in Appointments)
+            {
+                <AppointmentCard Appointment="appointment">
+                    <div class="col">
+                        @if (!appointment.IsApproved)
+                        {
+                            <ChangeAppointmentDate Appointment="appointment" OnDateChanged="AppointmentsUpdateAsync" />
+                        }
+                        <div class="row">
+                            @if (!appointment.IsApproved)
+                            {
+                                <ApproveAppointment AppointmentId="appointment.Id"
+                                    OnAppointmentApproved="AppointmentsUpdateAsync" />
+                            }
+                            <CancelAppointment AppointmentId="appointment.Id" OnAppointmentCanceled="AppointmentsUpdateAsync" />
+                        </div>
+                    </div>
+                </AppointmentCard>
+            }
+        }
+        else
+        {
+            <Loading />
+        }
+    </div>
+
+</div>

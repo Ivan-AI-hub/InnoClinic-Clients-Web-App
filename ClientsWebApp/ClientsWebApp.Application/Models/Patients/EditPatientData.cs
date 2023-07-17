@@ -1,5 +1,4 @@
-﻿using ClientsWebApp.Domain.Profiles.Patient;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 
 namespace ClientsWebApp.Application.Models.Patients
 {

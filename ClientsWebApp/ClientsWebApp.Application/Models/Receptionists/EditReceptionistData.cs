@@ -1,5 +1,4 @@
-﻿using ClientsWebApp.Domain.Profiles.Receptionist;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 
 namespace ClientsWebApp.Application.Models.Receptionists
 {
