@@ -20,16 +20,16 @@
                 <h2>Сервисы</h2>
                 @if (IsManagerCreating)
                 {
-                    <CreateManager SpecializationId="default" OnModelCreated="@StopCreateService" />
+                    <CreateService SpecializationId="default" OnModelCreated="@StopCreateService" />
                 }
                 else
                 {
-                    <input type="button" value="Create a service" @onclick="@StartCreateManager" />
+                    <input type="button" value="Create a service" @onclick="@StartCreateService" />
                 }
 
                 @foreach (var service in Services)
                 {
-                    <ManagerCard Manager="@service" />
+                    <ServiceCard Service="@service" />
                 }
                 @foreach (var service in AddedServices)
                 {

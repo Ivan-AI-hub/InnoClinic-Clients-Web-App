@@ -18,7 +18,7 @@
             <h2>Сервисы</h2>
             @if (IsManagerCreating)
             {
-                <CreateManager SpecializationId="default" OnModelCreated="@StopCreateService" />
+                <CreateService SpecializationId="default" OnModelCreated="@StopCreateService" />
             }
             else
             {

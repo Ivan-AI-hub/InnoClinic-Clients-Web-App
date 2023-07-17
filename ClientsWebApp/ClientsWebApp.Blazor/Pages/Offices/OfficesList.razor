@@ -3,7 +3,7 @@
 @attribute [Authorize(Roles = "Admin")]
 
 <div class="row">
-    <button @onclick="ToCreatePage">Create</button>
+    <button class="btn btn-primary" @onclick="ToCreatePage">Create</button>
     <div class="col-sm">
         @if (Offices != null)
         {

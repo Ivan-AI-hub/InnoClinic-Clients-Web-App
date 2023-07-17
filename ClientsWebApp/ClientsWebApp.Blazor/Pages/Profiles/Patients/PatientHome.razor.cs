@@ -1,6 +1,7 @@
 ﻿using ClientsWebApp.Application.Abstraction;
 using ClientsWebApp.Application.Models.Patients;
-using ClientsWebApp.Blazor;
+using Blazored.Modal.Services;
+using Blazored.Modal;
 using ClientsWebApp.Blazor.Components;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
@@ -10,6 +11,7 @@ namespace ClientsWebApp.Blazor.Pages.Profiles.Patients
     [Authorize(Roles = "Patient")]
     public partial class PatientHome : CancellableComponent
     {
+        [CascadingParameter] public IModalService Modal { get; set; }
         [Inject] AuthenticationStateHelper StateHelper { get; set; }
         [Inject] IPatientManager PatientManager { get; set; }
         [Inject] NavigationManager NavigationManager { get; set; }
@@ -25,7 +27,7 @@ namespace ClientsWebApp.Blazor.Pages.Profiles.Patients
             }
             catch
             {
-                NavigationManager.NavigateTo("/patients/create");
+                NavigateToCreatePage();
             }
 
             IsLoading = false;
@@ -34,12 +36,34 @@ namespace ClientsWebApp.Blazor.Pages.Profiles.Patients
 
         private void NavigateToDeletePage()
         {
-            NavigationManager.NavigateTo("/patients/delete");
+            var options = new ModalOptions()
+            {
+                Size = ModalSize.Large,
+                DisableBackgroundCancel = true
+            };
+            Modal.Show<DeletePatient>("Delete profile", options);
+            //NavigationManager.NavigateTo("/patients/delete");
         }
 
+        private void NavigateToCreatePage()
+        {
+            var options = new ModalOptions()
+            {
+                Size = ModalSize.Large,
+                DisableBackgroundCancel = true
+            };
+            Modal.Show<CreatePatient>("Create profile", options);
+            //NavigationManager.NavigateTo("/patients/create");
+        }
         private void NavigateToEditPage()
         {
-            NavigationManager.NavigateTo("/patients/edit");
+            var options = new ModalOptions()
+            {
+                Size = ModalSize.Large,
+                DisableBackgroundCancel = true
+            };
+            Modal.Show<EditPatient>("Edit profile", options);
+            //NavigationManager.NavigateTo("/patients/edit");
         }
     }
 }

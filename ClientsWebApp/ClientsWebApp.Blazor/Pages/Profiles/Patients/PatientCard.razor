@@ -7,8 +7,8 @@
     {
         @if (Patient.Info.Photo != null)
         {
-            <div class="col-sm-1">
-                <ImageFromByteArray Image="@Patient.Info.Photo.Content" imgClass="img-thumbnail rounded float-right" width="100" height="100" />
+            <div class="col">
+                <ImageFromByteArray Image="@Patient.Info.Photo.Content" ImageType="image.ContentType" IsSvgImage="false" height="200" />
             </div>
         }
         <div class="col-sm m-lg-3">

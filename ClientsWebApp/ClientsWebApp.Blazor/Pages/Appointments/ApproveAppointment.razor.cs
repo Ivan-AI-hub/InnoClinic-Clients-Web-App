@@ -25,9 +25,11 @@ namespace ClientsWebApp.Blazor.Pages.Appointments
         private async Task ChangeAsync()
         {
             IsLoading = true;
+
             await AppointmentManager.ApproveAsync(AppointmentId, _cts.Token);
             await OnAppointmentApproved.InvokeAsync();
             StopChanging();
+
             IsLoading = false;
         }
     }

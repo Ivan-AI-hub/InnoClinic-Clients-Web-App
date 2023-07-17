@@ -6,11 +6,9 @@ namespace ClientsWebApp.Blazor.Pages.Appointments
 {
     public partial class ChangeAppointmentDate
     {
-        [Parameter]
-        public Appointment Appointment { get; set; }
+        [Parameter] public Appointment Appointment { get; set; }
 
-        [Parameter]
-        public EventCallback OnDateChanged { get; set; }
+        [Parameter] public EventCallback OnDateChanged { get; set; }
 
         private bool IsDateChanges { get; set; }
 
@@ -40,9 +38,11 @@ namespace ClientsWebApp.Blazor.Pages.Appointments
         private async Task ChangeAsync()
         {
             IsLoading = true;
+
             await AppointmentManager.ChangeDateAsync(Data, _cts.Token);
             await OnDateChanged.InvokeAsync();
             StopChanging();
+
             IsLoading = false;
         }
     }

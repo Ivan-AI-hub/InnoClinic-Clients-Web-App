@@ -33,7 +33,7 @@ namespace ClientsWebApp.Blazor.Pages.Specializations
             Services = OldSpecialization.Services;
         }
 
-        private void StartCreateManager()
+        private void StartCreateService()
         {
             IsManagerCreating = true;
         }

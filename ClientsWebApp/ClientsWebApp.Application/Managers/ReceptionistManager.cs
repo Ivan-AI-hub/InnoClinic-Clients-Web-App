@@ -67,8 +67,13 @@ namespace ClientsWebApp.Application.Managers
 
         public async Task<IEnumerable<ReceptionistDTO>> GetPageAsync(Page page, ReceptionistFiltrationModel filtrationModel, CancellationToken cancellationToken)
         {
-            var receptionists = await _receptionistService.GetPageAsync(page, filtrationModel, cancellationToken);
-            return receptionists.Select(x => ReceptionistToReceptionistDTOConvertor(x, cancellationToken).Result);
+            var receptionistsData = await _receptionistService.GetPageAsync(page, filtrationModel, cancellationToken);
+            var receptionists = new List<ReceptionistDTO>();
+            foreach(var receptionist in receptionistsData)
+            {
+                receptionists.Add(await ReceptionistToReceptionistDTOConvertor(receptionist, cancellationToken));
+            }
+            return receptionists;
 
         }
         private async Task<ReceptionistDTO> ReceptionistToReceptionistDTOConvertor(Receptionist receptionistData, CancellationToken cancellationToken)

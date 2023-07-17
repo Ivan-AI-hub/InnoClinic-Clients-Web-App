@@ -3,6 +3,7 @@ using ClientsWebApp.Application.Models.Appointments;
 using ClientsWebApp.Blazor;
 using ClientsWebApp.Blazor.Components;
 using ClientsWebApp.Domain;
+using ClientsWebApp.Domain.Categories;
 using ClientsWebApp.Domain.Offices;
 using ClientsWebApp.Domain.Profiles.Doctor;
 using ClientsWebApp.Domain.Profiles.Patient;
@@ -49,11 +50,13 @@ namespace ClientsWebApp.Blazor.Pages.Appointments
 
             Patient = await PatientManager.GetInfoByEmailAsync(email, _cts.Token);
             Offices = await OfficeManager.GetInfoPageAsync(Page, _cts.Token);
+            Offices = Offices.Where(x => x.Status);
             Specializations = await SpecializationManager.GetInfoAsync(Page, _cts.Token);
+            Specializations = Specializations.Where(x => x.IsActive);
 
             Data.Category = Categories.First();
             Data.PatientId = Patient.Id;
-            Data.Specialization = Specializations.First().Name;
+            Data.Specialization = Specializations.FirstOrDefault()?.Name ?? "";
             await UpdateDoctorsAsync();
             if (InitialDoctorId != default)
             {
@@ -76,6 +79,7 @@ namespace ClientsWebApp.Blazor.Pages.Appointments
             var specialization = Specializations.FirstOrDefault(x => x.Name == Data.Specialization);
             Services = await ServiceManager.GetBySpecializationAsync(Data.Specialization, _cts.Token);
 
+            Services = Services.Where(x => x.Category.Name == Data.Category);
             Data.ServiceId = Services.FirstOrDefault()?.Id ?? default;
             StateHasChanged();
         }
@@ -139,6 +143,25 @@ namespace ClientsWebApp.Blazor.Pages.Appointments
             Data.Date = data.Date;
             Data.Time = data.StartTime;
             StateHasChanged();
+        }
+
+        private Category GetCategory(string name)
+        {
+            int timeslot = 10;
+            switch(name)
+            {
+                case "consultation": 
+                    timeslot = 10;
+                        break;
+                case "analyses":
+                    timeslot = 20;
+                    break;
+                case "diagnostics":
+                    timeslot = 30;
+                    break;
+                default: throw new NotImplementedException();
+            }
+            return new Category(default, Data.Category, timeslot, Services.ToList());
         }
         private async Task CreateAsync()
         {

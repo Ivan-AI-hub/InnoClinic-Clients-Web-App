@@ -21,7 +21,7 @@
         <div class="col">
             @foreach (var service in Specialization.Services)
             {
-                <ManagerCard Manager="service" />
+                <ServiceCard Service="service" />
             }
         </div>
     </div>
@@ -39,7 +39,7 @@
 
     private async void CheckBoxChanged(ChangeEventArgs args)
     {
-        await specializationManager.ChangeStatusAsync(SpecializationId, @Specialization.IsActive, _cts.Token);
+        await specializationManager.ChangeStatusAsync(SpecializationId, !@Specialization.IsActive, _cts.Token);
     }
 
     private void NavigateToEditPage()

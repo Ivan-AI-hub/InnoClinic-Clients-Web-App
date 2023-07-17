@@ -17,7 +17,7 @@ else
             <div class="col p-2">
                 @if (IsDateTimeSelection)
                 {
-                    <TimeSlots Category="@(new Category(default, Data.Category, 10, Services.ToList()))"
+                    <TimeSlots Category="@GetCategory(Data.Category)"
                        DoctorId="@Data.DoctorId" OnTimeSlotSelected="@TimeSlotSelected" />
                 }
                 else

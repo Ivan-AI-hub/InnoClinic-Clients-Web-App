@@ -1,16 +1,18 @@
 ﻿using ClientsWebApp.Application.Abstraction;
 using ClientsWebApp.Application.Models.Doctors;
-using ClientsWebApp.Blazor;
+using Blazored.Modal.Services;
 using ClientsWebApp.Blazor.Components;
 using ClientsWebApp.Domain.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
+using Blazored.Modal;
 
 namespace ClientsWebApp.Blazor.Pages.Profiles.Doctors
 {
     [Authorize(Roles = "Doctor")]
     public partial class DoctorHome : CancellableComponent
     {
+        [CascadingParameter] public IModalService Modal { get; set; }
         [Inject] AuthenticationStateHelper StateHelper { get; set; }
         [Inject] IDoctorManager DoctorManager { get; set; }
         [Inject] NavigationManager NavigationManager { get; set; }
@@ -26,7 +28,7 @@ namespace ClientsWebApp.Blazor.Pages.Profiles.Doctors
             }
             catch (NotFoundException ex)
             {
-                NavigationManager.NavigateTo("/doctors/create");
+                NavigateToCreatePage();
             }
             IsLoading = false;
             StateHasChanged();
@@ -34,7 +36,23 @@ namespace ClientsWebApp.Blazor.Pages.Profiles.Doctors
 
         private void NavigateToEditPage()
         {
-            NavigationManager.NavigateTo("/doctors/edit");
+            var options = new ModalOptions()
+            {
+                Size = ModalSize.Large,
+                DisableBackgroundCancel = true
+            };
+            Modal.Show<EditDoctor>("Edit profile", options);
+            //NavigationManager.NavigateTo("/doctors/edit");
+        }
+        private async Task NavigateToCreatePage()
+        {
+            var options = new ModalOptions()
+            {
+                Size = ModalSize.Large,
+                DisableBackgroundCancel = true
+            };
+            Modal.Show<CreateDoctor>("Create Profile", options);
+            //NavigationManager.NavigateTo("/doctors/create");
         }
         private void NavigateToSchedulePage()
         {

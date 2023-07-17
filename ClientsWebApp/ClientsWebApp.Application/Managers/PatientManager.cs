@@ -69,8 +69,13 @@ namespace ClientsWebApp.Application.Managers
 
         public async Task<IEnumerable<PatientDTO>> GetPageAsync(Page page, PatientFiltrationModel filtrationModel, CancellationToken cancellationToken)
         {
-            var patients = await _patientService.GetPageAsync(page, filtrationModel, cancellationToken);
-            return patients.Select(x => PatientToPatientDTOConvertor(x, cancellationToken).Result);
+            var patientsData = await _patientService.GetPageAsync(page, filtrationModel, cancellationToken);
+            var patients = new List<PatientDTO>();
+            foreach(var patient in patientsData)
+            {
+                patients.Add(await PatientToPatientDTOConvertor(patient, cancellationToken));
+            }
+            return patients;
         }
 
         private async Task<PatientDTO> PatientToPatientDTOConvertor(Patient patientData, CancellationToken cancellationToken)

@@ -9,18 +9,16 @@ namespace ClientsWebApp.Application.Managers
     public class SpecializationManager : ISpecializationManager
     {
         private readonly ISpecializationService _specializationService;
-        private readonly IServiceService _serviceService;
 
-        public SpecializationManager(ISpecializationService specializationService, IServiceService serviceService)
+        public SpecializationManager(ISpecializationService specializationService)
         {
             _specializationService = specializationService;
-            _serviceService = serviceService;
         }
 
         public Task ChangeStatusAsync(Guid id, bool status, CancellationToken cancellationToken)
         {
-            var model = new ChangeServiceStatusModel(status);
-            return _serviceService.ChangeStatusAsync(id, model, cancellationToken);
+            var model = new ChangeSpecializationStatusModel(status);
+            return _specializationService.ChangeStatusAsync(id, model, cancellationToken);
         }
 
         public Task<Specialization> CreateAsync(CreateSpecializationData data, CancellationToken cancellationToken)

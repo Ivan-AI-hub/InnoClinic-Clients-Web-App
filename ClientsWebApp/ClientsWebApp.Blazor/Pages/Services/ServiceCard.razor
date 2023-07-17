@@ -16,8 +16,12 @@
             <p>Specialization: @Specialization.Name</p>
         }
     </div>
+    <AuthorizeView Roles="Admin">
+        <button class="btn btn-primary" @onclick="ToEditPage">Edit</button>
+    </AuthorizeView>
 </div>
 @code {
+    [CascadingParameter] public IModalService Modal { get; set; }
     [Parameter] public Service Service { get; set; }
 
     private Specialization? Specialization { get; set; }
@@ -28,5 +32,13 @@
         {
             Specialization = await SpecializationManager.GetByIdAsync(Service.SpecializationId, _cts.Token);
         }
+    }
+
+    private void ToEditPage()
+    {
+        var parameters = new ModalParameters();
+        parameters.Add(nameof(EditService.ServiceId), Service.Id);
+        parameters.Add(nameof(EditService.SpecializationId), Specialization.Id);
+        Modal.Show<EditService>("Edit service", parameters);
     }
 }

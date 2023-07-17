@@ -57,8 +57,13 @@ namespace ClientsWebApp.Application.Managers
 
         public async Task<IEnumerable<OfficeDTO>> GetPageAsync(Page page, CancellationToken cancellationToken)
         {
-            var offices = await _officeService.GetPageAsync(page, cancellationToken);
-            return offices.Select(x => OfficeToOfficeDTOConvertor(x, cancellationToken).Result);
+            var officesData = await _officeService.GetPageAsync(page, cancellationToken);
+            var offices = new List<OfficeDTO>();
+            foreach(var office in officesData)
+            {
+                offices.Add(await OfficeToOfficeDTOConvertor(office, cancellationToken));
+            }
+            return offices;
         }
 
         private async Task<OfficeDTO> OfficeToOfficeDTOConvertor(Office officeData, CancellationToken cancellationToken)

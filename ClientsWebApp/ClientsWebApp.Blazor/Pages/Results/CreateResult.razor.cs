@@ -14,7 +14,7 @@ namespace ClientsWebApp.Blazor.Pages.Results
     {
         [Parameter] public Guid AppointmentId { get; set; }
         [Inject] public IAppointmentManager AppointmentManager { get; set; }
-        [Inject] public ResultManager ResultManager { get; set; }
+        [Inject] public IResultManager ResultManager { get; set; }
         [Inject] NavigationManager NavigationManager { get; set; }
         private FormSubmitButton SubmitButton { get; set; }
         private CreateResultData Data { get; set; } = new CreateResultData();

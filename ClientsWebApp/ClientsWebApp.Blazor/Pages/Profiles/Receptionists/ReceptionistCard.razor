@@ -1,23 +1,34 @@
 ﻿@inherits CancellableComponent
 
-@if (Receptionist.Info.Photo != null)
-{
-    <ImageFromByteArray Image="Receptionist.Info.Photo.Content" ImageType="Receptionist.Info.Photo.ContentType" IsSvgImage="false" height="200" />
-}
-<p>@Receptionist.Info.GetFullName()</p>
-@if (Receptionist.Office != null)
-{
-    <p>@Receptionist.Office.Address</p>
-}
-else
-{
-    <p>Не назначен в офис.</p>
-}
-
-@if (ChildContent != null)
-{
-    @ChildContent
-}
+<div class="row mb-3 align-items-center">
+    @if (Receptionist != null)
+    {
+        if (Receptionist.Info.Photo != null)
+        {
+            <div class="col">
+                <ImageFromByteArray Image="Receptionist.Info.Photo.Content" ImageType="image.ContentType" IsSvgImage="false" height="200" />
+            </div>
+        }
+        <div class="col">
+            <p>Full name: @Receptionist.Info.GetFullName()</p>
+            <p>
+                Office:
+                @if (Receptionist.Office != null)
+                {
+                        @Receptionist.Office.Address
+                }
+                else
+                {
+                    <span>Не назначен в офис.</span>
+                }
+            </p>
+        </div>
+        @if (ChildContent != null)
+        {
+            @ChildContent
+        }
+    }
+</div>
 
 @code {
     [Parameter] public ReceptionistDTO Receptionist { get; set; }

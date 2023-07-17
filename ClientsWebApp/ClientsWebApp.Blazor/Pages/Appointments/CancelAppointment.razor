@@ -1,6 +1,4 @@
-﻿
-
-@inherits CancellableComponent
+﻿@inherits CancellableComponent
 @inject IAppointmentManager AppointmentManager
 @attribute [Authorize(Roles = "Admin")]
 
@@ -13,15 +11,8 @@
     {
         <AuthorizeView Roles="Admin">
             <Authorized Context="editDate">
-                @if (IsDateChanges)
-                {
-                    <input type="button" class="btn btn-success w-100" value="Подтвердить" @onclick="ChangeAsync" />
-                    <input type="button" class="btn btn-danger w-100" value="Отмена" @onclick="StopChanging" />
-                }
-                else
-                {
-                    <input type="button" class="btn btn-danger w-100" value="Удалить" @onclick="StartChanging" />
-                }
+                <DobleQuestionButton AgreeButtonValue="Подтвердить" DisagreeButtonValue="Отмена" 
+                                     PreviewButtonValue="Удалить" OnSuccessAnswerClicked="ChangeAsync" />
             </Authorized>
         </AuthorizeView>
     }
@@ -31,24 +22,15 @@
     [Parameter] public Guid AppointmentId { get; set; }
     [Parameter] public EventCallback OnAppointmentCanceled { get; set; }
 
-    private bool IsDateChanges { get; set; }
     private bool IsLoading { get; set; } = false;
 
-    private void StartChanging()
-    {
-        IsDateChanges = true;
-    }
-    private void StopChanging()
-    {
-        IsDateChanges = false;
-    }
     private async Task ChangeAsync()
     {
         IsLoading = true;
 
         await AppointmentManager.CancelAsync(AppointmentId, _cts.Token);
         await OnAppointmentCanceled.InvokeAsync();
-        StopChanging();
+
         IsLoading = false;
     }
 }

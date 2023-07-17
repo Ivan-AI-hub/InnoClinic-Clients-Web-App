@@ -6,8 +6,7 @@ namespace ClientsWebApp.Blazor.Pages.Profiles.Doctors
 {
     public partial class DoctorInfo
     {
-        [Parameter]
-        public Guid DoctorId { get; set; }
+        [Parameter] public Guid DoctorId { get; set; }
 
         private DoctorDTO doctor;
         private IEnumerable<Service>? Services { get; set; }

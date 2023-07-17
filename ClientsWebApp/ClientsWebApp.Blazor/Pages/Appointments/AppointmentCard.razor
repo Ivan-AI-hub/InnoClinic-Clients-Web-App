@@ -66,17 +66,3 @@
 </div>
 
 
-@code {
-    [Parameter] public Appointment Appointment { get; set; }
-    [Parameter] public RenderFragment ChildContent { get; set; }
-
-    private void NavigateToDoctorPage()
-    {
-        NavigationManager.NavigateTo($"/doctors/{Appointment.Doctor.Id}");
-    }
-
-    private void NavigateToPatientPage()
-    {
-        NavigationManager.NavigateTo($"/patients/{Appointment.Patient.Id}");
-    }
-}

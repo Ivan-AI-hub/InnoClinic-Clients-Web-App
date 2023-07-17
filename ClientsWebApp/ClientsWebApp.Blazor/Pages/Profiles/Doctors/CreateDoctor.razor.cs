@@ -25,9 +25,11 @@ namespace ClientsWebApp.Blazor.Pages.Profiles.Doctors
         {
             var page = new Page(100, 1);
             Data = new CreateDoctorData();
+
             Data.Email = await authStateHelper.GetEmailAsync();
             Specializations = await SpecializationManager.GetInfoAsync(page, _cts.Token);
             Offices = await OfficeManager.GetInfoPageAsync(page, _cts.Token);
+            Data.OfficeId = Offices.FirstOrDefault()?.Id ?? default;
         }
 
         private async Task CreateAsync()

@@ -24,6 +24,7 @@ namespace ClientsWebApp.Blazor.Pages.Profiles.Receptionists
         {
             var page = new Page(100, 1);
             Offices = await OfficeManager.GetInfoPageAsync(page, _cts.Token);
+            Data.OfficeId = Offices.FirstOrDefault()?.Id ?? default;
             Data.Email = await authStateHelper.GetEmailAsync();
             StateHasChanged();
         }
