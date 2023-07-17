@@ -15,7 +15,7 @@ namespace ClientsWebApp.Application.Models.Doctors
         public WorkStatus Status { get; set; }
         public DateTime BirthDay { get; set; } = DateTime.Now;
 
-        public EditDoctorData(Doctor doctor)
+        public EditDoctorData(DoctorDTO doctor)
         {
             FirstName = doctor.Info.FirstName;
             LastName = doctor.Info.LastName;

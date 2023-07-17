@@ -17,7 +17,7 @@
                 <FormInputNumber Label="Номер офиса" Id="officeNumber" @bind-Value="@Data.OfficeNumber" />
                 <FormInputText Label="Номер телефона" Id="phoneNumber" @bind-Value="@Data.PhoneNumber" />
                 <FormInputCheckBox Label="Статус" Id="status" @bind-Value="@Data.Status" />
-                <SelectImage Title="Фото" @bind-Value="@Data.Picture" SelectedImageData="OldPicture" />
+                <SelectImage Title="Фото" @bind-Value="@Data.Picture" SelectedImageData="OldOffice.Photo?.Content" />
             </div>
         </div>
         <div class="row">

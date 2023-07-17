@@ -15,6 +15,7 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddBlazoredModal();
 builder.Services.ConfigureServices();
+builder.Services.ConfigureManagers();
 builder.Services.ConfigureHttpClient();
 builder.Services.AddScoped<AuthenticationStateProvider, TokenStateProvider>();
 builder.Services.AddScoped<AuthenticationStateHelper>();

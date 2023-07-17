@@ -12,7 +12,7 @@ namespace ClientsWebApp.Application.Models.Patients
         public string PhoneNumber { get; set; }
         public DateTime BirthDay { get; set; } = DateTime.Now;
 
-        public EditPatientData(Patient patient)
+        public EditPatientData(PatientDTO patient)
         {
             FirstName = patient.Info.FirstName;
             LastName = patient.Info.LastName;

@@ -1,0 +1,92 @@
+﻿using ClientsWebApp.Application.Abstraction;
+using ClientsWebApp.Application.Models.Doctors;
+using ClientsWebApp.Domain;
+using ClientsWebApp.Domain.Images;
+using ClientsWebApp.Domain.Offices;
+using ClientsWebApp.Domain.Profiles;
+using ClientsWebApp.Domain.Profiles.Doctor;
+
+namespace ClientsWebApp.Application.Managers
+{
+    public class DoctorManager : IDoctorManager
+    {
+        private readonly IDoctorService _doctorService;
+        private readonly IImageService _imageService;
+        private readonly IOfficeService _officeService;
+
+        public DoctorManager(IDoctorService doctorService, IImageService imageService, IOfficeService officeService)
+        {
+            _doctorService = doctorService;
+            _imageService = imageService;
+            _officeService = officeService;
+        }
+
+        public async Task ChangeStatusAsync(Guid id, ChangeDoctorStatusData data, CancellationToken cancellationToken)
+        {
+            var changestatusModel = new ChangeDoctorStatusModel(data.Status);
+            await _doctorService.UpdateStatusAsync(id, changestatusModel, cancellationToken);
+        }
+
+        public async Task CreateAsync(CreateDoctorData data, CancellationToken cancellationToken)
+        {
+            var info = new CreateHumanInfo(new ImageName(data.Picture.FileName), data.Email, data.FirstName, data.LastName, data.MiddleName, data.BirthDay);
+            var createModel = new CreateDoctorModel(info, data.Specialization, data.OfficeId, data.CareerStartYear);
+
+            await _doctorService.CreateAsync(createModel, cancellationToken);
+            await _imageService.CreateAsync(data.Picture, cancellationToken);
+        }
+
+        public async Task EditAsync(DoctorDTO oldDoctor, EditDoctorData data, CancellationToken cancellationToken)
+        {
+            var imageName = data.Picture == null ? new ImageName(oldDoctor.Info.Photo.FileName) : new ImageName(data.Picture.FileName);
+            var updateModel = new UpdateDoctorModel(imageName, data.FirstName, data.LastName, data.MiddleName, data.BirthDay, data.Specialization, data.OfficeId, data.CareerStartYear, data.Status);
+
+            await _doctorService.UpdateAsync(oldDoctor.Id, updateModel, cancellationToken);
+            if (data.Picture != null && data.Picture.FileName != oldDoctor.Info.Photo?.FileName)
+            {
+                await _imageService.DeleteAsync(oldDoctor.Info.Photo.FileName, cancellationToken);
+                await _imageService.CreateAsync(data.Picture, cancellationToken);
+            }
+
+        }
+
+        public async Task<DoctorDTO> GetByEmailAsync(string email, CancellationToken cancellationToken)
+        {
+            var doctorData = await _doctorService.GetByEmailAsync(email, cancellationToken);
+            return await DoctorToDoctorDTOConvertor(doctorData, cancellationToken);
+        }
+
+        public async Task<DoctorDTO> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+        {
+            var doctorData = await _doctorService.GetByIdAsync(id, cancellationToken);
+            return await DoctorToDoctorDTOConvertor(doctorData, cancellationToken);
+        }
+
+        public async Task<IEnumerable<DoctorDTO>> GetPageAsync(Page page, DoctorFiltrationModel filtrationModel, CancellationToken cancellationToken)
+        {
+            var doctors = await _doctorService.GetPageAsync(page, filtrationModel, cancellationToken);
+            return doctors.Select(x => DoctorToDoctorDTOConvertor(x, cancellationToken).Result);
+        }
+
+        public Task<IEnumerable<Doctor>> GetInfoPageAsync(Page page, DoctorFiltrationModel filtrationModel, CancellationToken cancellationToken)
+        {
+            return _doctorService.GetPageAsync(page, filtrationModel, cancellationToken);
+        }
+
+        private async Task<DoctorDTO> DoctorToDoctorDTOConvertor(Doctor doctorData, CancellationToken cancellationToken)
+        {
+            var officeData = await _officeService.GetByIdAsync(doctorData.Office.Id, cancellationToken);
+
+            var doctor = new DoctorDTO(doctorData, officeData);
+            if (doctorData.Info.Photo != null)
+            {
+                doctor.Info.Photo = await _imageService.GetAsync(doctorData.Info.Photo.Name, cancellationToken);
+            }
+            if (officeData.Photo != null)
+            {
+                doctor.Office.Photo = await _imageService.GetAsync(officeData.Photo.Name, cancellationToken);
+            }
+            return doctor;
+        }
+    }
+}

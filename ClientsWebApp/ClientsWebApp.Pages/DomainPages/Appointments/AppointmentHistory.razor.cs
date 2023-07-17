@@ -1,3 +1,4 @@
+using ClientsWebApp.Application.Abstraction;
 using ClientsWebApp.Domain;
 using ClientsWebApp.Domain.Appointments;
 using ClientsWebApp.Pages.Components;
@@ -9,7 +10,7 @@ namespace ClientsWebApp.Pages.DomainPages.Appointments
     [Authorize(Roles = "Doctor,Patient")]
     public partial class AppointmentHistory : CancellableComponent
     {
-        [Inject] public IAppointmentService AppointmentService { get; set; }
+        [Inject] public IAppointmentManager AppointmentManager { get; set; }
         [Parameter] public Guid PatientId { get; set; }
 
         protected FormSubmitButton SubmitButton { get; set; }
@@ -34,7 +35,7 @@ namespace ClientsWebApp.Pages.DomainPages.Appointments
 
             Appointments = null;
             StateHasChanged();
-            Appointments = await AppointmentService.GetPageAsync(Page, FiltrationModel, _cts.Token);
+            Appointments = await AppointmentManager.GetPageAsync(Page, FiltrationModel, _cts.Token);
             StateHasChanged();
 
             SubmitButton?.StopLoading();

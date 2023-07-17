@@ -1,17 +1,17 @@
-﻿using ClientsWebApp.Application.Models.Services;
-using ClientsWebApp.Domain.Services;
+﻿using ClientsWebApp.Application.Abstraction;
+using ClientsWebApp.Application.Models.Services;
 using ClientsWebApp.Pages.Components;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 
-namespace ClientsWebApp.Pages.Pages.Services
+namespace ClientsWebApp.Pages.DomainPages.Services
 {
     [Authorize(Roles = "Admin")]
-    public partial class EditService : CancellableComponent
+    public partial class EditManager : CancellableComponent
     {
         [Parameter] public Guid SpecializationId { get; set; }
         [Parameter] public Guid ServiceId { get; set; }
-        [Inject] public IServiceService ServiceService { get; set; }
+        [Inject] public IServiceManager ServiceManager { get; set; }
         [Inject] NavigationManager NavigationManager { get; set; }
         private FormSubmitButton SubmitButton { get; set; }
         private EditServiceData Data { get; set; } = new EditServiceData();
@@ -25,10 +25,9 @@ namespace ClientsWebApp.Pages.Pages.Services
         {
             SubmitButton?.StartLoading();
 
-            var updateModel = new UpdateServiceModel(Data.Name, Data.Price, Data.Status, SpecializationId, Data.CategoryName);
             try
             {
-                await ServiceService.UpdateAsync(ServiceId, updateModel, _cts.Token);
+                await ServiceManager.EditAsync(ServiceId, Data, _cts.Token);
             }
             finally
             {

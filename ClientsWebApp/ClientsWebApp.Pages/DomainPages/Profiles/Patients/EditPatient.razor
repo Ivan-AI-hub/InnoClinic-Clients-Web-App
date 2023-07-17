@@ -17,7 +17,7 @@
                 <FormInputText Label="Отчество" Id="middleName" @bind-Value="@Data.MiddleName" />
                 <FormInputText Label="Номер телефона" Id="phoneNumber" @bind-Value="@Data.PhoneNumber" />
                 <FormInputDate Label="День рождения" Id="birthDay" @bind-Value="@Data.BirthDay" />
-                <SelectImage Title="Аватарка" @bind-Value="@Data.Picture" SelectedImageData="OldPicture" />
+                <SelectImage Title="Аватарка" @bind-Value="@Data.Picture" SelectedImageData="@OldPatient.Info.Photo?.Content" />
             </div>
         </div>
         <div class="row">

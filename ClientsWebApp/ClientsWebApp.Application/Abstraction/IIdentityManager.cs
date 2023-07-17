@@ -4,9 +4,9 @@ namespace ClientsWebApp.Application.Abstraction
 {
     public interface IIdentityManager
     {
-        public Task<ManagerResult> SingInAsync(LoginData data, CancellationToken cancellationToken);
-        public Task<ManagerResult> SingUpAsync(RegisterData data, CancellationToken cancellationToken);
-        public Task<ManagerResult> ChangeRoleAsync(ChangeRoleData data, CancellationToken cancellationToken);
-        public Task<ManagerResult> ConfirmEmailAsync(Guid userId, CancellationToken cancellationToken = default);
+        public Task SingInAsync(LoginData data, CancellationToken cancellationToken);
+        public Task SingUpAsync(RegisterData data, CancellationToken cancellationToken);
+        public Task ChangeRoleAsync(string email, ChangeRoleData data, CancellationToken cancellationToken);
+        public Task ConfirmEmailAsync(Guid userId, CancellationToken cancellationToken = default);
     }
 }

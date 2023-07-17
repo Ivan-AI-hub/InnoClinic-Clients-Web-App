@@ -17,5 +17,11 @@ namespace ClientsWebApp.Pages
             var state = await _stateProvider.GetAuthenticationStateAsync();
             return state.User.FindFirst(ClaimTypes.Email)?.Value ?? throw new Exception("Token auth failed");
         }
+
+        public async Task<string> GetRoleAsync()
+        {
+            var state = await _stateProvider.GetAuthenticationStateAsync();
+            return state.User.FindFirst(ClaimTypes.Role)?.Value ?? throw new Exception("Token auth failed");
+        }
     }
 }

@@ -1,13 +1,12 @@
 ﻿@page "/"
 @inject NavigationManager Navigator
-@inject AuthenticationStateProvider stateProvider
+@inject AuthenticationStateHelper AuthHelper
 @attribute [Authorize]
 
 @code {
     protected async override Task OnInitializedAsync()
     {
-        var state = await stateProvider.GetAuthenticationStateAsync();
-        var role = state.User.FindFirst(ClaimTypes.Role)?.Value ?? throw new Exception("Token auth failed");
+        var role = await AuthHelper.GetRoleAsync();
         switch (role)
         {
             case "Patient":

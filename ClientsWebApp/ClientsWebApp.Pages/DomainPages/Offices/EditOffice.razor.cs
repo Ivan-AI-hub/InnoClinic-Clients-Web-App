@@ -1,4 +1,5 @@
-﻿using ClientsWebApp.Application.Models.Offices;
+﻿using ClientsWebApp.Application.Abstraction;
+using ClientsWebApp.Application.Models.Offices;
 using ClientsWebApp.Domain;
 using ClientsWebApp.Domain.Images;
 using ClientsWebApp.Domain.Offices;
@@ -12,39 +13,25 @@ namespace ClientsWebApp.Pages.DomainPages.Offices
     public partial class EditOffice : CancellableComponent
     {
         [Parameter] public Guid OfficeId { get; set; }
-        [Inject] public IOfficeService OfficeService { get; set; }
-        [Inject] public IImageService ImageService { get; set; }
+        [Inject] public IOfficeManager OfficeManager { get; set; }
         [Inject] NavigationManager NavigationManager { get; set; }
         private FormSubmitButton SubmitButton { get; set; }
         private EditOfficeData Data { get; set; }
         private string ErrorMessage;
-        private Office OldOffice;
-        private byte[] OldPicture;
+        private OfficeDTO OldOffice;
         protected override async Task OnInitializedAsync()
         {
-            OldOffice = await OfficeService.GetByIdAsync(OfficeId, _cts.Token);
+            OldOffice = await OfficeManager.GetByIdAsync(OfficeId, _cts.Token);
             Data = new EditOfficeData(OldOffice);
-            if (OldOffice.Photo != null)
-            {
-                OldPicture = (await ImageService.GetAsync(OldOffice.Photo.Name, _cts.Token)).Content;
-            }
             StateHasChanged();
         }
 
         private async Task EditAsync()
         {
             SubmitButton?.StartLoading();
-
-            var imageName = Data.Picture == null ? OldOffice.Photo : new ImageName(Data.Picture.FileName);
-            var update = new UpdateOfficeModel(imageName, Data.City, Data.Street, Data.HouseNumber, Data.OfficeNumber, Data.PhoneNumber, Data.Status);
             try
             {
-                await OfficeService.UpdateAsync(OldOffice.Id, update, _cts.Token);
-                if (Data.Picture != null && Data.Picture.FileName != OldOffice.Photo.Name)
-                {
-                    await ImageService.DeleteAsync(OldOffice.Photo.Name, _cts.Token);
-                    await ImageService.CreateAsync(Data.Picture, _cts.Token);
-                }
+                await OfficeManager.EditAsync(OldOffice, Data, _cts.Token);
             }
             catch (Exception ex)
             {

@@ -1,5 +1,5 @@
 ﻿@inherits CancellableComponent;
-@inject ISpecializationService SpecializationService
+@inject ISpecializationManager SpecializationManager
 
 <div class="row mt-3 align-items-center border">
     <div class="col">
@@ -26,7 +26,7 @@
         Specialization = Service.Specialization;
         if (Specialization == null)
         {
-            Specialization = await SpecializationService.GetByIdAsync(Service.SpecializationId, _cts.Token);
+            Specialization = await SpecializationManager.GetByIdAsync(Service.SpecializationId, _cts.Token);
         }
     }
 }

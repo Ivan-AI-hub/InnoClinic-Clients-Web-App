@@ -1,7 +1,4 @@
-﻿﻿@using Microsoft.AspNetCore.Components.Authorization
-@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
-
-@inject NavigationManager Navigation
+﻿@inject NavigationManager Navigation
 
 <AuthorizeView>
     <Authorized>
@@ -15,7 +12,7 @@
 </AuthorizeView>
 
 @code {
-    [CascadingParameter] public IModalService Modal { get; set; }
+    [CascadingParameter] public IModalManager Modal { get; set; }
 
     private void OpenLoginModal()
     {

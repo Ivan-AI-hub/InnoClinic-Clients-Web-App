@@ -18,24 +18,24 @@
             </div>
             <div class="col p-2">
                 <h2>Сервисы</h2>
-                @if (IsServiceCreating)
+                @if (IsManagerCreating)
                 {
-                    <CreateService SpecializationId="default" OnModelCreated="@StopCreateService" />
+                    <CreateManager SpecializationId="default" OnModelCreated="@StopCreateManager" />
                 }
                 else
                 {
-                    <input type="button" value="Create a service" @onclick="@StartCreateService" />
+                    <input type="button" value="Create a service" @onclick="@StartCreateManager" />
                 }
 
                 @foreach (var service in Services)
                 {
-                    <ServiceCard Service="@service" />
+                    <ManagerCard Manager="@service" />
                 }
                 @foreach (var service in AddedServices)
                 {
                     <div class="row">
                         <div class="col">
-                            <CreateServiceModelCard Service="@service" />
+                            <CreateServiceModelCard Manager="@service" />
                         </div>
                         <div class="col-1 m-3">
                             <input type="button" class="btn btn-danger" value="-" @onclick="@(()=>RemoveService(service))" />

@@ -1,46 +1,49 @@
-﻿using ClientsWebApp.Domain.Services;
+﻿using ClientsWebApp.Application.Abstraction;
+using ClientsWebApp.Application.Models.Services;
+using ClientsWebApp.Application.Models.Specializations;
+using ClientsWebApp.Domain.Services;
 using ClientsWebApp.Domain.Specializations;
 using ClientsWebApp.Pages.Components;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 
-namespace ClientsWebApp.Pages.Pages.Specializations
+namespace ClientsWebApp.Pages.DomainPages.Specializations
 {
     [Authorize(Roles = "Admin")]
     public partial class EditSpecialization : CancellableComponent
     {
         [Parameter] public Guid SpecializationId { get; set; }
-        [Inject] public ISpecializationService SpecializationService { get; set; }
-        [Inject] public IServiceService ServiceService { get; set; }
+        [Inject] public ISpecializationManager SpecializationManager { get; set; }
+        [Inject] public IServiceManager ServiceManager { get; set; }
         [Inject] NavigationManager NavigationManager { get; set; }
         private EditSpecializationData Data { get; set; }
 
         private Specialization OldSpecialization { get; set; }
         private List<Service> Services = new List<Service>();
-        private List<CreateServiceModel> AddedServices = new List<CreateServiceModel>();
+        private List<CreateServiceData> AddedServices = new List<CreateServiceData>();
         private List<Service> RemovedServices = new List<Service>();
 
         private FormSubmitButton SubmitButton { get; set; }
-        private bool IsServiceCreating = false;
+        private bool IsManagerCreating = false;
         private string ErrorMessage;
         protected async override Task OnInitializedAsync()
         {
-            OldSpecialization = await SpecializationService.GetByIdAsync(SpecializationId, _cts.Token);
+            OldSpecialization = await SpecializationManager.GetByIdAsync(SpecializationId, _cts.Token);
             Data = new EditSpecializationData(OldSpecialization);
             Services = OldSpecialization.Services;
         }
 
-        private void StartCreateService()
+        private void StartCreateManager()
         {
-            IsServiceCreating = true;
+            IsManagerCreating = true;
         }
-        private void StopCreateService(CreateServiceModel model)
+        private void StopCreateService(CreateServiceData model)
         {
             AddedServices.Add(model);
-            IsServiceCreating = false;
+            IsManagerCreating = false;
         }
 
-        private void RemoveService(CreateServiceModel model)
+        private void RemoveService(CreateServiceData model)
         {
             AddedServices.Remove(model);
         }
@@ -60,18 +63,17 @@ namespace ClientsWebApp.Pages.Pages.Specializations
                 return;
             }
 
-            var updateModel = new UpdateSpecializationModel(Data.Name, Data.IsActive);
             try
             {
-                await SpecializationService.UpdateAsync(SpecializationId, updateModel, _cts.Token);
+                await SpecializationManager.EditAsync(SpecializationId, Data, _cts.Token);
                 //foreach (var service in RemovedServices)
                 //{
-                //    await ServiceService.Remove(service, _cts.Token);
+                //    await ServiceManager.Remove(service, _cts.Token);
                 //}
                 foreach (var service in AddedServices)
                 {
                     service.SpecializationId = OldSpecialization.Id;
-                    await ServiceService.CreateAsync(service, _cts.Token);
+                    await ServiceManager.CreateAsync(service, _cts.Token);
                 }
             }
             catch (Exception ex)

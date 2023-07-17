@@ -1,4 +1,6 @@
-﻿using ClientsWebApp.Domain.Profiles.Receptionist;
+﻿using ClientsWebApp.Application.Abstraction;
+using ClientsWebApp.Application.Models.Receptionists;
+using ClientsWebApp.Domain.Profiles.Receptionist;
 using ClientsWebApp.Pages.Components;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
@@ -9,9 +11,9 @@ namespace ClientsWebApp.Pages.DomainPages.Profiles.Receptionists
     public partial class ReceptionistHome : CancellableComponent
     {
         [Inject] AuthenticationStateHelper StateHelper { get; set; }
-        [Inject] IReceptionistService ReceptionistService { get; set; }
+        [Inject] IReceptionistManager ReceptionistManager { get; set; }
         [Inject] NavigationManager NavigationManager { get; set; }
-        private Receptionist? Receptionist { get; set; }
+        private ReceptionistDTO? Receptionist { get; set; }
         private bool IsLoading { get; set; } = true;
         protected override async void OnInitialized()
         {
@@ -19,7 +21,7 @@ namespace ClientsWebApp.Pages.DomainPages.Profiles.Receptionists
             var email = await StateHelper.GetEmailAsync();
             try
             {
-                Receptionist = await ReceptionistService.GetByEmailAsync(email, _cts.Token);
+                Receptionist = await ReceptionistManager.GetByEmailAsync(email, _cts.Token);
             }
             catch
             {

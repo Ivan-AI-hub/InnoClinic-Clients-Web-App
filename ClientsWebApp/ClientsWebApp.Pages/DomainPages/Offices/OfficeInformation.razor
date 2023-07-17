@@ -2,8 +2,7 @@
 @inherits CancellableComponent
 @attribute [Authorize(Roles = "Admin")]
 
-@inject IOfficeService officeService
-@inject IImageService imageService
+@inject IOfficeManager officeManager
 @inject NavigationManager navigationManager
 
 <div class="row mb-3 align-items-center">
@@ -12,14 +11,7 @@
         @if (@Office.Photo != null)
         {
             <div class="col">
-                @if (image != null)
-                {
-                    <ImageFromByteArray Image="@image.Content" imgClass="img-thumbnail rounded float-right" width="100" height="100" />
-                }
-                else
-                {
-                    <Loading />
-                }
+                <ImageFromByteArray Image="@Office.Photo.Content" imgClass="img-thumbnail rounded float-right" width="100" height="100" />
             </div>
         }
         <div class="col">
@@ -40,30 +32,17 @@
 
 @code {
     [Parameter] public Guid OfficeId { get; set; }
-    private Office Office;
-    private Image? image;
+    private OfficeDTO Office;
     protected async override Task OnInitializedAsync()
     {
-        Office = await officeService.GetByIdAsync(OfficeId, _cts.Token);
-        if (image == null && Office.Photo != null)
-        {
-            try
-            {
-                image = await imageService.GetAsync(Office.Photo.Name, _cts.Token);
-                this.StateHasChanged();
-            }
-            catch
-            {
-                image = null;
-            }
-        }
+        Office = await officeManager.GetByIdAsync(OfficeId, _cts.Token);
     }
 
     private async void CheckBoxChanged(ChangeEventArgs args)
     {
         var value = bool.Parse(args.Value.ToString());
         Office.Status = value;
-        await officeService.UpdateStatusAsync(OfficeId, new UpdateOfficeStatusModel(value), _cts.Token);
+        await officeManager.UpdateStatusAsync(OfficeId, value, _cts.Token);
     }
 
     private void NavigateToEditPage()

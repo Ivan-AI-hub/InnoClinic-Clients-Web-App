@@ -9,6 +9,7 @@ using ClientsWebApp.Domain.Specializations;
 using ClientsWebApp.Pages.Components;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
+using ClientsWebApp.Application.Abstraction;
 
 namespace ClientsWebApp.Pages.DomainPages.Appointments
 {
@@ -16,12 +17,12 @@ namespace ClientsWebApp.Pages.DomainPages.Appointments
     public partial class CreateAppointment : CancellableComponent
     {
         [Inject] public AuthenticationStateHelper authStateHelper { get; set; }
-        [Inject] public IAppointmentService AppointmentService { get; set; }
-        [Inject] public ISpecializationService SpecializationService { get; set; }
-        [Inject] public IPatientService PatientService { get; set; }
-        [Inject] public IDoctorService DoctorService { get; set; }
-        [Inject] public IServiceService ServiceService { get; set; }
-        [Inject] public IOfficeService OfficeService { get; set; }
+        [Inject] public IAppointmentManager AppointmentManager { get; set; }
+        [Inject] public ISpecializationManager SpecializationManager { get; set; }
+        [Inject] public IPatientManager PatientManager { get; set; }
+        [Inject] public IDoctorManager DoctorManager { get; set; }
+        [Inject] public IServiceManager ServiceManager { get; set; }
+        [Inject] public IOfficeManager OfficeManager { get; set; }
         [Inject] public NavigationManager NavigationManager { get; set; }
 
         [Parameter]
@@ -46,9 +47,9 @@ namespace ClientsWebApp.Pages.DomainPages.Appointments
         {
             var email = await authStateHelper.GetEmailAsync();
 
-            Patient = await PatientService.GetByEmailAsync(email, _cts.Token);
-            Offices = await OfficeService.GetPageAsync(Page, _cts.Token);
-            Specializations = await SpecializationService.GetInfoAsync(Page, _cts.Token);
+            Patient = await PatientManager.GetByEmailAsync(email, _cts.Token);
+            Offices = await OfficeManager.GetPageAsync(Page, _cts.Token);
+            Specializations = await SpecializationManager.GetInfoAsync(Page, _cts.Token);
 
             Data.Category = Categories.First();
             Data.PatientId = Patient.Id;
@@ -65,7 +66,7 @@ namespace ClientsWebApp.Pages.DomainPages.Appointments
             FiltrationModel.OfficeId = Data.OfficeId;
             FiltrationModel.Specialization = Data.Specialization;
 
-            Doctors = await DoctorService.GetPageAsync(Page, FiltrationModel, _cts.Token);
+            Doctors = await DoctorManager.GetInfoPageAsync(Page, FiltrationModel, _cts.Token);
             Data.DoctorId = Doctors.FirstOrDefault()?.Id ?? default;
             StateHasChanged();
             await DoctorWasSelected(Data.DoctorId);
@@ -73,8 +74,7 @@ namespace ClientsWebApp.Pages.DomainPages.Appointments
         protected async Task UpdateServicesAsync()
         {
             var specialization = Specializations.FirstOrDefault(x => x.Name == Data.Specialization);
-            Services = await ServiceService.GetByCategoryAsync(Data.Category, Page, _cts.Token);
-            Services = Services.Where(x => x.SpecializationId == specialization?.Id);
+            Services = await ServiceManager.GetBySpecializationAsync(Data.Specialization, _cts.Token);
 
             Data.ServiceId = Services.FirstOrDefault()?.Id ?? default;
             StateHasChanged();
@@ -145,7 +145,7 @@ namespace ClientsWebApp.Pages.DomainPages.Appointments
             SubmitButton.StartLoading();
             try
             {
-                var appointment = await AppointmentService.CreateAsync(new CreateAppointmentModel(Data.PatientId, Data.DoctorId, Data.ServiceId, Data.Date, Data.Time), _cts.Token);
+               await AppointmentManager.CreateAsync(Data, _cts.Token);
             }
             catch (Exception ex)
             {

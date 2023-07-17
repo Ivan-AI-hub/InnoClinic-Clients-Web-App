@@ -1,5 +1,6 @@
 ﻿using Blazored.Modal;
 using Blazored.Modal.Services;
+using ClientsWebApp.Application.Abstraction;
 using ClientsWebApp.Domain;
 using ClientsWebApp.Domain.Specializations;
 using ClientsWebApp.Pages.Components;
@@ -11,8 +12,8 @@ namespace ClientsWebApp.Pages.DomainPages.Specializations
     [Authorize(Roles = "Admin")]
     public partial class SpecializationsList : CancellableComponent
     {
-        [CascadingParameter] public IModalService Modal { get; set; }
-        [Inject] public ISpecializationService SpecializationService { get; set; }
+        [CascadingParameter] public IModalManager Modal { get; set; }
+        [Inject] public ISpecializationManager SpecializationManager { get; set; }
 
         private Page Page { get; set; }
         private IEnumerable<Specialization>? Specializations { get; set; }
@@ -27,7 +28,7 @@ namespace ClientsWebApp.Pages.DomainPages.Specializations
         {
             Specializations = null;
             StateHasChanged();
-            Specializations = await SpecializationService.GetInfoAsync(Page, _cts.Token);
+            Specializations = await SpecializationManager.GetInfoAsync(Page, _cts.Token);
             StateHasChanged();
         }
 

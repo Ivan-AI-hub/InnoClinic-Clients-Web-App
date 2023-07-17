@@ -1,7 +1,7 @@
 ﻿@page "/patients/delete"
 @attribute [Authorize(Roles = "Patient")]
 @inherits CancellableComponent
-@inject IPatientService PatientService
+@inject IPatientManager PatientManager
 @inject AuthenticationStateHelper AuthHelper
 @inject NavigationManager Navigator
 
@@ -14,8 +14,8 @@
     private async Task DeleteAsync()
     {
         var email = await AuthHelper.GetEmailAsync();
-        var patient = await PatientService.GetByEmailAsync(email, _cts.Token);
-        await PatientService.DeleteAsync(patient.Id, _cts.Token);
+        var patient = await PatientManager.GetByEmailAsync(email, _cts.Token);
+        await PatientManager.DeleteAsync(patient.Id, _cts.Token);
         Navigator.NavigateTo("/");
     }
     private void Cancel()

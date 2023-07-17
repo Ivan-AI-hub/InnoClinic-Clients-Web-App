@@ -6,11 +6,11 @@ namespace ClientsWebApp.Application.Abstraction
 {
     public interface IAppointmentManager
     {
-        public Task<ManagerResult> ChangeDateAsync(ChangeDateData data, CancellationToken cancellationToken);
-        public Task<ManagerResult> CreateAsync(CreateAppointmentData data, CancellationToken cancellationToken);
-        public Task<ManagerResult> ApproveAsync(Guid id, CancellationToken cancellationToken);
+        public Task ChangeDateAsync(ChangeDateData data, CancellationToken cancellationToken);
+        public Task CreateAsync(CreateAppointmentData data, CancellationToken cancellationToken);
+        public Task ApproveAsync(Guid id, CancellationToken cancellationToken);
         public Task<IEnumerable<Appointment>> GetPageAsync(Page page, AppointmentFiltrationModel filtrationModel, CancellationToken cancellationToken);
         public Task<Appointment> GetByIdAsync(Guid id, CancellationToken cancellationToken);
-        public Task<ManagerResult> CancelAsync(Guid id, CancellationToken cancellationToken);
+        public Task CancelAsync(Guid id, CancellationToken cancellationToken);
     }
 }

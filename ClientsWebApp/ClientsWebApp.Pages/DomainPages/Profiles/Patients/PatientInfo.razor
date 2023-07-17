@@ -1,7 +1,7 @@
 ﻿@page "/patients/{PatientId:guid}"
 @inherits CancellableComponent
 
-@inject IPatientService PatientService;
+@inject IPatientManager PatientManager;
 
 @if (patient != null)
 {
@@ -11,9 +11,9 @@
 @code
 {
     [Parameter] public Guid PatientId { get; set; }
-    private Patient patient;
+    private PatientDTO patient;
     protected async override Task OnInitializedAsync()
     {
-        patient = await PatientService.GetByIdAsync(PatientId, _cts.Token);
+        patient = await PatientManager.GetByIdAsync(PatientId, _cts.Token);
     }
 }

@@ -1,5 +1,6 @@
-﻿using ClientsWebApp.Domain.Services;
-using ClientsWebApp.Domain.Specializations;
+﻿using ClientsWebApp.Application.Abstraction;
+using ClientsWebApp.Application.Models.Services;
+using ClientsWebApp.Application.Models.Specializations;
 using ClientsWebApp.Pages.Components;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
@@ -9,27 +10,27 @@ namespace ClientsWebApp.Pages.DomainPages.Specializations
     [Authorize(Roles = "Admin")]
     public partial class CreateSpecialization : CancellableComponent
     {
-        [Inject] public ISpecializationService SpecializationService { get; set; }
-        [Inject] public IServiceService ServiceService { get; set; }
+        [Inject] public ISpecializationManager SpecializationManager { get; set; }
+        [Inject] public IServiceManager ServiceManager { get; set; }
         [Inject] NavigationManager NavigationManager { get; set; }
         private CreateSpecializationData Data { get; set; } = new CreateSpecializationData();
 
-        private List<CreateServiceModel> Services = new List<CreateServiceModel>();
+        private List<CreateServiceData> Services = new List<CreateServiceData>();
         private FormSubmitButton SubmitButton { get; set; }
-        private bool IsServiceCreating = false;
+        private bool IsManagerCreating = false;
         private string ErrorMessage;
 
-        private void StartCreateService()
+        private void StartCreateManager()
         {
-            IsServiceCreating = true;
+            IsManagerCreating = true;
         }
-        private void StopCreateService(CreateServiceModel model)
+        private void StopCreateService(CreateServiceData model)
         {
             Services.Add(model);
-            IsServiceCreating = false;
+            IsManagerCreating = false;
         }
 
-        private void RemoveService(CreateServiceModel model)
+        private void RemoveService(CreateServiceData model)
         {
             Services.Remove(model);
         }
@@ -45,14 +46,13 @@ namespace ClientsWebApp.Pages.DomainPages.Specializations
                 return;
             }
 
-            var createModel = new CreateSpecializationModel(Data.Name, Data.IsActive);
             try
             {
-                var specialization = await SpecializationService.CreateAsync(createModel, _cts.Token);
+                var specialization = await SpecializationManager.CreateAsync(Data, _cts.Token);
                 foreach (var service in Services)
                 {
                     service.SpecializationId = specialization.Id;
-                    await ServiceService.CreateAsync(service, _cts.Token);
+                    await ServiceManager.CreateAsync(service, _cts.Token);
                 }
             }
             catch (Exception ex)

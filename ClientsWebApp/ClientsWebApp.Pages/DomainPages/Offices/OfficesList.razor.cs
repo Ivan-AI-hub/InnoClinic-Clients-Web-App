@@ -1,5 +1,6 @@
 ﻿using Blazored.Modal;
 using Blazored.Modal.Services;
+using ClientsWebApp.Application.Abstraction;
 using ClientsWebApp.Domain;
 using ClientsWebApp.Domain.Offices;
 using ClientsWebApp.Pages.Components;
@@ -11,8 +12,8 @@ namespace ClientsWebApp.Pages.DomainPages.Offices
     [Authorize(Roles = "Admin")]
     public partial class OfficesList : CancellableComponent
     {
-        [CascadingParameter] public IModalService Modal { get; set; }
-        [Inject] public IOfficeService OfficeService { get; set; }
+        [CascadingParameter] public IModalManager Modal { get; set; }
+        [Inject] public IOfficeManager OfficeManager { get; set; }
 
         private Page Page { get; set; }
         private IEnumerable<Office>? Offices { get; set; }
@@ -27,7 +28,7 @@ namespace ClientsWebApp.Pages.DomainPages.Offices
         {
             Offices = null;
             StateHasChanged();
-            Offices = await OfficeService.GetPageAsync(Page, _cts.Token);
+            Offices = await OfficeManager.GetInfoPageAsync(Page, _cts.Token);
             StateHasChanged();
         }
 

@@ -1,7 +1,5 @@
-﻿using ClientsWebApp.Application.Models.Offices;
-using ClientsWebApp.Domain;
-using ClientsWebApp.Domain.Images;
-using ClientsWebApp.Domain.Offices;
+﻿using ClientsWebApp.Application.Abstraction;
+using ClientsWebApp.Application.Models.Offices;
 using ClientsWebApp.Pages.Components;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
@@ -11,8 +9,7 @@ namespace ClientsWebApp.Pages.DomainPages.Offices
     [Authorize(Roles = "Admin")]
     public partial class CreateOffice : CancellableComponent
     {
-        [Inject] public IOfficeService OfficeService { get; set; }
-        [Inject] public IImageService ImageService { get; set; }
+        [Inject] public IOfficeManager OfficeManager { get; set; }
         [Inject] NavigationManager NavigationManager { get; set; }
         private FormSubmitButton SubmitButton { get; set; }
         private CreateOfficeData Data { get; set; }
@@ -25,11 +22,10 @@ namespace ClientsWebApp.Pages.DomainPages.Offices
         private async Task CreateAsync()
         {
             SubmitButton?.StartLoading();
-            var createModel = new CreateOfficeModel(new ImageName(Data.Picture.FileName), Data.City, Data.Street, Data.HouseNumber, Data.OfficeNumber, Data.PhoneNumber, Data.Status);
+            
             try
             {
-                var user = await OfficeService.CreateAsync(createModel, _cts.Token);
-                await ImageService.CreateAsync(Data.Picture, _cts.Token);
+                OfficeManager.CreateAsync(Data, _cts.Token);
             }
             catch (Exception ex)
             {

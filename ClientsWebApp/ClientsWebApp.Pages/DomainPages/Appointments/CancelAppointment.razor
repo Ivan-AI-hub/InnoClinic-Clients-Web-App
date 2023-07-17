@@ -1,7 +1,7 @@
 ﻿
 
 @inherits CancellableComponent
-@inject IAppointmentService AppointmentService
+@inject IAppointmentManager AppointmentManager
 @attribute [Authorize(Roles = "Admin")]
 
 <div class="col m-3">
@@ -46,7 +46,7 @@
     {
         IsLoading = true;
 
-        await AppointmentService.CancelAsync(AppointmentId, _cts.Token);
+        await AppointmentManager.CancelAsync(AppointmentId, _cts.Token);
         await OnAppointmentCanceled.InvokeAsync();
         StopChanging();
         IsLoading = false;

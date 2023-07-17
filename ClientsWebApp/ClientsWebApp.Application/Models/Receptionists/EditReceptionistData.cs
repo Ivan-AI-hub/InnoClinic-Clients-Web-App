@@ -12,7 +12,7 @@ namespace ClientsWebApp.Application.Models.Receptionists
         public Guid OfficeId { get; set; }
         public DateTime BirthDay { get; set; } = DateTime.Now;
 
-        public EditReceptionistData(Receptionist receptionist)
+        public EditReceptionistData(ReceptionistDTO receptionist)
         {
             FirstName = receptionist.Info.FirstName;
             LastName = receptionist.Info.LastName;

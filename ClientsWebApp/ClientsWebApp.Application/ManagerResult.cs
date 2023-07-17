@@ -8,7 +8,7 @@ namespace ClientsWebApp.Application
         public string? ErrorMessage { get; }
         public HttpStatusCode StatusCode { get; }
 
-        public ManagerResult(string? errorMessage, HttpStatusCode code)
+        public ManagerResult(string? errorMessage = "", HttpStatusCode code = HttpStatusCode.OK)
         {
             ErrorMessage = errorMessage;
             StatusCode = code;

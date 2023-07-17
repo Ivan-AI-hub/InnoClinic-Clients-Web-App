@@ -1,4 +1,6 @@
-﻿using ClientsWebApp.Domain;
+﻿using ClientsWebApp.Application.Abstraction;
+using ClientsWebApp.Application.Models.Patients;
+using ClientsWebApp.Domain;
 using ClientsWebApp.Domain.Appointments;
 using ClientsWebApp.Domain.Profiles.Patient;
 using ClientsWebApp.Pages.Components;
@@ -11,11 +13,9 @@ namespace ClientsWebApp.Pages.DomainPages.Profiles.Patients
     public partial class PatientHome : CancellableComponent
     {
         [Inject] AuthenticationStateHelper StateHelper { get; set; }
-        [Inject] IPatientService PatientService { get; set; }
-        [Inject] IAppointmentService AppointmentService { get; set; }
+        [Inject] IPatientManager PatientManager { get; set; }
         [Inject] NavigationManager NavigationManager { get; set; }
-        private Patient? Patient { get; set; }
-        private IEnumerable<Appointment> Appointments { get; set; } = new List<Appointment>();
+        private PatientDTO? Patient { get; set; }
         private bool IsLoading { get; set; } = true;
         protected override async void OnInitialized()
         {
@@ -23,14 +23,13 @@ namespace ClientsWebApp.Pages.DomainPages.Profiles.Patients
             var email = await StateHelper.GetEmailAsync();
             try
             {
-                Patient = await PatientService.GetByEmailAsync(email, _cts.Token);
+                Patient = await PatientManager.GetByEmailAsync(email, _cts.Token);
             }
             catch
             {
                 NavigationManager.NavigateTo("/patients/create");
             }
 
-            Appointments = await AppointmentService.GetPageAsync(new Page(5, 1), new AppointmentFiltrationModel() { PatientId = Patient.Id }, _cts.Token);
             IsLoading = false;
             StateHasChanged();
         }

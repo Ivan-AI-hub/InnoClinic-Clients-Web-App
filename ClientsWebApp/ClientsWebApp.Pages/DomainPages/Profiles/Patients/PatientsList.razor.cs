@@ -1,4 +1,6 @@
-﻿using ClientsWebApp.Domain;
+﻿using ClientsWebApp.Application.Abstraction;
+using ClientsWebApp.Application.Models.Patients;
+using ClientsWebApp.Domain;
 using ClientsWebApp.Domain.Profiles.Patient;
 using ClientsWebApp.Pages.Components;
 using Microsoft.AspNetCore.Components;
@@ -7,12 +9,12 @@ namespace ClientsWebApp.Pages.DomainPages.Profiles.Patients
 {
     public partial class PatientsList : CancellableComponent
     {
-        [Inject] public IPatientService PatientService { get; set; }
+        [Inject] public IPatientManager PatientManager { get; set; }
         private FormSubmitButton SubmitButton { get; set; }
         private Page Page { get; set; }
         private PageStatus Status => Page.GetPageStatus(Patients == null ? 0 : Patients.Count());
         private PatientFiltrationModel FiltrationModel { get; set; }
-        private IEnumerable<Patient>? Patients { get; set; }
+        private IEnumerable<PatientDTO>? Patients { get; set; }
         protected override async Task OnInitializedAsync()
         {
             Page = new Page(15, 1);
@@ -27,7 +29,7 @@ namespace ClientsWebApp.Pages.DomainPages.Profiles.Patients
 
             Patients = null;
 
-            Patients = await PatientService.GetPageAsync(Page, FiltrationModel, _cts.Token);
+            Patients = await PatientManager.GetPageAsync(Page, FiltrationModel, _cts.Token);
             StateHasChanged();
 
             SubmitButton?.StopLoading();

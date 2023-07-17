@@ -1,4 +1,9 @@
-﻿@using ClientsWebApp.Pages.Shared;
+﻿@using Blazored.Modal
+@using ClientsWebApp.Pages.Components
+@using ClientsWebApp.Pages.Shared;
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Components.Routing
+@using Microsoft.AspNetCore.Components.Web
 ﻿<CascadingAuthenticationState>
     <CascadingBlazoredModal Position="ModalPosition.Middle" HideCloseButton="@true">
         <Router AppAssembly="@typeof(App).Assembly">

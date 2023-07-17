@@ -1,22 +1,13 @@
-﻿@inject IImageService imageService
-@inject IOfficeService officeService
-@inherits CancellableComponent
+﻿@inherits CancellableComponent
 
-@if (image != null)
+@if (Receptionist.Info.Photo != null)
 {
-    <ImageFromByteArray Image="image.Content" ImageType="image.ContentType" IsSvgImage="false" height="200" />
+    <ImageFromByteArray Image="Receptionist.Info.Photo.Content" ImageType="Receptionist.Info.Photo.ContentType" IsSvgImage="false" height="200" />
 }
 <p>@Receptionist.Info.GetFullName()</p>
 @if (Receptionist.Office != null)
 {
-    @if (office != null)
-    {
-        <p>@office.Address</p>
-    }
-    else
-    {
-        <Loading />
-    }
+    <p>@Receptionist.Office.Address</p>
 }
 else
 {
@@ -29,19 +20,6 @@ else
 }
 
 @code {
-    [Parameter] public Receptionist Receptionist { get; set; }
+    [Parameter] public ReceptionistDTO Receptionist { get; set; }
     [Parameter] public RenderFragment ChildContent { get; set; }
-    private Image? image;
-    private Office? office;
-    protected async override Task OnInitializedAsync()
-    {
-        @if (Receptionist.Office != null)
-        {
-            office = await officeService.GetByIdAsync(Receptionist.Office.Id, _cts.Token);
-        }
-        if (Receptionist.Info.Photo != null)
-        {
-            image = await imageService.GetAsync(Receptionist.Info.Photo.Name, _cts.Token);
-        }
-    }
 }

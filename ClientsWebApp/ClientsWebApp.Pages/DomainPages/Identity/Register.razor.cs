@@ -1,13 +1,14 @@
-﻿using ClientsWebApp.Application.Models.Identity;
+﻿using ClientsWebApp.Application.Abstraction;
+using ClientsWebApp.Application.Models.Identity;
 using ClientsWebApp.Domain.Identity;
 using ClientsWebApp.Pages.Components;
 using Microsoft.AspNetCore.Components;
 
-namespace ClientsWebApp.Pages.Pages.Identity
+namespace ClientsWebApp.Pages.DomainPages.Identity
 {
     public partial class Register : CancellableComponent
     {
-        [Inject] public IAuthorizationService AuthorizationService { get; set; }
+        [Inject] public IIdentityManager IdentityManager { get; set; }
         [Inject] public NavigationManager Navigation { get; set; }
 
         private RegisterData Data;
@@ -24,8 +25,7 @@ namespace ClientsWebApp.Pages.Pages.Identity
             SubmitButton.StartLoading();
             try
             {
-                var user = await AuthorizationService.SingUpAsync(new SingUpModel(Data.Email, Data.Password, Data.RePassword), _cts.Token);
-                await AuthorizationService.ConfirmEmailAsync(user.Id, _cts.Token);
+                await IdentityManager.SingUpAsync(Data, _cts.Token);
             }
             catch (Exception ex)
             {
@@ -36,7 +36,6 @@ namespace ClientsWebApp.Pages.Pages.Identity
             {
                 SubmitButton.StopLoading();
             }
-            StateHasChanged();
 
             Navigation.NavigateTo("/login");
         }

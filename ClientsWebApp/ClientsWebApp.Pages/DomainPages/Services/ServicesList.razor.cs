@@ -1,4 +1,5 @@
-﻿using ClientsWebApp.Application.Models.Services;
+﻿using ClientsWebApp.Application.Abstraction;
+using ClientsWebApp.Application.Models.Services;
 using ClientsWebApp.Domain;
 using ClientsWebApp.Domain.Services;
 using ClientsWebApp.Pages.Components;
@@ -8,7 +9,7 @@ namespace ClientsWebApp.Pages.DomainPages.Services
 {
     public partial class ServicesList : CancellableComponent
     {
-        [Inject] public IServiceService ServiceService { get; set; }
+        [Inject] public IServiceManager ServiceManager { get; set; }
 
         private List<string> Categories = new List<string>() { "consultation", "analyses", "diagnostics" };
         private ServiceListData Data { get; set; } = new();
@@ -28,7 +29,7 @@ namespace ClientsWebApp.Pages.DomainPages.Services
             Services = null;
             StateHasChanged();
 
-            Services = await ServiceService.GetByCategoryAsync(category, Page, _cts.Token);
+            Services = await ServiceManager.GetByCategoryAsync(category, Page, _cts.Token);
             StateHasChanged();
         }
 

@@ -1,6 +1,4 @@
 @page "/patients/{PatientId:guid}/appointmentsHistory"
-@using ClientsWebApp.Blazor.Pages.Identity
-@using ClientsWebApp.Domain;
 @inherits CancellableComponent
 @attribute [Authorize(Roles = "Doctor,Patient")]
 

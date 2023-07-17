@@ -1,4 +1,6 @@
-﻿using ClientsWebApp.Domain;
+﻿using ClientsWebApp.Application.Abstraction;
+using ClientsWebApp.Application.Models.Receptionists;
+using ClientsWebApp.Domain;
 using ClientsWebApp.Domain.Profiles.Receptionist;
 using ClientsWebApp.Pages.Components;
 using Microsoft.AspNetCore.Components;
@@ -7,11 +9,11 @@ namespace ClientsWebApp.Pages.DomainPages.Profiles.Receptionists
 {
     public partial class ReceptionistsList : CancellableComponent
     {
-        [Inject] public IReceptionistService ReceptionistService { get; set; }
+        [Inject] public IReceptionistManager ReceptionistManager { get; set; }
         private FormSubmitButton SubmitButton { get; set; }
         private Page Page { get; set; }
         private ReceptionistFiltrationModel FiltrationModel { get; set; }
-        private IEnumerable<Receptionist>? Receptionists { get; set; }
+        private IEnumerable<ReceptionistDTO>? Receptionists { get; set; }
         protected override async Task OnInitializedAsync()
         {
             Page = new Page(15, 1);
@@ -26,7 +28,7 @@ namespace ClientsWebApp.Pages.DomainPages.Profiles.Receptionists
 
             Receptionists = null;
             StateHasChanged();
-            Receptionists = await ReceptionistService.GetPageAsync(Page, FiltrationModel, _cts.Token);
+            Receptionists = await ReceptionistManager.GetPageAsync(Page, FiltrationModel, _cts.Token);
             StateHasChanged();
 
             SubmitButton?.StopLoading();

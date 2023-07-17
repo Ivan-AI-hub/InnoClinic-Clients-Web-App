@@ -1,13 +1,13 @@
 <div class="row mb-3 align-items-center border">
     <div class="col">
-        <p>Name: @Service.Name</p>
-        <p>Price: @Service.Price</p>
+        <p>Name: @Manager.Name</p>
+        <p>Price: @Manager.Price</p>
     </div>
     <div class="col">
-        <p>Category: @Service.CategoryName</p>
-        <p>IsActive: @Service.Status</p>
+        <p>Category: @Manager.CategoryName</p>
+        <p>IsActive: @Manager.Status</p>
     </div>
 </div>
 @code {
-    [Parameter] public CreateServiceModel Service { get; set; }
+    [Parameter] public CreateServiceModel Manager { get; set; }
 }

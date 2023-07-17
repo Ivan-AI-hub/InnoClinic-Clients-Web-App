@@ -6,11 +6,12 @@ namespace ClientsWebApp.Application.Abstraction
 {
     public interface IPatientManager
     {
-        public Task<ManagerResult> CreateAsync(CreatePatientData data, CancellationToken cancellationToken);
-        public Task<ManagerResult> EditAsync(EditPatientData data, CancellationToken cancellationToken);
-        public Task<ManagerResult> DeleteAsync(Guid id, CancellationToken cancellationToken);
-        public Task<IEnumerable<Patient>> GetPageAsync(Page page, PatientFiltrationModel filtrationModel, CancellationToken cancellationToken);
-        public Task<Patient> GetByEmailAsync(string email, CancellationToken cancellationToken);
-        public Task<Patient> GetByIdAsync(Guid id, CancellationToken cancellationToken);
+        public Task CreateAsync(CreatePatientData data, CancellationToken cancellationToken);
+        public Task EditAsync(PatientDTO oldPatient, EditPatientData data, CancellationToken cancellationToken);
+        public Task DeleteAsync(Guid id, CancellationToken cancellationToken);
+        public Task<IEnumerable<PatientDTO>> GetPageAsync(Page page, PatientFiltrationModel filtrationModel, CancellationToken cancellationToken);
+        public Task<IEnumerable<Patient>> GetInfoPageAsync(Page page, PatientFiltrationModel filtrationModel, CancellationToken cancellationToken);
+        public Task<PatientDTO> GetByEmailAsync(string email, CancellationToken cancellationToken);
+        public Task<PatientDTO> GetByIdAsync(Guid id, CancellationToken cancellationToken);
     }
 }

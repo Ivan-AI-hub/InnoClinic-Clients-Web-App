@@ -1,20 +1,21 @@
-﻿using ClientsWebApp.Domain;
+﻿using ClientsWebApp.Application.Abstraction;
+using ClientsWebApp.Application.Models.Appointments;
+using ClientsWebApp.Domain;
 using ClientsWebApp.Domain.Appointments;
 using ClientsWebApp.Domain.Categories;
 using ClientsWebApp.Domain.Services;
 using ClientsWebApp.Pages.Components;
 using Microsoft.AspNetCore.Components;
 
-namespace ClientsWebApp.Pages.Pages.Appointments
+namespace ClientsWebApp.Pages.DomainPages.Appointments
 {
     public partial class TimeSlots : CancellableComponent
     {
         [Parameter] public Guid DoctorId { get; set; }
         [Parameter] public Category Category { get; set; }
         [Parameter] public EventCallback<TimeSlotsData> OnTimeSlotSelected { get; set; }
-        [Inject] public IAppointmentService AppointmentService { get; set; }
-        [Inject] public IServiceService ServiceService { get; set; }
-        [Inject] public ILogger<TimeSlots> Logger { get; set; }
+        [Inject] public IAppointmentManager AppointmentManager { get; set; }
+        [Inject] public IServiceManager ServiceManager { get; set; }
 
         private bool isTableReloading { get; set; } = false;
         private TimeSlotsData Data { get; set; } = new TimeSlotsData();
@@ -43,11 +44,11 @@ namespace ClientsWebApp.Pages.Pages.Appointments
                 Times[time.Key] = true;
             }
             FiltrationModel.Date = Data.Date;
-            var appointments = await AppointmentService.GetPageAsync(Page, FiltrationModel, _cts.Token);
+            var appointments = await AppointmentManager.GetPageAsync(Page, FiltrationModel, _cts.Token);
 
             foreach (var appointment in appointments)
             {
-                var service = await ServiceService.GetByIdAsync(appointment.Service.Id, _cts.Token);
+                var service = await ServiceManager.GetByIdAsync(appointment.Service.Id, _cts.Token);
 
                 int timeSlots = service.Category.TimeSlotSize / 10;
 

@@ -1,4 +1,6 @@
-﻿using ClientsWebApp.Blazor.Infrastructure;
+﻿using ClientsWebApp.Application.Abstraction;
+using ClientsWebApp.Application.Managers;
+using ClientsWebApp.Blazor.Infrastructure;
 using ClientsWebApp.Domain.Appointments;
 using ClientsWebApp.Domain.Categories;
 using ClientsWebApp.Domain.Documents;
@@ -32,6 +34,21 @@ namespace ClientsWebApp.Blazor.Extensions
             services.AddScoped<IResultService, ResultService>();
             services.AddScoped<IServiceService, ServiceService>();
             services.AddScoped<ISpecializationService, SpecializationService>();
+
+            services.AddScoped<IStorageService, LocalStorageService>();
+        }
+
+        public static void ConfigureManagers(this IServiceCollection services)
+        {
+            services.AddScoped<IIdentityManager, IdentityManager>();
+            services.AddScoped<IAppointmentManager, AppointmentManager>();
+            services.AddScoped<IDoctorManager, DoctorManager>();
+            services.AddScoped<IOfficeManager, OfficeManager>();
+            services.AddScoped<IPatientManager, PatientManager>();
+            services.AddScoped<IReceptionistManager, ReceptionistManager>();
+            services.AddScoped<IResultManager, ResultManager>();
+            services.AddScoped<IServiceManager, ServiceManager>();
+            services.AddScoped<ISpecializationManager, SpecializationManager>();
 
             services.AddScoped<IStorageService, LocalStorageService>();
         }

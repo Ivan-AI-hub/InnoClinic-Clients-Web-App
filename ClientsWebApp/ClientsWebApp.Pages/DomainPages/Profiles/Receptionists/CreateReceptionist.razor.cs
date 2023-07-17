@@ -1,4 +1,6 @@
-﻿using ClientsWebApp.Domain;
+﻿using ClientsWebApp.Application.Abstraction;
+using ClientsWebApp.Application.Models.Receptionists;
+using ClientsWebApp.Domain;
 using ClientsWebApp.Domain.Images;
 using ClientsWebApp.Domain.Offices;
 using ClientsWebApp.Domain.Profiles;
@@ -14,32 +16,26 @@ namespace ClientsWebApp.Pages.DomainPages.Profiles.Receptionists
     {
         [Inject] NavigationManager NavigationManager { get; set; }
         [Inject] public AuthenticationStateHelper authStateHelper { get; set; }
-        [Inject] public IReceptionistService ReceptionistService { get; set; }
-        [Inject] public IOfficeService OfficeService { get; set; }
-        [Inject] public IImageService ImageService { get; set; }
+        [Inject] public IReceptionistManager ReceptionistManager { get; set; }
+        [Inject] public IOfficeManager OfficeManager { get; set; }
         private FormSubmitButton SubmitButton { get; set; }
         private CreateReceptionistData Data { get; set; } = new CreateReceptionistData();
         private IEnumerable<Office> Offices { get; set; } = new List<Office>();
         private string ErrorMessage = "";
-        private string Email = "";
         protected override async Task OnInitializedAsync()
         {
             var page = new Page(100, 1);
-            Offices = await OfficeService.GetPageAsync(page, _cts.Token);
-            Email = await authStateHelper.GetEmailAsync();
+            Offices = await OfficeManager.GetInfoPageAsync(page, _cts.Token);
+            Data.Email = await authStateHelper.GetEmailAsync();
             StateHasChanged();
         }
 
         private async Task CreateAsync()
         {
             SubmitButton?.StartLoading();
-
-            var info = new CreateHumanInfo(new ImageName(Data.Picture.FileName), Email, Data.FirstName, Data.LastName, Data.MiddleName, Data.BirthDay);
-            var createModel = new CreateReceptionistModel(info, new OfficeId(Data.OfficeId));
             try
             {
-                var user = await ReceptionistService.CreateAsync(createModel, _cts.Token);
-                await ImageService.CreateAsync(Data.Picture, _cts.Token);
+                await ReceptionistManager.CreateAsync(Data, _cts.Token);
             }
             catch (Exception ex)
             {

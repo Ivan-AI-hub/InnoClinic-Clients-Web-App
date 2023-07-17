@@ -1,15 +1,14 @@
-﻿@inject IImageService imageService
-@inject NavigationManager NavigationManager
+﻿@inject NavigationManager NavigationManager
 @inherits CancellableComponent
 
 
 <div class="row mb-3 align-items-center">
     @if (Patient != null)
     {
-        @if (image != null)
+        @if (Patient.Info.Photo != null)
         {
             <div class="col-sm-1">
-                <ImageFromByteArray Image="@image.Content" imgClass="img-thumbnail rounded float-right" width="100" height="100" />
+                <ImageFromByteArray Image="@Patient.Info.Photo.Content" imgClass="img-thumbnail rounded float-right" width="100" height="100" />
             </div>
         }
         <div class="col-sm m-lg-3">
@@ -34,16 +33,8 @@
 
 
 @code {
-    [Parameter] public Patient Patient { get; set; }
+    [Parameter] public PatientDTO Patient { get; set; }
     [Parameter] public RenderFragment ChildContent { get; set; }
-    private Image? image;
-    protected async override Task OnInitializedAsync()
-    {
-        if (Patient.Info.Photo != null)
-        {
-            image = await imageService.GetAsync(Patient.Info.Photo.Name, _cts.Token);
-        }
-    }
 
     private void NavigateToHistoryPage()
     {

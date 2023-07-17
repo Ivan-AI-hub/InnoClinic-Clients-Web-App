@@ -1,4 +1,5 @@
-﻿using ClientsWebApp.Domain;
+﻿using ClientsWebApp.Application.Abstraction;
+using ClientsWebApp.Domain;
 using ClientsWebApp.Domain.Appointments;
 using ClientsWebApp.Domain.Offices;
 using ClientsWebApp.Pages.Components;
@@ -10,8 +11,7 @@ namespace ClientsWebApp.Pages.DomainPages.Appointments
     [Authorize(Roles = "Admin")]
     public partial class AppointmentsList : CancellableComponent
     {
-        [Inject] public IAppointmentService AppointmentService { get; set; }
-        [Inject] public IOfficeService OfficeService { get; set; }
+        [Inject] public IAppointmentManager AppointmentManager { get; set; }
 
         private Page Page { get; set; } = new Page(4, 1);
         protected FormSubmitButton SubmitButton { get; set; }
@@ -33,7 +33,7 @@ namespace ClientsWebApp.Pages.DomainPages.Appointments
 
             Appointments = null;
             StateHasChanged();
-            Appointments = await AppointmentService.GetPageAsync(Page, FiltrationModel, _cts.Token);
+            Appointments = await AppointmentManager.GetPageAsync(Page, FiltrationModel, _cts.Token);
             StateHasChanged();
 
             SubmitButton?.StopLoading();

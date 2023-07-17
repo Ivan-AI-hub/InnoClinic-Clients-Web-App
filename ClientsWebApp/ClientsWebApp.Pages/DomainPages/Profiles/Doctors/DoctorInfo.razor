@@ -1,10 +1,9 @@
 @page "/doctors/{DoctorId:guid}"
-@using ClientsWebApp.Blazor.Pages.Services
 @inherits CancellableComponent
 
 @inject NavigationManager NavigationManager
-@inject IDoctorService DoctorService;
-@inject IServiceService ServiceService;
+@inject IDoctorManager DoctorManager;
+@inject IServiceManager ServiceManager;
 
 @if (doctor != null)
 {
@@ -26,9 +25,9 @@
             else
             {
 
-                @foreach (var Service in Services)
+                @foreach (var Manager in Services)
                 {
-                    <ServiceCard Service="Service" />
+                    <ManagerCard Manager="Manager" />
                 }
 
             }
@@ -40,19 +39,3 @@
     }
 }
 
-@code
-{
-    [Parameter] public Guid DoctorId { get; set; }
-    private Doctor doctor;
-    private IEnumerable<Service>? Services { get; set; }
-    protected async override Task OnInitializedAsync()
-    {
-        doctor = await DoctorService.GetByIdAsync(DoctorId, _cts.Token);
-        Services = await ServiceService.GetBySpecializationAsync(doctor.Specialization, _cts.Token);
-        this.StateHasChanged();
-    }
-    private void ToCreateAppointmentPage()
-    {
-        NavigationManager.NavigateTo($"/appointments/create?DoctorId={doctor.Id}");
-    }
-}

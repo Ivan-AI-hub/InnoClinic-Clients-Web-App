@@ -5,6 +5,7 @@ namespace ClientsWebApp.Application.Models.Doctors
     public class CreateDoctorData
     {
         public IFormFile Picture { get; set; }
+        public string Email { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string MiddleName { get; set; }
