@@ -1,10 +1,11 @@
-﻿using ClientsWebApp.Application.Abstraction;
+﻿using Blazored.Modal;
+using Blazored.Modal.Services;
+using ClientsWebApp.Application.Abstraction;
 using ClientsWebApp.Application.Models.Receptionists;
 using ClientsWebApp.Blazor.Components;
+using ClientsWebApp.Domain.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
-using Blazored.Modal.Services;
-using Blazored.Modal;
 
 namespace ClientsWebApp.Blazor.Pages.Profiles.Receptionists
 {
@@ -25,7 +26,7 @@ namespace ClientsWebApp.Blazor.Pages.Profiles.Receptionists
             {
                 Receptionist = await ReceptionistManager.GetByEmailAsync(email, _cts.Token);
             }
-            catch
+            catch (NotFoundException ex)
             {
                 NavigateToCreatePage();
             }
@@ -35,33 +36,20 @@ namespace ClientsWebApp.Blazor.Pages.Profiles.Receptionists
 
         private void NavigateToDeletePage()
         {
-            var options = new ModalOptions()
-            {
-                Size = ModalSize.Large,
-                DisableBackgroundCancel = true
-            };
-            Modal.Show<DeleteReceptionist>("Delete profile", options);
+            Modal.Show<DeleteReceptionist>("Delete profile");
             //NavigationManager.NavigateTo("/patients/delete");
         }
 
         private void NavigateToCreatePage()
         {
-            var options = new ModalOptions()
-            {
-                Size = ModalSize.Large,
-                DisableBackgroundCancel = true
-            };
-            Modal.Show<CreateReceptionist>("Create profile", options);
+            Modal.Show<CreateReceptionist>("Create profile");
             //NavigationManager.NavigateTo("/patients/create");
         }
         private void NavigateToEditPage()
         {
-            var options = new ModalOptions()
-            {
-                Size = ModalSize.Large,
-                DisableBackgroundCancel = true
-            };
-            Modal.Show<EditReceptionist>("Edit profile", options);
+            var parameters = new ModalParameters();
+            parameters.Add(nameof(EditReceptionist.OldReceptionist), Receptionist);
+            Modal.Show<EditReceptionist>("Edit profile", parameters);
             //NavigationManager.NavigateTo("/patients/edit");
         }
     }

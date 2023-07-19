@@ -1,6 +1,5 @@
 ﻿using ClientsWebApp.Application.Abstraction;
 using ClientsWebApp.Application.Models.Patients;
-using ClientsWebApp.Blazor;
 using ClientsWebApp.Blazor.Components;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;

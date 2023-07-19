@@ -10,15 +10,16 @@ namespace ClientsWebApp.Blazor.Pages.Offices
     public partial class EditOffice : CancellableComponent
     {
         [Parameter] public Guid OfficeId { get; set; }
+        [Parameter] public OfficeDTO? OldOffice { get; set; }
         [Inject] public IOfficeManager OfficeManager { get; set; }
         [Inject] NavigationManager NavigationManager { get; set; }
         private FormSubmitButton SubmitButton { get; set; }
         private EditOfficeData Data { get; set; }
         private string ErrorMessage;
-        private OfficeDTO OldOffice;
+
         protected override async Task OnInitializedAsync()
         {
-            OldOffice = await OfficeManager.GetByIdAsync(OfficeId, _cts.Token);
+            OldOffice = OldOffice ?? await OfficeManager.GetByIdAsync(OfficeId, _cts.Token);
             Data = new EditOfficeData(OldOffice);
             StateHasChanged();
         }

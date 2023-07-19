@@ -1,26 +1,22 @@
 @inherits CancellableComponent
 
-<div class="col m-3">
-
-    @if (IsDateChanges)
-    {
-        <label class="form-label">@QuestionLabel</label>
-        <input type="button" class="btn btn-success w-100 m-3" value="@AgreeButtonValue" @onclick="SuccessAnswerAsync" />
-        <input type="button" class="btn btn-danger w-100 m-3" value="@DisagreeButtonValue" @onclick="StopChanging" />
-    }
-    else
-    {
-        <input type="button" class="btn btn-danger w-100 m-3" value="@PreviewButtonValue" @onclick="StartChanging" />
-    }
-
-</div>
+@if (IsDateChanges)
+{
+    <label class="form-label">@QuestionLabel</label>
+    <input type="button" class="btn btn-success w-100 m-1" value="@AgreeButtonValue" @onclick="SuccessAnswerAsync" />
+    <input type="button" class="btn btn-danger w-100 m-1" value="@DisagreeButtonValue" @onclick="StopChanging" />
+}
+else
+{
+    <input type="button" class="btn btn-danger w-100 m-1" value="@PreviewButtonValue" @onclick="StartChanging" />
+}
 
 @code {
     [Parameter] public EventCallback OnSuccessAnswerClicked { get; set; }
-    [Parameter] public string PreviewButtonValue {get;set;} = "Edit";
-    [Parameter] public string AgreeButtonValue {get;set;} = "Yes";
-    [Parameter] public string DisagreeButtonValue {get;set;} = "No";
-    [Parameter] public string QuestionLabel {get;set;} = "Are you sure?";
+    [Parameter] public string PreviewButtonValue { get; set; } = "Edit";
+    [Parameter] public string AgreeButtonValue { get; set; } = "Yes";
+    [Parameter] public string DisagreeButtonValue { get; set; } = "No";
+    [Parameter] public string QuestionLabel { get; set; } = "Are you sure?";
 
     private bool IsDateChanges { get; set; }
     private bool IsLoading { get; set; } = false;

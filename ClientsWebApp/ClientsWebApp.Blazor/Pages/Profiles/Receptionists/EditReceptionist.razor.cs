@@ -11,6 +11,7 @@ namespace ClientsWebApp.Blazor.Pages.Profiles.Receptionists
     [Authorize(Roles = "Admin")]
     public partial class EditReceptionist : CancellableComponent
     {
+        [Parameter] public ReceptionistDTO OldReceptionist { get; set; }
         [Inject] public AuthenticationStateHelper authStateHelper { get; set; }
         [Inject] public IReceptionistManager ReceptionistManager { get; set; }
         [Inject] public IOfficeManager OfficeManager { get; set; }
@@ -19,12 +20,14 @@ namespace ClientsWebApp.Blazor.Pages.Profiles.Receptionists
         private IEnumerable<Office> Offices { get; set; }
         private EditReceptionistData Data { get; set; }
         private string ErrorMessage;
-        private ReceptionistDTO OldReceptionist;
         protected override async Task OnInitializedAsync()
         {
             var page = new Page(100, 1);
-            var email = await authStateHelper.GetEmailAsync();
-            OldReceptionist = await ReceptionistManager.GetByEmailAsync(email, _cts.Token);
+            if (OldReceptionist == null)
+            {
+                var email = await authStateHelper.GetEmailAsync();
+                OldReceptionist = await ReceptionistManager.GetByEmailAsync(email, _cts.Token);
+            }
             Data = new EditReceptionistData(OldReceptionist);
 
             Offices = await OfficeManager.GetInfoPageAsync(page, _cts.Token);

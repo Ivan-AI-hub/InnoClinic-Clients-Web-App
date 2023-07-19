@@ -12,13 +12,13 @@ namespace ClientsWebApp.Blazor.Pages.Specializations
     [Authorize(Roles = "Admin")]
     public partial class EditSpecialization : CancellableComponent
     {
+        [Parameter] public Specialization? OldSpecialization { get; set; }
         [Parameter] public Guid SpecializationId { get; set; }
         [Inject] public ISpecializationManager SpecializationManager { get; set; }
         [Inject] public IServiceManager ServiceManager { get; set; }
         [Inject] NavigationManager NavigationManager { get; set; }
         private EditSpecializationData Data { get; set; }
 
-        private Specialization OldSpecialization { get; set; }
         private List<Service> Services = new List<Service>();
         private List<CreateServiceData> AddedServices = new List<CreateServiceData>();
         private List<Service> RemovedServices = new List<Service>();
@@ -28,7 +28,7 @@ namespace ClientsWebApp.Blazor.Pages.Specializations
         private string ErrorMessage;
         protected async override Task OnInitializedAsync()
         {
-            OldSpecialization = await SpecializationManager.GetByIdAsync(SpecializationId, _cts.Token);
+            OldSpecialization = OldSpecialization ?? await SpecializationManager.GetByIdAsync(SpecializationId, _cts.Token);
             Data = new EditSpecializationData(OldSpecialization);
             Services = OldSpecialization.Services;
         }
@@ -59,7 +59,7 @@ namespace ClientsWebApp.Blazor.Pages.Specializations
             if (Services.Count + AddedServices.Count == 0)
             {
                 SubmitButton?.StopLoading();
-                ErrorMessage = "Создайте по меньшей мере 1 сервис";
+                ErrorMessage = "Create at least 1 service";
                 return;
             }
 

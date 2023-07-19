@@ -1,7 +1,6 @@
 ﻿using ClientsWebApp.Application.Abstraction;
 using ClientsWebApp.Application.Models.Specializations;
 using ClientsWebApp.Domain;
-using ClientsWebApp.Domain.Services;
 using ClientsWebApp.Domain.Specializations;
 
 namespace ClientsWebApp.Application.Managers

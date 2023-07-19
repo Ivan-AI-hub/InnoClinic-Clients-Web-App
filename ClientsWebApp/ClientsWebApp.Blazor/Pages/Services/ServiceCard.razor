@@ -1,7 +1,7 @@
 ﻿@inherits CancellableComponent;
 @inject ISpecializationManager SpecializationManager
 
-<div class="row mt-3 align-items-center border">
+<div class="row mb-3 align-items-center border">
     <div class="col">
         <p>Name: @Service.Name</p>
         <p>Price: @Service.Price</p>
@@ -16,9 +16,11 @@
             <p>Specialization: @Specialization.Name</p>
         }
     </div>
-    <AuthorizeView Roles="Admin">
-        <button class="btn btn-primary" @onclick="ToEditPage">Edit</button>
-    </AuthorizeView>
+    <div class="col">
+        <AuthorizeView Roles="Admin">
+            <button class="btn btn-primary" @onclick="ToEditPage">Edit</button>
+        </AuthorizeView>
+    </div>
 </div>
 @code {
     [CascadingParameter] public IModalService Modal { get; set; }
@@ -39,6 +41,7 @@
         var parameters = new ModalParameters();
         parameters.Add(nameof(EditService.ServiceId), Service.Id);
         parameters.Add(nameof(EditService.SpecializationId), Specialization.Id);
+        parameters.Add(nameof(EditService.OldService), Service);
         Modal.Show<EditService>("Edit service", parameters);
     }
 }

@@ -46,13 +46,14 @@ namespace ClientsWebApp.Blazor.Pages.Specializations
         {
             return Page.GetPageStatus(Specializations == null ? 0 : Specializations.Count());
         }
-        private void ToCreatePage()
+        private async Task ToCreatePage()
         {
             var options = new ModalOptions()
             {
                 Size = ModalSize.Large
             };
-            Modal.Show<CreateSpecialization>("Create", options);
+            await Modal.Show<CreateSpecialization>("Create", options).Result;
+            await SpecializationsUpdateAsync();
         }
     }
 }

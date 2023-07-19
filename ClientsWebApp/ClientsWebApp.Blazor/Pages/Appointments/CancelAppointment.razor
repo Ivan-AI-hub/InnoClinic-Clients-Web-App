@@ -1,36 +1,16 @@
 ﻿@inherits CancellableComponent
 @inject IAppointmentManager AppointmentManager
 @attribute [Authorize(Roles = "Admin")]
-
-<div class="col m-3">
+<div class="col mb-1">
     @if (IsLoading)
     {
         <Loading />
     }
     else
     {
-        <AuthorizeView Roles="Admin">
-            <Authorized Context="editDate">
-                <DobleQuestionButton AgreeButtonValue="Подтвердить" DisagreeButtonValue="Отмена" 
-                                     PreviewButtonValue="Удалить" OnSuccessAnswerClicked="ChangeAsync" />
-            </Authorized>
-        </AuthorizeView>
+        <DobleQuestionButton AgreeButtonValue="Agree" DisagreeButtonValue="Cancel" PreviewButtonValue="Delete"
+            OnSuccessAnswerClicked="CancelAsync" />
     }
 </div>
 
-@code {
-    [Parameter] public Guid AppointmentId { get; set; }
-    [Parameter] public EventCallback OnAppointmentCanceled { get; set; }
 
-    private bool IsLoading { get; set; } = false;
-
-    private async Task ChangeAsync()
-    {
-        IsLoading = true;
-
-        await AppointmentManager.CancelAsync(AppointmentId, _cts.Token);
-        await OnAppointmentCanceled.InvokeAsync();
-
-        IsLoading = false;
-    }
-}

@@ -9,18 +9,7 @@ namespace ClientsWebApp.Blazor.Pages.Appointments
         [Parameter] public Guid AppointmentId { get; set; }
         [Parameter] public EventCallback OnAppointmentApproved { get; set; }
 
-        private bool IsDateChanges { get; set; }
-
         private bool IsLoading { get; set; } = false;
-        private void StartChanging()
-        {
-            IsDateChanges = true;
-        }
-
-        private void StopChanging()
-        {
-            IsDateChanges = false;
-        }
 
         private async Task ChangeAsync()
         {
@@ -28,7 +17,6 @@ namespace ClientsWebApp.Blazor.Pages.Appointments
 
             await AppointmentManager.ApproveAsync(AppointmentId, _cts.Token);
             await OnAppointmentApproved.InvokeAsync();
-            StopChanging();
 
             IsLoading = false;
         }

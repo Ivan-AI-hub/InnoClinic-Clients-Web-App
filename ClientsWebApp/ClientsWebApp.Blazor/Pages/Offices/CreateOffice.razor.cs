@@ -25,7 +25,7 @@ namespace ClientsWebApp.Blazor.Pages.Offices
 
             try
             {
-                OfficeManager.CreateAsync(Data, _cts.Token);
+                await OfficeManager.CreateAsync(Data, _cts.Token);
             }
             catch (Exception ex)
             {

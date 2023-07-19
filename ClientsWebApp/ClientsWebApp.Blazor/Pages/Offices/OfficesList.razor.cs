@@ -46,13 +46,14 @@ namespace ClientsWebApp.Blazor.Pages.Offices
         {
             return Page.GetPageStatus(Offices == null ? 0 : Offices.Count());
         }
-        private void ToCreatePage()
+        private async Task ToCreatePage()
         {
             var options = new ModalOptions()
             {
                 Size = ModalSize.Large
             };
-            Modal.Show<CreateOffice>("Create", options);
+            await Modal.Show<CreateOffice>("Create", options).Result;
+            await OfficesUpdateAsync();
         }
     }
 }

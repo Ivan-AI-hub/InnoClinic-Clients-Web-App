@@ -1,6 +1,5 @@
 ﻿using ClientsWebApp.Application.Abstraction;
 using ClientsWebApp.Application.Models.Appointments;
-using ClientsWebApp.Blazor;
 using ClientsWebApp.Blazor.Components;
 using ClientsWebApp.Domain;
 using ClientsWebApp.Domain.Categories;
@@ -148,11 +147,11 @@ namespace ClientsWebApp.Blazor.Pages.Appointments
         private Category GetCategory(string name)
         {
             int timeslot = 10;
-            switch(name)
+            switch (name)
             {
-                case "consultation": 
+                case "consultation":
                     timeslot = 10;
-                        break;
+                    break;
                 case "analyses":
                     timeslot = 20;
                     break;
@@ -180,6 +179,11 @@ namespace ClientsWebApp.Blazor.Pages.Appointments
                 SubmitButton.StopLoading();
             }
 
+            Cancel();
+        }
+
+        private void Cancel()
+        {
             NavigationManager.NavigateTo($"/patients/{Data.PatientId}/appointmentsHistory");
         }
     }

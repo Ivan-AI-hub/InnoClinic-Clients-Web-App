@@ -27,20 +27,9 @@
                 GetStatus="@GetPageStatus" />
             @foreach (var appointment in Appointments)
             {
-                <AppointmentCard Appointment="appointment">
+                <AppointmentCard Appointment="appointment" OnDataUpdated="AppointmentsUpdateAsync">
                     <div class="col">
-                        @if (!appointment.IsApproved)
-                        {
-                            <ChangeAppointmentDate Appointment="appointment" OnDateChanged="AppointmentsUpdateAsync" />
-                        }
-                        <div class="row">
-                            @if (!appointment.IsApproved)
-                            {
-                                <ApproveAppointment AppointmentId="appointment.Id"
-                                    OnAppointmentApproved="AppointmentsUpdateAsync" />
-                            }
-                            <CancelAppointment AppointmentId="appointment.Id" OnAppointmentCanceled="AppointmentsUpdateAsync" />
-                        </div>
+                        <CancelAppointment AppointmentId="appointment.Id" OnAppointmentCanceled="AppointmentsUpdateAsync" />
                     </div>
                 </AppointmentCard>
             }

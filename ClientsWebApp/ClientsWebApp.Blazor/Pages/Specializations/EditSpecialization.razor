@@ -12,12 +12,11 @@
         <ValidationSummary />
         <div class="row">
             <div class="col p-2">
-                <h2>Данные</h2>
-                <FormInputText Label="Название специализации" Id="firstName" @bind-Value="@Data.Name" />
-                <FormInputCheckBox Label="Активный" Id="lastName" @bind-Value="@Data.IsActive" />
+                <FormInputText Label="Cpecialization name" Id="firstName" @bind-Value="@Data.Name" />
+                <FormInputCheckBox Label="Active" Id="lastName" @bind-Value="@Data.IsActive" />
             </div>
             <div class="col p-2">
-                <h2>Сервисы</h2>
+                <h2>Services</h2>
                 @if (IsManagerCreating)
                 {
                     <CreateService SpecializationId="default" OnModelCreated="@StopCreateService" />
@@ -44,14 +43,14 @@
                 }
             </div>
         </div>
-        <div class="row">
-            <div class="col m-3 w-100">
+        <Row>
+            <Left>
                 <FormSubmitButton @ref="@SubmitButton" ButtonValue="Save Changes" />
-            </div>
-            <div class="col">
+            </Left>
+            <Right>
                 <DobleQuestionButton OnSuccessAnswerClicked="@Cancel" PreviewButtonValue="Cancel"
                                  QuestionLabel="Do you really want to cancel? Changes will not be saved." />
-            </div>
-        </div>
+            </Right>
+        </Row>
     </EditForm>
 }

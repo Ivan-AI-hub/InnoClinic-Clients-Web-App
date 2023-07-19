@@ -14,7 +14,7 @@
             </EditForm>
         </div>
         <div class="col">
-            <button class="btn btn-info" @onclick="NavigateToEditPage">Изменить</button>
+            <button class="btn btn-info" @onclick="NavigateToEditPage">Edit</button>
         </div>
     </div>
     <div class="row mb-3 align-items-center">
@@ -29,6 +29,7 @@
 
 
 @code {
+    [CascadingParameter] public IModalService Modal { get; set; }
     [Parameter] public Guid SpecializationId { get; set; }
     private Specialization Specialization;
     private Image? image;
@@ -44,6 +45,14 @@
 
     private void NavigateToEditPage()
     {
-        navigationManager.NavigateTo($"/specializations/{SpecializationId}/edit");
+        var options = new ModalOptions()
+        {
+            Size = ModalSize.Large
+        };
+        var parameters = new ModalParameters();
+        parameters.Add(nameof(EditSpecialization.SpecializationId), SpecializationId);
+        parameters.Add(nameof(EditSpecialization.OldSpecialization), Specialization);
+        Modal.Show<EditSpecialization>("Edit specialization", parameters, options);
+        //navigationManager.NavigateTo($"/specializations/{SpecializationId}/edit");
     }
 }

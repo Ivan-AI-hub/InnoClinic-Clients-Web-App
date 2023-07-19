@@ -66,7 +66,7 @@ namespace ClientsWebApp.Application.Managers
         {
             var doctorsData = await _doctorService.GetPageAsync(page, filtrationModel, cancellationToken);
             var doctors = new List<DoctorDTO>();
-            foreach(var doctor in doctorsData)
+            foreach (var doctor in doctorsData)
             {
                 doctors.Add(await DoctorToDoctorDTOConvertor(doctor, cancellationToken));
             }

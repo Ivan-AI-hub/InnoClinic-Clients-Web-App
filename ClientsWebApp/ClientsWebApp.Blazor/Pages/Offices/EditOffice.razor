@@ -11,24 +11,28 @@
         <ValidationSummary />
         <div class="row">
             <div class="col p-2">
-                <FormInputText Label="Город" Id="city" @bind-Value="@Data.City" />
-                <FormInputText Label="Улица" Id="street" @bind-Value="@Data.Street" />
-                <FormInputNumber Label="Номер дома" Id="houseNumber" @bind-Value="@Data.HouseNumber" />
-                <FormInputNumber Label="Номер офиса" Id="officeNumber" @bind-Value="@Data.OfficeNumber" />
-                <FormInputText Label="Номер телефона" Id="phoneNumber" @bind-Value="@Data.PhoneNumber" />
-                <FormInputCheckBox Label="Статус" Id="status" @bind-Value="@Data.Status" />
-                <SelectImage Title="Фото" @bind-Value="@Data.Picture" SelectedImageData="OldOffice.Photo?.Content" />
+                <FormInputText Label="City" Id="city" @bind-Value="@Data.City" />
+                <FormInputText Label="Street" Id="street" @bind-Value="@Data.Street" />
+                <FormInputNumber Label="House number" Id="houseNumber" @bind-Value="@Data.HouseNumber" />
+                <FormInputNumber Label="Office number" Id="officeNumber" @bind-Value="@Data.OfficeNumber" />
+            </div>
+            <div class="col p-2">
+                <FormInputText Label="Phone number" Id="phoneNumber" @bind-Value="@Data.PhoneNumber" />
+                <FormInputCheckBox Label="Status" Id="status" @bind-Value="@Data.Status" />
+                <SelectImage Title="Photo" @bind-Value="@Data.Picture" SelectedImageData="OldOffice.Photo?.Content" />
             </div>
         </div>
-        <div class="row">
-            <div class="col m-3 w-100">
+        <Row>
+            <Left>
                 <FormSubmitButton @ref="@SubmitButton" ButtonValue="Save Changes" />
-            </div>
-            <div class="col">
-                <DobleQuestionButton OnSuccessAnswerClicked="@Cancel" PreviewButtonValue="Cancel"
-                                 QuestionLabel="Do you really want to cancel? Changes will not be saved." />
-            </div>
-        </div>
+            </Left>
+            <Right>
+                <div class="col">
+                    <DobleQuestionButton OnSuccessAnswerClicked="@Cancel" PreviewButtonValue="Cancel"
+                        QuestionLabel="Do you really want to cancel? Changes will not be saved." />
+                </div>
+            </Right>
+        </Row>
     </EditForm>
 }
 else

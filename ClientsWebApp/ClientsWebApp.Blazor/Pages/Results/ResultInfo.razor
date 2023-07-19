@@ -5,7 +5,7 @@
 
 @if (IsNotFound)
 {
-    <p>К сожалению данное назначение еще не имеет результат:(</p>
+    <p>That appointment have not resul yet:(</p>
     <AuthorizeView Roles="Doctor">
         <Authorized>
             <input class="btn btn-success w-100" type="button" @onclick="@NavigateToCreateResultPage" value="Create" />
@@ -56,7 +56,9 @@ else
         { 
             Size = ModalSize.Large 
         };
-        var parameters = new ModalParameters().Add(nameof(EditResult.AppointmentId), AppointmentId);
+        var parameters = new ModalParameters()
+                        .Add(nameof(EditResult.AppointmentId), AppointmentId)
+                        .Add(nameof(EditResult.Result), result);
         Modal.Show<EditResult>("Edit result", parameters, options);
     }
 

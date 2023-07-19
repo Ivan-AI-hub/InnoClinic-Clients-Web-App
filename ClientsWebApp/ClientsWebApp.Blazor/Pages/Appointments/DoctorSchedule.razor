@@ -8,7 +8,7 @@
         <EditForm Model="FiltrationModel" OnSubmit="AppointmentsUpdateAsync">
             <div class="container">
                 <div class="col ">
-                    <FormInputDate Label="Дата" Id="firstName" @bind-Value="FiltrationModel.Date" />
+                    <FormInputDate Label="Date" Id="firstName" @bind-Value="FiltrationModel.Date" />
                 </div>
                 <FormSubmitButton @ref="@SubmitButton" ButtonValue="Search" />
             </div>
@@ -21,23 +21,11 @@
                       GetStatus="@GetPageStatus" />
             @foreach (var appointment in Appointments)
             {
-                <AppointmentCard Appointment="appointment">
-                    <div class="col">
-                        @if (!appointment.IsApproved)
-                        {
-                            <div class=" m-1">
-                                <ChangeAppointmentDate Appointment="appointment" OnDateChanged="AppointmentsUpdateAsync" />
-                            </div>
-                            <div class=" m-1">
-                                <ApproveAppointment AppointmentId="appointment.Id"
-                                        OnAppointmentApproved="AppointmentsUpdateAsync" />
-                            </div>
-                        }
+                <AppointmentCard Appointment="appointment" OnDataUpdated="AppointmentsUpdateAsync">
                         @if (appointment.IsApproved)
                         {
                             <ResultInfo AppointmentId="@appointment.Id" />
                         }
-                    </div>
                 </AppointmentCard>
             }
         }

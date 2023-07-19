@@ -1,36 +1,17 @@
-﻿
-@inherits CancellableComponent
+﻿@inherits CancellableComponent
 @inject IAppointmentManager AppointmentManager
 @attribute [Authorize(Roles = "Doctor,Admin")]
 
-<div class="col m-3">
+<div class="col mb-1">
     @if (IsLoading)
     {
         <Loading />
     }
     else
     {
-        <AuthorizeView Roles="Admin,Doctor">
-            <Authorized Context="editDate">
-                @if (IsDateChanges)
-                {
-                    <EditForm Model="@Data" OnValidSubmit="ChangeAsync" class="form">
-                        <div class="row">
-                            <div class="col p-2">
-                                <FormInputDate Label="Дата" Id="date" @bind-Value="Data.Date" />
-                            </div>
-                        </div>
-                        <input type="submit" class="btn btn-success w-100" value="Изменить" />
-                        <input type="button" class="btn btn-danger w-100" value="Отмена" @onclick="@StopChanging" />
-                    </EditForm>
-                }
-                else
-                {
-                    <input type="button" class="btn-primary w-100" value="Изменить Дату" @onclick="StartChanging" />
-                }
-            </Authorized>
-        </AuthorizeView>
+        <input type="button" class="btn-primary w-100" value="Edit date" @onclick="StartChanging" />
     }
 </div>
+
 
 

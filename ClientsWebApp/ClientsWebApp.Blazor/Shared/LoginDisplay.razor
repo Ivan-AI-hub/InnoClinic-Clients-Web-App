@@ -2,12 +2,12 @@
 
 <AuthorizeView>
     <Authorized>
-        Приветствуем вас!
-        <a href="/logout">Выйти</a>
+        Welcome!
+        <a href="/logout">Sign out</a>
     </Authorized>
     <NotAuthorized>
-        <button class="btn btn-primary m-2" @onclick="OpenLoginModal">Войти</button>
-        <button class="btn btn-primary m-2" @onclick="OpenRegisterModal">Зарегистрироватся</button>
+        <button class="btn btn-primary m-2" @onclick="OpenLoginModal">Sign in</button>
+        <button class="btn btn-primary m-2" @onclick="OpenRegisterModal">Sign up</button>
     </NotAuthorized>
 </AuthorizeView>
 

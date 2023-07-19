@@ -11,6 +11,7 @@ namespace ClientsWebApp.Blazor.Pages.Appointments
     public partial class TimeSlots : CancellableComponent
     {
         [Parameter] public Guid DoctorId { get; set; }
+        [Parameter] public Guid ExcludeAppointmentId { get; set; } = default;
         [Parameter] public Category Category { get; set; }
         [Parameter] public EventCallback<TimeSlotsData> OnTimeSlotSelected { get; set; }
         [Inject] public IAppointmentManager AppointmentManager { get; set; }
@@ -44,7 +45,7 @@ namespace ClientsWebApp.Blazor.Pages.Appointments
             }
             FiltrationModel.Date = Data.Date;
             var appointments = await AppointmentManager.GetPageAsync(Page, FiltrationModel, _cts.Token);
-
+            appointments = appointments.Where(x => x.Id != ExcludeAppointmentId);
             foreach (var appointment in appointments)
             {
                 var service = await ServiceManager.GetByIdAsync(appointment.Service.Id, _cts.Token);
@@ -67,6 +68,15 @@ namespace ClientsWebApp.Blazor.Pages.Appointments
         {
             Data.StartTime = time;
             Data.EndTime = time.AddMinutes(Category.TimeSlotSize - 1 * 10);
+            for (TimeOnly i = Data.StartTime; i <= Data.EndTime; i = i.AddMinutes(10))
+            {
+                if (!Times[i])
+                {
+                    Data.StartTime = default;
+                    Data.EndTime = default;
+                    return;
+                }
+            }
             StateHasChanged();
             await OnTimeSlotSelected.InvokeAsync(Data);
         }

@@ -1,23 +1,27 @@
 ﻿@inject NavigationManager navigationManager
 @inherits CancellableComponent
 
-<div class="row mb-3 bg-success bg-opacity-10" @onclick="NavigateToInfoPage">
-    @if (Office != null)
-    {
-        <div class="col">
-            <div>Address: @Office.Address</div>
-            Status: <input type="radio" checked="@Office.Status" class="disabled" />
-        </div>
-        <div class="col">
-            <div>OfficeNumber: @Office.OfficeNumber</div>
-            <div>PhoneNumber: @Office.PhoneNumber</div>
-        </div>
-        @if (ChildContent != null)
-        {
-            @ChildContent
-        }
+<div class="row mb-3" @onclick="NavigateToInfoPage">
+    <div class="btn btn-info text-start">
+        <div class="row">
+            @if (Office != null)
+            {
+                <div class="col">
+                    <div>Address: @Office.Address</div>
+                    Status: <input type="radio" checked="@Office.Status" class="disabled" />
+                </div>
+                <div class="col">
+                    <div>Office number: @Office.OfficeNumber</div>
+                    <div>Phone number: @Office.PhoneNumber</div>
+                </div>
+                @if (ChildContent != null)
+                {
+                    @ChildContent
+                }
 
-    }
+            }
+        </div>
+    </div>
 </div>
 
 

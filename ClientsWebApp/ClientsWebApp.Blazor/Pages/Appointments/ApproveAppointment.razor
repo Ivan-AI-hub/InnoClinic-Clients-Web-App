@@ -1,26 +1,15 @@
 ﻿@inherits CancellableComponent
 @attribute [Authorize(Roles = "Doctor,Admin")]
 
-<div class="col m-3">
+<div class="col mb-1">
     @if (IsLoading)
     {
         <Loading />
     }
     else
     {
-        <AuthorizeView Roles="Admin,Doctor">
-            <Authorized Context="editDate">
-                @if (IsDateChanges)
-                {
-                    <input type="button" class="btn btn-success w-100" value="Я уверен" @onclick="ChangeAsync" />
-                    <input type="button" class="btn btn-danger w-100" value="Отмена" @onclick="StopChanging" />
-                }
-                else
-                {
-                    <input type="button" class="btn btn-success w-100" value="Подтвердить назначение" @onclick="StartChanging" />
-                }
-            </Authorized>
-        </AuthorizeView>
+        <DobleQuestionButton AgreeButtonValue="Agree" DisagreeButtonValue="Cancel" OnSuccessAnswerClicked="ChangeAsync"
+            PreviewButtonValue="Approve appointment" />
     }
 </div>
 

@@ -1,8 +1,9 @@
-﻿using ClientsWebApp.Application.Abstraction;
-using ClientsWebApp.Application.Models.Patients;
+﻿using Blazored.Modal;
 using Blazored.Modal.Services;
-using Blazored.Modal;
+using ClientsWebApp.Application.Abstraction;
+using ClientsWebApp.Application.Models.Patients;
 using ClientsWebApp.Blazor.Components;
+using ClientsWebApp.Domain.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 
@@ -25,7 +26,7 @@ namespace ClientsWebApp.Blazor.Pages.Profiles.Patients
             {
                 Patient = await PatientManager.GetByEmailAsync(email, _cts.Token);
             }
-            catch
+            catch (NotFoundException ex)
             {
                 NavigateToCreatePage();
             }
@@ -36,33 +37,20 @@ namespace ClientsWebApp.Blazor.Pages.Profiles.Patients
 
         private void NavigateToDeletePage()
         {
-            var options = new ModalOptions()
-            {
-                Size = ModalSize.Large,
-                DisableBackgroundCancel = true
-            };
-            Modal.Show<DeletePatient>("Delete profile", options);
+            Modal.Show<DeletePatient>("Delete profile");
             //NavigationManager.NavigateTo("/patients/delete");
         }
 
         private void NavigateToCreatePage()
         {
-            var options = new ModalOptions()
-            {
-                Size = ModalSize.Large,
-                DisableBackgroundCancel = true
-            };
-            Modal.Show<CreatePatient>("Create profile", options);
+            Modal.Show<CreatePatient>("Create profile");
             //NavigationManager.NavigateTo("/patients/create");
         }
         private void NavigateToEditPage()
         {
-            var options = new ModalOptions()
-            {
-                Size = ModalSize.Large,
-                DisableBackgroundCancel = true
-            };
-            Modal.Show<EditPatient>("Edit profile", options);
+            var parameters = new ModalParameters();
+            parameters.Add(nameof(EditPatient.OldPatient), Patient);
+            Modal.Show<EditPatient>("Edit profile", parameters);
             //NavigationManager.NavigateTo("/patients/edit");
         }
     }

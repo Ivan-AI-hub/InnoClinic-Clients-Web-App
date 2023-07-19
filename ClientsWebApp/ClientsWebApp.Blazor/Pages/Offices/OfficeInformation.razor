@@ -11,19 +11,19 @@
         @if (@Office.Photo != null)
         {
             <div class="col">
-                <ImageFromByteArray Image="@Office.Photo.Content" imgClass="img-thumbnail rounded float-right" width="100" height="100" />
+                <ImageFromByteArray Image="@Office.Photo.Content" imgClass="img-thumbnail rounded float-right" height="200" />
             </div>
         }
         <div class="col">
-            <div>@Office.Address</div>
-            <div>@Office.OfficeNumber</div>
-            <div>@Office.PhoneNumber</div>
+            <div>Address: @Office.Address</div>
+            <div>Office number: @Office.OfficeNumber</div>
+            <div>Phone number: @Office.PhoneNumber</div>
             <EditForm Model="@Office" class="form">
                 <InputCheckbox @bind-Value="@Office.Status" @oninput="@CheckBoxChanged" />
             </EditForm>
         </div>
         <div class="col">
-            <button class="btn btn-info" @onclick="NavigateToEditPage">Изменить</button>
+            <button class="btn btn-info" @onclick="NavigateToEditPage">Edit</button>
         </div>
 
     }
@@ -31,6 +31,7 @@
 
 
 @code {
+    [CascadingParameter] public IModalService Modal { get; set; }
     [Parameter] public Guid OfficeId { get; set; }
     private OfficeDTO Office;
     protected async override Task OnInitializedAsync()
@@ -45,8 +46,19 @@
         await officeManager.UpdateStatusAsync(OfficeId, value, _cts.Token);
     }
 
-    private void NavigateToEditPage()
+    private async Task NavigateToEditPage()
     {
-        navigationManager.NavigateTo($"/offices/{OfficeId}/edit");
+        var parameters = new ModalParameters();
+        parameters.Add(nameof(EditOffice.OfficeId), OfficeId);
+        parameters.Add(nameof(EditOffice.OldOffice), Office);
+        var options = new ModalOptions()
+        {
+            Size = ModalSize.Large
+        };
+        await Modal.Show<EditOffice>("Edit Office", parameters, options).Result;
+
+        Office = null;
+        Office = await officeManager.GetByIdAsync(OfficeId, _cts.Token);
+        //navigationManager.NavigateTo($"/offices/{OfficeId}/edit");
     }
 }

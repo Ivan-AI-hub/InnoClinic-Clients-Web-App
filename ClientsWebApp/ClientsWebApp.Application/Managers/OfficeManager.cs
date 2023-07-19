@@ -59,7 +59,7 @@ namespace ClientsWebApp.Application.Managers
         {
             var officesData = await _officeService.GetPageAsync(page, cancellationToken);
             var offices = new List<OfficeDTO>();
-            foreach(var office in officesData)
+            foreach (var office in officesData)
             {
                 offices.Add(await OfficeToOfficeDTOConvertor(office, cancellationToken));
             }

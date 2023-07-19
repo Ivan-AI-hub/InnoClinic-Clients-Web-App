@@ -10,7 +10,16 @@
                     @Appointment.Date
                 </Left>
                 <Right>
-                    @Appointment.Time-@Appointment.Time.AddMinutes(10)
+                    @if (service != null)
+                    {
+                        <span>
+                            @Appointment.Time - @Appointment.Time.AddMinutes(service.Category.TimeSlotSize)
+                        </span>
+                    }
+                    else
+                    {
+                        <Loading />
+                    }
                 </Right>
             </Row>
             @if (Appointment.IsApproved)
@@ -57,11 +66,26 @@
                 </Right>
             </Row>
         </div>
-        @if (ChildContent != null)
-        {
-            @ChildContent
-        }
-
+        <div class="col">
+            <AuthorizeView Roles="Admin,Doctor">
+                <Authorized Context="editDate">
+                    @if (service != null && !Appointment.IsApproved)
+                    {
+                        <ChangeAppointmentDate Category="service.Category" Appointment="Appointment" OnDateChanged="Update" />
+                    }
+                    <div class="row">
+                        @if (!Appointment.IsApproved)
+                        {
+                            <ApproveAppointment AppointmentId="Appointment.Id" OnAppointmentApproved="Update" />
+                        }
+                    </div>
+                </Authorized>
+            </AuthorizeView>
+            @if (ChildContent != null)
+            {
+                @ChildContent
+            }
+        </div>
     }
 </div>
 

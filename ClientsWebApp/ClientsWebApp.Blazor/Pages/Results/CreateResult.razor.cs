@@ -1,5 +1,4 @@
 ﻿using ClientsWebApp.Application.Abstraction;
-using ClientsWebApp.Application.Managers;
 using ClientsWebApp.Application.Models.Results;
 using ClientsWebApp.Blazor.Components;
 using ClientsWebApp.Domain.Appointments;
@@ -40,7 +39,7 @@ namespace ClientsWebApp.Blazor.Pages.Results
         }
         private void Cancel()
         {
-            NavigationManager.NavigateTo($"/appointments/{AppointmentId}");
+            NavigationManager.NavigateTo($"/doctors/{Appointment.Doctor.Id}/schedule");
         }
     }
 }

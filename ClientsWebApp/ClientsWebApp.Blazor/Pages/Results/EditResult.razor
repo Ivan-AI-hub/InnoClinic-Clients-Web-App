@@ -13,19 +13,19 @@ else
         <ValidationSummary />
         <div class="row">
             <div class="col p-2">
-                <FormInputText Label="Жалобы" Id="Name" @bind-Value="@Data.Complaints" />
-                <FormInputText Label="Заключение" Id="Name" @bind-Value="@Data.Conclusion" />
-                <FormInputText Label="Рекомендации" Id="Name" @bind-Value="@Data.Recomendations" />
+                <FormInputText Label="Complaints" Id="Name" @bind-Value="@Data.Complaints" />
+                <FormInputText Label="Conclusion" Id="Name" @bind-Value="@Data.Conclusion" />
+                <FormInputText Label="Recomendations" Id="Name" @bind-Value="@Data.Recomendations" />
             </div>
         </div>
-        <div class="row">
-            <div class="col m-3 w-100">
+        <Row>
+            <Left>
                 <FormSubmitButton @ref="@SubmitButton" ButtonValue="Save Changes" />
-            </div>
-            <div class="col">
+            </Left>
+            <Right>
                 <DobleQuestionButton OnSuccessAnswerClicked="@Cancel" PreviewButtonValue="Cancel"
                                  QuestionLabel="Do you really want to cancel? Changes will not be saved." />
-            </div>
-        </div>
+            </Right>
+        </Row>
     </EditForm>
 }

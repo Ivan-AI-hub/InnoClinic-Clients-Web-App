@@ -69,7 +69,7 @@ namespace ClientsWebApp.Application.Managers
         {
             var receptionistsData = await _receptionistService.GetPageAsync(page, filtrationModel, cancellationToken);
             var receptionists = new List<ReceptionistDTO>();
-            foreach(var receptionist in receptionistsData)
+            foreach (var receptionist in receptionistsData)
             {
                 receptionists.Add(await ReceptionistToReceptionistDTOConvertor(receptionist, cancellationToken));
             }

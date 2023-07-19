@@ -1,16 +1,20 @@
+using Blazored.Modal;
+using Blazored.Modal.Services;
 using ClientsWebApp.Application.Models.Appointments;
 using ClientsWebApp.Domain.Appointments;
+using ClientsWebApp.Domain.Categories;
 using Microsoft.AspNetCore.Components;
 
 namespace ClientsWebApp.Blazor.Pages.Appointments
 {
     public partial class ChangeAppointmentDate
     {
+        [CascadingParameter] public IModalService Modal { get; set; }
         [Parameter] public Appointment Appointment { get; set; }
-
+        [Parameter] public Category Category { get; set; }
         [Parameter] public EventCallback OnDateChanged { get; set; }
 
-        private bool IsDateChanges { get; set; }
+        private IModalReference? _openedModal;
 
         private bool IsLoading { get; set; } = false;
         private ChangeDateData Data { get; set; }
@@ -19,7 +23,6 @@ namespace ClientsWebApp.Blazor.Pages.Appointments
         {
             Data = new ChangeDateData()
             {
-                Date = Appointment.Date.ToDateTime(Appointment.Time),
                 AppointmentId = Appointment.Id,
                 DoctorId = Appointment.Doctor.Id
             };
@@ -27,21 +30,21 @@ namespace ClientsWebApp.Blazor.Pages.Appointments
 
         private void StartChanging()
         {
-            IsDateChanges = true;
+            var parameters = new ModalParameters();
+            parameters.Add(nameof(TimeSlots.ExcludeAppointmentId), Appointment.Id);
+            parameters.Add(nameof(TimeSlots.Category), Category);
+            parameters.Add(nameof(TimeSlots.DoctorId), Appointment.Doctor.Id);
+            parameters.Add(nameof(TimeSlots.OnTimeSlotSelected), EventCallback.Factory.Create<TimeSlotsData>(this, ChangeAsync));
+            _openedModal = Modal.Show<TimeSlots>("Select date", parameters);
         }
 
-        private void StopChanging()
-        {
-            IsDateChanges = false;
-        }
-
-        private async Task ChangeAsync()
+        private async Task ChangeAsync(TimeSlotsData timeSlotsData)
         {
             IsLoading = true;
-
+            Data.Date = timeSlotsData.Date.ToDateTime(timeSlotsData.StartTime);
             await AppointmentManager.ChangeDateAsync(Data, _cts.Token);
             await OnDateChanged.InvokeAsync();
-            StopChanging();
+            _openedModal?.Close();
 
             IsLoading = false;
         }

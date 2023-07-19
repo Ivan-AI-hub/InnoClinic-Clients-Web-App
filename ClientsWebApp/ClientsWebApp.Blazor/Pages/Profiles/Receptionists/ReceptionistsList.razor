@@ -6,10 +6,10 @@
         <EditForm Model="FiltrationModel" OnValidSubmit="ReceptionistsUpdateAsync">
             <div class="container">
                 <div class="col ">
-                    <label class="form-label">Фильтрация</label>
-                    <FormInputText Label="Имя" Id="firstName" @bind-Value="FiltrationModel.FirstName" />
-                    <FormInputText Label="Фамилия" Id="lastName" @bind-Value="FiltrationModel.LastName" />
-                    <FormInputText Label="Отчество" Id="middleName" @bind-Value="FiltrationModel.MiddleName" />
+                    
+                    <FormInputText Label="FirstName" Id="firstName" @bind-Value="FiltrationModel.FirstName" />
+                    <FormInputText Label="LastName" Id="lastName" @bind-Value="FiltrationModel.LastName" />
+                    <FormInputText Label="MiddleName" Id="middleName" @bind-Value="FiltrationModel.MiddleName" />
                 </div>
                 <FormSubmitButton @ref="@SubmitButton" ButtonValue="Search" />
             </div>

@@ -10,6 +10,7 @@
 }
 else
 {
+
     <EditForm Model="@Data" OnValidSubmit="CreateAsync" class="form">
         <FluentValidationValidator DisableAssemblyScanning=true />
         <ValidationSummary />
@@ -17,44 +18,44 @@ else
             <div class="col p-2">
                 @if (IsDateTimeSelection)
                 {
-                    <TimeSlots Category="@GetCategory(Data.Category)"
-                       DoctorId="@Data.DoctorId" OnTimeSlotSelected="@TimeSlotSelected" />
+                    <TimeSlots Category="@GetCategory(Data.Category)" DoctorId="@Data.DoctorId"
+                        OnTimeSlotSelected="@TimeSlotSelected" />
                 }
                 else
                 {
-                    <FormInputSelect HasDefaultOption="@true" DefaultValueLabel="Nothing" Label="Офис" Id="office"
-                             @bind-Value="Data.OfficeId" Values="Offices" GetLabelHandler="@(x => x.Address)"
-                             GetValueHandler="@(x => x.Id)" @oninput="OfficeWasSelected" />
+                    <FormInputSelect HasDefaultOption="@true" DefaultValueLabel="Nothing" Label="Office" Id="office"
+                    @bind-Value="Data.OfficeId" Values="Offices" GetLabelHandler="@(x => x.Address)"
+                        GetValueHandler="@(x => x.Id)" @oninput="OfficeWasSelected" />
 
-                    <FormInputSelect HasDefaultOption="@true" DefaultValueLabel="Nothing" Label="Специализация"
-                             Id="specialization" @bind-Value="Data.Specialization" Values="Specializations"
-                             GetLabelHandler="@(x => x.Name)" GetValueHandler="@(x => x.Name)"
-                             @oninput="SpecializationWasSelected" />
+                    <FormInputSelect HasDefaultOption="@true" DefaultValueLabel="Nothing" Label="Specialization"
+                        Id="specialization" @bind-Value="Data.Specialization" Values="Specializations"
+                        GetLabelHandler="@(x => x.Name)" GetValueHandler="@(x => x.Name)"
+                    @oninput="SpecializationWasSelected" />
 
-                    <FormInputSelect HasDefaultOption="@true" DefaultValueLabel="Nothing" Label="Доктор" Id="doctors"
-                             @bind-Value="Data.DoctorId" Values="Doctors" GetLabelHandler="@(x => x.Info.GetFullName())"
-                             GetValueHandler="@(x => x.Id)" @oninput="DoctorWasSelected" />
+                    <FormInputSelect HasDefaultOption="@true" DefaultValueLabel="Nothing" Label="Doctor" Id="doctors"
+                    @bind-Value="Data.DoctorId" Values="Doctors" GetLabelHandler="@(x => x.Info.GetFullName())"
+                        GetValueHandler="@(x => x.Id)" @oninput="DoctorWasSelected" />
 
-                    <FormInputSelect HasDefaultOption="@true" DefaultValueLabel="Nothing" Label="Категория" Id="doctors"
-                             @bind-Value="Data.Category" Values="Categories" GetLabelHandler="@(x => x)" GetValueHandler="@(x => x)"
-                             @oninput="CategoryWasSelected" />
+                    <FormInputSelect HasDefaultOption="@true" DefaultValueLabel="Nothing" Label="Category" Id="doctors"
+                    @bind-Value="Data.Category" Values="Categories" GetLabelHandler="@(x => x)" GetValueHandler="@(x => x)"
+                    @oninput="CategoryWasSelected" />
 
-                    <FormInputSelect HasDefaultOption="@true" DefaultValueLabel="Nothing" Label="Сервис" Id="doctors"
-                             @bind-Value="Data.ServiceId" Values="Services" GetLabelHandler="@(x => x.Name)"
-                             GetValueHandler="@(x => x.Id)" />
+                    <FormInputSelect HasDefaultOption="@true" DefaultValueLabel="Nothing" Label="Service" Id="doctors"
+                    @bind-Value="Data.ServiceId" Values="Services" GetLabelHandler="@(x => x.Name)"
+                        GetValueHandler="@(x => x.Id)" />
                 }
             </div>
         </div>
         @if (IsDateTimeSelection)
         {
-            <div class="row">
-                <div class="col">
+            <Row>
+                <Left>
                     <input type="button" class="btn btn-info m-3" value="Back to value" @onclick="@StopSelectDateAndTime" />
-                </div>
-                <div class="col">
+                </Left>
+                <Right>
                     <FormSubmitButton @ref="@SubmitButton" ButtonValue="Create Appointment" />
-                </div>
-            </div>
+                </Right>
+            </Row>
         }
         else
         {

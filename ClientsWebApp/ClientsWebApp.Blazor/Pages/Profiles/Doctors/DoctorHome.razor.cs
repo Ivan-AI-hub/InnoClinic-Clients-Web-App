@@ -1,11 +1,11 @@
-﻿using ClientsWebApp.Application.Abstraction;
-using ClientsWebApp.Application.Models.Doctors;
+﻿using Blazored.Modal;
 using Blazored.Modal.Services;
+using ClientsWebApp.Application.Abstraction;
+using ClientsWebApp.Application.Models.Doctors;
 using ClientsWebApp.Blazor.Components;
 using ClientsWebApp.Domain.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
-using Blazored.Modal;
 
 namespace ClientsWebApp.Blazor.Pages.Profiles.Doctors
 {
@@ -36,22 +36,14 @@ namespace ClientsWebApp.Blazor.Pages.Profiles.Doctors
 
         private void NavigateToEditPage()
         {
-            var options = new ModalOptions()
-            {
-                Size = ModalSize.Large,
-                DisableBackgroundCancel = true
-            };
-            Modal.Show<EditDoctor>("Edit profile", options);
+            var parameters = new ModalParameters();
+            parameters.Add(nameof(EditDoctor.OldDoctor), Doctor);
+            Modal.Show<EditDoctor>("Edit profile", parameters);
             //NavigationManager.NavigateTo("/doctors/edit");
         }
-        private async Task NavigateToCreatePage()
+        private void NavigateToCreatePage()
         {
-            var options = new ModalOptions()
-            {
-                Size = ModalSize.Large,
-                DisableBackgroundCancel = true
-            };
-            Modal.Show<CreateDoctor>("Create Profile", options);
+            Modal.Show<CreateDoctor>("Create Profile");
             //NavigationManager.NavigateTo("/doctors/create");
         }
         private void NavigateToSchedulePage()

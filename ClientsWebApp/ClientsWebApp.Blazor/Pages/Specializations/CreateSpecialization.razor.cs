@@ -1,7 +1,10 @@
-﻿using ClientsWebApp.Application.Abstraction;
+﻿using Blazored.Modal;
+using Blazored.Modal.Services;
+using ClientsWebApp.Application.Abstraction;
 using ClientsWebApp.Application.Models.Services;
 using ClientsWebApp.Application.Models.Specializations;
 using ClientsWebApp.Blazor.Components;
+using ClientsWebApp.Blazor.Pages.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 
@@ -10,6 +13,7 @@ namespace ClientsWebApp.Blazor.Pages.Specializations
     [Authorize(Roles = "Admin")]
     public partial class CreateSpecialization : CancellableComponent
     {
+        [CascadingParameter] public IModalService Modal { get; set; }
         [Inject] public ISpecializationManager SpecializationManager { get; set; }
         [Inject] public IServiceManager ServiceManager { get; set; }
         [Inject] NavigationManager NavigationManager { get; set; }
@@ -17,17 +21,20 @@ namespace ClientsWebApp.Blazor.Pages.Specializations
 
         private List<CreateServiceData> Services = new List<CreateServiceData>();
         private FormSubmitButton SubmitButton { get; set; }
-        private bool IsManagerCreating = false;
         private string ErrorMessage;
+        private IModalReference? _openedModal;
 
         private void StartCreateService()
         {
-            IsManagerCreating = true;
+            var parameters = new ModalParameters();
+            parameters.Add(nameof(CreateService.SpecializationId), default(Guid));
+            parameters.Add(nameof(CreateService.OnModelCreated), EventCallback.Factory.Create<CreateServiceData>(this, StopCreateService));
+            _openedModal = Modal.Show<CreateService>("Create service", parameters);
         }
         private void StopCreateService(CreateServiceData model)
         {
             Services.Add(model);
-            IsManagerCreating = false;
+            _openedModal?.Close();
         }
 
         private void RemoveService(CreateServiceData model)
@@ -42,7 +49,7 @@ namespace ClientsWebApp.Blazor.Pages.Specializations
             if (Services.Count == 0)
             {
                 SubmitButton?.StopLoading();
-                ErrorMessage = "Создайте по меньшей мере 1 сервис";
+                ErrorMessage = "Create at least 1 service!";
                 return;
             }
 

@@ -1,4 +1,5 @@
 ﻿﻿<CascadingAuthenticationState>
+    <CascadingBlazoredModal Position="ModalPosition.Middle" HideCloseButton="@true" DisableBackgroundCancel="@true">
         <Router AppAssembly="@typeof(App).Assembly">
 
             <Found Context="routeData">
@@ -15,7 +16,8 @@
                     <p role="alert">Sorry, there's nothing at this address.</p>
                 </LayoutView>
             </NotFound>
-            
+
         </Router>
+    </CascadingBlazoredModal>
 </CascadingAuthenticationState>
 
