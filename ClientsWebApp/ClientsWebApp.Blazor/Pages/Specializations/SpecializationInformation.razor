@@ -53,6 +53,5 @@
         parameters.Add(nameof(EditSpecialization.SpecializationId), SpecializationId);
         parameters.Add(nameof(EditSpecialization.OldSpecialization), Specialization);
         Modal.Show<EditSpecialization>("Edit specialization", parameters, options);
-        //navigationManager.NavigateTo($"/specializations/{SpecializationId}/edit");
     }
 }

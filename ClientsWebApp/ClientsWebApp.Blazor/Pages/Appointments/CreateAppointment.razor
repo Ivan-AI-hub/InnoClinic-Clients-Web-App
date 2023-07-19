@@ -36,7 +36,7 @@ else
                     @bind-Value="Data.DoctorId" Values="Doctors" GetLabelHandler="@(x => x.Info.GetFullName())"
                         GetValueHandler="@(x => x.Id)" @oninput="DoctorWasSelected" />
 
-                    <FormInputSelect HasDefaultOption="@true" DefaultValueLabel="Nothing" Label="Category" Id="doctors"
+                    <FormInputSelect Label="Category" Id="doctors"
                     @bind-Value="Data.Category" Values="Categories" GetLabelHandler="@(x => x)" GetValueHandler="@(x => x)"
                     @oninput="CategoryWasSelected" />
 
@@ -59,7 +59,14 @@ else
         }
         else
         {
-            <input type="button" class="btn btn-info m-3" value="Select date and time" @onclick="@StartSelectDateAndTime" />
+            if(Data.ServiceId != default && Data.DoctorId != default)
+            {
+                <input type="button" class="btn btn-info m-3" value="Select date and time" @onclick="@StartSelectDateAndTime" />
+            }
+            else
+            {
+                <input type="button" class="btn btn-info m-3 disabled" value="Select date and time" />
+            }
         }
     </EditForm>
 }

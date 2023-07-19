@@ -36,14 +36,22 @@ namespace ClientsWebApp.Blazor.Pages.Profiles.Doctors
 
         private void NavigateToEditPage()
         {
+            var options = new ModalOptions() 
+            {
+                Size = ModalSize.Large
+            };
             var parameters = new ModalParameters();
             parameters.Add(nameof(EditDoctor.OldDoctor), Doctor);
-            Modal.Show<EditDoctor>("Edit profile", parameters);
+            Modal.Show<EditDoctor>("Edit profile", parameters, options);
             //NavigationManager.NavigateTo("/doctors/edit");
         }
         private void NavigateToCreatePage()
         {
-            Modal.Show<CreateDoctor>("Create Profile");
+            var options = new ModalOptions() 
+            {
+                Size = ModalSize.Large
+            };
+            Modal.Show<CreateDoctor>("Create Profile", options);
             //NavigationManager.NavigateTo("/doctors/create");
         }
         private void NavigateToSchedulePage()

@@ -16,12 +16,20 @@
 
     private void OpenLoginModal()
     {
-        Modal.Show<Login>("Sign in");
+        var options = new ModalOptions()
+        {
+            HideCloseButton = false
+        };
+        Modal.Show<Login>("Sign in", options);
     }
 
     private void OpenRegisterModal()
     {
-        Modal.Show<Register>("Sign up");
+        var options = new ModalOptions()
+        {
+            HideCloseButton = false
+        };
+        Modal.Show<Register>("Sign up", options);
     }
 }
 

@@ -42,14 +42,22 @@ namespace ClientsWebApp.Blazor.Pages.Profiles.Receptionists
 
         private void NavigateToCreatePage()
         {
-            Modal.Show<CreateReceptionist>("Create profile");
+            var options = new ModalOptions() 
+            {
+                Size = ModalSize.Large
+            };
+            Modal.Show<CreateReceptionist>("Create profile", options);
             //NavigationManager.NavigateTo("/patients/create");
         }
         private void NavigateToEditPage()
         {
+            var options = new ModalOptions() 
+            {
+                Size = ModalSize.Large
+            };
             var parameters = new ModalParameters();
             parameters.Add(nameof(EditReceptionist.OldReceptionist), Receptionist);
-            Modal.Show<EditReceptionist>("Edit profile", parameters);
+            Modal.Show<EditReceptionist>("Edit profile", parameters, options);
             //NavigationManager.NavigateTo("/patients/edit");
         }
     }

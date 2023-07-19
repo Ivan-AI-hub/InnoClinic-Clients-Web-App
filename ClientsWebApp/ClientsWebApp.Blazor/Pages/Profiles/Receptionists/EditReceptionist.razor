@@ -15,6 +15,8 @@
                 <FormInputText Label="FirstName" Id="firstName" @bind-Value="@Data.FirstName" />
                 <FormInputText Label="LastName" Id="lastName" @bind-Value="@Data.LastName" />
                 <FormInputText Label="MiddleName" Id="middleName" @bind-Value="@Data.MiddleName" />
+            </div>
+            <div class="col p-2">
                 <FormInputSelect Label="Office" Id="office" @bind-Value="Data.OfficeId" Values="Offices"
                              GetLabelHandler="@(x => x.Address)" GetValueHandler="@(x => x.Id)" />
                 <FormInputDate Label="BirthDay" Id="birthDay" @bind-Value="@Data.BirthDay" />

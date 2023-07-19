@@ -20,6 +20,8 @@ else
                 <FormInputText Label="LastName" Id="lastName" @bind-Value="@Data.LastName" />
                 <FormInputText Label="MiddleName" Id="middleName" @bind-Value="@Data.MiddleName" />
                 <FormInputNumber Label="Career start year" Id="careerStartYear" @bind-Value="@Data.CareerStartYear" />
+            </div>
+            <div class="col p-2">
                 <FormInputSelect Label="Office" Id="office" @bind-Value="Data.OfficeId" Values="Offices" GetLabelHandler="@(x => x.Address)" GetValueHandler="@(x => x.Id)" />
                 <FormInputSelect Label="Specialization" Id="specialization" @bind-Value="Data.Specialization" Values="Specializations" GetLabelHandler="@(x => x.Name)" GetValueHandler="@(x => x.Name)" />
                 <FormInputDate Label="BirthDay" Id="birthDay" @bind-Value="@Data.BirthDay" />

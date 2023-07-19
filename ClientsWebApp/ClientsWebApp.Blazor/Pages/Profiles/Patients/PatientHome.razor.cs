@@ -43,14 +43,22 @@ namespace ClientsWebApp.Blazor.Pages.Profiles.Patients
 
         private void NavigateToCreatePage()
         {
-            Modal.Show<CreatePatient>("Create profile");
+            var options = new ModalOptions() 
+            {
+                Size = ModalSize.Large
+            };
+            Modal.Show<CreatePatient>("Create profile", options);
             //NavigationManager.NavigateTo("/patients/create");
         }
         private void NavigateToEditPage()
         {
+            var options = new ModalOptions() 
+            {
+                Size = ModalSize.Large
+            };
             var parameters = new ModalParameters();
             parameters.Add(nameof(EditPatient.OldPatient), Patient);
-            Modal.Show<EditPatient>("Edit profile", parameters);
+            Modal.Show<EditPatient>("Edit profile", parameters, options);
             //NavigationManager.NavigateTo("/patients/edit");
         }
     }

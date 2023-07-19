@@ -81,6 +81,7 @@ namespace ClientsWebApp.Application.Managers
             var officeData = await _officeService.GetByIdAsync(receptionistData.Office.Id, cancellationToken);
 
             var receptionist = new ReceptionistDTO(receptionistData, officeData);
+
             if (receptionistData.Info.Photo != null)
             {
                 receptionist.Info.Photo = await _imageService.GetAsync(receptionistData.Info.Photo.Name, cancellationToken);
@@ -89,6 +90,7 @@ namespace ClientsWebApp.Application.Managers
             {
                 receptionist.Office.Photo = await _imageService.GetAsync(officeData.Photo.Name, cancellationToken);
             }
+            
             return receptionist;
         }
     }

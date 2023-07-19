@@ -85,8 +85,11 @@ namespace ClientsWebApp.Blazor.Pages.Appointments
 
         private void StartSelectDateAndTime()
         {
-            IsDateTimeSelection = true;
-            StateHasChanged();
+            if(Data.ServiceId != default && Data.DoctorId != default)
+            {
+                IsDateTimeSelection = true;
+                StateHasChanged();
+            }
         }
         private void StopSelectDateAndTime()
         {
