@@ -6,7 +6,14 @@
         if (Receptionist.Info.Photo != null)
         {
             <div class="col">
-                <ImageFromByteArray Image="Receptionist.Info.Photo.Content" ImageType="image.ContentType" IsSvgImage="false" height="200" />
+                @if (_image != null)
+                {
+                    <ImageFromByteArray Image="_image.Content" ImageType="_image.ContentType" IsSvgImage="false" height="200" />
+                }
+                else
+                {
+                    <Loading />
+                }
             </div>
         }
         <div class="col">
@@ -33,4 +40,9 @@
 @code {
     [Parameter] public ReceptionistDTO Receptionist { get; set; }
     [Parameter] public RenderFragment ChildContent { get; set; }
+    private Image? _image;
+    protected async override Task OnInitializedAsync()
+    {
+        _image = Receptionist.Info.Photo != null? await Receptionist.Info.Photo : null;
+    }
 }

@@ -19,7 +19,7 @@
             <div class="col p-2">
                 <FormInputText Label="Phone number" Id="phoneNumber" @bind-Value="@Data.PhoneNumber" />
                 <FormInputDate Label="BirthDay" Id="birthDay" @bind-Value="@Data.BirthDay" />
-                <SelectImage Title="Photo" @bind-Value="@Data.Picture" SelectedImageData="@OldPatient.Info.Photo?.Content" />
+                <SelectImage Title="Photo" @bind-Value="@Data.Picture" SelectedImageData="@_image?.Content" />
             </div>
         </div>
         <Row>

@@ -19,7 +19,7 @@
             <div class="col p-2">
                 <FormInputText Label="Phone number" Id="phoneNumber" @bind-Value="@Data.PhoneNumber" />
                 <FormInputCheckBox Label="Status" Id="status" @bind-Value="@Data.Status" />
-                <SelectImage Title="Photo" @bind-Value="@Data.Picture" SelectedImageData="OldOffice.Photo?.Content" />
+                <SelectImage Title="Photo" @bind-Value="@Data.Picture" SelectedImageData="_image?.Content" />
             </div>
         </div>
         <Row>

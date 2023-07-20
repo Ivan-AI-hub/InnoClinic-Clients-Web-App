@@ -27,13 +27,14 @@ namespace ClientsWebApp.Application.Managers
         }
         public async Task EditAsync(OfficeDTO oldOffice, EditOfficeData data, CancellationToken cancellationToken)
         {
-            var imageName = data.Picture == null ? new ImageName(oldOffice.Photo.FileName) : new ImageName(data.Picture.FileName);
+            var fileName = (await oldOffice.ToOfficeAsync()).Photo.Name; 
+            var imageName = data.Picture == null ? new ImageName(fileName) : new ImageName(data.Picture.FileName);
             var updateModel = new UpdateOfficeModel(imageName, data.City, data.Street, data.HouseNumber, data.OfficeNumber, data.PhoneNumber, data.Status);
 
             await _officeService.UpdateAsync(oldOffice.Id, updateModel, cancellationToken);
-            if (data.Picture != null && data.Picture.FileName != oldOffice.Photo.FileName)
+            if (data.Picture != null && data.Picture.FileName != fileName)
             {
-                await _imageService.DeleteAsync(oldOffice.Photo.FileName, cancellationToken);
+                await _imageService.DeleteAsync(fileName, cancellationToken);
                 await _imageService.CreateAsync(data.Picture, cancellationToken);
             }
 
@@ -71,7 +72,7 @@ namespace ClientsWebApp.Application.Managers
             var office = new OfficeDTO(officeData);
             if (officeData.Photo != null)
             {
-                office.Photo = await _imageService.GetAsync(officeData.Photo.Name, cancellationToken);
+                office.Photo = _imageService.GetAsync(officeData.Photo.Name, cancellationToken);
             }
             return office;
         }

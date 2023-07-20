@@ -16,7 +16,7 @@ namespace ClientsWebApp.Application.Models.Receptionists
             FirstName = receptionist.Info.FirstName;
             LastName = receptionist.Info.LastName;
             MiddleName = receptionist.Info.MiddleName;
-            OfficeId = receptionist.Office.Id;
+            OfficeId = receptionist.Office?.Id ?? default;
             BirthDay = receptionist.Info.BirthDay;
         }
     }

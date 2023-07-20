@@ -25,7 +25,7 @@ else
                 <FormInputSelect Label="Specialization" Id="specialization" @bind-Value="Data.Specialization"
                              Values="Specializations" GetLabelHandler="@(x => x.Name)" GetValueHandler="@(x => x.Name)" />
                 <FormInputDate Label="BirthDay" Id="birthDay" @bind-Value="@Data.BirthDay" />
-                <SelectImage Title="Photo" @bind-Value="@Data.Picture" SelectedImageData="@OldDoctor.Info.Photo.Content" />
+                <SelectImage Title="Photo" @bind-Value="@Data.Picture" SelectedImageData="@_image?.Content" />
             </div>
         </div>
         <Row>

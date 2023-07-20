@@ -2,6 +2,7 @@
 using ClientsWebApp.Application.Models.Receptionists;
 using ClientsWebApp.Blazor.Components;
 using ClientsWebApp.Domain;
+using ClientsWebApp.Domain.Images;
 using ClientsWebApp.Domain.Offices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
@@ -20,6 +21,7 @@ namespace ClientsWebApp.Blazor.Pages.Profiles.Receptionists
         private IEnumerable<Office> Offices { get; set; }
         private EditReceptionistData Data { get; set; }
         private string ErrorMessage;
+        private Image? _image;
         protected override async Task OnInitializedAsync()
         {
             var page = new Page(100, 1);
@@ -29,13 +31,13 @@ namespace ClientsWebApp.Blazor.Pages.Profiles.Receptionists
                 OldReceptionist = await ReceptionistManager.GetByEmailAsync(email, _cts.Token);
             }
             Data = new EditReceptionistData(OldReceptionist);
-
             Offices = await OfficeManager.GetInfoPageAsync(page, _cts.Token);
 
             if (OldReceptionist.Office == null)
             {
                 Data.OfficeId = Offices.Select(x => x.Id).First();
             }
+            _image = await OldReceptionist.Info.Photo;
         }
 
         private async Task EditAsync()

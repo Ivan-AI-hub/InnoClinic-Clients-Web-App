@@ -1,6 +1,7 @@
 ﻿using ClientsWebApp.Application.Abstraction;
 using ClientsWebApp.Application.Models.Offices;
 using ClientsWebApp.Blazor.Components;
+using ClientsWebApp.Domain.Images;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 
@@ -16,12 +17,12 @@ namespace ClientsWebApp.Blazor.Pages.Offices
         private FormSubmitButton SubmitButton { get; set; }
         private EditOfficeData Data { get; set; }
         private string ErrorMessage;
-
+        private Image? _image;
         protected override async Task OnInitializedAsync()
         {
             OldOffice = OldOffice ?? await OfficeManager.GetByIdAsync(OfficeId, _cts.Token);
             Data = new EditOfficeData(OldOffice);
-            StateHasChanged();
+            _image = await OldOffice.Photo;
         }
 
         private async Task EditAsync()

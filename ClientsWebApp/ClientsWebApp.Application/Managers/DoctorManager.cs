@@ -38,13 +38,14 @@ namespace ClientsWebApp.Application.Managers
 
         public async Task EditAsync(DoctorDTO oldDoctor, EditDoctorData data, CancellationToken cancellationToken)
         {
-            var imageName = data.Picture == null ? new ImageName(oldDoctor.Info.Photo.FileName) : new ImageName(data.Picture.FileName);
+            var fileName = (await oldDoctor.Info.ToHumanInfo()).Photo.Name; 
+            var imageName = data.Picture == null ? new ImageName(fileName) : new ImageName(data.Picture.FileName);
             var updateModel = new UpdateDoctorModel(imageName, data.FirstName, data.LastName, data.MiddleName, data.BirthDay, data.Specialization, data.OfficeId, data.CareerStartYear, data.Status);
 
             await _doctorService.UpdateAsync(oldDoctor.Id, updateModel, cancellationToken);
-            if (data.Picture != null && data.Picture.FileName != oldDoctor.Info.Photo?.FileName)
+            if (data.Picture != null && data.Picture.FileName != fileName)
             {
-                await _imageService.DeleteAsync(oldDoctor.Info.Photo.FileName, cancellationToken);
+                await _imageService.DeleteAsync(fileName, cancellationToken);
                 await _imageService.CreateAsync(data.Picture, cancellationToken);
             }
 
@@ -85,11 +86,11 @@ namespace ClientsWebApp.Application.Managers
             var doctor = new DoctorDTO(doctorData, officeData);
             if (doctorData.Info.Photo != null)
             {
-                doctor.Info.Photo = await _imageService.GetAsync(doctorData.Info.Photo.Name, cancellationToken);
+                doctor.Info.Photo = _imageService.GetAsync(doctorData.Info.Photo.Name, cancellationToken);
             }
             if (officeData.Photo != null)
             {
-                doctor.Office.Photo = await _imageService.GetAsync(officeData.Photo.Name, cancellationToken);
+                doctor.Office.Photo = _imageService.GetAsync(officeData.Photo.Name, cancellationToken);
             }
             return doctor;
         }

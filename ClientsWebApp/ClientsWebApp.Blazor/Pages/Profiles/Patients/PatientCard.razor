@@ -5,10 +5,17 @@
 <div class="row mb-3 align-items-center">
     @if (Patient != null)
     {
-        @if (Patient.Info.Photo != null)
+        if (Patient.Info.Photo != null)
         {
             <div class="col">
-                <ImageFromByteArray Image="@Patient.Info.Photo.Content" ImageType="image.ContentType" IsSvgImage="false" height="200" />
+                @if (_image != null)
+                {
+                    <ImageFromByteArray Image="_image.Content" ImageType="_image.ContentType" IsSvgImage="false" height="200" />
+                }
+                else
+                {
+                    <Loading />
+                }
             </div>
         }
         <div class="col-sm m-lg-3">
@@ -35,7 +42,11 @@
 @code {
     [Parameter] public PatientDTO Patient { get; set; }
     [Parameter] public RenderFragment ChildContent { get; set; }
-
+    private Image? _image;
+    protected async override Task OnInitializedAsync()
+    {
+        _image = Patient.Info.Photo != null? await Patient.Info.Photo : null;
+    }
     private void NavigateToHistoryPage()
     {
         NavigationManager.NavigateTo($"/patients/{Patient.Id}/appointmentsHistory");

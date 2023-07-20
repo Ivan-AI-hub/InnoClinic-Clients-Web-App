@@ -6,15 +6,14 @@ namespace ClientsWebApp.Application.Models
 {
     public class HumanInfoDTO
     {
-        public Image? Photo { get; set; }
+        public Task<Image>? Photo { get; set; }
         public string Email { get; private set; }
         public string FirstName { get; private set; }
         public string LastName { get; private set; }
         public string MiddleName { get; private set; }
         public DateTime BirthDay { get; private set; }
-        public HumanInfoDTO(Image? photo, string email, string firstName, string lastName, string middleName, DateTime birthDay)
+        public HumanInfoDTO(string email, string firstName, string lastName, string middleName, DateTime birthDay)
         {
-            Photo = photo;
             Email = email;
             FirstName = firstName;
             LastName = lastName;
@@ -36,9 +35,9 @@ namespace ClientsWebApp.Application.Models
             return $"{LastName} {FirstName} {MiddleName}";
         }
 
-        public HumanInfo ToHumanInfo()
+        public async Task<HumanInfo> ToHumanInfo()
         {
-            var image = Photo != null ? new ImageName(Photo.FileName) : null;
+            var image = Photo != null ? new ImageName((await Photo).FileName) : null;
             return new HumanInfo(image, Email, FirstName, LastName, MiddleName, BirthDay);
         }
     }

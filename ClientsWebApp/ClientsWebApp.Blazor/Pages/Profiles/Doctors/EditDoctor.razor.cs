@@ -2,6 +2,7 @@
 using ClientsWebApp.Application.Models.Doctors;
 using ClientsWebApp.Blazor.Components;
 using ClientsWebApp.Domain;
+using ClientsWebApp.Domain.Images;
 using ClientsWebApp.Domain.Offices;
 using ClientsWebApp.Domain.Specializations;
 using Microsoft.AspNetCore.Authorization;
@@ -25,6 +26,7 @@ namespace ClientsWebApp.Blazor.Pages.Profiles.Doctors
 
         private string ErrorMessage;
         private string Email;
+        private Image? _image;
         protected override async Task OnInitializedAsync()
         {
             var page = new Page(100, 1);
@@ -33,14 +35,17 @@ namespace ClientsWebApp.Blazor.Pages.Profiles.Doctors
                 Email = await authStateHelper.GetEmailAsync();
                 OldDoctor = await DoctorManager.GetByEmailAsync(Email, _cts.Token);
             }
+
             Data = new EditDoctorData(OldDoctor);
             Specializations = await SpecializationManager.GetInfoAsync(page, _cts.Token);
             Offices = await OfficeManager.GetInfoPageAsync(page, _cts.Token);
 
+            
             if (OldDoctor.Specialization == null)
             {
                 Data.Specialization = Specializations.Select(x => x.Name).First();
             }
+            _image = await OldDoctor.Info.Photo;
         }
 
         private async Task EditAsync()

@@ -34,13 +34,14 @@ namespace ClientsWebApp.Application.Managers
 
         public async Task EditAsync(PatientDTO oldPatient, EditPatientData data, CancellationToken cancellationToken)
         {
-            var imageName = data.Picture == null ? new ImageName(oldPatient.Info.Photo.FileName) : new ImageName(data.Picture.FileName);
+            var fileName = (await oldPatient.Info.ToHumanInfo()).Photo.Name; 
+            var imageName = data.Picture == null ? new ImageName(fileName) : new ImageName(data.Picture.FileName);
             var updateModel = new UpdatePatientModel(imageName, data.FirstName, data.LastName, data.MiddleName, data.BirthDay, data.PhoneNumber);
 
             await _patientService.UpdateAsync(oldPatient.Id, updateModel, cancellationToken);
-            if (data.Picture != null && data.Picture.FileName != oldPatient.Info.Photo?.FileName)
+            if (data.Picture != null && data.Picture.FileName != fileName)
             {
-                await _imageService.DeleteAsync(oldPatient.Info.Photo.FileName, cancellationToken);
+                await _imageService.DeleteAsync(fileName, cancellationToken);
                 await _imageService.CreateAsync(data.Picture, cancellationToken);
             }
         }
@@ -83,7 +84,7 @@ namespace ClientsWebApp.Application.Managers
             var patient = new PatientDTO(patientData);
             if (patientData.Info.Photo != null)
             {
-                patient.Info.Photo = await _imageService.GetAsync(patientData.Info.Photo.Name, cancellationToken);
+                patient.Info.Photo = _imageService.GetAsync(patientData.Info.Photo.Name, cancellationToken);
             }
             return patient;
         }

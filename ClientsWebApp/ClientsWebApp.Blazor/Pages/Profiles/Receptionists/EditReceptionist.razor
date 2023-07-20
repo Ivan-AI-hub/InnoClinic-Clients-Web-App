@@ -20,7 +20,7 @@
                 <FormInputSelect Label="Office" Id="office" @bind-Value="Data.OfficeId" Values="Offices"
                              GetLabelHandler="@(x => x.Address)" GetValueHandler="@(x => x.Id)" />
                 <FormInputDate Label="BirthDay" Id="birthDay" @bind-Value="@Data.BirthDay" />
-                <SelectImage Title="Photo" @bind-Value="@Data.Picture" SelectedImageData="@OldReceptionist.Info.Photo.Content" />
+                <SelectImage Title="Photo" @bind-Value="@Data.Picture" SelectedImageData="@_image?.Content" />
             </div>
         </div>
         <Row>

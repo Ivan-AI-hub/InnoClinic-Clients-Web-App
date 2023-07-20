@@ -1,6 +1,7 @@
 ﻿using ClientsWebApp.Application.Abstraction;
 using ClientsWebApp.Application.Models.Patients;
 using ClientsWebApp.Blazor.Components;
+using ClientsWebApp.Domain.Images;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 
@@ -16,6 +17,7 @@ namespace ClientsWebApp.Blazor.Pages.Profiles.Patients
         private FormSubmitButton SubmitButton { get; set; }
         private EditPatientData Data { get; set; }
         private string ErrorMessage;
+        private Image? _image;
         protected override async Task OnInitializedAsync()
         {
             if (OldPatient == null)
@@ -25,6 +27,7 @@ namespace ClientsWebApp.Blazor.Pages.Profiles.Patients
             }
 
             Data = new EditPatientData(OldPatient);
+            _image = await OldPatient.Info.Photo;
         }
 
         private async Task EditAsync()

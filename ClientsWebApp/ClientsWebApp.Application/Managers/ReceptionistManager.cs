@@ -37,13 +37,14 @@ namespace ClientsWebApp.Application.Managers
 
         public async Task EditAsync(ReceptionistDTO oldReceptionist, EditReceptionistData data, CancellationToken cancellationToken)
         {
-            var imageName = data.Picture == null ? new ImageName(oldReceptionist.Info.Photo.FileName) : new ImageName(data.Picture.FileName);
+            var fileName = (await oldReceptionist.Info.ToHumanInfo()).Photo.Name; 
+            var imageName = data.Picture == null ? new ImageName(fileName) : new ImageName(data.Picture.FileName);
             var updateModel = new UpdateReceptionistModel(imageName, data.FirstName, data.LastName, data.MiddleName, data.BirthDay, data.OfficeId);
 
             await _receptionistService.UpdateAsync(oldReceptionist.Id, updateModel, cancellationToken);
-            if (data.Picture != null && data.Picture.FileName != oldReceptionist.Info.Photo?.FileName)
+            if (data.Picture != null && data.Picture.FileName != fileName)
             {
-                await _imageService.DeleteAsync(oldReceptionist.Info.Photo.FileName, cancellationToken);
+                await _imageService.DeleteAsync(fileName, cancellationToken);
                 await _imageService.CreateAsync(data.Picture, cancellationToken);
             }
         }
@@ -84,11 +85,11 @@ namespace ClientsWebApp.Application.Managers
 
             if (receptionistData.Info.Photo != null)
             {
-                receptionist.Info.Photo = await _imageService.GetAsync(receptionistData.Info.Photo.Name, cancellationToken);
+                receptionist.Info.Photo = _imageService.GetAsync(receptionistData.Info.Photo.Name, cancellationToken);
             }
             if (officeData.Photo != null)
             {
-                receptionist.Office.Photo = await _imageService.GetAsync(officeData.Photo.Name, cancellationToken);
+                receptionist.Office.Photo = _imageService.GetAsync(officeData.Photo.Name, cancellationToken);
             }
             
             return receptionist;
