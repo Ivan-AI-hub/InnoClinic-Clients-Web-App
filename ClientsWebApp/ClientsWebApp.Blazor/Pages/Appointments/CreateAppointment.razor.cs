@@ -52,15 +52,17 @@ namespace ClientsWebApp.Blazor.Pages.Appointments
             Offices = Offices.Where(x => x.Status);
             Specializations = await SpecializationManager.GetInfoAsync(Page, _cts.Token);
             Specializations = Specializations.Where(x => x.IsActive);
-
-            Data.Category = Categories.First();
-            Data.PatientId = Patient.Id;
-            Data.Specialization = Specializations.FirstOrDefault()?.Name ?? "";
+            
             await UpdateDoctorsAsync();
             if (InitialDoctorId != default)
             {
                 await DoctorWasSelected(InitialDoctorId);
             }
+
+            Data.Category = Categories.First();
+            Data.PatientId = Patient.Id;
+            Data.Specialization = Data.Specialization ?? Specializations.FirstOrDefault()?.Name ?? "";
+
         }
 
         protected async Task UpdateDoctorsAsync()
