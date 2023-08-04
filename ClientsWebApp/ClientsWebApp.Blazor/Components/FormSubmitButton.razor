@@ -1,0 +1,32 @@
+<div class="row mb-1">
+    <div class="col text-center">
+        @if (IsLoading)
+        {
+            <button class="btn btn-primary" type="button" disabled>
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Loading...
+            </button>
+        }
+        else
+        {
+            <input type="submit" class="btn btn-primary" value="@ButtonValue" />
+        }
+    </div>
+</div>
+@code
+{
+    [Parameter] public string ButtonValue { get; set; } = "Input";
+    private bool IsLoading { get; set; } = false;
+
+    public void StartLoading()
+    {
+        IsLoading = true;
+        this.StateHasChanged();
+    }
+
+    public void StopLoading()
+    {
+        IsLoading = false;
+        this.StateHasChanged();
+    }
+}

@@ -1,0 +1,32 @@
+﻿<div class="row">
+    @if (Left != null)
+    {
+        <div class="d-flex justify-content-start col m-3">
+            <div>
+                @Left
+            </div>
+        </div>
+    }
+    @if (Center != null)
+    {
+        <div class="d-flex justify-content-center col m-3">
+            <div>
+                @Center
+            </div>
+        </div>
+    }
+    @if (Right != null)
+    {
+        <div class="d-flex col justify-content-end m-3">
+            <div>
+                @Right
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter] public RenderFragment? Left { get; set; }
+    [Parameter] public RenderFragment? Center { get; set; }
+    [Parameter] public RenderFragment? Right { get; set; }
+}

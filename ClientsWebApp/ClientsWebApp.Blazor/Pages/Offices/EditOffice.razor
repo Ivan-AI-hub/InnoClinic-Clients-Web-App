@@ -1,0 +1,41 @@
+﻿@page "/offices/{officeId:guid}/edit"
+@inherits CancellableComponent
+@attribute [Authorize(Roles = "Admin")]
+<div>
+    <p class="text-danger">@ErrorMessage</p>
+</div>
+@if (Data != null)
+{
+    <EditForm Model="@Data" OnValidSubmit="EditAsync" class="form">
+        <FluentValidationValidator DisableAssemblyScanning=true />
+        <ValidationSummary />
+        <div class="row">
+            <div class="col p-2">
+                <FormInputText Label="City" Id="city" @bind-Value="@Data.City" />
+                <FormInputText Label="Street" Id="street" @bind-Value="@Data.Street" />
+                <FormInputNumber Label="House number" Id="houseNumber" @bind-Value="@Data.HouseNumber" />
+                <FormInputNumber Label="Office number" Id="officeNumber" @bind-Value="@Data.OfficeNumber" />
+            </div>
+            <div class="col p-2">
+                <FormInputText Label="Phone number" Id="phoneNumber" @bind-Value="@Data.PhoneNumber" />
+                <FormInputCheckBox Label="Status" Id="status" @bind-Value="@Data.Status" />
+                <SelectImage Title="Photo" @bind-Value="@Data.Picture" SelectedImageData="_image?.Content" />
+            </div>
+        </div>
+        <Row>
+            <Left>
+                <FormSubmitButton @ref="@SubmitButton" ButtonValue="Save Changes" />
+            </Left>
+            <Right>
+                <div class="col">
+                    <DobleQuestionButton OnSuccessAnswerClicked="@Cancel" PreviewButtonValue="Cancel"
+                        QuestionLabel="Do you really want to cancel? Changes will not be saved." />
+                </div>
+            </Right>
+        </Row>
+    </EditForm>
+}
+else
+{
+    <Loading />
+}

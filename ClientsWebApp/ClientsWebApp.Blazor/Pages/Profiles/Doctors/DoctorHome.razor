@@ -1,0 +1,24 @@
+﻿@page "/doctors/home"
+@inherits CancellableComponent
+@attribute [Authorize(Roles = "Doctor")]
+@if (!IsLoading)
+{
+    <DoctorCard Doctor="@Doctor" />
+    <Row>
+        <Left>
+            
+            <input type="button" class="btn btn-outline-info w-100" value="Edit" @onclick="@NavigateToEditPage" />
+        </Left>
+        <Center>
+            <ChangeDoctorStatus Doctor="@Doctor" OnStatusChanged="@Reload" />
+        </Center>
+        <Right>
+            <input type="button" class="btn btn-outline-info w-100" value="Schedule" @onclick="@NavigateToSchedulePage" />
+        </Right>
+    </Row>
+
+}
+else
+{
+    <Loading />
+}

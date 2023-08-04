@@ -1,0 +1,43 @@
+@page "/patients/{PatientId:guid}/appointmentsHistory"
+@inherits CancellableComponent
+@attribute [Authorize(Roles = "Doctor,Patient")]
+
+<div class="row">
+    <div class="col-sm-3">
+        <EditForm Model="FiltrationModel" OnSubmit="AppointmentsUpdateAsync">
+            <div class="container">
+                <div class="col ">
+                    <FormInputDate Label="Date" Id="firstName" @bind-Value="FiltrationModel.Date" />
+                </div>
+                <FormSubmitButton @ref="@SubmitButton" ButtonValue="Search" />
+            </div>
+        </EditForm>
+    </div>
+    <div class="col-sm">
+        @if (Appointments != null)
+        {
+            <PageSwitcher OnNextPageClicked="@SetNextPage" OnPreviousPageClicked="@SetPreviousPage"
+                      GetStatus="@GetPageStatus" />
+            @foreach (var appointment in Appointments)
+            {
+                <AppointmentCard Appointment="appointment">
+                    <div class="col">
+                        @if (!appointment.IsApproved)
+                        {
+                            <p>Appointment is not approved yet</p>
+                        }
+                        @if (appointment.IsApproved)
+                        {
+                            <ResultInfo AppointmentId="@appointment.Id" />
+                        }
+                    </div>
+                </AppointmentCard>
+            }
+        }
+        else
+        {
+            <Loading />
+        }
+    </div>
+
+</div>

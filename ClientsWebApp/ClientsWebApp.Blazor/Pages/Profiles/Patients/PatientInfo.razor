@@ -1,0 +1,19 @@
+﻿@page "/patients/{PatientId:guid}"
+@inherits CancellableComponent
+
+@inject IPatientManager PatientManager;
+
+@if (patient != null)
+{
+    <PatientCard Patient="patient" />
+}
+
+@code
+{
+    [Parameter] public Guid PatientId { get; set; }
+    private PatientDTO patient;
+    protected async override Task OnInitializedAsync()
+    {
+        patient = await PatientManager.GetByIdAsync(PatientId, _cts.Token);
+    }
+}

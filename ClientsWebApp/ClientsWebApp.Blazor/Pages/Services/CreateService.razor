@@ -1,0 +1,14 @@
+﻿<EditForm Model="@Data" OnValidSubmit="CreateAsync" class="form">
+    <FluentValidationValidator DisableAssemblyScanning=true />
+    <ValidationSummary />
+    <div class="row">
+        <div class="col p-2">
+            <FormInputText Label="Name" Id="Name" @bind-Value="@Data.Name" />
+            <FormInputNumber Label="Price" Id="Price" @bind-Value="@Data.Price" />
+            <FormInputCheckBox Label="Status" Id="Status" @bind-Value="@Data.Status" />
+            <FormInputSelect Label="Category" Id="CategoryName" @bind-Value="@Data.CategoryName" Values="@Categories"
+                             GetLabelHandler="@(x => x)" GetValueHandler="@(x => x)" />
+        </div>
+    </div>
+    <FormSubmitButton @ref="@SubmitButton" ButtonValue="Create" />
+</EditForm>

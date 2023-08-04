@@ -1,0 +1,61 @@
+﻿
+@inject NavigationManager NavigationManager
+
+<div class="row mb-3 align-items-center">
+    @if (Doctor != null)
+    {
+        if (Doctor.Info.Photo != null)
+        {
+            <div class="col">
+                @if (_image != null)
+                {
+                    <ImageFromByteArray Image="_image.Content" ImageType="_image.ContentType" IsSvgImage="false" height="200" />
+                }
+                else
+                {
+                    <Loading />
+                }
+            </div>
+        }
+        <div class="col">
+            <p>Full name: @Doctor.Info.GetFullName() @Doctor.Status</p>
+            <p>Specialization: @Doctor.Specialization</p>
+            <p>Experience: @Doctor.Experience</p>
+            <p>
+                Office:
+                @if (Doctor.Office != null)
+                {
+                        @Doctor.Office.Address
+                }
+                else
+                {
+                    <span>Have not office</span>
+                }
+            </p>
+            @if (IsIncludeDetailsButton)
+            {
+                <input type="button" class="btn btn-success" value="Details" @onclick="ToDoctorInfoPage" />
+            }
+        </div>
+        @if (ChildContent != null)
+        {
+            @ChildContent
+        }
+    }
+</div>
+
+
+@code {
+    [Parameter] public DoctorDTO Doctor { get; set; }
+    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public bool IsIncludeDetailsButton { get; set; } = false;
+    private Image? _image;
+    protected async override Task OnInitializedAsync()
+    {
+        _image = Doctor.Info.Photo != null? await Doctor.Info.Photo : null;
+    }
+    private void ToDoctorInfoPage()
+    {
+        NavigationManager.NavigateTo($"/doctors/{Doctor.Id}");
+    }
+}

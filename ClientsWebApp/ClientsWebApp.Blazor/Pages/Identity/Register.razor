@@ -1,0 +1,15 @@
+﻿@page "/register"
+@inherits CancellableComponent
+<div>
+    <p class="text-danger">@ErrorMessage</p>
+</div>
+<EditForm Model="@Data" OnValidSubmit="RegisterAsync" class="form">
+    <FluentValidationValidator DisableAssemblyScanning=@true />
+    <ValidationSummary />
+    <div class="row">
+            <FormInputText Label="Email" Id="email" @bind-Value="@Data.Email" />
+            <FormInputText Label="Password" Id="password" type="password" @bind-Value="@Data.Password" />
+            <FormInputText Label="Repeat entered password" Id="rePassword" type="password" @bind-Value="@Data.RePassword" />
+    </div>
+    <FormSubmitButton @ref="@SubmitButton" ButtonValue="Sign up" />
+</EditForm>

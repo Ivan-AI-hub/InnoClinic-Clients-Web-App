@@ -1,0 +1,17 @@
+﻿@inherits CancellableComponent
+@inject IAppointmentManager AppointmentManager
+@attribute [Authorize(Roles = "Doctor,Admin")]
+
+<div class="col mb-1">
+    @if (IsLoading)
+    {
+        <Loading />
+    }
+    else
+    {
+        <input type="button" class="btn-primary w-100" value="Edit date" @onclick="StartChanging" />
+    }
+</div>
+
+
+

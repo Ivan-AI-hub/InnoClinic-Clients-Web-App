@@ -1,0 +1,36 @@
+﻿@inherits CancellableComponent
+<AuthorizeView Roles="Admin">
+    <Authorized Context="editRole">
+        <div class="col">
+            @if (IsLoading)
+            {
+                <Loading />
+            }
+            else
+            {
+
+                @if (IsRoleChanges)
+                {
+                    <EditForm Model="@ChangeRoleData" OnValidSubmit="ChangeAsync" class="form">
+                        <div class="row">
+                            <div class="col p-2">
+                                <FormInputSelect Label="Role" Id="role" @bind-Value="ChangeRoleData.Role" Values="Roles"
+                                    GetLabelHandler="@(x => x)" GetValueHandler="@(x => x)" />
+                            </div>
+                        </div>
+                        <input class="btn btn-primary" type="submit" value="Edit" />
+                    </EditForm>
+                }
+                else
+                {
+                    <button type="button" class="btn btn-primary" @onclick="StartChanging" >
+                        <span class="oi oi-pencil" aria-hidden="true"> Edit role</span>
+                    </button>
+                }
+
+            }
+        </div>
+    </Authorized>
+</AuthorizeView>
+
+

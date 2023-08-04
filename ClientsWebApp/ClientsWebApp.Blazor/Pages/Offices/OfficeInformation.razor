@@ -1,0 +1,73 @@
+﻿@page "/offices/{officeId:guid}"
+@inherits CancellableComponent
+@attribute [Authorize(Roles = "Admin")]
+
+@inject IOfficeManager officeManager
+@inject NavigationManager navigationManager
+
+<div class="row mb-3 align-items-center">
+    @if (Office != null)
+    {
+        @if (@Office.Photo != null)
+        {
+            <div class="col">
+                @if (_image != null)
+                {
+                    <ImageFromByteArray Image="_image.Content" ImageType="_image.ContentType" IsSvgImage="false" height="200" />
+                }
+                else
+                {
+                    <Loading />
+                }
+            </div>
+        }
+        <div class="col">
+            <div>Address: @Office.Address</div>
+            <div>Office number: @Office.OfficeNumber</div>
+            <div>Phone number: @Office.PhoneNumber</div>
+            <EditForm Model="@Office" class="form">
+                <InputCheckbox @bind-Value="@Office.Status" @oninput="@CheckBoxChanged" />
+            </EditForm>
+        </div>
+        <div class="col">
+            <button class="btn btn-info" @onclick="NavigateToEditPage">Edit</button>
+        </div>
+
+    }
+</div>
+
+
+@code {
+    [CascadingParameter] public IModalService Modal { get; set; }
+    [Parameter] public Guid OfficeId { get; set; }
+    private OfficeDTO Office;
+    private Image? _image;
+    protected async override Task OnInitializedAsync()
+    {
+        Office = await officeManager.GetByIdAsync(OfficeId, _cts.Token);
+        _image = Office.Photo != null? await Office.Photo : null;
+    }
+
+    private async void CheckBoxChanged(ChangeEventArgs args)
+    {
+        var value = bool.Parse(args.Value.ToString());
+        Office.Status = value;
+        await officeManager.UpdateStatusAsync(OfficeId, value, _cts.Token);
+    }
+
+    private async Task NavigateToEditPage()
+    {
+        var parameters = new ModalParameters();
+        parameters.Add(nameof(EditOffice.OfficeId), OfficeId);
+        parameters.Add(nameof(EditOffice.OldOffice), Office);
+        var options = new ModalOptions()
+        {
+            Size = ModalSize.Large
+        };
+        await Modal.Show<EditOffice>("Edit Office", parameters, options).Result;
+
+        Office = null;
+        Office = await officeManager.GetByIdAsync(OfficeId, _cts.Token);
+        //navigationManager.NavigateTo($"/offices/{OfficeId}/edit");
+    }
+}

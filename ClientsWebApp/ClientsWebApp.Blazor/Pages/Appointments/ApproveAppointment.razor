@@ -1,0 +1,16 @@
+﻿@inherits CancellableComponent
+@attribute [Authorize(Roles = "Doctor,Admin")]
+
+<div class="col mb-1">
+    @if (IsLoading)
+    {
+        <Loading />
+    }
+    else
+    {
+        <DobleQuestionButton AgreeButtonValue="Agree" DisagreeButtonValue="Cancel" OnSuccessAnswerClicked="ChangeAsync"
+            PreviewButtonValue="Approve appointment" />
+    }
+</div>
+
+

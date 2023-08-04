@@ -1,0 +1,57 @@
+﻿@page "/specializations/{specializationId:guid}"
+@attribute [Authorize(Roles = "Admin")]
+@inherits CancellableComponent
+@inject ISpecializationManager specializationManager
+@inject NavigationManager navigationManager
+
+@if (Specialization != null)
+{
+    <div class="row mb-3 align-items-center">
+        <div class="col">
+            <div>@Specialization.Name</div>
+            <EditForm Model="@Specialization" class="form">
+                <InputCheckbox @bind-Value="@Specialization.IsActive" @oninput="@CheckBoxChanged" />
+            </EditForm>
+        </div>
+        <div class="col">
+            <button class="btn btn-info" @onclick="NavigateToEditPage">Edit</button>
+        </div>
+    </div>
+    <div class="row mb-3 align-items-center">
+        <div class="col">
+            @foreach (var service in Specialization.Services)
+            {
+                <ServiceCard Service="service" />
+            }
+        </div>
+    </div>
+}
+
+
+@code {
+    [CascadingParameter] public IModalService Modal { get; set; }
+    [Parameter] public Guid SpecializationId { get; set; }
+    private Specialization Specialization;
+    private Image? image;
+    protected async override Task OnInitializedAsync()
+    {
+        Specialization = await specializationManager.GetByIdAsync(SpecializationId, _cts.Token);
+    }
+
+    private async void CheckBoxChanged(ChangeEventArgs args)
+    {
+        await specializationManager.ChangeStatusAsync(SpecializationId, !@Specialization.IsActive, _cts.Token);
+    }
+
+    private void NavigateToEditPage()
+    {
+        var options = new ModalOptions()
+        {
+            Size = ModalSize.Large
+        };
+        var parameters = new ModalParameters();
+        parameters.Add(nameof(EditSpecialization.SpecializationId), SpecializationId);
+        parameters.Add(nameof(EditSpecialization.OldSpecialization), Specialization);
+        Modal.Show<EditSpecialization>("Edit specialization", parameters, options);
+    }
+}

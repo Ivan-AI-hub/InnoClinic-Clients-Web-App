@@ -1,0 +1,39 @@
+@inherits CancellableComponent
+
+@if (IsDateChanges)
+{
+    <label class="form-label">@QuestionLabel</label>
+    <input type="button" class="btn btn-success w-100 m-1" value="@AgreeButtonValue" @onclick="SuccessAnswerAsync" />
+    <input type="button" class="btn btn-danger w-100 m-1" value="@DisagreeButtonValue" @onclick="StopChanging" />
+}
+else
+{
+    <input type="button" class="btn btn-danger w-100 m-1" value="@PreviewButtonValue" @onclick="StartChanging" />
+}
+
+@code {
+    [Parameter] public EventCallback OnSuccessAnswerClicked { get; set; }
+    [Parameter] public string PreviewButtonValue { get; set; } = "Edit";
+    [Parameter] public string AgreeButtonValue { get; set; } = "Yes";
+    [Parameter] public string DisagreeButtonValue { get; set; } = "No";
+    [Parameter] public string QuestionLabel { get; set; } = "Are you sure?";
+
+    private bool IsDateChanges { get; set; }
+    private bool IsLoading { get; set; } = false;
+
+    private void StartChanging()
+    {
+        IsDateChanges = true;
+    }
+    private void StopChanging()
+    {
+        IsDateChanges = false;
+    }
+    private async Task SuccessAnswerAsync()
+    {
+        IsLoading = true;
+        await OnSuccessAnswerClicked.InvokeAsync();
+        StopChanging();
+        IsLoading = false;
+    }
+}

@@ -1,0 +1,48 @@
+﻿@inherits CancellableComponent
+
+<div class="row mb-3 align-items-center">
+    @if (Receptionist != null)
+    {
+        if (Receptionist.Info.Photo != null)
+        {
+            <div class="col">
+                @if (_image != null)
+                {
+                    <ImageFromByteArray Image="_image.Content" ImageType="_image.ContentType" IsSvgImage="false" height="200" />
+                }
+                else
+                {
+                    <Loading />
+                }
+            </div>
+        }
+        <div class="col">
+            <p>Full name: @Receptionist.Info.GetFullName()</p>
+            <p>
+                Office:
+                @if (Receptionist.Office != null)
+                {
+                        @Receptionist.Office.Address
+                }
+                else
+                {
+                    <span>Have not provided Office.</span>
+                }
+            </p>
+        </div>
+        @if (ChildContent != null)
+        {
+            @ChildContent
+        }
+    }
+</div>
+
+@code {
+    [Parameter] public ReceptionistDTO Receptionist { get; set; }
+    [Parameter] public RenderFragment ChildContent { get; set; }
+    private Image? _image;
+    protected async override Task OnInitializedAsync()
+    {
+        _image = Receptionist.Info.Photo != null? await Receptionist.Info.Photo : null;
+    }
+}

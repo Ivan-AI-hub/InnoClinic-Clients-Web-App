@@ -1,0 +1,17 @@
+﻿@page "/login"
+@inherits CancellableComponent
+
+<PageTitle>Login</PageTitle>
+
+<div class="row">
+    <div class="col-md-6 offset-md-3">
+        <p class="text-danger">@ErrorMessage</p>
+        <EditForm Model="@LoginData" OnValidSubmit="LoginAsync">
+            <FluentValidationValidator DisableAssemblyScanning=@true />
+            <ValidationSummary />
+            <FormInputText Label="Email" Id="email" @bind-Value="@LoginData.Email" />
+            <FormInputText Label="Password" Id="password" type="password" @bind-Value="@LoginData.Password" />
+            <FormSubmitButton @ref="@SubmitButton" ButtonValue="Sign in" />
+        </EditForm>
+    </div>
+</div>

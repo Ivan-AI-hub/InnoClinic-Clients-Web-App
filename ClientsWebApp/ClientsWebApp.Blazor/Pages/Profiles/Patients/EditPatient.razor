@@ -1,0 +1,39 @@
+﻿@page "/patients/edit"
+@attribute [Authorize(Roles = "Patient")]
+@inherits CancellableComponent
+
+<div>
+    <p class="text-danger">@ErrorMessage</p>
+</div>
+@if (Data != null)
+{
+    <EditForm Model="@Data" OnValidSubmit="EditAsync" class="form">
+        <FluentValidationValidator DisableAssemblyScanning=true />
+        <ValidationSummary />
+        <div class="row">
+            <div class="col p-2">
+                <FormInputText Label="FirstName" Id="firstName" @bind-Value="@Data.FirstName" />
+                <FormInputText Label="LastName" Id="lastName" @bind-Value="@Data.LastName" />
+                <FormInputText Label="MiddleName" Id="middleName" @bind-Value="@Data.MiddleName" />
+            </div>
+            <div class="col p-2">
+                <FormInputText Label="Phone number" Id="phoneNumber" @bind-Value="@Data.PhoneNumber" />
+                <FormInputDate Label="BirthDay" Id="birthDay" @bind-Value="@Data.BirthDay" />
+                <SelectImage Title="Photo" @bind-Value="@Data.Picture" SelectedImageData="@_image?.Content" />
+            </div>
+        </div>
+        <Row>
+            <Left>
+                <FormSubmitButton @ref="@SubmitButton" ButtonValue="Save Changes" />
+            </Left>
+            <Right>
+                <DobleQuestionButton OnSuccessAnswerClicked="@Cancel" PreviewButtonValue="Cancel"
+                                 QuestionLabel="Do you really want to cancel? Changes will not be saved." />
+            </Right>
+        </Row>
+    </EditForm>
+}
+else
+{
+    <Loading />
+}

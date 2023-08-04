@@ -1,0 +1,92 @@
+@inherits CancellableComponent
+@inject NavigationManager NavigationManager
+
+<div class="row mb-3 align-items-center border border-dark bg-success bg-opacity-10">
+    @if (Appointment != null)
+    {
+        <div class="col">
+            <Row>
+                <Left>
+                    @Appointment.Date
+                </Left>
+                <Right>
+                    @if (service != null)
+                    {
+                        <span>
+                            @Appointment.Time - @Appointment.Time.AddMinutes(service.Category.TimeSlotSize)
+                        </span>
+                    }
+                    else
+                    {
+                        <Loading />
+                    }
+                </Right>
+            </Row>
+            @if (Appointment.IsApproved)
+            {
+                <button class="btn btn-outline-primary w-100" @onclick="@NavigateToDoctorPage">
+                    Doctor:
+                    @Appointment.Doctor.GetFullName()
+                </button>
+
+                <br />
+
+                <button class="btn btn-outline-success w-100" @onclick="@NavigateToPatientPage">
+                    Patient:
+                    @Appointment.Patient.GetFullName()
+                </button>
+            }
+            else
+            {
+                <button class="btn btn-outline-primary w-100 disabled">
+                    Doctor:
+                    @Appointment.Doctor.GetFullName()
+                </button>
+
+                <br />
+
+                <button class="btn btn-outline-success w-100 disabled">
+                    Patient:
+                    @Appointment.Patient.GetFullName()
+                </button>
+            }
+            <Row>
+                <Left>
+                    @Appointment.Service.Name
+                </Left>
+                <Right>
+                    @if (Appointment.IsApproved)
+                    {
+                        <div>Approved</div>
+                    }
+                    else
+                    {
+                        <div>Not approved</div>
+                    }
+                </Right>
+            </Row>
+        </div>
+        <div class="col">
+            <AuthorizeView Roles="Admin,Doctor">
+                <Authorized Context="editDate">
+                    @if (service != null && !Appointment.IsApproved)
+                    {
+                        <ChangeAppointmentDate Category="service.Category" Appointment="Appointment" OnDateChanged="Update" />
+                    }
+                    <div class="row">
+                        @if (!Appointment.IsApproved)
+                        {
+                            <ApproveAppointment AppointmentId="Appointment.Id" OnAppointmentApproved="Update" />
+                        }
+                    </div>
+                </Authorized>
+            </AuthorizeView>
+            @if (ChildContent != null)
+            {
+                @ChildContent
+            }
+        </div>
+    }
+</div>
+
+

@@ -1,0 +1,39 @@
+﻿@inherits InputBase<IFormFile>;
+
+<div class="form-group row">
+    <div class="col">
+        <label class="form-label">@Title</label>
+        <InputFile OnChange="@OnFileSelected" accept=".jpeg,.jpg,.png" class="form-control" />
+    </div>
+    @if (SelectedImageData != null)
+    {
+        <div class="col m-3">
+            <ImageFromByteArray Image="SelectedImageData" height="100" />
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter] public string Title { get; set; } = "Photo";
+    [Parameter] public byte[] SelectedImageData { get; set; }
+
+    protected override bool TryParseValueFromString(string value, [MaybeNullWhen(false)] out IFormFile result, [NotNullWhen(false)] out string validationErrorMessage)
+    {
+        result = CurrentValue;
+        validationErrorMessage = null;
+        return true;
+    }
+
+    private async Task OnFileSelected(InputFileChangeEventArgs e)
+    {
+        var browserFile = e.File;
+        //idk it is good or i should use "using" statement
+        var stream = new MemoryStream();
+        await browserFile.OpenReadStream().CopyToAsync(stream);
+
+        CurrentValue = new FormFile(stream, 0, browserFile.Size, browserFile.Name, browserFile.Name + Guid.NewGuid().ToString());
+
+        SelectedImageData = stream.ToArray();
+        this.StateHasChanged();
+    }
+}

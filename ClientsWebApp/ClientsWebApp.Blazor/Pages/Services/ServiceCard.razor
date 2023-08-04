@@ -1,0 +1,47 @@
+﻿@inherits CancellableComponent;
+@inject ISpecializationManager SpecializationManager
+
+<div class="row mb-3 align-items-center border">
+    <div class="col">
+        <p>Name: @Service.Name</p>
+        <p>Price: @Service.Price</p>
+    </div>
+    <div class="col">
+        @if (Specialization == null)
+        {
+            <p>Specialization: Loading...</p>
+        }
+        else
+        {
+            <p>Specialization: @Specialization.Name</p>
+        }
+    </div>
+    <div class="col">
+        <AuthorizeView Roles="Admin">
+            <button class="btn btn-primary" @onclick="ToEditPage">Edit</button>
+        </AuthorizeView>
+    </div>
+</div>
+@code {
+    [CascadingParameter] public IModalService Modal { get; set; }
+    [Parameter] public Service Service { get; set; }
+
+    private Specialization? Specialization { get; set; }
+    protected async override Task OnInitializedAsync()
+    {
+        Specialization = Service.Specialization;
+        if (Specialization == null)
+        {
+            Specialization = await SpecializationManager.GetByIdAsync(Service.SpecializationId, _cts.Token);
+        }
+    }
+
+    private void ToEditPage()
+    {
+        var parameters = new ModalParameters();
+        parameters.Add(nameof(EditService.ServiceId), Service.Id);
+        parameters.Add(nameof(EditService.SpecializationId), Specialization.Id);
+        parameters.Add(nameof(EditService.OldService), Service);
+        Modal.Show<EditService>("Edit service", parameters);
+    }
+}

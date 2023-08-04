@@ -1,0 +1,35 @@
+﻿@page "/"
+@inject NavigationManager Navigator
+@inject AuthenticationStateHelper AuthHelper
+@attribute [Authorize]
+
+@code {
+    protected async override Task OnInitializedAsync()
+    {
+        var role = await AuthHelper.GetRoleAsync();
+        switch (role)
+        {
+            case "Patient":
+                NavigateToPatientHome();
+                break;
+            case "Admin":
+                NavigateToAdminHome();
+                break;
+            case "Doctor":
+                NavigateToDoctorHome();
+                break;
+        }
+    }
+    private void NavigateToPatientHome()
+    {
+        Navigator.NavigateTo("/patients/home");
+    }
+    private void NavigateToDoctorHome()
+    {
+        Navigator.NavigateTo("/doctors/home");
+    }
+    private void NavigateToAdminHome()
+    {
+        Navigator.NavigateTo("/receptionists/home");
+    }
+}

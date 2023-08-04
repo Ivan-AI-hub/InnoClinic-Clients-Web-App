@@ -1,0 +1,35 @@
+﻿@inject NavigationManager Navigation
+
+<AuthorizeView>
+    <Authorized>
+        Welcome!
+        <a href="/logout">Sign out</a>
+    </Authorized>
+    <NotAuthorized>
+        <button class="btn btn-primary m-2" @onclick="OpenLoginModal">Sign in</button>
+        <button class="btn btn-primary m-2" @onclick="OpenRegisterModal">Sign up</button>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    [CascadingParameter] public IModalService Modal { get; set; }
+
+    private void OpenLoginModal()
+    {
+        var options = new ModalOptions()
+        {
+            HideCloseButton = false
+        };
+        Modal.Show<Login>("Sign in", options);
+    }
+
+    private void OpenRegisterModal()
+    {
+        var options = new ModalOptions()
+        {
+            HideCloseButton = false
+        };
+        Modal.Show<Register>("Sign up", options);
+    }
+}
+

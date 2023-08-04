@@ -1,0 +1,45 @@
+@page "/doctors/{DoctorId:guid}"
+@inherits CancellableComponent
+
+@inject NavigationManager NavigationManager
+@inject IDoctorManager DoctorManager;
+@inject IServiceManager ServiceManager;
+
+@if (doctor != null)
+{
+    <DoctorCard Doctor="doctor" />
+    <AuthorizeView Roles="Patient">
+        <Authorized>
+            <input type="button" class="btn btn-info" value="Make an appointment with the doctor"
+               @onclick="ToCreateAppointmentPage" />
+        </Authorized>
+    </AuthorizeView>
+    @if (Services != null)
+    {
+        <div class="container p-5 text-center">
+            <h2>Provided Services</h2>
+            @if (Services.Count() == 0)
+            {
+                <h1>Services was not found (((( </h1>
+            }
+            else
+            {
+
+                @foreach (var service in Services)
+                {
+                    <ServiceCard Service="service" />
+                }
+
+            }
+        </div>
+    }
+    else
+    {
+        <Loading />
+    }
+}
+else
+{
+    <Loading/>
+}
+

@@ -1,0 +1,60 @@
+﻿@using System.Text;
+@inherits CancellableComponent
+
+<EditForm Model="@Data" class="form">
+    <div class="row">
+        <div class="col p-2">
+            <FormInputDate min="@DateTime.Now.ToString("yyyy-MM-dd")"
+                            max="@DateTime.Now.AddDays(15).ToString("yyyy-MM-dd")" 
+                            Label="Date" Id="Date" 
+                            @bind-Value="@Data.Date"
+                            @oninput="@DateWasSelected" />
+        </div>
+    </div>
+</EditForm>
+
+<table class="table text-center">
+    <tbody>
+        @if (isTableReloading)
+        {
+            <Loading />
+        }
+        else
+        {
+            @for (int j = 0; j < 60; j += 10)
+            {
+                <tr>
+                    @for (int i = 12; i < 18; i++)
+                    {
+                        var value = $"{i}:{j:00}";
+                        TimeOnly time = new TimeOnly(i, j);
+                        StringBuilder classValue = new StringBuilder("w-100 btn");
+                        if (DateTime.Now >= Data.Date.ToDateTime(time))
+                        {
+                            classValue.Append(" disabled");
+                        }
+
+                        if (Data.StartTime <= time && Data.EndTime >= time && Times[time])
+                        {
+                            classValue.Append(" btn-success");
+                        }
+                        else if (Times[time])
+                        {
+                            classValue.Append(" btn-info");
+                        }
+                        else
+                        {
+                            classValue.Append(" btn-danger");
+                        }
+                        <td>
+                            <input type="button" class="@classValue.ToString()" @onclick="@(() => SelectTimeSlot(time))"
+                                   value="@value" />
+                        </td>
+                    }
+                </tr>
+            }
+
+        }
+    </tbody>
+</table>
+

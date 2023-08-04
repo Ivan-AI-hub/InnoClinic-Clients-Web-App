@@ -1,0 +1,24 @@
+﻿@page "/patients/create"
+@attribute [Authorize(Roles = "Patient")]
+@inherits CancellableComponent
+
+<div>
+    <p class="text-danger">@ErrorMessage</p>
+</div>
+<EditForm Model="@Data" OnValidSubmit="CreateAsync" class="form">
+    <FluentValidationValidator DisableAssemblyScanning=true />
+    <ValidationSummary />
+    <div class="row">
+        <div class="col p-2">
+            <FormInputText Label="FirstName" Id="firstName" @bind-Value="@Data.FirstName" />
+            <FormInputText Label="LastName" Id="lastName" @bind-Value="@Data.LastName" />
+            <FormInputText Label="MiddleName" Id="middleName" @bind-Value="@Data.MiddleName" />
+        </div>
+        <div class="col p-2">
+            <FormInputText Label="PhoneNumber" Id="phoneNumber" @bind-Value="@Data.PhoneNumber" />
+            <FormInputDate Label="BirthDay" Id="birthDay" @bind-Value="@Data.BirthDay" />
+            <SelectImage Title="Picture" @bind-Value="@Data.Picture" />
+        </div>
+    </div>
+    <FormSubmitButton @ref="@SubmitButton" ButtonValue="Create" />
+</EditForm>

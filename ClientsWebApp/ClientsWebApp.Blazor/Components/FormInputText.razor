@@ -1,0 +1,15 @@
+﻿@inherits InputText
+
+<div class="form-group mb-1">
+    @if (Label != null)
+    {
+        <label for="@Id" class="form-label">@Label</label>
+    }
+    <InputText id="@Id" @attributes="AdditionalAttributes" @bind-Value="CurrentValue" class="form-control" />
+</div>
+
+@code
+{
+    [Parameter] public string Label { get; set; }
+    [Parameter] public string Id { get; set; }
+}
