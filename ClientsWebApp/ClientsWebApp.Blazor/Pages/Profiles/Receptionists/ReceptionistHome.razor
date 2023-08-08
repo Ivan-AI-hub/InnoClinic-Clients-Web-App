@@ -1,7 +1,7 @@
 ﻿@page "/receptionists/home"
 @attribute [Authorize(Roles = "Admin")]
 @inherits CancellableComponent
-@if(!IsLoading)
+@if(Receptionist != null)
 {
     <ReceptionistCard Receptionist="Receptionist"/>
     <button @onclick="NavigateToEditPage" class="btn btn-info">Edit</button>

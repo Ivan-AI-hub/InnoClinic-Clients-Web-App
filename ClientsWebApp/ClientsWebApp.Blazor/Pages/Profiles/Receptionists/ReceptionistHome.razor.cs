@@ -17,10 +17,8 @@ namespace ClientsWebApp.Blazor.Pages.Profiles.Receptionists
         [Inject] IReceptionistManager ReceptionistManager { get; set; }
         [Inject] NavigationManager NavigationManager { get; set; }
         private ReceptionistDTO? Receptionist { get; set; }
-        private bool IsLoading { get; set; } = true;
         protected override async void OnInitialized()
         {
-            IsLoading = true;
             var email = await StateHelper.GetEmailAsync();
             try
             {
@@ -30,7 +28,6 @@ namespace ClientsWebApp.Blazor.Pages.Profiles.Receptionists
             {
                 NavigateToCreatePage();
             }
-            IsLoading = false;
             StateHasChanged();
         }
 

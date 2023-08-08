@@ -17,10 +17,8 @@ namespace ClientsWebApp.Blazor.Pages.Profiles.Patients
         [Inject] IPatientManager PatientManager { get; set; }
         [Inject] NavigationManager NavigationManager { get; set; }
         private PatientDTO? Patient { get; set; }
-        private bool IsLoading { get; set; } = true;
         protected override async void OnInitialized()
         {
-            IsLoading = true;
             var email = await StateHelper.GetEmailAsync();
             try
             {
@@ -30,8 +28,6 @@ namespace ClientsWebApp.Blazor.Pages.Profiles.Patients
             {
                 NavigateToCreatePage();
             }
-
-            IsLoading = false;
             StateHasChanged();
         }
 

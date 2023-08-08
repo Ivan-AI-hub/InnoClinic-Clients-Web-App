@@ -17,15 +17,7 @@
             </div>
             <div class="col p-2">
                 <h2>Services</h2>
-                @if (IsManagerCreating)
-                {
-                    <CreateService SpecializationId="default" OnModelCreated="@StopCreateService" />
-                }
-                else
-                {
-                    <input type="button" value="Create a service" @onclick="@StartCreateService" />
-                }
-
+                <input type="button" class="btn btn-success w-100 mb-3" value="Create a service" @onclick="@StartCreateService" />
                 @foreach (var service in Services)
                 {
                     <ServiceCard Service="@service" />

@@ -1,7 +1,10 @@
-﻿using ClientsWebApp.Application.Abstraction;
+﻿using Blazored.Modal;
+using Blazored.Modal.Services;
+using ClientsWebApp.Application.Abstraction;
 using ClientsWebApp.Application.Models.Services;
 using ClientsWebApp.Application.Models.Specializations;
 using ClientsWebApp.Blazor.Components;
+using ClientsWebApp.Blazor.Pages.Services;
 using ClientsWebApp.Domain.Services;
 using ClientsWebApp.Domain.Specializations;
 using Microsoft.AspNetCore.Authorization;
@@ -12,6 +15,7 @@ namespace ClientsWebApp.Blazor.Pages.Specializations
     [Authorize(Roles = "Admin")]
     public partial class EditSpecialization : CancellableComponent
     {
+        [CascadingParameter] public IModalService Modal { get; set; }
         [Parameter] public Specialization? OldSpecialization { get; set; }
         [Parameter] public Guid SpecializationId { get; set; }
         [Inject] public ISpecializationManager SpecializationManager { get; set; }
@@ -26,6 +30,7 @@ namespace ClientsWebApp.Blazor.Pages.Specializations
         private FormSubmitButton SubmitButton { get; set; }
         private bool IsManagerCreating = false;
         private string ErrorMessage;
+        private IModalReference? _openedModal;
         protected async override Task OnInitializedAsync()
         {
             OldSpecialization = OldSpecialization ?? await SpecializationManager.GetByIdAsync(SpecializationId, _cts.Token);
@@ -35,12 +40,15 @@ namespace ClientsWebApp.Blazor.Pages.Specializations
 
         private void StartCreateService()
         {
-            IsManagerCreating = true;
+            var parameters = new ModalParameters();
+            parameters.Add(nameof(CreateService.SpecializationId), default(Guid));
+            parameters.Add(nameof(CreateService.OnModelCreated), EventCallback.Factory.Create<CreateServiceData>(this, StopCreateService));
+            _openedModal = Modal.Show<CreateService>("Create service", parameters);
         }
         private void StopCreateService(CreateServiceData model)
         {
             AddedServices.Add(model);
-            IsManagerCreating = false;
+            _openedModal?.Close();
         }
 
         private void RemoveService(CreateServiceData model)

@@ -1,7 +1,7 @@
 ﻿@page "/doctors/home"
 @inherits CancellableComponent
 @attribute [Authorize(Roles = "Doctor")]
-@if (!IsLoading)
+@if (Doctor != null)
 {
     <DoctorCard Doctor="@Doctor" />
     <Row>

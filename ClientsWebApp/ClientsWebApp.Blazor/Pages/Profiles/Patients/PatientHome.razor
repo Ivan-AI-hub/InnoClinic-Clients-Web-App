@@ -2,7 +2,7 @@
 @attribute [Authorize(Roles = "Patient")]
 @inherits CancellableComponent
 
-@if (!IsLoading)
+@if (Patient != null)
 {
     <PatientCard Patient="@Patient" />
     <button @onclick="NavigateToEditPage" class="btn btn-info">Edit</button>
