@@ -8,9 +8,9 @@
         <EditForm Model="FiltrationModel" OnSubmit="AppointmentsUpdateAsync">
             <div class="container">
                 <div class="col ">
-                    <FormInputDate Label="Date" Id="firstName" @bind-Value="FiltrationModel.Date" />
+                    <FormInputDate Label=@_localizer.GetString(LocalizationType.Date) Id="firstName" @bind-Value="FiltrationModel.Date" />
                 </div>
-                <FormSubmitButton @ref="@SubmitButton" ButtonValue="Search" />
+                <FormSubmitButton @ref="@SubmitButton" ButtonValue=@_localizer.GetString(LocalizationType.SearchButtonValue) />
             </div>
         </EditForm>
     </div>

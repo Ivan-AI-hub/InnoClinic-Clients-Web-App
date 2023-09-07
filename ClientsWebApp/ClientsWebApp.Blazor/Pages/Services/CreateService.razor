@@ -1,14 +1,16 @@
-﻿<EditForm Model="@Data" OnValidSubmit="CreateAsync" class="form">
+﻿@inject IStringLocalizer<Localization> _localizer;
+
+<EditForm Model="@Data" OnValidSubmit="CreateAsync" class="form">
     <FluentValidationValidator DisableAssemblyScanning=true />
     <ValidationSummary />
     <div class="row">
         <div class="col p-2">
-            <FormInputText Label="Name" Id="Name" @bind-Value="@Data.Name" />
-            <FormInputNumber Label="Price" Id="Price" @bind-Value="@Data.Price" />
-            <FormInputCheckBox Label="Status" Id="Status" @bind-Value="@Data.Status" />
-            <FormInputSelect Label="Category" Id="CategoryName" @bind-Value="@Data.CategoryName" Values="@Categories"
+            <FormInputText Label=@_localizer.GetString(LocalizationType.Name) Id="Name" @bind-Value="@Data.Name" />
+            <FormInputNumber Label=@_localizer.GetString(LocalizationType.Price) Id="Price" @bind-Value="@Data.Price" />
+            <FormInputCheckBox Label=@_localizer.GetString(LocalizationType.Status) Id="Status" @bind-Value="@Data.Status" />
+            <FormInputSelect Label=@_localizer.GetString(LocalizationType.Category) Id="CategoryName" @bind-Value="@Data.CategoryName" Values="@Categories"
                              GetLabelHandler="@(x => x)" GetValueHandler="@(x => x)" />
         </div>
     </div>
-    <FormSubmitButton @ref="@SubmitButton" ButtonValue="Create" />
+    <FormSubmitButton @ref="@SubmitButton" ButtonValue=@_localizer.GetString(LocalizationType.CreateServiceButtonValue) />
 </EditForm>

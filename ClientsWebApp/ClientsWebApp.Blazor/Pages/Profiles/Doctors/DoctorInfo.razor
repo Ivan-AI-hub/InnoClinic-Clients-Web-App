@@ -10,17 +10,17 @@
     <DoctorCard Doctor="doctor" />
     <AuthorizeView Roles="Patient">
         <Authorized>
-            <input type="button" class="btn btn-info" value="Make an appointment with the doctor"
+            <input type="button" class="btn btn-info" value=@_localizer.GetString(LocalizationType.MakeAppointmentWithDoctorText)
                @onclick="ToCreateAppointmentPage" />
         </Authorized>
     </AuthorizeView>
     @if (Services != null)
     {
         <div class="container p-5 text-center">
-            <h2>Provided Services</h2>
+            <h2>@_localizer.GetString(LocalizationType.ProvidedServicesText)</h2>
             @if (Services.Count() == 0)
             {
-                <h1>Services was not found (((( </h1>
+                <h1>@_localizer.GetString(LocalizationType.ServicesNotFoundText)</h1>
             }
             else
             {

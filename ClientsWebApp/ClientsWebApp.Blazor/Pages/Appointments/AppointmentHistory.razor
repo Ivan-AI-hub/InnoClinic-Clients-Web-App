@@ -9,7 +9,7 @@
                 <div class="col ">
                     <FormInputDate Label="Date" Id="firstName" @bind-Value="FiltrationModel.Date" />
                 </div>
-                <FormSubmitButton @ref="@SubmitButton" ButtonValue="Search" />
+                <FormSubmitButton @ref="@SubmitButton" ButtonValue=@_localizer.GetString(LocalizationType.SearchButtonValue) />
             </div>
         </EditForm>
     </div>
@@ -24,7 +24,7 @@
                     <div class="col">
                         @if (!appointment.IsApproved)
                         {
-                            <p>Appointment is not approved yet</p>
+                            <p>@_localizer.GetString(LocalizationType.AppointmentNotApprovedText)</p>
                         }
                         @if (appointment.IsApproved)
                         {

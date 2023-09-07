@@ -1,22 +1,24 @@
+@inject IStringLocalizer<Localization> Loc
+
 <Row>
     <Left>
         @if (@Status != PageStatus.FirstPage && Status != PageStatus.OnlyPage)
         {
-            <button class="btn btn-info" @onclick="PreviousPageClick">←Previous page</button>
+            <button class="btn btn-info" @onclick="PreviousPageClick">@Loc.GetString(LocalizationType.PrevPageButtonValue)</button>
         }
         else
         {
-            <button class="btn btn-info disabled">←Previous page</button>
+            <button class="btn btn-info disabled">@Loc.GetString(LocalizationType.PrevPageButtonValue)</button>
         }
     </Left>
     <Right>
         @if (@Status != PageStatus.LastPage && @Status != PageStatus.OnlyPage)
         {
-            <button class="btn btn-info" @onclick="NextPageClick">Next page→</button>
+            <button class="btn btn-info" @onclick="NextPageClick">@Loc.GetString(LocalizationType.NextPageButtonValue)</button>
         }
         else
         {
-            <a href="undifinite" class="btn btn-info disabled">Next page→</a>
+            <a href="undifinite" class="btn btn-info disabled">@Loc.GetString(LocalizationType.NextPageButtonValue)</a>
         }
     </Right>
 </Row>

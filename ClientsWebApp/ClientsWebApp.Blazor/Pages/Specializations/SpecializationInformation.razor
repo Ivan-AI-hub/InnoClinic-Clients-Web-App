@@ -14,7 +14,7 @@
             </EditForm>
         </div>
         <div class="col">
-            <button class="btn btn-info" @onclick="NavigateToEditPage">Edit</button>
+            <button class="btn btn-info" @onclick="NavigateToEditPage">@_localizer.GetString(LocalizationType.EditButtonValue)</button>
         </div>
     </div>
     <div class="row mb-3 align-items-center">
@@ -52,6 +52,6 @@
         var parameters = new ModalParameters();
         parameters.Add(nameof(EditSpecialization.SpecializationId), SpecializationId);
         parameters.Add(nameof(EditSpecialization.OldSpecialization), Specialization);
-        Modal.Show<EditSpecialization>("Edit specialization", parameters, options);
+        Modal.Show<EditSpecialization>(@_localizer.GetString(LocalizationType.EditSpecializationButtonValue), parameters, options);
     }
 }

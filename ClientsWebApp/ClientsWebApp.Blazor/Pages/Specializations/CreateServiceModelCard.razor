@@ -1,11 +1,13 @@
+@inject IStringLocalizer<Localization> _localizer;
+
 <div class="row mb-3 align-items-center border">
     <div class="col">
-        <p>Name: @Service.Name</p>
-        <p>Price: @Service.Price</p>
+        <p>@_localizer.GetString(LocalizationType.Name): @Service.Name</p>
+        <p>@_localizer.GetString(LocalizationType.Price): @Service.Price</p>
     </div>
     <div class="col">
-        <p>Category: @Service.CategoryName</p>
-        <p>IsActive: @Service.Status</p>
+        <p>@_localizer.GetString(LocalizationType.Category): @Service.CategoryName</p>
+        <p>@_localizer.GetString(LocalizationType.Status): @Service.Status</p>
     </div>
 </div>
 @code {

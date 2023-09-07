@@ -117,7 +117,253 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AccountDeleteText" xml:space="preserve">
+    <value>Do you really want to delete? Data will be lost.</value>
+  </data>
+  <data name="Address" xml:space="preserve">
+    <value>Address</value>
+  </data>
+  <data name="AgreeButtonValue" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="AppointmentNotApprovedText" xml:space="preserve">
+    <value>Appointment aren`t approved yet</value>
+  </data>
+  <data name="AppointmentsTab" xml:space="preserve">
+    <value>Appointments</value>
+  </data>
+  <data name="ApproveAppointmentButtonValue" xml:space="preserve">
+    <value>Approve</value>
+  </data>
+  <data name="ApprovedStatus" xml:space="preserve">
+    <value>Status was approved</value>
+  </data>
+  <data name="BackToValuesButtonValue" xml:space="preserve">
+    <value>Back to values</value>
+  </data>
+  <data name="BirthDay" xml:space="preserve">
+    <value>Birthday</value>
+  </data>
+  <data name="CancelAppointmentButtonValue" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="CancelButtonValue" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="CareerStartYear" xml:space="preserve">
+    <value>Career start year</value>
+  </data>
+  <data name="Category" xml:space="preserve">
+    <value>Category</value>
+  </data>
+  <data name="City" xml:space="preserve">
+    <value>City</value>
+  </data>
+  <data name="Complaints" xml:space="preserve">
+    <value>Complaints</value>
+  </data>
+  <data name="Conclusions" xml:space="preserve">
+    <value>Conclusions</value>
+  </data>
+  <data name="CreateAppointmentButtonValue" xml:space="preserve">
+    <value>Create appointment</value>
+  </data>
+  <data name="CreateAppointmentTab" xml:space="preserve">
+    <value>Create appointment</value>
+  </data>
+  <data name="CreateDoctorValue" xml:space="preserve">
+    <value>Create doctor</value>
+  </data>
+  <data name="CreatePatientButtonValue" xml:space="preserve">
+    <value>Create Patient</value>
+  </data>
+  <data name="CreateResultButtonValue" xml:space="preserve">
+    <value>Create result</value>
+  </data>
+  <data name="CreateServiceButtonValue" xml:space="preserve">
+    <value>Create service</value>
+  </data>
+  <data name="CreateSpecializationButtonValue" xml:space="preserve">
+    <value>Create specialization</value>
+  </data>
+  <data name="CultureMessage" xml:space="preserve">
+    <value>Culture</value>
+  </data>
+  <data name="DataWillNotChangesText" xml:space="preserve">
+    <value>Do you really want to cancel? Changes will not be saved.</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="DeleteButtonValue" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="DisagreeButtonValue" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="Doctor" xml:space="preserve">
+    <value>Doctor</value>
+  </data>
+  <data name="DoctorsNotFoundText" xml:space="preserve">
+    <value>Doctors was not found</value>
+  </data>
+  <data name="DoctorsTab" xml:space="preserve">
+    <value>Doctors</value>
+  </data>
+  <data name="EditButtonValue" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="EditDateButtonValue" xml:space="preserve">
+    <value>Edit date</value>
+  </data>
+  <data name="EditOfficeTitle" xml:space="preserve">
+    <value>Edit office</value>
+  </data>
+  <data name="EditResultButtonValue" xml:space="preserve">
+    <value>Edit result</value>
+  </data>
+  <data name="EditRoleText" xml:space="preserve">
+    <value>Edit role</value>
+  </data>
+  <data name="EditServiceButtonValue" xml:space="preserve">
+    <value>Edit service</value>
+  </data>
+  <data name="EditSpecializationButtonValue" xml:space="preserve">
+    <value>Edit specialization</value>
+  </data>
+  <data name="EditStatusButtonValue" xml:space="preserve">
+    <value>Edit status</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="Experience" xml:space="preserve">
+    <value>Experience</value>
+  </data>
+  <data name="FirstName" xml:space="preserve">
+    <value>FirstName</value>
+  </data>
+  <data name="FullName" xml:space="preserve">
+    <value>FullName</value>
+  </data>
   <data name="Greeting" xml:space="preserve">
     <value>helooooo</value>
+  </data>
+  <data name="HomeTab" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="HouseNumber" xml:space="preserve">
+    <value>House number</value>
+  </data>
+  <data name="LastName" xml:space="preserve">
+    <value>LastName</value>
+  </data>
+  <data name="Loading" xml:space="preserve">
+    <value>Loading...</value>
+  </data>
+  <data name="MakeAppointmentWithDoctorText" xml:space="preserve">
+    <value>Make appointment</value>
+  </data>
+  <data name="MiddleName" xml:space="preserve">
+    <value>MiddleName</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="NextPageButtonValue" xml:space="preserve">
+    <value>Next page -&gt;</value>
+  </data>
+  <data name="NotApprovedStatus" xml:space="preserve">
+    <value>Status not approved yey</value>
+  </data>
+  <data name="Nothing" xml:space="preserve">
+    <value>Nothing</value>
+  </data>
+  <data name="Office" xml:space="preserve">
+    <value>Office</value>
+  </data>
+  <data name="OfficeNotFound" xml:space="preserve">
+    <value>Office was not found</value>
+  </data>
+  <data name="OfficeNumber" xml:space="preserve">
+    <value>Office number</value>
+  </data>
+  <data name="OfficesTab" xml:space="preserve">
+    <value>Offices</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="Patient" xml:space="preserve">
+    <value>Patient</value>
+  </data>
+  <data name="PatientsTab" xml:space="preserve">
+    <value>Patients</value>
+  </data>
+  <data name="PhoneNumber" xml:space="preserve">
+    <value>Phone number</value>
+  </data>
+  <data name="Photo" xml:space="preserve">
+    <value>Photo</value>
+  </data>
+  <data name="PrevPageButtonValue" xml:space="preserve">
+    <value>&lt;-Previous page</value>
+  </data>
+  <data name="Price" xml:space="preserve">
+    <value>Price</value>
+  </data>
+  <data name="ProvidedServicesText" xml:space="preserve">
+    <value>Provided services</value>
+  </data>
+  <data name="ReceptionistsTab" xml:space="preserve">
+    <value>Receptionists</value>
+  </data>
+  <data name="Recomendations" xml:space="preserve">
+    <value>Recomendations</value>
+  </data>
+  <data name="RePassword" xml:space="preserve">
+    <value>Repeat your password</value>
+  </data>
+  <data name="SaveChangesButtonValue" xml:space="preserve">
+    <value>Save changes</value>
+  </data>
+  <data name="Schedule" xml:space="preserve">
+    <value>Schedule</value>
+  </data>
+  <data name="SearchButtonValue" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="SelectTimeSlotButtonValue" xml:space="preserve">
+    <value>Select date and time</value>
+  </data>
+  <data name="Service" xml:space="preserve">
+    <value>Service</value>
+  </data>
+  <data name="ServicesNotFoundText" xml:space="preserve">
+    <value>Services was not found</value>
+  </data>
+  <data name="ServicesTab" xml:space="preserve">
+    <value>Services</value>
+  </data>
+  <data name="SignInTitle" xml:space="preserve">
+    <value>Sign In</value>
+  </data>
+  <data name="SignOutTitle" xml:space="preserve">
+    <value>Sign Out</value>
+  </data>
+  <data name="SignUpTitle" xml:space="preserve">
+    <value>Sign Up</value>
+  </data>
+  <data name="Specialization" xml:space="preserve">
+    <value>Specialization</value>
+  </data>
+  <data name="SpecializationsTab" xml:space="preserve">
+    <value>Specializations</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>Is active</value>
+  </data>
+  <data name="Street" xml:space="preserve">
+    <value>Street</value>
   </data>
 </root>

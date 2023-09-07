@@ -1,7 +1,7 @@
 ﻿@inject IStringLocalizer<Localization> Loc
 <div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="">@Loc["Greeting"] Innoclinic</a>
+        <a class="navbar-brand" href="">Innoclinic</a>
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -12,7 +12,7 @@
     <nav class="flex-column">
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Home
+                <span class="oi oi-home" aria-hidden="true"></span> @Loc.GetString(LocalizationType.HomeTab)
             </NavLink>
         </div>
 
@@ -20,7 +20,7 @@
             <Authorized>
                 <div class="nav-item px-3">
                     <NavLink class="nav-link" @onclick="OpenCreateAppointmentModal" Match="NavLinkMatch.All">
-                        <span class="oi oi-clipboard" aria-hidden="true"></span> Create appointment
+                        <span class="oi oi-clipboard" aria-hidden="true"></span> @Loc.GetString(LocalizationType.CreateAppointmentTab)
                     </NavLink>
                 </div>
             </Authorized>
@@ -28,12 +28,12 @@
 
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="/services">
-                <span class="oi oi-list" aria-hidden="true"></span> Services
+                <span class="oi oi-list" aria-hidden="true"></span> @Loc.GetString(LocalizationType.ServicesTab)
             </NavLink>
         </div>
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="doctors">
-                <span class="oi oi-people" aria-hidden="true"></span> Doctors
+                <span class="oi oi-people" aria-hidden="true"></span> @Loc.GetString(LocalizationType.DoctorsTab)
             </NavLink>
         </div>
 
@@ -42,27 +42,27 @@
             <Authorized>
                 <div class="nav-item px-3">
                     <NavLink class="nav-link" href="receptionists">
-                        <span class="oi oi-people" aria-hidden="true"></span> Receptionists
+                        <span class="oi oi-people" aria-hidden="true"></span> @Loc.GetString(LocalizationType.ReceptionistsTab)
                     </NavLink>
                 </div>
                 <div class="nav-item px-3">
                     <NavLink class="nav-link" href="patients">
-                        <span class="oi oi-people" aria-hidden="true"></span> Patients
+                        <span class="oi oi-people" aria-hidden="true"></span> @Loc.GetString(LocalizationType.PatientsTab)
                     </NavLink>
                 </div>
                 <div class="nav-item px-3">
                     <NavLink class="nav-link" href="appointments">
-                        <span class="oi oi-list-rich" aria-hidden="true"></span> Appointments
+                        <span class="oi oi-list-rich" aria-hidden="true"></span> @Loc.GetString(LocalizationType.AppointmentsTab)
                     </NavLink>
                 </div>
                 <div class="nav-item px-3">
                     <NavLink class="nav-link" href="offices">
-                        <span class="oi oi-list-rich" aria-hidden="true"></span> Offices
+                        <span class="oi oi-list-rich" aria-hidden="true"></span> @Loc.GetString(LocalizationType.OfficesTab)
                     </NavLink>
                 </div>
                 <div class="nav-item px-3">
                     <NavLink class="nav-link" href="/specializations">
-                        <span class="oi oi-list-rich" aria-hidden="true"></span> Specializations
+                        <span class="oi oi-list-rich" aria-hidden="true"></span> @Loc.GetString(LocalizationType.SpecializationsTab)
                     </NavLink>
                 </div>
 
@@ -84,7 +84,7 @@
             Size = ModalSize.Large,
             HideCloseButton = false
         };
-        Modal.Show<CreateAppointment>("Create appointment", options);
+        Modal.Show<CreateAppointment>(Loc.GetString(LocalizationType.CreateAppointmentTab).Value, options);
     }
 
     private void OpenRegisterModal()

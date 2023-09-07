@@ -5,9 +5,9 @@
 @inject AuthenticationStateHelper AuthHelper
 @inject NavigationManager Navigator
 
-<p>Do you really want to delete? Data will be lost.</p>
-<button @onclick="DeleteAsync">Yes</button>
-<button @onclick="Cancel">No</button>
+<p>@_localizer.GetString(LocalizationType.AccountDeleteText)</p>
+<button @onclick="DeleteAsync">@_localizer.GetString(LocalizationType.AgreeButtonValue)</button>
+<button @onclick="Cancel">@_localizer.GetString(LocalizationType.DisagreeButtonValue)</button>
 
 @code
 {

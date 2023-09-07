@@ -22,7 +22,7 @@
     {
         @if (Services.Count() == 0)
         {
-            <h1>Services was not found (((( </h1>
+            <h1>@_localizer.GetString(LocalizationType.ServicesNotFoundText)</h1>
         }
         else
         {

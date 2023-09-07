@@ -11,12 +11,12 @@
     <div class="row">
         <div class="col p-2">
             
-            <FormInputText Label="Specialization name" Id="firstName" @bind-Value="@Data.Name" />
-            <FormInputCheckBox Label="Active" Id="lastName" @bind-Value="@Data.IsActive" />
+            <FormInputText Label=@_localizer.GetString(LocalizationType.Name) Id="firstName" @bind-Value="@Data.Name" />
+            <FormInputCheckBox Label=@_localizer.GetString(LocalizationType.Status) Id="lastName" @bind-Value="@Data.IsActive" />
         </div>
         <div class="col p-2">
-            <label>Services</label>
-            <input type="button" class="btn btn-success w-100 mb-3" value="Create a service" @onclick="@StartCreateService" />
+            <label>@_localizer.GetString(LocalizationType.ServicesTab)</label>
+            <input type="button" class="btn btn-success w-100 mb-3" value=@_localizer.GetString(LocalizationType.CreateServiceButtonValue) @onclick="@StartCreateService" />
             <div class="row">
                 @foreach (var service in Services)
                 {
@@ -32,11 +32,11 @@
     </div>
         <Row>
             <Left>
-                <FormSubmitButton @ref="@SubmitButton" ButtonValue="Save Changes" />
+            <FormSubmitButton @ref="@SubmitButton" ButtonValue=@_localizer.GetString(LocalizationType.SaveChangesButtonValue) />
             </Left>
             <Right>
-                <DobleQuestionButton OnSuccessAnswerClicked="@Cancel" PreviewButtonValue="Cancel"
-                                 QuestionLabel="Do you really want to cancel? Changes will not be saved." />
+            <DobleQuestionButton OnSuccessAnswerClicked="@Cancel" PreviewButtonValue=@_localizer.GetString(LocalizationType.DisagreeButtonValue)
+                                 QuestionLabel=@_localizer.GetString(LocalizationType.DataWillNotChangesText) />
             </Right>
         </Row>
 </EditForm>

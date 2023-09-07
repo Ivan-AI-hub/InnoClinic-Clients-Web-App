@@ -6,14 +6,14 @@
     <DoctorCard Doctor="@Doctor" />
     <Row>
         <Left>
-            
-            <input type="button" class="btn btn-outline-info w-100" value="Edit" @onclick="@NavigateToEditPage" />
+
+            <input type="button" class="btn btn-outline-info w-100" value=@_localizer.GetString(LocalizationType.EditButtonValue) @onclick="@NavigateToEditPage" />
         </Left>
         <Center>
             <ChangeDoctorStatus Doctor="@Doctor" OnStatusChanged="@Reload" />
         </Center>
         <Right>
-            <input type="button" class="btn btn-outline-info w-100" value="Schedule" @onclick="@NavigateToSchedulePage" />
+            <input type="button" class="btn btn-outline-info w-100" value=@_localizer.GetString(LocalizationType.Schedule) @onclick="@NavigateToSchedulePage" />
         </Right>
     </Row>
 

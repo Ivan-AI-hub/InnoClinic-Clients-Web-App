@@ -1,13 +1,14 @@
 ﻿@inject NavigationManager Navigation
+@inject IStringLocalizer<Localization> Loc
 
 <AuthorizeView>
     <Authorized>
-        Welcome!
+        @Loc.GetString(LocalizationType.Greeting)
         <a href="/logout">Sign out</a>
     </Authorized>
     <NotAuthorized>
-        <button class="btn btn-primary m-2" @onclick="OpenLoginModal">Sign in</button>
-        <button class="btn btn-primary m-2" @onclick="OpenRegisterModal">Sign up</button>
+        <button class="btn btn-primary m-2" @onclick="OpenLoginModal">@Loc.GetString(LocalizationType.SignInTitle)</button>
+        <button class="btn btn-primary m-2" @onclick="OpenRegisterModal">@Loc.GetString(LocalizationType.SignUpTitle)</button>
     </NotAuthorized>
 </AuthorizeView>
 
@@ -20,7 +21,7 @@
         {
             HideCloseButton = false
         };
-        Modal.Show<Login>("Sign in", options);
+        Modal.Show<Login>(@Loc.GetString(LocalizationType.SignInTitle).Value, options);
     }
 
     private void OpenRegisterModal()
@@ -29,7 +30,7 @@
         {
             HideCloseButton = false
         };
-        Modal.Show<Register>("Sign up", options);
+        Modal.Show<Register>(@Loc.GetString(LocalizationType.SignUpTitle).Value, options);
     }
 }
 

@@ -6,14 +6,13 @@
         <EditForm Model="FiltrationModel" OnValidSubmit="DoctorsUpdateAsync">
             <div class="container">
                 <div class="col">
-                    <label class="form-label">Filtation</label>
-                    <FormInputText Label="FirstName" Id="firstName" @bind-Value="FiltrationModel.FirstName" />
-                    <FormInputText Label="LastName" Id="lastName" @bind-Value="FiltrationModel.LastName" />
-                    <FormInputText Label="MiddleName" Id="middleName" @bind-Value="FiltrationModel.MiddleName" />
-                    <FormInputSelect HasDefaultOption="@true" DefaultValueLabel="All" Label="Office" Id="office" @bind-Value="FiltrationModel.OfficeId" Values="Offices" GetLabelHandler="@(x => x.Address)" GetValueHandler="@(x => x.Id)" />
-                    <FormInputSelect HasDefaultOption="@true" DefaultValueLabel="All" Label="Specialization" Id="specialization" @bind-Value="FiltrationModel.Specialization" Values="Specializations" GetLabelHandler="@(x => x.Name)" GetValueHandler="@(x => x.Name)" />
+                    <FormInputText Label=@_localizer.GetString(LocalizationType.FirstName) Id="firstName" @bind-Value="FiltrationModel.FirstName" />
+                    <FormInputText Label=@_localizer.GetString(LocalizationType.LastName) Id="lastName" @bind-Value="FiltrationModel.LastName" />
+                    <FormInputText Label=@_localizer.GetString(LocalizationType.MiddleName) Id="middleName" @bind-Value="FiltrationModel.MiddleName" />
+                    <FormInputSelect HasDefaultOption="@true" DefaultValueLabel="All" Label=@_localizer.GetString(LocalizationType.Office) Id="office" @bind-Value="FiltrationModel.OfficeId" Values="Offices" GetLabelHandler="@(x => x.Address)" GetValueHandler="@(x => x.Id)" />
+                    <FormInputSelect HasDefaultOption="@true" DefaultValueLabel="All" Label=@_localizer.GetString(LocalizationType.Specialization) Id="specialization" @bind-Value="FiltrationModel.Specialization" Values="Specializations" GetLabelHandler="@(x => x.Name)" GetValueHandler="@(x => x.Name)" />
                 </div>
-                <FormSubmitButton @ref="@SubmitButton" ButtonValue="Search" />
+                <FormSubmitButton @ref="@SubmitButton" ButtonValue=@_localizer.GetString(LocalizationType.SearchButtonValue) />
             </div>
         </EditForm>
     </div>
@@ -23,7 +22,7 @@
         {
             @if (Doctors.Count() == 0)
             {
-                <h1>There are no doctors matching this filtration</h1>
+                <h1>@_localizer.GetString(LocalizationType.DoctorsNotFoundText)</h1>
             }
             else
             {

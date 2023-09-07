@@ -5,8 +5,8 @@
 @if (Patient != null)
 {
     <PatientCard Patient="@Patient" />
-    <button @onclick="NavigateToEditPage" class="btn btn-info">Edit</button>
-    <button @onclick="NavigateToDeletePage" class="btn btn-danger">Delete</button>
+    <button @onclick="NavigateToEditPage" class="btn btn-info">@_localizer.GetString(LocalizationType.EditButtonValue)</button>
+    <button @onclick="NavigateToDeletePage" class="btn btn-danger">@_localizer.GetString(LocalizationType.DeleteButtonValue)</button>
 }
 else
 {

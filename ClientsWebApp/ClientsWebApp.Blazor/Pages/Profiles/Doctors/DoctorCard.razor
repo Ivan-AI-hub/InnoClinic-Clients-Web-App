@@ -1,4 +1,5 @@
-﻿
+﻿@inject IStringLocalizer<Localization> _localizer;
+
 @inject NavigationManager NavigationManager
 
 <div class="row mb-3 align-items-center">
@@ -18,18 +19,18 @@
             </div>
         }
         <div class="col">
-            <p>Full name: @Doctor.Info.GetFullName() @Doctor.Status</p>
-            <p>Specialization: @Doctor.Specialization</p>
-            <p>Experience: @Doctor.Experience</p>
+            <p>@_localizer.GetString(LocalizationType.FullName): @Doctor.Info.GetFullName() @Doctor.Status</p>
+            <p>@_localizer.GetString(LocalizationType.Specialization): @Doctor.Specialization</p>
+            <p>@_localizer.GetString(LocalizationType.Experience): @Doctor.Experience</p>
             <p>
-                Office:
+                @_localizer.GetString(LocalizationType.Office):
                 @if (Doctor.Office != null)
                 {
                         @Doctor.Office.Address
                 }
                 else
                 {
-                    <span>Have not office</span>
+                    <span>@_localizer.GetString(LocalizationType.OfficeNotFound)</span>
                 }
             </p>
             @if (IsIncludeDetailsButton)

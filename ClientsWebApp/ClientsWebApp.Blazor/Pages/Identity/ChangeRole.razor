@@ -18,13 +18,13 @@
                                     GetLabelHandler="@(x => x)" GetValueHandler="@(x => x)" />
                             </div>
                         </div>
-                        <input class="btn btn-primary" type="submit" value="Edit" />
+                        <input class="btn btn-primary" type="submit" value=@_localizer.GetString(LocalizationType.EditButtonValue) />
                     </EditForm>
                 }
                 else
                 {
                     <button type="button" class="btn btn-primary" @onclick="StartChanging" >
-                        <span class="oi oi-pencil" aria-hidden="true"> Edit role</span>
+                        <span class="oi oi-pencil" aria-hidden="true">@_localizer.GetString(LocalizationType.EditRoleText)</span>
                     </button>
                 }
 

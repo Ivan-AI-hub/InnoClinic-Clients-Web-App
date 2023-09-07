@@ -22,15 +22,15 @@
             </div>
         }
         <div class="col">
-            <div>Address: @Office.Address</div>
-            <div>Office number: @Office.OfficeNumber</div>
-            <div>Phone number: @Office.PhoneNumber</div>
+            <div>@_localizer.GetString(LocalizationType.Address): @Office.Address</div>
+            <div>@_localizer.GetString(LocalizationType.OfficeNumber): @Office.OfficeNumber</div>
+            <div>@_localizer.GetString(LocalizationType.PhoneNumber): @Office.PhoneNumber</div>
             <EditForm Model="@Office" class="form">
                 <InputCheckbox @bind-Value="@Office.Status" @oninput="@CheckBoxChanged" />
             </EditForm>
         </div>
         <div class="col">
-            <button class="btn btn-info" @onclick="NavigateToEditPage">Edit</button>
+            <button class="btn btn-info" @onclick="NavigateToEditPage">@_localizer.GetString(LocalizationType.EditButtonValue)</button>
         </div>
 
     }
@@ -64,7 +64,7 @@
         {
             Size = ModalSize.Large
         };
-        await Modal.Show<EditOffice>("Edit Office", parameters, options).Result;
+        await Modal.Show<EditOffice>(_localizer.GetString(LocalizationType.EditOfficeTitle), parameters, options).Result;
 
         Office = null;
         Office = await officeManager.GetByIdAsync(OfficeId, _cts.Token);

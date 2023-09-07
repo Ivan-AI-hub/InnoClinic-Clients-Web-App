@@ -8,7 +8,7 @@
     <p>That appointment have not resul yet:(</p>
     <AuthorizeView Roles="Doctor">
         <Authorized>
-            <input class="btn btn-success w-100" type="button" @onclick="@NavigateToCreateResultPage" value="Create" />
+            <input class="btn btn-success w-100" type="button" @onclick="@NavigateToCreateResultPage" value=@_localizer.GetString(LocalizationType.CreateResultButtonValue) />
         </Authorized>
     </AuthorizeView>
 }
@@ -21,12 +21,12 @@ else
     else
     {
         <div>
-            <p>Complains @result.Complaints</p>
-            <p>Conclusion @result.Conclusion</p>
-            <p>Recomendations @result.Recomendations</p>
+            <p>@_localizer.GetString(LocalizationType.Complaints) @result.Complaints</p>
+            <p>@_localizer.GetString(LocalizationType.Conclusions) @result.Conclusion</p>
+            <p>@_localizer.GetString(LocalizationType.Recomendations) @result.Recomendations</p>
             <AuthorizeView Roles="Doctor">
                 <Authorized>
-                    <input class="btn btn-info w-100" type="button" @onclick="@NavigateToEditPage" value="Edit" />
+                    <input class="btn btn-info w-100" type="button" @onclick="@NavigateToEditPage" value=@_localizer.GetString(LocalizationType.EditButtonValue) />
                 </Authorized>
             </AuthorizeView>
         </div>
@@ -59,7 +59,7 @@ else
         var parameters = new ModalParameters()
                         .Add(nameof(EditResult.AppointmentId), AppointmentId)
                         .Add(nameof(EditResult.Result), result);
-        Modal.Show<EditResult>("Edit result", parameters, options);
+        Modal.Show<EditResult>(@_localizer.GetString(LocalizationType.EditResultButtonValue), parameters, options);
     }
 
     private void NavigateToCreateResultPage()
@@ -69,7 +69,7 @@ else
             Size = ModalSize.Large 
         };
         var parameters = new ModalParameters().Add(nameof(CreateResult.AppointmentId), AppointmentId);
-        Modal.Show<CreateResult>("Create result", parameters, options);
+        Modal.Show<CreateResult>(_localizer.GetString(LocalizationType.CreateResultButtonValue), parameters, options);
     }
 
 

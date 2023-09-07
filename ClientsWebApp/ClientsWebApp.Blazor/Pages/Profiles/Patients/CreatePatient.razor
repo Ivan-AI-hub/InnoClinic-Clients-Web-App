@@ -10,15 +10,15 @@
     <ValidationSummary />
     <div class="row">
         <div class="col p-2">
-            <FormInputText Label="FirstName" Id="firstName" @bind-Value="@Data.FirstName" />
-            <FormInputText Label="LastName" Id="lastName" @bind-Value="@Data.LastName" />
-            <FormInputText Label="MiddleName" Id="middleName" @bind-Value="@Data.MiddleName" />
+            <FormInputText Label=@_localizer.GetString(LocalizationType.FirstName) Id="firstName" @bind-Value="@Data.FirstName" />
+            <FormInputText Label=@_localizer.GetString(LocalizationType.LastName) Id="lastName" @bind-Value="@Data.LastName" />
+            <FormInputText Label=@_localizer.GetString(LocalizationType.MiddleName) Id="middleName" @bind-Value="@Data.MiddleName" />
         </div>
         <div class="col p-2">
-            <FormInputText Label="PhoneNumber" Id="phoneNumber" @bind-Value="@Data.PhoneNumber" />
-            <FormInputDate Label="BirthDay" Id="birthDay" @bind-Value="@Data.BirthDay" />
-            <SelectImage Title="Picture" @bind-Value="@Data.Picture" />
+            <FormInputText Label=@_localizer.GetString(LocalizationType.PhoneNumber) Id="phoneNumber" @bind-Value="@Data.PhoneNumber" />
+            <FormInputDate Label=@_localizer.GetString(LocalizationType.BirthDay) Id="birthDay" @bind-Value="@Data.BirthDay" />
+            <SelectImage Title=@_localizer.GetString(LocalizationType.Photo) @bind-Value="@Data.Picture" />
         </div>
     </div>
-    <FormSubmitButton @ref="@SubmitButton" ButtonValue="Create" />
+    <FormSubmitButton @ref="@SubmitButton" ButtonValue=@_localizer.GetString(LocalizationType.CreatePatientButtonValue) />
 </EditForm>

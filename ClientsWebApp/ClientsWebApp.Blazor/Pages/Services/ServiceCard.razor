@@ -3,22 +3,22 @@
 
 <div class="row mb-3 align-items-center border">
     <div class="col">
-        <p>Name: @Service.Name</p>
-        <p>Price: @Service.Price</p>
+        <p>@_localizer.GetString(LocalizationType.Name): @Service.Name</p>
+        <p>@_localizer.GetString(LocalizationType.Price): @Service.Price</p>
     </div>
     <div class="col">
         @if (Specialization == null)
         {
-            <p>Specialization: Loading...</p>
+            <p>@_localizer.GetString(LocalizationType.Specialization): @_localizer.GetString(LocalizationType.Loading)</p>
         }
         else
         {
-            <p>Specialization: @Specialization.Name</p>
+            <p>@_localizer.GetString(LocalizationType.Specialization): @Specialization.Name</p>
         }
     </div>
     <div class="col">
         <AuthorizeView Roles="Admin">
-            <button class="btn btn-primary" @onclick="ToEditPage">Edit</button>
+            <button class="btn btn-primary" @onclick="ToEditPage">@_localizer.GetString(LocalizationType.EditButtonValue)</button>
         </AuthorizeView>
     </div>
 </div>
@@ -42,6 +42,6 @@
         parameters.Add(nameof(EditService.ServiceId), Service.Id);
         parameters.Add(nameof(EditService.SpecializationId), Specialization.Id);
         parameters.Add(nameof(EditService.OldService), Service);
-        Modal.Show<EditService>("Edit service", parameters);
+        Modal.Show<EditService>(_localizer.GetString(LocalizationType.EditServiceButtonValue), parameters);
     }
 }

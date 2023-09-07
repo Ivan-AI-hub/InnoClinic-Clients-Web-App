@@ -7,16 +7,17 @@
         <EditForm Model="FiltrationModel" OnSubmit="AppointmentsUpdateAsync">
             <div class="container">
                 <div class="col ">
-                    <FormInputText Label="DoctorFirstName" Id="firstName"
-                        @bind-Value="FiltrationModel.DoctorFirstName" />
-                    <FormInputText Label="DoctorLastName" Id="lastName" @bind-Value="FiltrationModel.DoctorLastName" />
-                    <FormInputText Label="DoctorMiddleName" Id="middleName"
-                        @bind-Value="FiltrationModel.DoctorMiddleName" />
-                    <FormInputText Label="Service" Id="firstName" @bind-Value="FiltrationModel.ServiceName" />
-                    <FormInputDate Label="Date" Id="firstName" @bind-Value="FiltrationModel.Date" />
-                    <FilterInputBool Label="Status" Id="status" @bind-Value="FiltrationModel.Status" />
+                    @_localizer.GetString(LocalizationType.Doctor)
+                    <FormInputText Label=@_localizer.GetString(LocalizationType.FirstName) Id="firstName"
+                                   @bind-Value="FiltrationModel.DoctorFirstName" />
+                    <FormInputText Label=@_localizer.GetString(LocalizationType.LastName) Id="lastName" @bind-Value="FiltrationModel.DoctorLastName" />
+                    <FormInputText Label=@_localizer.GetString(LocalizationType.MiddleName) Id="middleName"
+                                   @bind-Value="FiltrationModel.DoctorMiddleName" />
+                    <FormInputText Label=@_localizer.GetString(LocalizationType.Service) Id="firstName" @bind-Value="FiltrationModel.ServiceName" />
+                    <FormInputDate Label=@_localizer.GetString(LocalizationType.Date) Id="firstName" @bind-Value="FiltrationModel.Date" />
+                    <FilterInputBool Label=@_localizer.GetString(LocalizationType.Status) Id="status" @bind-Value="FiltrationModel.Status" />
                 </div>
-                <FormSubmitButton @ref="@SubmitButton" ButtonValue="Search" />
+                <FormSubmitButton @ref="@SubmitButton" ButtonValue=@_localizer.GetString(LocalizationType.SearchButtonValue) />
             </div>
         </EditForm>
     </div>
@@ -24,7 +25,7 @@
         @if (Appointments != null)
         {
             <PageSwitcher OnNextPageClicked="@SetNextPage" OnPreviousPageClicked="@SetPreviousPage"
-                GetStatus="@GetPageStatus" />
+                      GetStatus="@GetPageStatus" />
             @foreach (var appointment in Appointments)
             {
                 <AppointmentCard Appointment="appointment" OnDataUpdated="AppointmentsUpdateAsync">

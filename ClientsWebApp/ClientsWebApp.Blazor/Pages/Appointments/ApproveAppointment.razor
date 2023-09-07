@@ -8,8 +8,10 @@
     }
     else
     {
-        <DobleQuestionButton AgreeButtonValue="Agree" DisagreeButtonValue="Cancel" OnSuccessAnswerClicked="ChangeAsync"
-            PreviewButtonValue="Approve appointment" />
+        <DobleQuestionButton AgreeButtonValue=@_localizer.GetString(LocalizationType.AgreeButtonValue)
+                         DisagreeButtonValue=@_localizer.GetString(LocalizationType.DisagreeButtonValue)
+                         PreviewButtonValue=@_localizer.GetString(LocalizationType.ApproveAppointmentButtonValue)
+                         OnSuccessAnswerClicked="ChangeAsync" />
     }
 </div>
 
