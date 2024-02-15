@@ -3,7 +3,7 @@ using Microsoft.JSInterop;
 
 namespace ClientsWebApp.Blazor.Pages.Conference
 {
-    public partial class Rtc 
+    public partial class Rtc : IAsyncDisposable
     {
         private IJSObjectReference? _module;
         private bool _callDisabled;

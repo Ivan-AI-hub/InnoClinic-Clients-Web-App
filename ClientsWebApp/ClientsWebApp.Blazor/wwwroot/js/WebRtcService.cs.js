@@ -13,11 +13,8 @@ const offerOptions = {
 
 const servers = {
     iceServers: [
-        {
-            urls: "turn:coturn.myserver.com:3478",
-            username: "username",
-            credential: "password"
-        }
+        { urls: 'stun:stun.1.google.com:19302' },
+        { urls: 'stun:stun1.l.google.com:19302' }
     ]
 }
 
