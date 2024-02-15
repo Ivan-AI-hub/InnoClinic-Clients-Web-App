@@ -1,4 +1,5 @@
-﻿using ClientsWebApp.Application.Abstraction;
+﻿using BlazorRtc.Client.WebRtc;
+using ClientsWebApp.Application.Abstraction;
 using ClientsWebApp.Application.Managers;
 using ClientsWebApp.Blazor.Infrastructure;
 using ClientsWebApp.Domain.Appointments;
@@ -36,6 +37,7 @@ namespace ClientsWebApp.Blazor.Extensions
             services.AddScoped<ISpecializationService, SpecializationService>();
 
             services.AddScoped<IStorageService, LocalStorageService>();
+            services.AddScoped<WebRtcService>();
         }
 
         public static void ConfigureManagers(this IServiceCollection services)

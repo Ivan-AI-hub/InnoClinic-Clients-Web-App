@@ -18,7 +18,6 @@ builder.Services.ConfigureManagers();
 builder.Services.ConfigureHttpClient();
 builder.Services.AddScoped<AuthenticationStateProvider, TokenStateProvider>();
 builder.Services.AddScoped<AuthenticationStateHelper>();
-
 builder.Services.Configure<ServicesUriSettings>(builder.Configuration.GetSection("ServicesUriSettingsConfig"));
 builder.Services.AddAuthorizationCore();
 builder.Services.AddValidatorsFromAssemblyContaining<LoginDataValidator>();

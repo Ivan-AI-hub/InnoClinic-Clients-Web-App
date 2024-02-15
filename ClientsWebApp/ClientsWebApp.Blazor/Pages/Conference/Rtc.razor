@@ -1,0 +1,25 @@
+﻿@page "/rtc"
+@using BlazorRtc.Client.WebRtc
+@inject WebRtcService RtcService;
+@inject IJSRuntime Js
+<PageTitle>WebRtc</PageTitle>
+
+@* <div class="py-4">
+    <button id="callButton" @onclick="CallAction" disabled="@_callDisabled">Call</button>
+    <button id="hangupButton" @onclick="HangupAction" disabled="@_hangupDisabled">Hang Up</button>
+</div> *@
+<span><strong>WebRTC Webapp</strong></span>
+<span class="main-spacer"></span>
+<div class="py-4">
+    <label for="channelInput">Channel</label>
+    <input id="channelInput" @bind="Channel" />
+    <button id="callButton" @onclick="CallAction" disabled="@_callDisabled">Call</button>
+    <button id="hangupButton" @onclick="HangupAction" disabled="@_hangupDisabled">Hang Up</button>
+</div>
+
+<div class="container">
+    <div class="row">
+        <video class="col col-lg-6 p-0" id="localVideo" autoplay playsinline></video>
+        <video class="col col-lg-6 p-0" id="remoteVideo" autoplay playsinline></video>
+    </div>
+</div>
