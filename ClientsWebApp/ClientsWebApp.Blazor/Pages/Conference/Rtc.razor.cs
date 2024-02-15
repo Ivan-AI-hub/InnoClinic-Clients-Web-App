@@ -1,13 +1,14 @@
 using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
 
 namespace ClientsWebApp.Blazor.Pages.Conference
 {
     public partial class Rtc : IAsyncDisposable
     {
-        private IJSObjectReference? _module;
         private bool _callDisabled;
         private bool _hangupDisabled = true;
+
+        private ElementReference _remoteVideoStream;
+        private ElementReference _localVideoStream;
 
         [SupplyParameterFromQuery]
         [Parameter]
@@ -25,30 +26,19 @@ namespace ClientsWebApp.Blazor.Pages.Conference
             }
 
             RtcService.Initialize(Channel);
-            RtcService.OnRemoteStreamAcquired += RtcOnOnRemoteStreamAcquired;
 
-            var stream = await RtcService.StartLocalStream();
-            await SetLocalStream(stream);
-
-            await RtcService.Join();
 
         }
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             if (firstRender)
             {
-                _module = await Js.InvokeAsync<IJSObjectReference>("import", "./js/xyz.js");
+                await RtcService.Join(_localVideoStream, _remoteVideoStream);
+
+                await RtcService.StartLocalStream();
+
             }
             await base.OnAfterRenderAsync(firstRender);
-        }
-
-        private async void RtcOnOnRemoteStreamAcquired(object? _, IJSObjectReference e)
-        {
-            await _module.InvokeVoidAsync("setRemoteStream", e);
-
-            _callDisabled = true;
-            _hangupDisabled = false;
-            StateHasChanged();
         }
 
         private async Task CallAction()
@@ -64,15 +54,9 @@ namespace ClientsWebApp.Blazor.Pages.Conference
             _hangupDisabled = true;
         }
 
-        private async Task SetLocalStream(IJSObjectReference stream)
-        {
-            await _module.InvokeVoidAsync("setLocalStream", stream);
-        }
-
         public async ValueTask DisposeAsync()
         {
-            _module?.DisposeAsync();
-            await RtcService.Hangup();
+            await RtcService.DisposeAsync();
         }
     }
 }

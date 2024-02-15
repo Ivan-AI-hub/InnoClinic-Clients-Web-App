@@ -1,17 +1,16 @@
-﻿using Microsoft.AspNetCore.SignalR.Client;
+﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.JSInterop;
 
 namespace BlazorRtc.Client.WebRtc;
 
-public class WebRtcService
+public class WebRtcService : IAsyncDisposable
 {
     private string _videoServiceUrl;
     private readonly IJSRuntime _jsRuntime;
     private Lazy<IJSObjectReference> _rtcJsRef = new();
     private HubConnection? _hub;
     private string _channel;
-
-    public event EventHandler<IJSObjectReference>? OnRemoteStreamAcquired;
 
     public WebRtcService(IJSRuntime jsRuntime)
     {
@@ -25,7 +24,7 @@ public class WebRtcService
         _channel = channel;
 
     }
-    public async Task Join()
+    public async Task Join(ElementReference localVideo, ElementReference remoteVideo)
     {
         var hub = await GetHub();
         await hub.SendAsync("join", _channel);
@@ -33,16 +32,14 @@ public class WebRtcService
         var rtcService = DotNetObjectReference.Create(this);
         await WaitForReference();
 
-        await _rtcJsRef.Value.InvokeVoidAsync("initialize", rtcService);
+        await _rtcJsRef.Value.InvokeVoidAsync("initialize", rtcService, localVideo, remoteVideo);
     }
 
-    public async Task<IJSObjectReference> StartLocalStream()
+    public async Task StartLocalStream()
     {
         await WaitForReference();
 
-        var stream = await _rtcJsRef.Value.InvokeAsync<IJSObjectReference>("startLocalStream");
-
-        return stream;
+        await _rtcJsRef.Value.InvokeVoidAsync("startLocalStream");
     }
 
     public async Task Call()
@@ -116,20 +113,18 @@ public class WebRtcService
         await hub.SendAsync("SignalWebRtc", _channel, "candidate", candidate);
     }    
 
-    [JSInvokable]
-    public async Task SetRemoteStream()
-    {
-        await WaitForReference();
-        var stream = await _rtcJsRef.Value.InvokeAsync<IJSObjectReference>("getRemoteStream");
-
-        OnRemoteStreamAcquired?.Invoke(this, stream);
-    }
-
     private async Task WaitForReference()
     {
         if (_rtcJsRef.IsValueCreated is false)
         {
            _rtcJsRef = new(await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "/js/WebRtcService.cs.js"));
         }
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        await Hangup();
+        await _rtcJsRef.Value.DisposeAsync();
+        await _hub.DisposeAsync();
     }
 }

@@ -19,6 +19,8 @@ const servers = {
 }
 
 let dotNet;
+let localVideo;
+let remoteVideo
 let localStream;
 let remoteStream;
 let peerConnection;
@@ -26,13 +28,17 @@ let peerConnection;
 let isOffering;
 let isOffered;
 
-export function initialize(dotNetRef) {
+export function initialize(dotNetRef, localVideoRef, remoteVideoRef) {
     dotNet = dotNetRef;
+    localVideo = localVideoRef;
+    remoteVideo = remoteVideoRef;
+
 }
-export async function startLocalStream() {
+export async function startLocalStream(localVideoElement) {
     console.log("Requesting local stream.");
     localStream = await navigator.mediaDevices.getUserMedia(mediaStreamConstraints);
-    return localStream;
+    localVideo.srcObject = localStream
+    localVideo.muted = 'muted';
 }
 
 function createPeerConnection() {
@@ -120,7 +126,7 @@ async function gotRemoteMediaStream(event) {
     const mediaStream = event.stream;
     console.log(mediaStream);
     remoteStream = mediaStream;
-    await dotNet.invokeMethodAsync("SetRemoteStream");
+    remoteVideo.srcObject = remoteStream 
     console.log("Remote peer connection received remote stream.");
 }
 export function getRemoteStream() {
