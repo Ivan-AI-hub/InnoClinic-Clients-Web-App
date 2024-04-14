@@ -26,7 +26,7 @@ namespace ClientsWebApp.Blazor.Pages.Profiles.Patients
             {
                 Patient = await PatientManager.GetByEmailAsync(email, _cts.Token);
             }
-            catch (NotFoundException ex)
+            catch (NotFoundException)
             {
                 NavigateToCreatePage();
             }

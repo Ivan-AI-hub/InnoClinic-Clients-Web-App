@@ -37,7 +37,7 @@ namespace ClientsWebApp.Blazor.Extensions
             services.AddScoped<ISpecializationService, SpecializationService>();
 
             services.AddScoped<IStorageService, LocalStorageService>();
-            services.AddScoped<WebRtcService>();
+            services.AddTransient<WebRtcService>();
         }
 
         public static void ConfigureManagers(this IServiceCollection services)

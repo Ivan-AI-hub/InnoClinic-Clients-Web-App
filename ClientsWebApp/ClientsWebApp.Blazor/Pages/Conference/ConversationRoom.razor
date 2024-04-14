@@ -1,0 +1,24 @@
+﻿@page "/conference"
+
+<PageTitle>WebRtc</PageTitle>
+
+<span class="main-spacer"></span>
+
+<div class="container">
+    @if (_isConnectError)
+    {
+        <div>Вы не вошли в видео канал, повторите попытку</div>
+        <button @onclick="Join" class="btn btn-outline-primary">Повторить попытку</button>
+    }
+    else
+    {
+        <div class="d-flex justify-content-between">
+            <video @ref=_callLocalVideoStream class="col col-lg-6 p-0" id="localVideo" autoplay playsinline></video>
+            <video @ref=_remoteVideoStream class="col col-lg-6 p-0" id="remoteVideo" autoplay playsinline></video>
+        </div>
+
+        <div class="d-flex justify-content-center py-4">
+            <button @onclick="HangUp" class="btn btn-outline-danger">Выйти</button>
+        </div>
+    }
+</div>

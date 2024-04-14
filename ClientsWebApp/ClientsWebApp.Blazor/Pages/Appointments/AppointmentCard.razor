@@ -67,6 +67,8 @@
             </Row>
         </div>
         <div class="col">
+            <a href="/conference/prepare?Channel=@Appointment.Id">Go to video room</a>
+
             <AuthorizeView Roles="Admin,Doctor">
                 <Authorized Context="editDate">
                     @if (service != null && !Appointment.IsApproved)

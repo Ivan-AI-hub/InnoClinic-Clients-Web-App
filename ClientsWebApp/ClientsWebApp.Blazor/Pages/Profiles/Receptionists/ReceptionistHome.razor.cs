@@ -26,7 +26,7 @@ namespace ClientsWebApp.Blazor.Pages.Profiles.Receptionists
             {
                 Receptionist = await ReceptionistManager.GetByEmailAsync(email, _cts.Token);
             }
-            catch (NotFoundException ex)
+            catch (NotFoundException)
             {
                 NavigateToCreatePage();
             }

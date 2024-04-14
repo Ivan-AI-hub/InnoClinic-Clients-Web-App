@@ -1,0 +1,16 @@
+﻿@page "/conference/prepare"
+
+<PageTitle>WebRtc</PageTitle>
+
+<span class="main-spacer"></span>
+
+
+<div class="container">
+    <div class="d-flex justify-content-center">
+        <video @ref=_preparedLocalVideoStream class="col col-lg-6 p-0" id="localVideo" autoplay playsinline></video>
+    </div>
+
+    <div class="d-flex justify-content-center py-4">
+        <button @onclick="Join" class="btn btn-outline-primary" disabled="@_joinDisabled">Присоединиться</button>
+    </div>
+</div>

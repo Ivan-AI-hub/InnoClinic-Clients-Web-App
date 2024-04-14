@@ -1,3 +1,4 @@
+@using ClientsWebApp.Domain.Exceptions
 @inherits CancellableComponent
 
 @inject IResultManager ResultManager;
@@ -44,7 +45,7 @@ else
         {
             result = await ResultManager.GetForAppointmentAsync(AppointmentId, _cts.Token);
         }
-        catch (Domain.Exceptions.NotFoundException ex)
+        catch (NotFoundException)
         {
             IsNotFound = true;
         }

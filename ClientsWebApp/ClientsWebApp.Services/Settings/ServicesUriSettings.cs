@@ -14,6 +14,6 @@
         public string ResultsBaseUri { get; set; }
         public string ServicesBaseUri { get; set; }
         public string SpecializationsBaseUri { get; set; }
-        public string VideoHubBaseUrl { get; set; }
+        public string VideoHubUrl { get; set; }
     }
 }

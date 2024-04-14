@@ -43,6 +43,9 @@
     private Image? _image;
     protected async override Task OnInitializedAsync()
     {
-        _image = Receptionist.Info.Photo != null? await Receptionist.Info.Photo : null;
+        if (Receptionist is not null)
+        {
+            _image = Receptionist.Info.Photo != null ? await Receptionist.Info.Photo : null;
+        }
     }
 }

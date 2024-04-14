@@ -34,11 +34,17 @@ export function initialize(dotNetRef, localVideoRef, remoteVideoRef) {
     remoteVideo = remoteVideoRef;
 
 }
-export async function startLocalStream(localVideoElement) {
+export async function startLocalStream() {
     console.log("Requesting local stream.");
     localStream = await navigator.mediaDevices.getUserMedia(mediaStreamConstraints);
     localVideo.srcObject = localStream
     localVideo.muted = 'muted';
+}
+
+export async function stopLocalStream() {
+    if (localStream && localStream.active) {
+        localStream.getTracks().forEach((track) => { track.stop(); });
+    }
 }
 
 function createPeerConnection() {
@@ -116,11 +122,29 @@ export async function processCandidate(candidateText) {
 
 // Handles hangup action: ends up call, closes connections and resets peers.
 export function hangupAction() {
-    peerConnection.close();
-    peerConnection = null;
+    if (peerConnection) {
+        peerConnection.close();
+        peerConnection = null;
+    }
+    if (remoteStream && remoteStream.active) {
+        remoteStream.getTracks().forEach((track) => { track.stop(); });
+    }
+    if (localStream && localStream.active) {
+        localStream.getTracks().forEach((track) => { track.stop(); });
+    }
     console.log("Ending call.");
 }
 
+export function removePeerLeft() {
+    if (peerConnection) {
+        peerConnection.close();
+        peerConnection = null;
+    }
+    if (remoteStream && remoteStream.active) {
+        remoteStream.getTracks().forEach((track) => { track.stop(); });
+        remoteVideo.srcObject = null
+    }
+}
 // Handles remote MediaStream success by handing the stream to the blazor component.
 async function gotRemoteMediaStream(event) {
     const mediaStream = event.stream;

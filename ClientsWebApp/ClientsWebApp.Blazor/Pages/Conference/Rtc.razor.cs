@@ -4,7 +4,8 @@ namespace ClientsWebApp.Blazor.Pages.Conference
 {
     public partial class Rtc : IAsyncDisposable
     {
-        private bool _callDisabled;
+        private bool _successefullJoin;
+        private bool _joinDisabled;
         private bool _hangupDisabled = true;
 
         private ElementReference _remoteVideoStream;
@@ -25,33 +26,36 @@ namespace ClientsWebApp.Blazor.Pages.Conference
                 NavigationManager.NavigateTo("/");
             }
 
-            RtcService.Initialize(Channel);
-
-
+            RtcService.OnRemoteVideoLeave += RemoteStreamLeave;
         }
-        protected override async Task OnAfterRenderAsync(bool firstRender)
+
+        private async Task Join()
         {
-            if (firstRender)
+            await RtcService.InitializeAsync(Channel, _localVideoStream, _remoteVideoStream);
+            _successefullJoin = await RtcService.Join();
+            if (!_successefullJoin)
             {
-                await RtcService.Join(_localVideoStream, _remoteVideoStream);
-
-                await RtcService.StartLocalStream();
-
+                return;
             }
-            await base.OnAfterRenderAsync(firstRender);
-        }
 
-        private async Task CallAction()
-        {
-            _callDisabled = true;
-            await RtcService.Call();
+            await RtcService.StartLocalStream();
             _hangupDisabled = false;
+            _joinDisabled = true;
         }
         private async Task HangupAction()
         {
             await RtcService.Hangup();
-            _callDisabled = false;
+
+            await Task.Delay(1000);
+
+            _joinDisabled = false;
             _hangupDisabled = true;
+        }
+
+        private void RemoteStreamLeave()
+        {
+            Console.WriteLine("Remote user leave");
+            
         }
 
         public async ValueTask DisposeAsync()

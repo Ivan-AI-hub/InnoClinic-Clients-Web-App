@@ -31,8 +31,10 @@
 @code {
     [CascadingParameter] public IModalService Modal { get; set; }
     [Parameter] public Guid SpecializationId { get; set; }
-    private Specialization Specialization;
+
+    private Specialization? Specialization;
     private Image? image;
+
     protected async override Task OnInitializedAsync()
     {
         Specialization = await specializationManager.GetByIdAsync(SpecializationId, _cts.Token);

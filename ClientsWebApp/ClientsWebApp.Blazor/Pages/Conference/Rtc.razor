@@ -4,22 +4,24 @@
 @inject IJSRuntime Js
 <PageTitle>WebRtc</PageTitle>
 
-@* <div class="py-4">
-    <button id="callButton" @onclick="CallAction" disabled="@_callDisabled">Call</button>
-    <button id="hangupButton" @onclick="HangupAction" disabled="@_hangupDisabled">Hang Up</button>
-</div> *@
 <span><strong>WebRTC Webapp</strong></span>
 <span class="main-spacer"></span>
 <div class="py-4">
     <label for="channelInput">Channel</label>
-    <input id="channelInput" @bind="Channel" />
-    <button id="callButton" @onclick="CallAction" disabled="@_callDisabled">Call</button>
-    <button id="hangupButton" @onclick="HangupAction" disabled="@_hangupDisabled">Hang Up</button>
+    <input id="channelInput" @bind="Channel"/>
+    <button @onclick="Join" disabled="@_joinDisabled">Join</button>
+    <button @onclick="HangupAction" disabled="@_hangupDisabled">Hang Up</button>
 </div>
 
-<div class="container">
-    <div class="row">
+
+<div class="container w-100">
+    @if (!_successefullJoin)
+    {
+        <div>Вы не вошли в видео канал, повторите попытку</div>
+    }
+    <div class="d-flex justify-content-between">
         <video @ref=_localVideoStream class="col col-lg-6 p-0" id="localVideo" autoplay playsinline></video>
         <video @ref=_remoteVideoStream class="col col-lg-6 p-0" id="remoteVideo" autoplay playsinline></video>
     </div>
+
 </div>
