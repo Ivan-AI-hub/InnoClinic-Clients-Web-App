@@ -9,6 +9,7 @@ namespace ClientsWebApp.Blazor.Pages.Conference
     public partial class ConversationRoom
     {
         private bool _isConnectError;
+        private bool _joinDisabled;
 
         private ElementReference _callLocalVideoStream;
         private ElementReference _remoteVideoStream;
@@ -57,8 +58,6 @@ namespace ClientsWebApp.Blazor.Pages.Conference
                 StateHasChanged();
                 return;
             }
-
-            await RtcService.Call();
         }
 
         private void HangUp()
@@ -79,8 +78,6 @@ namespace ClientsWebApp.Blazor.Pages.Conference
 
         public async ValueTask DisposeAsync()
         {
-            await RtcService.Hangup();
-            await RtcService.StopLocalStream();
             await RtcService.DisposeAsync();
         }
     }

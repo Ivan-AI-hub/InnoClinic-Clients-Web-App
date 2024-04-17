@@ -133,9 +133,12 @@ export function hangupAction() {
         localStream.getTracks().forEach((track) => { track.stop(); });
     }
     console.log("Ending call.");
+    isOffering = false;
+    isOffered = false;
 }
 
 export function removePeerLeft() {
+
     if (peerConnection) {
         peerConnection.close();
         peerConnection = null;
@@ -144,6 +147,9 @@ export function removePeerLeft() {
         remoteStream.getTracks().forEach((track) => { track.stop(); });
         remoteVideo.srcObject = null
     }
+
+    isOffering = false;
+    isOffered = false;
 }
 // Handles remote MediaStream success by handing the stream to the blazor component.
 async function gotRemoteMediaStream(event) {

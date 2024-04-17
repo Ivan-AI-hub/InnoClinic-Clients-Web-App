@@ -19,6 +19,7 @@ public class WebRtcService : IAsyncDisposable
     private Lazy<IJSObjectReference> _rtcJsRef = new();
     private HubConnection? _hub;
     private string _channel;
+    private bool _disposed;
 
     public event Action OnRemoteVideoLeave;
     public bool HasRemoteUser { get; private set; }
@@ -156,7 +157,7 @@ public class WebRtcService : IAsyncDisposable
 
     private async Task WaitForReference()
     {
-        if (_rtcJsRef.IsValueCreated is false)
+        if (!_rtcJsRef.IsValueCreated)
         {
             _rtcJsRef = new(await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "/js/WebRtcService.cs.js"));
         }
@@ -164,9 +165,17 @@ public class WebRtcService : IAsyncDisposable
 
     public async ValueTask DisposeAsync()
     {
+        if (_disposed) return;
+
         await StopLocalStream();
         await Hangup();
         await _rtcJsRef.Value.DisposeAsync();
-        await _hub.DisposeAsync();
+
+        if (_hub is not null)
+        {
+            await _hub.DisposeAsync();
+        }
+
+        _disposed = true;
     }
 }

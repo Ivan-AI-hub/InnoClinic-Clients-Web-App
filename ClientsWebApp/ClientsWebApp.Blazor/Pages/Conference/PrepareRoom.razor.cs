@@ -43,13 +43,11 @@ namespace ClientsWebApp.Blazor.Pages.Conference
         }
         private async Task Join()
         {
-            await RtcService.StopLocalStream();
             NavigationManager.NavigateTo($"/conference?Channel={Channel}");
         }
 
         public async ValueTask DisposeAsync()
         {
-            await RtcService.StopLocalStream();
             await RtcService.DisposeAsync();
         }
     }
