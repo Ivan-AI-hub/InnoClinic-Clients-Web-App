@@ -1,4 +1,5 @@
 ﻿@page "/login"
+@using MudBlazor
 @inherits CancellableComponent
 
 <PageTitle>Login</PageTitle>
@@ -9,9 +10,11 @@
         <EditForm Model="@LoginData" OnValidSubmit="LoginAsync">
             <FluentValidationValidator DisableAssemblyScanning=@true />
             <ValidationSummary />
-            <FormInputText Label="Email" Id="email" @bind-Value="@LoginData.Email" />
-            <FormInputText Label="Password" Id="password" type="password" @bind-Value="@LoginData.Password" />
-            <FormSubmitButton @ref="@SubmitButton" ButtonValue="Sign in" />
+            <MudPaper Class="pa-16 ma-2" Style="bgcolor" Outlined="true" Square="true" Elevation="3">
+                <FormInputText Label="Email" Id="email" @bind-Value="@LoginData.Email" />
+                <FormInputText Label="Password" Id="password" type="password" @bind-Value="@LoginData.Password" />
+                <FormSubmitButton @ref="@SubmitButton" ButtonValue="Sign in" />
+            </MudPaper>
         </EditForm>
     </div>
 </div>

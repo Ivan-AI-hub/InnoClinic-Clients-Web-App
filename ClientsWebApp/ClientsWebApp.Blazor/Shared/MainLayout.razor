@@ -1,6 +1,10 @@
-﻿@inherits LayoutComponentBase
+﻿@using MudBlazor
+@inherits LayoutComponentBase
 @inject NavigationManager NavigationManager
 
+<MudThemeProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
 @*<ErrorBoundary @ref="errorBoundary">
     <ChildContent>*@
 <div class="page">
