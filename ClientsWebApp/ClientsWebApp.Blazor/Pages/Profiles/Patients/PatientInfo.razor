@@ -5,15 +5,28 @@
 
 @if (patient != null)
 {
-    <PatientCard Patient="patient" />
+    <div class="container p-5">
+        <PatientCard Patient="patient" />
+    </div>
+    <div class="container p-5 text-center">
+        <MudText Typo="Typo.h6">Appointments schedule</MudText>
+        @if (Appointments != null)
+        {
+            @foreach (var appointment in Appointments)
+            {
+                <AppointmentCard Appointment="appointment" />
+            }
+
+            @if (Appointments.Count() >= Page.Size)
+            {
+                <MudButton Color="Color.Info" @onclick="NavigateToHistoryPage">View all history</MudButton>
+            }
+        }
+        else
+        {
+            <Loading />
+        }
+
+    </div>
 }
 
-@code
-{
-    [Parameter] public Guid PatientId { get; set; }
-    private PatientDTO patient;
-    protected async override Task OnInitializedAsync()
-    {
-        patient = await PatientManager.GetByIdAsync(PatientId, _cts.Token);
-    }
-}

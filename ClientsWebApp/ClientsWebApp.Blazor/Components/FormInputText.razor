@@ -1,11 +1,7 @@
 ﻿@inherits InputText
 
 <div class="form-group mb-3">
-    @if (Label != null)
-    {
-        <label for="@Id" class="form-label">@Label</label>
-    }
-    <InputText id="@Id" @attributes="AdditionalAttributes" @bind-Value="CurrentValue" class="form-control" />
+    <MudTextField id="@Id" @bind-Value=CurrentValue Label="@Label" />
 </div>
 
 @code

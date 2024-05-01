@@ -1,6 +1,6 @@
 ﻿@inherits CancellableComponent
 
-<div class="row mb-3 align-items-center">
+<MudPaper Square Elevation=3 Class="row p-5 mb-3">
     @if (Receptionist != null)
     {
         if (Receptionist.Info.Photo != null)
@@ -35,7 +35,7 @@
             @ChildContent
         }
     }
-</div>
+</MudPaper>
 
 @code {
     [Parameter] public ReceptionistDTO Receptionist { get; set; }

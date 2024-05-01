@@ -2,7 +2,7 @@
 @inherits CancellableComponent
 
 
-<div class="row mb-3 align-items-center">
+<MudPaper Square Elevation=3 Class="row p-5 mb-3">
     @if (Patient != null)
     {
         if (Patient.Info.Photo != null)
@@ -19,9 +19,8 @@
             </div>
         }
         <div class="col-sm m-lg-3">
-            <div>@Patient.Info.GetFullName()</div>
-            <div>@Patient.PhoneNumber</div>
-            <div>@Patient.Info.BirthDay.ToShortDateString()</div>
+            <MudText Typo="Typo.h6">Full name: @Patient.Info.GetFullName()</MudText>
+            <MudText Typo="Typo.h6">Phone number: @Patient.PhoneNumber</MudText>
         </div>
         @if (ChildContent != null)
         {
@@ -29,7 +28,7 @@
         }
 
     }
-</div>
+</MudPaper>
 
 
 @code {

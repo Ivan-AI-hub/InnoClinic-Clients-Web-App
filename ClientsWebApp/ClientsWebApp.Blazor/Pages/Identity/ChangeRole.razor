@@ -15,17 +15,22 @@
                         <div class="row">
                             <div class="col p-2">
                                 <FormInputSelect Label="Role" Id="role" @bind-Value="ChangeRoleData.Role" Values="Roles"
-                                    GetLabelHandler="@(x => x)" GetValueHandler="@(x => x)" />
+                                                 GetLabelHandler="@(x => x)" GetValueHandler="@(x => x)" />
                             </div>
                         </div>
-                        <input class="btn btn-primary" type="submit" value="Edit" />
+                        <MudButton Color="Color.Primary" Variant=Variant.Filled ButtonType=ButtonType.Submit>
+                            Edit
+                        </MudButton>
                     </EditForm>
                 }
                 else
                 {
-                    <button type="button" class="btn btn-primary" @onclick="StartChanging" >
-                        <span class="oi oi-pencil" aria-hidden="true"> Edit role</span>
-                    </button>
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="StartChanging" Class="w-100">
+                        <MudIcon Icon="@Icons.Material.Filled.Edit" />
+                        <span class="ml-2">
+                            Edit role
+                        </span>
+                    </MudButton>
                 }
 
             }

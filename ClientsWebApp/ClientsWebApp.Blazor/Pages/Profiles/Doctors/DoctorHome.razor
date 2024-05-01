@@ -3,23 +3,25 @@
 @attribute [Authorize(Roles = "Doctor")]
 @if (!IsLoading)
 {
-    <DoctorCard Doctor="@Doctor">
-        <div class="col">
-            <MudButton Color="Color.Info" class="w-100 m-1" OnClick="NavigateToEditPage">
-                <MudIcon Icon="@Icons.Material.Filled.Edit" />
-                <span class="ml-2">
-                    Edit profile info
-                </span>
-            </MudButton>
-@*             <ChangeDoctorStatus Doctor="@Doctor" OnStatusChanged="@Reload" /> *@
-            <MudButton Color="Color.Info" class="w-100 m-1" OnClick="NavigateToSchedulePage">
-                <MudIcon Icon="@Icons.Material.Filled.Schedule" />
-                <span class="ml-2">
-                    Schedule
-                </span>
-            </MudButton>
-        </div>
-    </DoctorCard>
+    <div class="container p-5">
+        <DoctorCard Doctor="@Doctor">
+            <div class="col">
+                <MudButton Color="Color.Info" class="w-100 m-1" OnClick="NavigateToEditPage">
+                    <MudIcon Icon="@Icons.Material.Filled.Edit" />
+                    <span class="ml-2">
+                        Edit profile info
+                    </span>
+                </MudButton>
+                @*             <ChangeDoctorStatus Doctor="@Doctor" OnStatusChanged="@Reload" /> *@
+                <MudButton Color="Color.Info" class="w-100 m-1" OnClick="NavigateToSchedulePage">
+                    <MudIcon Icon="@Icons.Material.Filled.Schedule" />
+                    <span class="ml-2">
+                        Schedule
+                    </span>
+                </MudButton>
+            </div>
+        </DoctorCard>
+    </div>
     <div class="container p-5 text-center">
         <MudText Typo="Typo.h6">Appointments schedule</MudText>
 

@@ -16,19 +16,32 @@
                 <FormInputCheckBox Label="Active" Id="lastName" @bind-Value="@Data.IsActive" />
             </div>
             <div class="col p-2">
-                <h2>Services</h2>
+
+
+                <h2>
+                    Services                 
+                    @if (!IsManagerCreating)
+                    {
+                        <MudButton Color=Color.Primary Variant=Variant.Filled OnClick="@StartCreateService">
+                            Create a new service
+                        </MudButton>
+                    }
+                    else
+                    {
+                        <MudButton Color=Color.Error Variant=Variant.Filled OnClick="@StopCreateService">
+                            Exit
+                        </MudButton>
+                    }
+                </h2>
+
                 @if (IsManagerCreating)
                 {
-                    <CreateService SpecializationId="default" OnModelCreated="@StopCreateService" />
-                }
-                else
-                {
-                    <input type="button" value="Create a service" @onclick="@StartCreateService" />
+                    <CreateService SpecializationId="default" OnModelCreated="@ServiceCreated" />
                 }
 
                 @foreach (var service in Services)
                 {
-                    <ServiceCard Service="@service" />
+                    <ServiceCard Service="@service" HideSpecialization/>
                 }
                 @foreach (var service in AddedServices)
                 {
@@ -36,8 +49,8 @@
                         <div class="col">
                             <CreateServiceModelCard Service="@service" />
                         </div>
-                        <div class="col-1 m-3">
-                            <input type="button" class="btn btn-danger" value="-" @onclick="@(()=>RemoveService(service))" />
+                        <div class="col-1 d-flex justify-content-center mb-3 ml-2">
+                            <MudIconButton Color="Color.Error" Variant=Variant.Filled Icon="@Icons.Material.Filled.Delete" OnClick="@(()=>RemoveService(service))" />
                         </div>
                     </div>
                 }
@@ -49,7 +62,7 @@
             </Left>
             <Right>
                 <DobleQuestionButton OnSuccessAnswerClicked="@Cancel" PreviewButtonValue="Cancel"
-                                 QuestionLabel="Do you really want to cancel? Changes will not be saved." />
+                                     QuestionLabel="Do you really want to cancel? Changes will not be saved." />
             </Right>
         </InnoRow>
     </EditForm>

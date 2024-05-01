@@ -37,7 +37,11 @@ namespace ClientsWebApp.Blazor.Pages.Specializations
         {
             IsManagerCreating = true;
         }
-        private void StopCreateService(CreateServiceData model)
+        private void StopCreateService()
+        {
+            IsManagerCreating = false;
+        }
+        private void ServiceCreated(CreateServiceData model)
         {
             AddedServices.Add(model);
             IsManagerCreating = false;

@@ -1,11 +1,11 @@
 ﻿@inherits InputCheckbox
 
 <div class="form-group mb-1">
+    <InputCheckbox class="form-check-input" id="@Id" @attributes="AdditionalAttributes" @bind-Value="CurrentValue" />
     @if (Label != null)
     {
-        <label for="@Id" class="form-label">@Label</label>
+        <label for="@Id" class="form-label ml-2">@Label</label>
     }
-    <InputCheckbox class="form-check" id="@Id" @attributes="AdditionalAttributes" @bind-Value="CurrentValue"/>
 </div>
 
 @code

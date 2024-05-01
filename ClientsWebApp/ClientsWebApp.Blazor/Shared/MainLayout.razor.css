@@ -10,9 +10,11 @@ main {
 
 .top-row {
     justify-content: flex-end;
-    height: 3.5rem;
+    height: 57px;
     display: flex;
     align-items: center;
+    border-bottom: 1px solid rgb(93, 92, 98);
+    background-color: #373740;
 }
 
     .top-row ::deep a, .top-row ::deep .btn-link {
