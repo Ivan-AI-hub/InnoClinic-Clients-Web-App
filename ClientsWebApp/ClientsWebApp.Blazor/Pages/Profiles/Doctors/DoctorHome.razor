@@ -3,20 +3,39 @@
 @attribute [Authorize(Roles = "Doctor")]
 @if (!IsLoading)
 {
-    <DoctorCard Doctor="@Doctor" />
-    <Row>
-        <Left>
-            
-            <input type="button" class="btn btn-outline-info w-100" value="Edit" @onclick="@NavigateToEditPage" />
-        </Left>
-        <Center>
-            <ChangeDoctorStatus Doctor="@Doctor" OnStatusChanged="@Reload" />
-        </Center>
-        <Right>
-            <input type="button" class="btn btn-outline-info w-100" value="Schedule" @onclick="@NavigateToSchedulePage" />
-        </Right>
-    </Row>
+    <DoctorCard Doctor="@Doctor">
+        <div class="col">
+            <MudButton Color="Color.Info" class="w-100 m-1" OnClick="NavigateToEditPage">
+                <MudIcon Icon="@Icons.Material.Filled.Edit" />
+                <span class="ml-2">
+                    Edit profile info
+                </span>
+            </MudButton>
+@*             <ChangeDoctorStatus Doctor="@Doctor" OnStatusChanged="@Reload" /> *@
+            <MudButton Color="Color.Info" class="w-100 m-1" OnClick="NavigateToSchedulePage">
+                <MudIcon Icon="@Icons.Material.Filled.Schedule" />
+                <span class="ml-2">
+                    Schedule
+                </span>
+            </MudButton>
+        </div>
+    </DoctorCard>
+    <div class="container p-5 text-center">
+        <MudText Typo="Typo.h6">Appointments schedule</MudText>
 
+        @if (Appointments != null)
+        {
+            @foreach (var appointment in Appointments)
+            {
+                <AppointmentCard Appointment="appointment" />
+            }
+        }
+        else
+        {
+            <Loading />
+        }
+
+    </div>
 }
 else
 {

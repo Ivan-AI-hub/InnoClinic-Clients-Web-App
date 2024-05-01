@@ -2,14 +2,17 @@
     <div class="col text-center">
         @if (IsLoading)
         {
-            <button class="btn btn-primary" type="button" disabled>
+
+            <MudButton Color="Color.Primary" Disabled>
                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                 Loading...
-            </button>
+            </MudButton>
         }
         else
         {
-            <input type="submit" class="btn btn-primary" value="@ButtonValue" />
+            <MudButton ButtonType="ButtonType.Submit" Color=Color.Primary>
+                @ButtonValue
+            </MudButton>
         }
     </div>
 </div>

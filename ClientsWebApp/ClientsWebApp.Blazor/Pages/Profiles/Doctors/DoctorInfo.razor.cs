@@ -8,6 +8,8 @@ namespace ClientsWebApp.Blazor.Pages.Profiles.Doctors
     {
         [Parameter] public Guid DoctorId { get; set; }
 
+        private string _searchString;
+
         private DoctorDTO doctor;
         private IEnumerable<Service>? Services { get; set; }
 
@@ -22,5 +24,30 @@ namespace ClientsWebApp.Blazor.Pages.Profiles.Doctors
         {
             NavigationManager.NavigateTo($"/appointments/create?DoctorId={doctor.Id}");
         }
+
+        private Func<Service, bool> _quickFilter => x =>
+        {
+            if (string.IsNullOrWhiteSpace(_searchString))
+            {
+                return true;
+            }
+
+            if (x.Name.Contains(_searchString, StringComparison.OrdinalIgnoreCase))
+            {
+                return true;
+            }
+
+            if (x.Category is null)
+            {
+                return false;
+            }
+
+            if(x.Category.Name.Contains(_searchString, StringComparison.OrdinalIgnoreCase))
+            {
+                return true;
+            }
+
+            return false;
+        };
     }
 }

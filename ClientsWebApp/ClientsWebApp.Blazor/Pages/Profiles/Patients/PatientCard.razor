@@ -23,13 +23,6 @@
             <div>@Patient.PhoneNumber</div>
             <div>@Patient.Info.BirthDay.ToShortDateString()</div>
         </div>
-        <AuthorizeView Roles="Admin">
-            <NotAuthorized Context="editDate">
-                <div class="col-sm">
-                    <button @onclick="NavigateToHistoryPage" class="btn btn-info">History</button>
-                </div>
-            </NotAuthorized>
-        </AuthorizeView>
         @if (ChildContent != null)
         {
             @ChildContent
@@ -46,9 +39,5 @@
     protected async override Task OnInitializedAsync()
     {
         _image = Patient.Info.Photo != null? await Patient.Info.Photo : null;
-    }
-    private void NavigateToHistoryPage()
-    {
-        NavigationManager.NavigateTo($"/patients/{Patient.Id}/appointmentsHistory");
     }
 }

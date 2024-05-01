@@ -1,4 +1,5 @@
-﻿@inject NavigationManager Navigation
+﻿@using ClientsWebApp.Blazor.Components.Identity
+@inject NavigationManager Navigation
 
 <AuthorizeView>
     <Authorized>
@@ -6,8 +7,9 @@
         <a href="/logout">Sign out</a>
     </Authorized>
     <NotAuthorized>
-        <button class="btn btn-primary m-2" @onclick="OpenLoginModal">Sign in</button>
-        <button class="btn btn-primary m-2" @onclick="OpenRegisterModal">Sign up</button>
+
+        <MudButton Color="Color.Primary" @onclick="OpenLoginModal">Sign in</MudButton>
+        <MudButton Color="Color.Primary" @onclick="OpenRegisterModal">Sign up</MudButton>
     </NotAuthorized>
 </AuthorizeView>
 
@@ -17,18 +19,20 @@
     private void OpenLoginModal()
     {
         var options = new ModalOptions()
-        {
-            HideCloseButton = false
-        };
-        Modal.Show<Login>("Sign in", options);
+            {
+                HideCloseButton = false,
+                DisableBackgroundCancel = false
+            };
+        Modal.Show<LoginForm>("Sign in", options);
     }
 
     private void OpenRegisterModal()
     {
         var options = new ModalOptions()
-        {
-            HideCloseButton = false
-        };
+            {
+                HideCloseButton = false,
+                DisableBackgroundCancel = false
+            };
         Modal.Show<Register>("Sign up", options);
     }
 }

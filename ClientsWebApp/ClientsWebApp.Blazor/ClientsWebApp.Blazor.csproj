@@ -32,6 +32,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="wwwroot\css\BlazoredModal.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="wwwroot\js\WebRtcService.cs.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

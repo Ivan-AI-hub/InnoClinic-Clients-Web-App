@@ -1,20 +1,14 @@
 ﻿@page "/login"
-@using MudBlazor
+@using ClientsWebApp.Blazor.Components.Identity
 @inherits CancellableComponent
 
 <PageTitle>Login</PageTitle>
 
-<div class="row">
-    <div class="col-md-6 offset-md-3">
-        <p class="text-danger">@ErrorMessage</p>
-        <EditForm Model="@LoginData" OnValidSubmit="LoginAsync">
-            <FluentValidationValidator DisableAssemblyScanning=@true />
-            <ValidationSummary />
-            <MudPaper Class="pa-16 ma-2" Style="bgcolor" Outlined="true" Square="true" Elevation="3">
-                <FormInputText Label="Email" Id="email" @bind-Value="@LoginData.Email" />
-                <FormInputText Label="Password" Id="password" type="password" @bind-Value="@LoginData.Password" />
-                <FormSubmitButton @ref="@SubmitButton" ButtonValue="Sign in" />
-            </MudPaper>
-        </EditForm>
-    </div>
-</div>
+<MudGrid Spacing="2" Justify="Justify.SpaceAround">
+    <MudItem>
+        <LoginForm/>
+    </MudItem>
+    <MudItem>
+        <MudImage Src="Images/Logo-doctor.webp" Alt="doctor" Elevation="25" Class="rounded-lg" />
+    </MudItem>
+</MudGrid>

@@ -1,8 +1,7 @@
-﻿@using MudBlazor
-@inherits LayoutComponentBase
+﻿@inherits LayoutComponentBase
 @inject NavigationManager NavigationManager
 
-<MudThemeProvider />
+<MudThemeProvider IsDarkMode=true />
 <MudDialogProvider />
 <MudSnackbarProvider />
 @*<ErrorBoundary @ref="errorBoundary">
@@ -16,8 +15,9 @@
         <div class="top-row px-4">
             <LoginDisplay />
         </div>
+        <MudDivider Class="my-2" DividerType="DividerType.FullWidth" />
 
-        <article class="content px-4">
+        <article class="content px-4" style="height:90%">
             @Body
         </article>
     </main>

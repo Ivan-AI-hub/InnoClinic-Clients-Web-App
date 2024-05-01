@@ -2,7 +2,7 @@
 {
     public class AppointmentFiltrationModel
     {
-        public DateOnly Date { get; set; } = default;
+        public DateOnly? Date { get; set; } = null;
         public string DoctorFirstName { get; set; } = "";
         public string DoctorMiddleName { get; set; } = "";
         public string DoctorLastName { get; set; } = "";

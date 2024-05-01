@@ -6,21 +6,11 @@
         <p>Name: @Service.Name</p>
         <p>Price: @Service.Price</p>
     </div>
-    <div class="col">
-        @if (Specialization == null)
-        {
-            <p>Specialization: Loading...</p>
-        }
-        else
-        {
-            <p>Specialization: @Specialization.Name</p>
-        }
-    </div>
-    <div class="col">
-        <AuthorizeView Roles="Admin">
-            <button class="btn btn-primary" @onclick="ToEditPage">Edit</button>
-        </AuthorizeView>
-    </div>
+    <AuthorizeView Roles="Admin">
+        <div class="col">
+                <button class="btn btn-primary" @onclick="ToEditPage">Edit</button>
+        </div>
+    </AuthorizeView>
 </div>
 @code {
     [CascadingParameter] public IModalService Modal { get; set; }

@@ -48,14 +48,14 @@ else
         </div>
         @if (IsDateTimeSelection)
         {
-            <Row>
+            <InnoRow>
                 <Left>
                     <input type="button" class="btn btn-info m-3" value="Back to value" @onclick="@StopSelectDateAndTime" />
                 </Left>
                 <Right>
                     <FormSubmitButton @ref="@SubmitButton" ButtonValue="Create Appointment" />
                 </Right>
-            </Row>
+            </InnoRow>
         }
         else
         {

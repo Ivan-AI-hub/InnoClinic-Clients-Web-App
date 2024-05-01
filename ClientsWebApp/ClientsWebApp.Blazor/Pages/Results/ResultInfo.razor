@@ -6,10 +6,16 @@
 
 @if (IsNotFound)
 {
-    <p>That appointment have not resul yet:(</p>
+    <AuthorizeView Roles="Patient">
+        <Authorized Context="editDate">
+            <p>That appointment have not resul yet:(</p>
+        </Authorized>
+    </AuthorizeView>
     <AuthorizeView Roles="Doctor">
         <Authorized>
-            <input class="btn btn-success w-100" type="button" @onclick="@NavigateToCreateResultPage" value="Create" />
+            <MudButton Color="Color.Success" class="w-100" OnClick="@NavigateToEditPage">
+                Create appointment result
+            </MudButton>
         </Authorized>
     </AuthorizeView>
 }
@@ -27,51 +33,11 @@ else
             <p>Recomendations @result.Recomendations</p>
             <AuthorizeView Roles="Doctor">
                 <Authorized>
-                    <input class="btn btn-info w-100" type="button" @onclick="@NavigateToEditPage" value="Edit" />
+                    <MudButton Color="Color.Info" class="w-100" OnClick="@NavigateToEditPage">
+                        Edit appointment result
+                    </MudButton>
                 </Authorized>
             </AuthorizeView>
         </div>
     }
-}
-@code
-{
-    [Parameter] public Guid AppointmentId { get; set; }
-    [CascadingParameter] public IModalService Modal { get; set; }
-    private AppointmentResult result;
-    private bool IsNotFound = false;
-    protected async override Task OnInitializedAsync()
-    {
-        try
-        {
-            result = await ResultManager.GetForAppointmentAsync(AppointmentId, _cts.Token);
-        }
-        catch (NotFoundException)
-        {
-            IsNotFound = true;
-        }
-    }
-
-    private void NavigateToEditPage()
-    {
-        var options = new ModalOptions() 
-        { 
-            Size = ModalSize.Large 
-        };
-        var parameters = new ModalParameters()
-                        .Add(nameof(EditResult.AppointmentId), AppointmentId)
-                        .Add(nameof(EditResult.Result), result);
-        Modal.Show<EditResult>("Edit result", parameters, options);
-    }
-
-    private void NavigateToCreateResultPage()
-    {
-        var options = new ModalOptions() 
-        { 
-            Size = ModalSize.Large 
-        };
-        var parameters = new ModalParameters().Add(nameof(CreateResult.AppointmentId), AppointmentId);
-        Modal.Show<CreateResult>("Create result", parameters, options);
-    }
-
-
 }

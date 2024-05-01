@@ -49,6 +49,10 @@ namespace ClientsWebApp.Services.Services
 
         public async Task<IEnumerable<Appointment>> GetPageAsync(Page page, AppointmentFiltrationModel filtrationModel, CancellationToken cancellationToken)
         {
+            if (filtrationModel.Date is null)
+            {
+                filtrationModel.Date = default(DateOnly);
+            }
             string requestUri = _baseUri + $"/{page.Size}/{page.Number}" + AppointmentUriConstructor.GenerateFiltrationQuery(filtrationModel);
 
             var httpResponseMessage = await (await RequestClient).GetAsync(requestUri, cancellationToken);
