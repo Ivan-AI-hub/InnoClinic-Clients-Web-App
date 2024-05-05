@@ -1,11 +1,19 @@
+using Blazored.Modal;
+using Blazored.Modal.Services;
 using ClientsWebApp.Application.Models.Doctors;
+using ClientsWebApp.Blazor.Pages.Appointments;
+using ClientsWebApp.Blazor.Pages.Profiles.Patients;
+using ClientsWebApp.Domain.Profiles.Patient;
 using ClientsWebApp.Domain.Services;
 using Microsoft.AspNetCore.Components;
+using System.Reflection;
 
 namespace ClientsWebApp.Blazor.Pages.Profiles.Doctors
 {
     public partial class DoctorInfo
     {
+        [CascadingParameter] public IModalService Modal { get; set; }
+
         [Parameter] public Guid DoctorId { get; set; }
 
         private string _searchString;
@@ -20,9 +28,21 @@ namespace ClientsWebApp.Blazor.Pages.Profiles.Doctors
             StateHasChanged();
         }
 
-        private void ToCreateAppointmentPage()
+        private void ToCreateAppointmentPage(Guid serviceId, string category)
         {
-            NavigationManager.NavigateTo($"/appointments/create?DoctorId={doctor.Id}");
+            var options = new ModalOptions()
+            {
+                Size = ModalSize.Large,
+                HideCloseButton = false
+            };
+            var parameters = new ModalParameters
+            {
+                { nameof(CreateAppointment.InitialDoctorId), doctor.Id },
+                { nameof(CreateAppointment.InitialServiceId), serviceId },
+                { nameof(CreateAppointment.InitialSpecialization), doctor.Specialization },
+                { nameof(CreateAppointment.InitialCategory), category },
+            };
+            Modal.Show<CreateAppointment>("Create appointment", parameters, options);
         }
 
         private Func<Service, bool> _quickFilter => x =>

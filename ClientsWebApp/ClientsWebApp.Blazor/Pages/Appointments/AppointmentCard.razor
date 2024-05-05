@@ -25,8 +25,8 @@
                     </AuthorizeView>
                 </div>
                 <div class="col">
-                    <MudText Typo="Typo.h4">@Appointment.Date</MudText>
-                    <MudText Typo="Typo.h5">@Appointment.Time - @Appointment.Time.AddMinutes(service?.Category?.TimeSlotSize ?? 0)</MudText>
+                    <MudText Typo="Typo.h4"> <DisplayDate Date=@Appointment.Date.ToDateTime(TimeOnly.MinValue)/></MudText>
+                    <MudText Typo="Typo.h5">@Appointment.Time.ToString("HH:mm") - @Appointment.Time.AddMinutes(service?.Category?.TimeSlotSize ?? 0).ToString("HH:mm")</MudText>
                 </div>
             </div>
         </div>

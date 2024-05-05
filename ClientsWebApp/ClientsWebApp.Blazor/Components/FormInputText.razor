@@ -1,7 +1,15 @@
 ﻿@inherits InputText
 
 <div class="form-group mb-3">
-    <MudTextField id="@Id" @bind-Value=CurrentValue Label="@Label" />
+    @if(Id == "password")
+    {
+        <MudTextField id="@Id" InputType="InputType.Password" @bind-Value=CurrentValue Label="@Label" />
+
+    }
+    else
+    {
+        <MudTextField id="@Id" @bind-Value=CurrentValue Label="@Label" />
+    }
 </div>
 
 @code

@@ -29,7 +29,7 @@
         {
             @foreach (var appointment in Appointments)
             {
-                <AppointmentCard Appointment="appointment" />
+                <AppointmentCard Appointment="appointment" OnDataUpdated="AppointmentsUpdateAsync" />
             }
         }
         else

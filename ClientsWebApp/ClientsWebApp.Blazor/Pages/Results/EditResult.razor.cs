@@ -37,7 +37,7 @@ namespace ClientsWebApp.Blazor.Pages.Results
         }
         private void Cancel()
         {
-            NavigationManager.NavigateTo($"/appointments/{AppointmentId}");
+            NavigationManager.NavigateTo(NavigationManager.Uri);
         }
     }
 }

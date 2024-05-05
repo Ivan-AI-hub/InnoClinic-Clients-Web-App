@@ -41,7 +41,7 @@ namespace ClientsWebApp.Blazor.Pages.Appointments
         private async Task ChangeAsync(TimeSlotsData timeSlotsData)
         {
             IsLoading = true;
-            Data.Date = timeSlotsData.Date.ToDateTime(timeSlotsData.StartTime);
+            Data.Date = timeSlotsData.Date.Value.ToDateTime(timeSlotsData.StartTime);
             await AppointmentManager.ChangeDateAsync(Data, _cts.Token);
             await OnDateChanged.InvokeAsync();
             _openedModal?.Close();

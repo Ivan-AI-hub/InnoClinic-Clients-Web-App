@@ -12,6 +12,6 @@ namespace ClientsWebApp.Application.Models.Doctors
         public string Specialization { get; set; }
         public Guid OfficeId { get; set; }
         public int CareerStartYear { get; set; }
-        public DateTime BirthDay { get; set; } = DateTime.Now;
+        public DateTime? BirthDay { get; set; } = DateTime.Now;
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Blazored.Modal;
 using Blazored.Modal.Services;
 using ClientsWebApp.Application.Abstraction;
+using ClientsWebApp.Application.Managers;
 using ClientsWebApp.Application.Models.Doctors;
 using ClientsWebApp.Blazor.Components;
 using ClientsWebApp.Domain;
@@ -37,17 +38,24 @@ namespace ClientsWebApp.Blazor.Pages.Profiles.Doctors
                 NavigateToCreatePage();
             }
 
+            await AppointmentsUpdateAsync();
+
+            IsLoading = false;
+            StateHasChanged();
+        }
+        private async Task AppointmentsUpdateAsync()
+        {
+            Appointments = null;
+            StateHasChanged();
             var filtrationModel = new AppointmentFiltrationModel
             {
                 DoctorId = Doctor.Id,
                 Status = null
             };
-            Appointments = await _appointmentManager.GetPageAsync(Page, filtrationModel, _cts.Token);
 
-            IsLoading = false;
+            Appointments = await _appointmentManager.GetPageAsync(Page, filtrationModel, _cts.Token);
             StateHasChanged();
         }
-
         private void NavigateToEditPage()
         {
             var options = new ModalOptions() 

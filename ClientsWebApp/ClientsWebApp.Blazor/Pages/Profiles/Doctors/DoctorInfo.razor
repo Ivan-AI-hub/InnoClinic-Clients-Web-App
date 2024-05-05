@@ -32,7 +32,7 @@
                         <TemplateColumn StickyRight="true" Title="Appointment" Filterable="false" Sortable="false">
                             <CellTemplate>
                                 <div class="d-flex justify-content-center">
-                                    <MudButton Variant="Variant.Filled" Color="Color.Primary">
+                                    <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick=@(() => ToCreateAppointmentPage(context.Item.Id, context.Item.Category.Name))>
                                         <MudIcon Icon="@Icons.Material.Filled.DocumentScanner" />
                                         <span class="ml-2">
                                             Make appointment

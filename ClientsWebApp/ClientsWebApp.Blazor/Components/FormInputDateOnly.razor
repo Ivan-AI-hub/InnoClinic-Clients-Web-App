@@ -1,0 +1,26 @@
+﻿@inherits InputDate<DateOnly?>
+
+<div class="form-group mb-1">
+    <MudDatePicker id="Id" Label="@Label" @bind-Date="_date" For="@(() => _date)" Mask="@(new DateMask("0000-00-00"))" DateFormat="yyyy-MM-dd" />
+</div>
+
+@code {
+    [Parameter] public string Label { get; set; }
+    [Parameter] public string Id { get; set; }
+
+    [Parameter]
+    public EventCallback<DateOnly?> DateChanged { get; set; }
+
+    private DateTime? _date
+    {
+        get => CurrentValue?.ToDateTime(TimeOnly.MinValue);
+        set
+        {
+            if (value is not null)
+            {
+                CurrentValue = DateOnly.FromDateTime((DateTime)value);
+                DateChanged.InvokeAsync(CurrentValue);
+            }
+        }
+    }
+}

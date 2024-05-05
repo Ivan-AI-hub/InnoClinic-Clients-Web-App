@@ -1,12 +1,7 @@
-﻿@typeparam TValue
-@inherits InputDate<TValue>
+﻿@inherits InputDate<DateTime?>
 
 <div class="form-group mb-1">
-    @if (Label != null)
-    {
-        <label for="@Id" class="form-label">@Label</label>
-    }
-    <InputDate id="@Id" @attributes="AdditionalAttributes" @bind-Value="CurrentValue" class="form-control" />
+    <MudDatePicker id="Id" Label="@Label" @bind-Date=CurrentValue Mask="@(new DateMask("0000-00-00"))" DateFormat="yyyy-MM-dd" />
 </div>
 
 @code

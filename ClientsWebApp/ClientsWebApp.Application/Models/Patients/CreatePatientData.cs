@@ -10,6 +10,6 @@ namespace ClientsWebApp.Application.Models.Patients
         public string LastName { get; set; }
         public string MiddleName { get; set; }
         public string PhoneNumber { get; set; }
-        public DateTime BirthDay { get; set; } = DateTime.Now;
+        public DateTime? BirthDay { get; set; } = DateTime.Now;
     }
 }

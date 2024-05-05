@@ -1,12 +1,8 @@
 ﻿@typeparam TValue
 @inherits InputNumber<TValue>
 
-<div class="form-group mb-1">
-    @if (Label != null)
-    {
-        <label for="@Id" class="form-label">@Label</label>
-    }
-    <InputNumber id="@Id" @attributes="AdditionalAttributes" @bind-Value="CurrentValue" class="form-control" />
+<div class="form-group mb-3">
+    <MudNumericField id="@Id" Label="@Label" @attributes="AdditionalAttributes" @bind-Value="CurrentValue"/>
 </div>
 
 @code

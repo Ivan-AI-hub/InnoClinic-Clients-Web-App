@@ -7,7 +7,6 @@
 </div>
 @if (Data != null)
 {
-    <MudDatePicker Label="Example"/>
     <EditForm Model="@Data" OnValidSubmit="EditAsync" class="form">
         <FluentValidationValidator DisableAssemblyScanning=true />
         <ValidationSummary />

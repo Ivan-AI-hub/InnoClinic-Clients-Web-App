@@ -20,7 +20,11 @@ namespace ClientsWebApp.Application.Managers
 
         public async Task CreateAsync(CreatePatientData data, CancellationToken cancellationToken)
         {
-            var info = new CreateHumanInfo(new ImageName(data.Picture.FileName), data.Email, data.FirstName, data.LastName, data.MiddleName, data.BirthDay);
+            if(data.BirthDay is null)
+            {
+                return;
+            }
+            var info = new CreateHumanInfo(new ImageName(data.Picture.FileName), data.Email, data.FirstName, data.LastName, data.MiddleName, data.BirthDay.Value);
             var createModel = new CreatePatientModel(info, data.PhoneNumber);
 
             await _patientService.CreateAsync(createModel, cancellationToken);
@@ -34,9 +38,14 @@ namespace ClientsWebApp.Application.Managers
 
         public async Task EditAsync(PatientDTO oldPatient, EditPatientData data, CancellationToken cancellationToken)
         {
+            if(data.BirthDay is null)
+            {
+                return;
+            }
+
             var fileName = (await oldPatient.Info.ToHumanInfo()).Photo.Name; 
             var imageName = data.Picture == null ? new ImageName(fileName) : new ImageName(data.Picture.FileName);
-            var updateModel = new UpdatePatientModel(imageName, data.FirstName, data.LastName, data.MiddleName, data.BirthDay, data.PhoneNumber);
+            var updateModel = new UpdatePatientModel(imageName, data.FirstName, data.LastName, data.MiddleName, data.BirthDay.Value, data.PhoneNumber);
 
             await _patientService.UpdateAsync(oldPatient.Id, updateModel, cancellationToken);
             if (data.Picture != null && data.Picture.FileName != fileName)

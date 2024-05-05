@@ -25,20 +25,20 @@ else
                 {
                     <FormInputSelect HasDefaultOption="@true" DefaultValueLabel="Nothing" Label="Office" Id="office"
                     @bind-Value="Data.OfficeId" Values="Offices" GetLabelHandler="@(x => x.Address)"
-                        GetValueHandler="@(x => x.Id)" @oninput="OfficeWasSelected" />
+                        GetValueHandler="@(x => x.Id)" BindValueChanged="OfficeWasSelected" />
 
                     <FormInputSelect HasDefaultOption="@true" DefaultValueLabel="Nothing" Label="Specialization"
                         Id="specialization" @bind-Value="Data.Specialization" Values="Specializations"
                         GetLabelHandler="@(x => x.Name)" GetValueHandler="@(x => x.Name)"
-                    @oninput="SpecializationWasSelected" />
+                                     BindValueChanged="SpecializationWasSelected" />
 
                     <FormInputSelect HasDefaultOption="@true" DefaultValueLabel="Nothing" Label="Doctor" Id="doctors"
                     @bind-Value="Data.DoctorId" Values="Doctors" GetLabelHandler="@(x => x.Info.GetFullName())"
-                        GetValueHandler="@(x => x.Id)" @oninput="DoctorWasSelected" />
+                                     GetValueHandler="@(x => x.Id)" BindValueChanged="DoctorWasSelected" />
 
                     <FormInputSelect Label="Category" Id="doctors"
                     @bind-Value="Data.Category" Values="Categories" GetLabelHandler="@(x => x)" GetValueHandler="@(x => x)"
-                    @oninput="CategoryWasSelected" />
+                                     BindValueChanged="CategoryWasSelected" />
 
                     <FormInputSelect HasDefaultOption="@true" DefaultValueLabel="Nothing" Label="Service" Id="doctors"
                     @bind-Value="Data.ServiceId" Values="Services" GetLabelHandler="@(x => x.Name)"
