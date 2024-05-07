@@ -4,13 +4,24 @@
 
 <span class="main-spacer"></span>
 
+<MudPaper class="p-3">
 
-<div class="container">
-    <div class="d-flex justify-content-center">
-        <video @ref=_preparedLocalVideoStream class="col col-lg-6 p-0" id="localVideo" autoplay playsinline></video>
-    </div>
+    <MudGrid Spacing="2" Justify="Justify.SpaceAround">
+        <MudItem xs="7">
+            <MudPaper class="p-2">
+                <div class="d-flex justify-content-center mb-3">
+                    <video @ref=_preparedLocalVideoStream id="localVideo" class="w-100" autoplay playsinline></video>
+                </div>
 
-    <div class="d-flex justify-content-center py-4">
-        <button @onclick="Join" class="btn btn-outline-primary" disabled="@_joinDisabled">Присоединиться</button>
-    </div>
-</div>
+                <MudGrid Spacing="2" Justify="Justify.Center">
+                    <MudItem>
+                        <MudIconButton Icon="@Icons.Material.Filled.Call"
+                                       OnClick="Join"
+                                       Color="Color.Success"
+                                       Variant="Variant.Filled" />
+                    </MudItem>
+                </MudGrid>
+            </MudPaper>
+        </MudItem>
+    </MudGrid>
+</MudPaper>

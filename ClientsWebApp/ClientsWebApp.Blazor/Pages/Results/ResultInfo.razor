@@ -31,13 +31,16 @@ else
             <p>Complains @result.Complaints</p>
             <p>Conclusion @result.Conclusion</p>
             <p>Recomendations @result.Recomendations</p>
-            <AuthorizeView Roles="Doctor">
-                <Authorized>
-                    <MudButton Color="Color.Info" class="w-100" OnClick="@NavigateToEditPage">
-                        Edit appointment result
-                    </MudButton>
-                </Authorized>
-            </AuthorizeView>
+            @if (!HideEditButton)
+            {
+                <AuthorizeView Roles="Doctor">
+                    <Authorized>
+                        <MudButton Color="Color.Info" class="w-100" OnClick="@NavigateToEditPage">
+                            Edit appointment result
+                        </MudButton>
+                    </Authorized>
+                </AuthorizeView>
+            }
         </div>
     }
 }

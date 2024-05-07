@@ -3,12 +3,12 @@
 <div class="form-group mb-3">
     @if(Id == "password")
     {
-        <MudTextField id="@Id" InputType="InputType.Password" @bind-Value=CurrentValue Label="@Label" />
+        <MudTextField id="@Id" AutoGrow=AutoGrow Lines=Lines MaxLines=MaxLines InputType="InputType.Password" @bind-Value=CurrentValue Label="@Label" />
 
     }
     else
     {
-        <MudTextField id="@Id" @bind-Value=CurrentValue Label="@Label" />
+        <MudTextField id="@Id" AutoGrow=AutoGrow Lines=Lines MaxLines=MaxLines @bind-Value=CurrentValue Label="@Label" />
     }
 </div>
 
@@ -16,4 +16,7 @@
 {
     [Parameter] public string Label { get; set; }
     [Parameter] public string Id { get; set; }
+    [Parameter] public bool AutoGrow { get; set; }
+    [Parameter] public int Lines { get; set; }
+    [Parameter] public int MaxLines { get; set; }
 }

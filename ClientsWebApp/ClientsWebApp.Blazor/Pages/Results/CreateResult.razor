@@ -20,9 +20,9 @@
                 {
                     <Loading />
                 }
-                <FormInputText Label="Complaints" Id="Name" @bind-Value="@Data.Complaints" />
-                <FormInputText Label="Conclusion" Id="Name" @bind-Value="@Data.Conclusion" />
-                <FormInputText Label="Recomendations" Id="Name" @bind-Value="@Data.Recomendations" />
+                <FormInputText AutoGrow Lines=3 MaxLines=5 Label="Complaints" Id="Complaints" @bind-Value="@Data.Complaints" />
+                <FormInputText AutoGrow Lines=3 MaxLines=5 Label="Conclusion" Id="Conclusion" @bind-Value="@Data.Conclusion" />
+                <FormInputText AutoGrow Lines=3 MaxLines=5 Label="Recomendations" Id="Recomendations" @bind-Value="@Data.Recomendations" />
             </div>
         </div>
         <InnoRow>

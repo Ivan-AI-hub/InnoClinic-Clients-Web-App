@@ -3,16 +3,16 @@
 @if (IsDateChanges)
 {
     <label class="form-label">@QuestionLabel</label>
-    <MudButton Color="Color.Success" class="w-100 m-1" OnClick="SuccessAnswerAsync">
+    <MudButton Color="Color.Success" Variant=Variant.Filled class="w-100 m-1" OnClick="SuccessAnswerAsync">
         @AgreeButtonValue
     </MudButton>
-    <MudButton Color="Color.Error" class="w-100 m-1" OnClick="StopChanging">
+    <MudButton Color="Color.Error" Variant=Variant.Filled class="w-100 m-1" OnClick="StopChanging">
         @DisagreeButtonValue
     </MudButton>
 }
 else
 {
-    <MudButton Color="Color.Success" class="w-100 m-1" OnClick="StartChanging">
+    <MudButton Color="Color.Error" Variant=Variant.Filled class="w-100 m-1" OnClick="StartChanging">
         @PreviewButtonValue
     </MudButton>
 }

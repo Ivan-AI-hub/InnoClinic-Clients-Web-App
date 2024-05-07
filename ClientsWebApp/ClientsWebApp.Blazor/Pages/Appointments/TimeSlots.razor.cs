@@ -81,9 +81,8 @@ namespace ClientsWebApp.Blazor.Pages.Appointments
             await OnTimeSlotSelected.InvokeAsync(Data);
         }
 
-        private async Task DateWasSelected(ChangeEventArgs args)
+        private async Task DateWasSelected(DateOnly? date)
         {
-            var date = DateOnly.Parse(args.Value.ToString());
             Data.Date = date;
             StateHasChanged();
 

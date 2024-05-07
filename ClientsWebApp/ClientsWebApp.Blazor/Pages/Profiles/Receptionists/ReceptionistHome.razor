@@ -4,8 +4,9 @@
 @if(!IsLoading)
 {
     <ReceptionistCard Receptionist="Receptionist"/>
-    <button @onclick="NavigateToEditPage" class="btn btn-info">Edit</button>
-    <button @onclick="NavigateToDeletePage" class="btn btn-danger">Delete</button>
+    <MudButton OnClick="NavigateToEditPage" Color="Color.Primary" Variant="Variant.Filled">Edit</MudButton>
+    <MudButton OnClick="NavigateToDeletePage" Color="Color.Error" Variant="Variant.Filled">Delete</MudButton>
+
 }
 else
 {

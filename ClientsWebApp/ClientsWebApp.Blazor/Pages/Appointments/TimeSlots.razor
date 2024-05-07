@@ -8,7 +8,7 @@
                             max="@DateTime.Now.AddDays(15).ToString("yyyy-MM-dd")" 
                             Label="Date" Id="Date" 
                             @bind-Value="@Data.Date"
-                            @oninput="@DateWasSelected" />
+                            DateChanged=DateWasSelected />
         </div>
     </div>
 </EditForm>

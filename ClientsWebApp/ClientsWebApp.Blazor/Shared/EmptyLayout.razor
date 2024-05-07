@@ -1,0 +1,13 @@
+﻿@inherits LayoutComponentBase
+@inject NavigationManager NavigationManager
+
+<MudThemeProvider IsDarkMode=true />
+<MudDialogProvider />
+<MudSnackbarProvider />
+<div class="page">
+    <main>
+        <article class="content px-4" style="height:90%">
+            @Body
+        </article>
+    </main>
+</div>

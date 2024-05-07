@@ -1,24 +1,119 @@
 ﻿@page "/conference"
-
+@using ClientsWebApp.Application.Models.Enums
+@layout EmptyLayout;
+@inherits CancellableComponent;
 <PageTitle>WebRtc</PageTitle>
 
 <span class="main-spacer"></span>
 
-<div class="container">
+<MudPaper class="p-3">
     @if (_isConnectError)
     {
         <div>Вы не вошли в видео канал, повторите попытку</div>
-        <button @onclick="Join" class="btn btn-outline-primary">Повторить попытку</button>
+        <MudButton OnClick="Join" Color="Color.Primary" Variant="Variant.Filled">Повторить попытку</MudButton>
     }
     else
     {
-        <div class="d-flex justify-content-between">
-            <video @ref=_callLocalVideoStream class="col col-lg-6 p-0" id="localVideo" autoplay playsinline></video>
-            <video @ref=_remoteVideoStream class="col col-lg-6 p-0" id="remoteVideo" autoplay playsinline></video>
-        </div>
+        <MudGrid Spacing="2" Justify="Justify.SpaceAround">
+            <MudItem xs="7" Class="position-relative">
+                <div class=@(_state == WebRtcConnectionState.Connected? "w-100 position-relative" : "d-none position-relative")>
+                    <MudPaper class="p-2 d-flex justify-content-center">
+                        <video @ref=_remoteVideoStream id="remoteVideo" autoplay playsinline class="w-100" @onplaying=OnRemoteStreamPlaying @onpause=OnRemoteStreamStop></video>
+                    </MudPaper>
+                    @if (_showRemotePoster)
+                    {
+                        <MudPaper class="p-2 d-flex justify-content-center position-absolute w-100 h-100 poster">
+                            @if (_localPoster is not null)
+                            {
+                                <ImageFromByteArray Image="_localPoster.Content" ImageType="_patientImage.ContentType" IsSvgImage="false"/>
+                            }
+                            else
+                            {
+                                <Loading />
+                            }
+                        </MudPaper>
+                    }
+                </div>
+                <div class=@(_state == WebRtcConnectionState.Connected? "w-25 localVideo" : "w-100 position-relative")>
+                    <MudPaper class="p-2 d-flex justify-content-center">
+                        <video @ref=_localVideoStream id="localVideo" autoplay playsinline class="w-100" @onplaying=OnLocalStreamPlaying @onpause=OnLocalStreamStop></video>
+                    </MudPaper>
+                    @if (_showLocalPoster)
+                    {
+                        <MudPaper class="p-2 d-flex justify-content-center w-100 h-100 poster">
+                            @if (_remotePoster is not null)
+                            {
+                                <ImageFromByteArray Image="_remotePoster.Content" ImageType="_doctorImage.ContentType" IsSvgImage="false" />
+                            }
+                            else
+                            {
+                                <Loading />
+                            }
+                        </MudPaper>
+                    }
+                </div>
+            </MudItem>
+            <AuthorizeView Roles="Doctor">
+                <Authorized>
+                    <MudItem xs="5">
+                        <ManageAppointmentResult AppointmentId="@Guid.Parse(Channel)"/>
+                    </MudItem>
+                </Authorized>
+            </AuthorizeView>
+            @if (_state == WebRtcConnectionState.Connecting)
+            {
+                <div class="load__container w-100 h-100 d-flex justify-content-center ">
+                    <Loading Class="align-content-center" />
+                </div>
+            }
+        </MudGrid>
 
-        <div class="d-flex justify-content-center py-4">
-            <button @onclick="HangUp" class="btn btn-outline-danger" disabled="@_joinDisabled">Выйти</button>
-        </div>
+        <MudGrid Spacing="2" Justify="Justify.Center">
+            <MudItem>
+                <MudIconButton 
+                    Icon="@Icons.Material.Filled.CallEnd" 
+                    Variant=Variant.Filled 
+                    Color="Color.Error"
+                               Size="Size.Large"
+                    OnClick="HangUp" />
+            </MudItem>
+            <MudItem>
+                <MudIconButton 
+                    Icon=@(_videoEnabled? Icons.Material.Filled.Videocam : Icons.Material.Filled.VideocamOff) 
+                    Variant=Variant.Filled
+                    Color=@(_videoEnabled? Color.Success : Color.Error)
+                    Size="Size.Large"
+                    OnClick="VideoStreamSettingChange" />
+            </MudItem>
+            <MudItem>
+                <MudIconButton 
+                    Icon=@(_micEnabled? Icons.Material.Filled.Mic : Icons.Material.Filled.MicOff) 
+                    Variant=Variant.Filled
+                    Size="Size.Large"
+                    Color=@(_micEnabled? Color.Success : Color.Error)
+                    OnClick="MicSettingChangeAsync" />
+            </MudItem>
+        </MudGrid>
     }
-</div>
+</MudPaper>
+
+<style>
+    .localVideo {
+        position: absolute;
+        right: 7px;
+        bottom: 7px;
+    }
+
+    .poster {
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+    .load__container{
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-color: rgba(57, 55, 63, 0.4)
+    }
+</style>

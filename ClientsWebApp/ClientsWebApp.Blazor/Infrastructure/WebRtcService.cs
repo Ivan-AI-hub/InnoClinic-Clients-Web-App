@@ -1,12 +1,11 @@
-﻿using ClientsWebApp.Domain.Identity;
+﻿using ClientsWebApp.Application.Models.Enums;
+using ClientsWebApp.Domain.Identity;
 using ClientsWebApp.Domain.Identity.Tokens;
 using ClientsWebApp.Services.Settings;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Http.Connections;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.Options;
 using Microsoft.JSInterop;
-using System.Linq.Expressions;
 
 namespace BlazorRtc.Client.WebRtc;
 
@@ -20,8 +19,12 @@ public class WebRtcService : IAsyncDisposable
     private HubConnection? _hub;
     private string _channel;
     private bool _disposed;
+    private bool _localStreamStarted;
 
     public event Action OnRemoteVideoLeave;
+    public event Action<WebRtcConnectionState> OnStateChanged;
+    public event Action OnRemoteStreamPaused;
+    public event Action OnRemoteStreamStarted;
     public bool HasRemoteUser { get; private set; }
 
     public WebRtcService(IJSRuntime jsRuntime, IOptions<ServicesUriSettings> settings, IStorageService storageService)
@@ -52,7 +55,14 @@ public class WebRtcService : IAsyncDisposable
     {
         await WaitForReference();
 
+        if (_localStreamStarted)
+        {
+            await _rtcJsRef.Value.InvokeVoidAsync("playLocalStream");
+            return;
+        }
+
         await _rtcJsRef.Value.InvokeVoidAsync("startLocalStream");
+        _localStreamStarted = true;
     }
     public async Task StopLocalStream()
     {
@@ -60,6 +70,19 @@ public class WebRtcService : IAsyncDisposable
 
         await _rtcJsRef.Value.InvokeVoidAsync("stopLocalStream");
     }
+    public async Task StopMicrophone()
+    {
+        await WaitForReference();
+
+        await _rtcJsRef.Value.InvokeVoidAsync("stopMicrophone");
+    }
+    public async Task StartMicrophone()
+    {
+        await WaitForReference();
+
+        await _rtcJsRef.Value.InvokeVoidAsync("playMicrophone");
+    }
+
     public async Task Call()
     {
         await WaitForReference();
@@ -113,6 +136,12 @@ public class WebRtcService : IAsyncDisposable
                 case "candidate":
                     await _rtcJsRef.Value.InvokeVoidAsync("processCandidate", payload);
                     break;
+                case "cameraOff":
+                    OnRemoteStreamPaused?.Invoke();
+                    break;
+                case "cameraOn":
+                    OnRemoteStreamStarted?.Invoke();
+                    break;
             }
         });
 
@@ -135,6 +164,20 @@ public class WebRtcService : IAsyncDisposable
     }
 
     [JSInvokable]
+    public async Task SendCameraOff()
+    {
+        var hub = await GetHub();
+        await hub.SendAsync("SignalWebRtc", _channel, "cameraOff", "");
+    }
+
+    [JSInvokable]
+    public async Task SendCameraOn()
+    {
+        var hub = await GetHub();
+        await hub.SendAsync("SignalWebRtc", _channel, "cameraOn", "");
+    }
+
+    [JSInvokable]
     public async Task SendOffer(string offer)
     {
         var hub = await GetHub();
@@ -153,6 +196,23 @@ public class WebRtcService : IAsyncDisposable
     {
         var hub = await GetHub();
         await hub.SendAsync("SignalWebRtc", _channel, "candidate", candidate);
+    }
+
+    [JSInvokable]
+    public async Task StateChanged(string state)
+    {
+        var webState = state switch
+        {
+            "new" => WebRtcConnectionState.New,
+            "connecting" => WebRtcConnectionState.Connecting,
+            "connected" => WebRtcConnectionState.Connected,
+            "disconnected" => WebRtcConnectionState.Disconnected,
+            "failed" => WebRtcConnectionState.Failed,
+            "closed" => WebRtcConnectionState.Closed,
+            _ => WebRtcConnectionState.Connecting,
+        };
+
+        OnStateChanged?.Invoke(webState);
     }
 
     private async Task WaitForReference()

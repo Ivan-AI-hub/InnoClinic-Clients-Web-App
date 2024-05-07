@@ -65,7 +65,7 @@
                 </AuthorizeView>
                 @if (Appointment.IsApproved)
                 {
-                    <ResultInfo AppointmentId="@Appointment.Id" OnResultAvailable="ResultAvailable" />
+                    <ResultInfo AppointmentId="@Appointment.Id" OnResultAvailable="ResultAvailable" HideEditButton=@(Appointment.Date.ToDateTime(Appointment.Time).AddHours(3) < DateTime.UtcNow) />
                 }
             </div>
             @if (ChildContent != null)

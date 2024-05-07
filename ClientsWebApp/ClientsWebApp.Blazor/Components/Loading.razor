@@ -1,4 +1,4 @@
-﻿﻿<div class="text-center">
+﻿﻿<div class=@($"text-center {Class}")>
     <div>
         <p>
             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
@@ -6,3 +6,7 @@
         </p>
     </div>
 </div>
+
+@code {
+    [Parameter] public string Class { get; set; }
+}

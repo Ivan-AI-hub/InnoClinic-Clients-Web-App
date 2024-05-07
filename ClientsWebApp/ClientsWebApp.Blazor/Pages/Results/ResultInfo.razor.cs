@@ -10,7 +10,9 @@ namespace ClientsWebApp.Blazor.Pages.Results
     {
         [Parameter] public Guid AppointmentId { get; set; }
         [Parameter] public EventCallback<AppointmentResult> OnResultAvailable { get; set; }
+        [Parameter] public bool HideEditButton { get; set; } = false;
         [CascadingParameter] public IModalService Modal { get; set; }
+
         private AppointmentResult result;
         private bool IsNotFound = false;
         protected async override Task OnInitializedAsync()
