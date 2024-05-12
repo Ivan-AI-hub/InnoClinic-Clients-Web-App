@@ -7,13 +7,9 @@
 
 @if (doctor != null)
 {
-    <DoctorCard Doctor="doctor" />
-    <AuthorizeView Roles="Patient">
-        <Authorized>
-            <input type="button" class="btn btn-info" value=@_localizer.GetString(LocalizationType.MakeAppointmentWithDoctorText)
-               @onclick="ToCreateAppointmentPage" />
-        </Authorized>
-    </AuthorizeView>
+    <div class="container p-5">
+        <DoctorCard Doctor="doctor" />
+    </div>
     @if (Services != null)
     {
         <div class="container p-5 text-center">
@@ -24,12 +20,29 @@
             }
             else
             {
-
-                @foreach (var service in Services)
-                {
-                    <ServiceCard Service="service" />
-                }
-
+                <MudDataGrid Items="@Services" RowClass="big-cell" Filterable="true" QuickFilter="@_quickFilter">
+                    <ToolBarContent>
+                        <MudTextField @bind-Value="_searchString" Placeholder="Search" Adornment="Adornment.Start" Immediate="true"
+                                      AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+                    </ToolBarContent>
+                    <Columns>
+                        <PropertyColumn Property="x => x.Name" Title="Name" />
+                        <PropertyColumn Property="x => x.Price" Title="Price" />
+                        <PropertyColumn Property="x => x.Category == null ? string.Empty : x.Category.Name" Title="Category" />
+                        <TemplateColumn StickyRight="true" Title="Appointment" Filterable="false" Sortable="false" Hidden=@(_role is null? false : _role != "Patient")>
+                            <CellTemplate>
+                                <div class="d-flex justify-content-center">
+                                    <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick=@(() => ToCreateAppointmentPage(context.Item.Id, context.Item.Category.Name))>
+                                        <MudIcon Icon="@Icons.Material.Filled.DocumentScanner" />
+                                        <span class="ml-2">
+                                            Make appointment
+                                        </span>
+                                    </MudButton>
+                                </div>
+                            </CellTemplate>
+                        </TemplateColumn>
+                    </Columns>
+                </MudDataGrid>
             }
         </div>
     }
@@ -40,6 +53,11 @@
 }
 else
 {
-    <Loading/>
+    <Loading />
 }
 
+<style>
+    .big-cell .mud-table-cell {
+        font-size: 1.1rem;
+    }
+</style>

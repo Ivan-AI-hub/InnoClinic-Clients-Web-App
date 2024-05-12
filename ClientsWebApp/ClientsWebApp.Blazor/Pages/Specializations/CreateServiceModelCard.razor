@@ -1,6 +1,5 @@
-@inject IStringLocalizer<Localization> _localizer;
 
-<div class="row mb-3 align-items-center border">
+<MudPaper Square Elevation=3 Class="row p-3 mb-3 align-items-center">
     <div class="col">
         <p>@_localizer.GetString(LocalizationType.Name): @Service.Name</p>
         <p>@_localizer.GetString(LocalizationType.Price): @Service.Price</p>
@@ -9,7 +8,7 @@
         <p>@_localizer.GetString(LocalizationType.Category): @Service.CategoryName</p>
         <p>@_localizer.GetString(LocalizationType.Status): @Service.Status</p>
     </div>
-</div>
+</MudPaper>
 @code {
     [Parameter] public CreateServiceData Service { get; set; }
 }

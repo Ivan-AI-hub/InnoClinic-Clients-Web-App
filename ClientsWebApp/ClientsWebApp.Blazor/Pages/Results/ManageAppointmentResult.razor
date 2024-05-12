@@ -1,0 +1,49 @@
+﻿@attribute [Authorize(Roles = "Doctor")]
+@inherits CancellableComponent
+<MudPaper Class="p-2 d-flex justify-content-center h-100 w-100">
+    <div class="align-content-center w-100">
+        <div>
+            @if (Appointment is not null)
+            {
+                <p>Date <DisplayDate Date="Appointment.Date.ToDateTime(Appointment.Time)" /> </p>
+                <p>Patient @Appointment.Patient.GetFullName()</p>
+                <p>Doctor @Appointment.Doctor.GetFullName()</p>
+                <p>Service @Appointment.Service.Name</p>
+            }
+            else
+            {
+                <Loading />
+            }
+        </div>
+        @if (CreateData is not null && EditData is null)
+        {
+
+            <EditForm Model="@CreateData" OnValidSubmit="CreateAsync">
+                <FluentValidationValidator DisableAssemblyScanning=true />
+                <ValidationSummary />
+
+                <FormInputText AutoGrow Lines=3 MaxLines=5 Label="Complaints" Id="Complaints" @bind-Value="@CreateData.Complaints" />
+                <FormInputText AutoGrow Lines=3 MaxLines=5 Label="Conclusion" Id="Conclusion" @bind-Value="@CreateData.Conclusion" />
+                <FormInputText AutoGrow Lines=3 MaxLines=5 Label="Recomendations" Id="Recomendations" @bind-Value="@CreateData.Recomendations" />
+                <FormSubmitButton @ref="SubmitButton" ButtonValue="Save Changes" />
+            </EditForm>
+        }
+        else if (EditData is not null)
+        {
+            <EditForm Model="@EditData" OnValidSubmit="EditAsync" class="form">
+                <FluentValidationValidator DisableAssemblyScanning=true />
+                <ValidationSummary />
+
+                <FormInputText AutoGrow Lines=3 MaxLines=5 Label="Complaints" Id="Complaints" @bind-Value="@EditData.Complaints" />
+                <FormInputText AutoGrow Lines=3 MaxLines=5 Label="Conclusion" Id="Conclusion" @bind-Value="@EditData.Conclusion" />
+                <FormInputText AutoGrow Lines=3 MaxLines=5 Label="Recomendations" Id="Recomendations" @bind-Value="@EditData.Recomendations" />
+                <FormSubmitButton @ref="SubmitButton" ButtonValue="Save Changes" />
+            </EditForm>
+        }
+        else
+        {
+            <Loading />
+        }
+    </div>
+</MudPaper>
+

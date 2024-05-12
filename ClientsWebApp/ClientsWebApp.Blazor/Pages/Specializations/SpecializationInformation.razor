@@ -6,19 +6,25 @@
 
 @if (Specialization != null)
 {
-    <div class="row mb-3 align-items-center">
-        <div class="col">
-            <div>@Specialization.Name</div>
-            <EditForm Model="@Specialization" class="form">
-                <InputCheckbox @bind-Value="@Specialization.IsActive" @oninput="@CheckBoxChanged" />
-            </EditForm>
-        </div>
-        <div class="col">
-            <button class="btn btn-info" @onclick="NavigateToEditPage">@_localizer.GetString(LocalizationType.EditButtonValue)</button>
-        </div>
-    </div>
-    <div class="row mb-3 align-items-center">
-        <div class="col">
+    <div class="container p-5">
+        <MudPaper Square Elevation=3 Class="row p-3 mb-5 align-items-center">
+            <MudText Typo=Typo.h5 class="d-flex justify-content-center mb-3">@Specialization.Name</MudText>
+
+            <div class="col">
+                <MudCheckBox Color="Color.Primary" Label="Active" @bind-Value="Specialization.IsActive" @oninput="@CheckBoxChanged" />
+            </div>
+            <div class="col">
+                <MudButton Color="Color.Info" Variant=Variant.Filled OnClick="NavigateToEditPage">
+                    <MudIcon Icon="@Icons.Material.Filled.Edit" />
+                    <span class="ml-2">
+                        @_localizer.GetString(LocalizationType.EditButtonValue)
+                    </span>
+                </MudButton>
+            </div>
+        </MudPaper>
+    
+        <div class="text-center">
+            <MudText Typo="Typo.h6">Services</MudText>
             @foreach (var service in Specialization.Services)
             {
                 <ServiceCard Service="service" />
@@ -31,8 +37,10 @@
 @code {
     [CascadingParameter] public IModalService Modal { get; set; }
     [Parameter] public Guid SpecializationId { get; set; }
-    private Specialization Specialization;
+
+    private Specialization? Specialization;
     private Image? image;
+
     protected async override Task OnInitializedAsync()
     {
         Specialization = await specializationManager.GetByIdAsync(SpecializationId, _cts.Token);
@@ -46,9 +54,9 @@
     private void NavigateToEditPage()
     {
         var options = new ModalOptions()
-        {
-            Size = ModalSize.Large
-        };
+            {
+                Size = ModalSize.Large
+            };
         var parameters = new ModalParameters();
         parameters.Add(nameof(EditSpecialization.SpecializationId), SpecializationId);
         parameters.Add(nameof(EditSpecialization.OldSpecialization), Specialization);

@@ -22,7 +22,7 @@
                 <SelectImage Title=@_localizer.GetString(LocalizationType.Photo) @bind-Value="@Data.Picture" SelectedImageData="_image?.Content" />
             </div>
         </div>
-        <Row>
+        <InnoRow>
             <Left>
                 <FormSubmitButton @ref="@SubmitButton" ButtonValue=@_localizer.GetString(LocalizationType.SaveChangesButtonValue) />
             </Left>
@@ -32,7 +32,7 @@
                                      QuestionLabel=@_localizer.GetString(LocalizationType.DataWillNotChangesText) />
                 </div>
             </Right>
-        </Row>
+        </InnoRow>
     </EditForm>
 }
 else

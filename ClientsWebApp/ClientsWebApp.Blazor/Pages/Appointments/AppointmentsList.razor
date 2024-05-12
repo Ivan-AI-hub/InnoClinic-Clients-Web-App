@@ -3,29 +3,30 @@
 @attribute [Authorize(Roles = "Admin")]
 
 <div class="row">
-    <div class="col-sm-3">
-        <EditForm Model="FiltrationModel" OnSubmit="AppointmentsUpdateAsync">
-            <div class="container">
-                <div class="col ">
-                    @_localizer.GetString(LocalizationType.Doctor)
-                    <FormInputText Label=@_localizer.GetString(LocalizationType.FirstName) Id="firstName"
-                                   @bind-Value="FiltrationModel.DoctorFirstName" />
-                    <FormInputText Label=@_localizer.GetString(LocalizationType.LastName) Id="lastName" @bind-Value="FiltrationModel.DoctorLastName" />
-                    <FormInputText Label=@_localizer.GetString(LocalizationType.MiddleName) Id="middleName"
-                                   @bind-Value="FiltrationModel.DoctorMiddleName" />
-                    <FormInputText Label=@_localizer.GetString(LocalizationType.Service) Id="firstName" @bind-Value="FiltrationModel.ServiceName" />
-                    <FormInputDate Label=@_localizer.GetString(LocalizationType.Date) Id="firstName" @bind-Value="FiltrationModel.Date" />
-                    <FilterInputBool Label=@_localizer.GetString(LocalizationType.Status) Id="status" @bind-Value="FiltrationModel.Status" />
+    <div class="col-sm-3 mt-16">
+        <MudPaper Square Elevation=3 Class="p-3 mt-1">
+            <EditForm Model="FiltrationModel" OnSubmit="AppointmentsUpdateAsync">
+                <div class="container">
+                    <div class="col ">
+                        <FormInputText Label="@_localizer.GetString(LocalizationType.FirstName)" Id="firstName"
+                                       @bind-Value="FiltrationModel.DoctorFirstName" />
+                        <FormInputText Label="@_localizer.GetString(LocalizationType.LastName)" Id="lastName" @bind-Value="FiltrationModel.DoctorLastName" />
+                        <FormInputText Label="@_localizer.GetString(LocalizationType.MiddleName)" Id="middleName"
+                                       @bind-Value="FiltrationModel.DoctorMiddleName" />
+                        <FormInputText Label="@_localizer.GetString(LocalizationType.Service)" Id="firstName" @bind-Value="FiltrationModel.ServiceName" />
+                        <FormInputDateOnly Label="@_localizer.GetString(LocalizationType.Date)" Id="firstName" @bind-Value="FiltrationModel.Date" />
+                        <FilterInputBool Label="@_localizer.GetString(LocalizationType.Status)" Id="status" @bind-Value="FiltrationModel.Status" />
+                    </div>
+                    <FormSubmitButton @ref="@SubmitButton" ButtonValue="@_localizer.GetString(LocalizationType.SearchButtonValue)" />
                 </div>
-                <FormSubmitButton @ref="@SubmitButton" ButtonValue=@_localizer.GetString(LocalizationType.SearchButtonValue) />
-            </div>
-        </EditForm>
+            </EditForm>
+        </MudPaper>
     </div>
     <div class="col-sm">
         @if (Appointments != null)
         {
             <PageSwitcher OnNextPageClicked="@SetNextPage" OnPreviousPageClicked="@SetPreviousPage"
-                      GetStatus="@GetPageStatus" />
+                          GetStatus="@GetPageStatus" />
             @foreach (var appointment in Appointments)
             {
                 <AppointmentCard Appointment="appointment" OnDataUpdated="AppointmentsUpdateAsync">

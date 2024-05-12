@@ -7,11 +7,15 @@
         <div class="col text-center">
             @if (category == Data.CategoryName)
             {
-                <input type="button" value="@category" class="btn btn-success disabled" />
+                <MudButton Color="Color.Success" Variant="Variant.Filled">
+                    @category
+                </MudButton>
             }
             else
             {
-                <input type="button" value="@category" class="btn btn-info" @onclick="@(() => ServicesUpdateAsync(category))" />
+                <MudButton Color="Color.Info" Variant="Variant.Filled" OnClick="@(() => ServicesUpdateAsync(category))">
+                    @category
+                </MudButton>
             }
         </div>
     }

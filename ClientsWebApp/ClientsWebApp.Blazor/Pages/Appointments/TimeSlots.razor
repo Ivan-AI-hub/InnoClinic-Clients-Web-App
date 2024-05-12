@@ -4,11 +4,11 @@
 <EditForm Model="@Data" class="form">
     <div class="row">
         <div class="col p-2">
-            <FormInputDate min="@DateTime.Now.ToString("yyyy-MM-dd")"
-                            max="@DateTime.Now.AddDays(15).ToString("yyyy-MM-dd")"
-                            Label=@_localizer.GetString(LocalizationType.Date) Id="Date"
+            <FormInputDateOnly min="@DateTime.Now.ToString("yyyy-MM-dd")"
+                            max="@DateTime.Now.AddDays(15).ToString("yyyy-MM-dd")" 
+                            Label=@_localizer.GetString(LocalizationType.Date) Id="Date" 
                             @bind-Value="@Data.Date"
-                            @oninput="@DateWasSelected" />
+                            DateChanged=DateWasSelected />
         </div>
     </div>
 </EditForm>
@@ -29,7 +29,8 @@
                         var value = $"{i}:{j:00}";
                         TimeOnly time = new TimeOnly(i, j);
                         StringBuilder classValue = new StringBuilder("w-100 btn");
-                        if (DateTime.Now >= Data.Date.ToDateTime(time))
+                        var date = Data.Date ?? DateOnly.MinValue;
+                        if (DateTime.Now >= date.ToDateTime(time))
                         {
                             classValue.Append(" disabled");
                         }

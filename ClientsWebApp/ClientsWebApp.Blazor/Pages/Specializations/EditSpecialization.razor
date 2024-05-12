@@ -16,11 +16,32 @@
                 <FormInputCheckBox Label=@_localizer.GetString(LocalizationType.Status) Id="lastName" @bind-Value="@Data.IsActive" />
             </div>
             <div class="col p-2">
-                <h2>@_localizer.GetString(LocalizationType.ServicesTab)</h2>
-                <input type="button" class="btn btn-success w-100 mb-3" value=@_localizer.GetString(LocalizationType.CreateServiceButtonValue) @onclick="@StartCreateService" />
+
+
+                <h2>
+                    Services                 
+                    @if (!IsManagerCreating)
+                    {
+                        <MudButton Color=Color.Primary Variant=Variant.Filled OnClick="@StartCreateService">
+                            @_localizer.GetString(LocalizationType.CreateServiceButtonValue)
+                        </MudButton>
+                    }
+                    else
+                    {
+                        <MudButton Color=Color.Error Variant=Variant.Filled OnClick="@StopCreateService">
+                            Exit
+                        </MudButton>
+                    }
+                </h2>
+
+                @if (IsManagerCreating)
+                {
+                    <CreateService SpecializationId="default" OnModelCreated="@ServiceCreated" />
+                }
+
                 @foreach (var service in Services)
                 {
-                    <ServiceCard Service="@service" />
+                    <ServiceCard Service="@service" HideSpecialization/>
                 }
                 @foreach (var service in AddedServices)
                 {
@@ -28,21 +49,21 @@
                         <div class="col">
                             <CreateServiceModelCard Service="@service" />
                         </div>
-                        <div class="col-1 m-3">
-                            <input type="button" class="btn btn-danger" value="-" @onclick="@(()=>RemoveService(service))" />
+                        <div class="col-1 d-flex justify-content-center mb-3 ml-2">
+                            <MudIconButton Color="Color.Error" Variant=Variant.Filled Icon="@Icons.Material.Filled.Delete" OnClick="@(()=>RemoveService(service))" />
                         </div>
                     </div>
                 }
             </div>
         </div>
-        <Row>
+        <InnoRow>
             <Left>
                 <FormSubmitButton @ref="@SubmitButton" ButtonValue=@_localizer.GetString(LocalizationType.SaveChangesButtonValue) />
             </Left>
             <Right>
-                <DobleQuestionButton OnSuccessAnswerClicked="@Cancel" PreviewButtonValue=@_localizer.GetString(LocalizationType.DisagreeButtonValue)
-                                 QuestionLabel=@_localizer.GetString(LocalizationType.DataWillNotChangesText) />
+                <DobleQuestionButton OnSuccessAnswerClicked="@Cancel" PreviewButtonValue="Cancel"
+                                     QuestionLabel="Do you really want to cancel? Changes will not be saved." />
             </Right>
-        </Row>
+        </InnoRow>
     </EditForm>
 }

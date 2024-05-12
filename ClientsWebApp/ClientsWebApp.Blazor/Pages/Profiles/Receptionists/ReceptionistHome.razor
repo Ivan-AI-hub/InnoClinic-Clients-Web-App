@@ -4,8 +4,9 @@
 @if(Receptionist != null)
 {
     <ReceptionistCard Receptionist="Receptionist"/>
-    <button @onclick="NavigateToEditPage" class="btn btn-info">@_localizer.GetString(LocalizationType.EditButtonValue)</button>
-    <button @onclick="NavigateToDeletePage" class="btn btn-danger">@_localizer.GetString(LocalizationType.DeleteButtonValue)</button>
+    <MudButton OnClick="NavigateToEditPage" Color="Color.Primary" Variant="Variant.Filled">@_localizer.GetString(LocalizationType.EditButtonValue)</MudButton>
+    <MudButton OnClick="NavigateToDeletePage" Color="Color.Error" Variant="Variant.Filled">@_localizer.GetString(LocalizationType.DeleteButtonValue)</MudButton>
+
 }
 else
 {

@@ -40,9 +40,9 @@ namespace ClientsWebApp.Services.UriConstructors
             {
                 quary.Append($"&PatientId={filtrationModel.PatientId}");
             }
-            if (filtrationModel.Date != default)
+            if (filtrationModel.Date is not null && filtrationModel.Date != default)
             {
-                quary.Append($"&Date={filtrationModel.Date.ToString("yyyy-MM-dd")}");
+                quary.Append($"&Date={filtrationModel.Date?.ToString("yyyy-MM-dd")}");
             }
 
             return quary.ToString();

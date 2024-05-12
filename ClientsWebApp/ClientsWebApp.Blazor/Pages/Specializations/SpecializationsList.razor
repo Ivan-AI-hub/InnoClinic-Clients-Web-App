@@ -3,7 +3,7 @@
 @inherits CancellableComponent
 
 <div class="row">
-    <button class="btn btn-primary" @onclick="ToCreatePage">@_localizer.GetString(LocalizationType.CreateSpecializationButtonValue)</button>
+    <MudButton Color=Color.Primary Variant="Variant.Filled" OnClick="ToCreatePage">@_localizer.GetString(LocalizationType.CreateSpecializationButtonValue)</MudButton>
     <div class="col-sm">
         @if (Specializations != null)
         {

@@ -27,14 +27,14 @@ namespace ClientsWebApp.Application.Managers
         }
         public async Task EditAsync(OfficeDTO oldOffice, EditOfficeData data, CancellationToken cancellationToken)
         {
-            var fileName = (await oldOffice.ToOfficeAsync()).Photo.Name; 
-            var imageName = data.Picture == null ? new ImageName(fileName) : new ImageName(data.Picture.FileName);
+            var fileName = (await oldOffice.ToOfficeAsync()).Photo; 
+            var imageName = data.Picture == null ? fileName : new ImageName(data.Picture.FileName);
             var updateModel = new UpdateOfficeModel(imageName, data.City, data.Street, data.HouseNumber, data.OfficeNumber, data.PhoneNumber, data.Status);
 
             await _officeService.UpdateAsync(oldOffice.Id, updateModel, cancellationToken);
-            if (data.Picture != null && data.Picture.FileName != fileName)
+            if (data.Picture is not null && data.Picture != fileName)
             {
-                await _imageService.DeleteAsync(fileName, cancellationToken);
+                await _imageService.DeleteAsync(fileName.Name, cancellationToken);
                 await _imageService.CreateAsync(data.Picture, cancellationToken);
             }
 
@@ -48,7 +48,7 @@ namespace ClientsWebApp.Application.Managers
         public async Task<OfficeDTO> GetByIdAsync(Guid id, CancellationToken cancellationToken)
         {
             var officeData = await _officeService.GetByIdAsync(id, cancellationToken);
-            return await OfficeToOfficeDTOConvertor(officeData, cancellationToken);
+            return OfficeToOfficeDTOConvertor(officeData, cancellationToken);
         }
 
         public Task<IEnumerable<Office>> GetInfoPageAsync(Page page, CancellationToken cancellationToken)
@@ -62,12 +62,12 @@ namespace ClientsWebApp.Application.Managers
             var offices = new List<OfficeDTO>();
             foreach (var office in officesData)
             {
-                offices.Add(await OfficeToOfficeDTOConvertor(office, cancellationToken));
+                offices.Add(OfficeToOfficeDTOConvertor(office, cancellationToken));
             }
             return offices;
         }
 
-        private async Task<OfficeDTO> OfficeToOfficeDTOConvertor(Office officeData, CancellationToken cancellationToken)
+        private OfficeDTO OfficeToOfficeDTOConvertor(Office officeData, CancellationToken cancellationToken)
         {
             var office = new OfficeDTO(officeData);
             if (officeData.Photo != null)

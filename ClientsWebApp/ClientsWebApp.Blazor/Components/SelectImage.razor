@@ -3,7 +3,14 @@
 <div class="form-group row">
     <div class="col">
         <label class="form-label">@Title</label>
-        <InputFile OnChange="@OnFileSelected" accept=".jpeg,.jpg,.png" class="form-control" />
+        <MudFileUpload T="IBrowserFile" FilesChanged="OnFileSelected" Accept=".jpeg,.jpg,.png">
+            <ButtonTemplate>
+                <MudFab HtmlTag="label"
+                        Icon="@Icons.Material.Filled.Image"
+                        Label="Load picture"
+                        for="@context.Id" />
+            </ButtonTemplate>
+        </MudFileUpload>
     </div>
     @if (SelectedImageData != null)
     {
@@ -24,14 +31,12 @@
         return true;
     }
 
-    private async Task OnFileSelected(InputFileChangeEventArgs e)
+    private async Task OnFileSelected(IBrowserFile file)
     {
-        var browserFile = e.File;
-        //idk it is good or i should use "using" statement
-        var stream = new MemoryStream();
-        await browserFile.OpenReadStream().CopyToAsync(stream);
+        using var stream = new MemoryStream();
+        await file.OpenReadStream().CopyToAsync(stream);
 
-        CurrentValue = new FormFile(stream, 0, browserFile.Size, browserFile.Name, browserFile.Name + Guid.NewGuid().ToString());
+        CurrentValue = new FormFile(stream, 0, file.Size, file.Name, file.Name + Guid.NewGuid().ToString());
 
         SelectedImageData = stream.ToArray();
         this.StateHasChanged();

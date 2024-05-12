@@ -22,7 +22,6 @@ namespace ClientsWebApp.Blazor.Pages.Appointments
             FiltrationModel = new AppointmentFiltrationModel
             {
                 PatientId = PatientId,
-                Date = DateOnly.FromDateTime(DateTime.UtcNow),
                 Status = null
             };
             await AppointmentsUpdateAsync();

@@ -1,15 +1,22 @@
 ﻿@inherits InputText
 
-<div class="form-group mb-1">
-    @if (Label != null)
+<div class="form-group mb-3">
+    @if(Id == "password")
     {
-        <label for="@Id" class="form-label">@Label</label>
+        <MudTextField id="@Id" AutoGrow=AutoGrow Lines=Lines MaxLines=MaxLines InputType="InputType.Password" @bind-Value=CurrentValue Label="@Label" />
+
     }
-    <InputText id="@Id" @attributes="AdditionalAttributes" @bind-Value="CurrentValue" class="form-control" />
+    else
+    {
+        <MudTextField id="@Id" AutoGrow=AutoGrow Lines=Lines MaxLines=MaxLines @bind-Value=CurrentValue Label="@Label" />
+    }
 </div>
 
 @code
 {
     [Parameter] public string Label { get; set; }
     [Parameter] public string Id { get; set; }
+    [Parameter] public bool AutoGrow { get; set; }
+    [Parameter] public int Lines { get; set; }
+    [Parameter] public int MaxLines { get; set; }
 }

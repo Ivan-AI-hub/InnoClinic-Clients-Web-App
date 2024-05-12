@@ -4,7 +4,7 @@
     <p class="text-danger">@ErrorMessage</p>
 </div>
 <EditForm Model="@Data" OnValidSubmit="RegisterAsync" class="form">
-    <FluentValidationValidator DisableAssemblyScanning=@true />
+    @* <FluentValidationValidator DisableAssemblyScanning=@true /> *@
     <ValidationSummary />
     <div class="row">
         <FormInputText Label=@_localizer.GetString(LocalizationType.Email) Id="email" @bind-Value="@Data.Email" />

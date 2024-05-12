@@ -1,3 +1,4 @@
+@using ClientsWebApp.Domain.Exceptions
 @inherits CancellableComponent
 
 @inject IResultManager ResultManager;
@@ -5,10 +6,16 @@
 
 @if (IsNotFound)
 {
-    <p>That appointment have not resul yet:(</p>
+    <AuthorizeView Roles="Patient">
+        <Authorized Context="editDate">
+            <p>That appointment have not resul yet:(</p>
+        </Authorized>
+    </AuthorizeView>
     <AuthorizeView Roles="Doctor">
         <Authorized>
-            <input class="btn btn-success w-100" type="button" @onclick="@NavigateToCreateResultPage" value=@_localizer.GetString(LocalizationType.CreateResultButtonValue) />
+            <MudButton Color="Color.Success" class="w-100" OnClick="@NavigateToCreateResultPage">
+                @_localizer.GetString(LocalizationType.CreateResultButtonValue)
+            </MudButton>
         </Authorized>
     </AuthorizeView>
 }
@@ -24,53 +31,16 @@ else
             <p>@_localizer.GetString(LocalizationType.Complaints) @result.Complaints</p>
             <p>@_localizer.GetString(LocalizationType.Conclusions) @result.Conclusion</p>
             <p>@_localizer.GetString(LocalizationType.Recomendations) @result.Recomendations</p>
-            <AuthorizeView Roles="Doctor">
-                <Authorized>
-                    <input class="btn btn-info w-100" type="button" @onclick="@NavigateToEditPage" value=@_localizer.GetString(LocalizationType.EditButtonValue) />
-                </Authorized>
-            </AuthorizeView>
+            @if (!HideEditButton)
+            {
+                <AuthorizeView Roles="Doctor">
+                    <Authorized>
+                        <MudButton Color="Color.Info" class="w-100" OnClick="@NavigateToEditPage">
+                            @_localizer.GetString(LocalizationType.EditButtonValue)
+                        </MudButton>
+                    </Authorized>
+                </AuthorizeView>
+            }
         </div>
     }
-}
-@code
-{
-    [Parameter] public Guid AppointmentId { get; set; }
-    [CascadingParameter] public IModalService Modal { get; set; }
-    private AppointmentResult result;
-    private bool IsNotFound = false;
-    protected async override Task OnInitializedAsync()
-    {
-        try
-        {
-            result = await ResultManager.GetForAppointmentAsync(AppointmentId, _cts.Token);
-        }
-        catch (Domain.Exceptions.NotFoundException ex)
-        {
-            IsNotFound = true;
-        }
-    }
-
-    private void NavigateToEditPage()
-    {
-        var options = new ModalOptions() 
-        { 
-            Size = ModalSize.Large 
-        };
-        var parameters = new ModalParameters()
-                        .Add(nameof(EditResult.AppointmentId), AppointmentId)
-                        .Add(nameof(EditResult.Result), result);
-        Modal.Show<EditResult>(@_localizer.GetString(LocalizationType.EditResultButtonValue), parameters, options);
-    }
-
-    private void NavigateToCreateResultPage()
-    {
-        var options = new ModalOptions() 
-        { 
-            Size = ModalSize.Large 
-        };
-        var parameters = new ModalParameters().Add(nameof(CreateResult.AppointmentId), AppointmentId);
-        Modal.Show<CreateResult>(_localizer.GetString(LocalizationType.CreateResultButtonValue), parameters, options);
-    }
-
-
 }

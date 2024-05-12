@@ -1,0 +1,27 @@
+﻿@page "/conference/prepare"
+
+<PageTitle>WebRtc</PageTitle>
+
+<span class="main-spacer"></span>
+
+<MudPaper class="p-3">
+
+    <MudGrid Spacing="2" Justify="Justify.SpaceAround">
+        <MudItem xs="7">
+            <MudPaper class="p-2">
+                <div class="d-flex justify-content-center mb-3">
+                    <video @ref=_preparedLocalVideoStream id="localVideo" class="w-100" autoplay playsinline></video>
+                </div>
+
+                <MudGrid Spacing="2" Justify="Justify.Center">
+                    <MudItem>
+                        <MudIconButton Icon="@Icons.Material.Filled.Call"
+                                       OnClick="Join"
+                                       Color="Color.Success"
+                                       Variant="Variant.Filled" />
+                    </MudItem>
+                </MudGrid>
+            </MudPaper>
+        </MudItem>
+    </MudGrid>
+</MudPaper>

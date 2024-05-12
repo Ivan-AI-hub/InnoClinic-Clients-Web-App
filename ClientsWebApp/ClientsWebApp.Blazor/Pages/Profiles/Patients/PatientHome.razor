@@ -4,9 +4,44 @@
 
 @if (Patient != null)
 {
-    <PatientCard Patient="@Patient" />
-    <button @onclick="NavigateToEditPage" class="btn btn-info">@_localizer.GetString(LocalizationType.EditButtonValue)</button>
-    <button @onclick="NavigateToDeletePage" class="btn btn-danger">@_localizer.GetString(LocalizationType.DeleteButtonValue)</button>
+    <div class="container p-5">
+        <PatientCard Patient="@Patient">
+            <div class="col">
+                <MudButton Color="Color.Info" Variant=Variant.Filled Class="w-100" OnClick="NavigateToEditPage">
+                    <MudIcon Icon="@Icons.Material.Filled.Edit" />
+                    <span class="ml-2">
+                        @_localizer.GetString(LocalizationType.EditButtonValue)
+                    </span>
+                </MudButton>
+                <MudButton Color="Color.Error" Variant=Variant.Filled Class="w-100" OnClick="NavigateToDeletePage">
+                    <MudIcon Icon="@Icons.Material.Filled.Delete" />
+                    <span class="ml-2">
+                        @_localizer.GetString(LocalizationType.DeleteButtonValue)
+                    </span>
+                </MudButton>
+            </div>
+        </PatientCard>
+    </div>
+    <div class="container p-5 text-center">
+        <MudText Typo="Typo.h6">Appointments schedule</MudText>
+        @if (Appointments != null)
+        {
+            @foreach (var appointment in Appointments)
+            {
+                <AppointmentCard Appointment="appointment" />
+            }
+
+            @if (Appointments.Count() >= Page.Size)
+            {
+                <MudButton Color="Color.Info" @onclick="NavigateToHistoryPage">View all history</MudButton>
+            }
+        }
+        else
+        {
+            <Loading />
+        }
+
+    </div>
 }
 else
 {

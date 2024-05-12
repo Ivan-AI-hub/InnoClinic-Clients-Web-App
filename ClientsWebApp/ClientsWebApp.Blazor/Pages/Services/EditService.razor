@@ -20,7 +20,7 @@ else
                                 GetLabelHandler="@(x => x)" GetValueHandler="@(x => x)" />
             </div>
         </div>
-        <Row>
+        <InnoRow>
             <Left>
                 <FormSubmitButton @ref="@SubmitButton" ButtonValue=@_localizer.GetString(LocalizationType.SaveChangesButtonValue) />
             </Left>
@@ -28,6 +28,6 @@ else
                 <DobleQuestionButton OnSuccessAnswerClicked="@Cancel" PreviewButtonValue=@_localizer.GetString(LocalizationType.DisagreeButtonValue)
                                  QuestionLabel=@_localizer.GetString(LocalizationType.DataWillNotChangesText) />
             </Right>
-        </Row>
+        </InnoRow>
     </EditForm>
 }

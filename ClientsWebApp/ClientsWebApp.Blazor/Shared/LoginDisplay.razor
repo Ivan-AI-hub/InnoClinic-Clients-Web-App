@@ -1,4 +1,5 @@
-﻿@inject NavigationManager Navigation
+﻿@using ClientsWebApp.Blazor.Components.Identity
+@inject NavigationManager Navigation
 @inject IStringLocalizer<Localization> Loc
 
 <AuthorizeView>
@@ -7,8 +8,9 @@
         <a href="/logout">Sign out</a>
     </Authorized>
     <NotAuthorized>
-        <button class="btn btn-primary m-2" @onclick="OpenLoginModal">@Loc.GetString(LocalizationType.SignInTitle)</button>
-        <button class="btn btn-primary m-2" @onclick="OpenRegisterModal">@Loc.GetString(LocalizationType.SignUpTitle)</button>
+
+        <MudButton Color="Color.Primary" @onclick="OpenLoginModal">@Loc.GetString(LocalizationType.SignInTitle)</MudButton>
+        <MudButton Color="Color.Primary" @onclick="OpenRegisterModal">@Loc.GetString(LocalizationType.SignUpTitle)</MudButton>
     </NotAuthorized>
 </AuthorizeView>
 
@@ -18,19 +20,21 @@
     private void OpenLoginModal()
     {
         var options = new ModalOptions()
-        {
-            HideCloseButton = false
-        };
-        Modal.Show<Login>(@Loc.GetString(LocalizationType.SignInTitle).Value, options);
+            {
+                HideCloseButton = false,
+                DisableBackgroundCancel = false
+            };
+        Modal.Show<LoginForm>(@Loc.GetString(LocalizationType.SignInTitle), options);
     }
 
     private void OpenRegisterModal()
     {
         var options = new ModalOptions()
-        {
-            HideCloseButton = false
-        };
-        Modal.Show<Register>(@Loc.GetString(LocalizationType.SignUpTitle).Value, options);
+            {
+                HideCloseButton = false,
+                DisableBackgroundCancel = false
+            };
+        Modal.Show<Register>(@Loc.GetString(LocalizationType.SignUpTitle), options);
     }
 }
 

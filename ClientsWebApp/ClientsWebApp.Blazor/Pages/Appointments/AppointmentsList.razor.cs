@@ -19,10 +19,7 @@ namespace ClientsWebApp.Blazor.Pages.Appointments
         private IEnumerable<Appointment>? Appointments { get; set; }
         protected override async Task OnInitializedAsync()
         {
-            FiltrationModel = new AppointmentFiltrationModel()
-            {
-                Date = DateOnly.FromDateTime(DateTime.UtcNow)
-            };
+            FiltrationModel = new AppointmentFiltrationModel();
             await AppointmentsUpdateAsync();
         }
 

@@ -1,6 +1,9 @@
 ﻿@inherits LayoutComponentBase
 @inject NavigationManager NavigationManager
 
+<MudThemeProvider IsDarkMode=true  Theme="_currentTheme"/>
+<MudDialogProvider />
+<MudSnackbarProvider />
 @*<ErrorBoundary @ref="errorBoundary">
     <ChildContent>*@
 <div class="page">
@@ -14,7 +17,7 @@
             <LoginDisplay />
         </div>
 
-        <article class="content px-4">
+        <article class="content px-4" style="height:90%">
             @Body
         </article>
     </main>
@@ -44,4 +47,34 @@
 
     //    errorBoundary?.Recover();
     //}
+
+    private readonly MudTheme _currentTheme = new()
+        {
+            Palette = new PaletteLight
+            {
+                Primary = "#0A7BCF",
+                Secondary = "#4CAF50",
+                Info = "#64a7e2",
+                Success = "#2ECC40",
+                Warning = "#FFC107",
+                Error = "#FF0000",
+                AppbarBackground = "#212121",
+                TextPrimary = "#0A7BCF",
+                TextSecondary = "#4CAF50",
+                // more color properties
+            },
+            PaletteDark = new PaletteDark
+            {
+                Primary = "#6585e0",
+                Secondary = "#607D8B",
+                Info = "#a4c2dd",
+                Success = "#2ECC40",
+                Warning = "#dc2d7e",
+                Error = "#de2000",
+                AppbarBackground = "#121212",
+                TextPrimary = "#E0E0E0",
+                TextSecondary = "#BDBDBD",
+                // more color properties
+            }
+        };
 }

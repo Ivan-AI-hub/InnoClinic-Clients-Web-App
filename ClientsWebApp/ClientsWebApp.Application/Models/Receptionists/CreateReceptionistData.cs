@@ -10,6 +10,6 @@ namespace ClientsWebApp.Application.Models.Receptionists
         public string LastName { get; set; } = "";
         public string MiddleName { get; set; } = "";
         public Guid OfficeId { get; set; } = default;
-        public DateTime BirthDay { get; set; } = DateTime.Now;
+        public DateTime? BirthDay { get; set; } = DateTime.Now;
     }
 }

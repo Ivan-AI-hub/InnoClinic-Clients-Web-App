@@ -2,7 +2,7 @@
 
 @inject NavigationManager NavigationManager
 
-<div class="row mb-3 align-items-center">
+<MudPaper Square Elevation=3 Class="row p-5 mb-3">
     @if (Doctor != null)
     {
         if (Doctor.Info.Photo != null)
@@ -26,7 +26,7 @@
                 @_localizer.GetString(LocalizationType.Office):
                 @if (Doctor.Office != null)
                 {
-                        @Doctor.Office.Address
+                    @Doctor.Office.Address
                 }
                 else
                 {
@@ -35,7 +35,12 @@
             </p>
             @if (IsIncludeDetailsButton)
             {
-                <input type="button" class="btn btn-success" value="Details" @onclick="ToDoctorInfoPage" />
+                <MudButton Color="Color.Info" Variant=Variant.Filled Class="w-100" OnClick="ToDoctorInfoPage">
+                    <MudIcon Icon="@Icons.Material.Filled.People" />
+                    <span class="ml-2">
+                        Details
+                    </span>
+                </MudButton>
             }
         </div>
         @if (ChildContent != null)
@@ -43,7 +48,7 @@
             @ChildContent
         }
     }
-</div>
+</MudPaper>
 
 
 @code {
@@ -53,7 +58,7 @@
     private Image? _image;
     protected async override Task OnInitializedAsync()
     {
-        _image = Doctor.Info.Photo != null? await Doctor.Info.Photo : null;
+        _image = Doctor.Info.Photo != null ? await Doctor.Info.Photo : null;
     }
     private void ToDoctorInfoPage()
     {

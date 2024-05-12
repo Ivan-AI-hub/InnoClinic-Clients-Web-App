@@ -13,7 +13,7 @@ namespace ClientsWebApp.Application.Models.Doctors
         public Guid OfficeId { get; set; }
         public int CareerStartYear { get; set; }
         public WorkStatus Status { get; set; }
-        public DateTime BirthDay { get; set; } = DateTime.Now;
+        public DateTime? BirthDay { get; set; } = DateTime.Now;
 
         public EditDoctorData(DoctorDTO doctor)
         {

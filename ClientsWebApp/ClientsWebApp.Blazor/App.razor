@@ -1,5 +1,5 @@
 ﻿﻿<CascadingAuthenticationState>
-    <CascadingBlazoredModal Position="ModalPosition.Middle" HideCloseButton="@true" DisableBackgroundCancel="@true">
+    <CascadingBlazoredModal Position="ModalPosition.Middle" HideCloseButton="@true" DisableBackgroundCancel="@true" Class="custom-blazored-modal custom-size-large">
         <Router AppAssembly="@typeof(App).Assembly">
 
             <Found Context="routeData">
@@ -21,3 +21,8 @@
     </CascadingBlazoredModal>
 </CascadingAuthenticationState>
 
+<style>
+    ﻿.bm-container {
+        background-color: rgba(39,39,47,1) !important;
+    }
+</style>

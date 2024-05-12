@@ -32,7 +32,7 @@ namespace ClientsWebApp.Application.Models.Offices
 
         public async Task<Office> ToOfficeAsync()
         {
-            var image = Photo != null ? new ImageName((await Photo).FileName) : null;
+            var image = Photo is not null ? new ImageName((await Photo).FileName) : null;
             return new Office(Id, image, Address, OfficeNumber, PhoneNumber, Status);
         }
     }

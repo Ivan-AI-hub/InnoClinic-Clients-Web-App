@@ -23,5 +23,11 @@ namespace ClientsWebApp.Blazor
             var state = await _stateProvider.GetAuthenticationStateAsync();
             return state.User.FindFirst(ClaimTypes.Role)?.Value ?? throw new Exception("Token auth failed");
         }
+
+        public async Task<bool> IsAuthenticatedAsync()
+        {
+            var state = await _stateProvider.GetAuthenticationStateAsync();
+            return state.User.Claims.Any();
+        }
     }
 }

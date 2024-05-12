@@ -20,13 +20,21 @@ namespace ClientsWebApp.Blazor.Pages.Offices
         private Image? _image;
         protected override async Task OnInitializedAsync()
         {
-            OldOffice = OldOffice ?? await OfficeManager.GetByIdAsync(OfficeId, _cts.Token);
+            OldOffice ??= await OfficeManager.GetByIdAsync(OfficeId, _cts.Token);
             Data = new EditOfficeData(OldOffice);
-            _image = await OldOffice.Photo;
+            if (OldOffice.Photo is not null)
+            {
+                _image = await OldOffice.Photo;
+            }
         }
 
         private async Task EditAsync()
         {
+            if (OldOffice is null)
+            {
+                return;
+            }
+
             SubmitButton?.StartLoading();
             try
             {

@@ -1,23 +1,19 @@
 ﻿@inherits InputSelect<bool?>
 
-<div class="form-group mb-1">
-    @if (Label != null)
-    {
-        <label for="@Id" class="form-label">@Label</label>
-    }
-    <InputSelect class="form-select" id="@Id" @bind-Value="CurrentValue" @attributes=AdditionalAttributes>
+<div class="form-group mb-3">
+    <MudSelect Label="@Label" id="@Id" @bind-Value="CurrentValue" @attributes=AdditionalAttributes>
         @if (Values != null)
         {
             @foreach (var value in Values)
             {
-                <option value="@value.Value">@value.Key</option>
+                <MudSelectItem Value="@value.Value">@value.Key</MudSelectItem>
             }
         }
         else
         {
             <Loading />
         }
-    </InputSelect>
+    </MudSelect>
 </div>
 
 @code
@@ -33,8 +29,8 @@
         {
             Values = new Dictionary<string, bool?>()
             {
-                {"True", true},
-                {"False", false},
+                {"Approved", true},
+                {"Not approved", false},
                 {"All", null }
             };
         }

@@ -8,7 +8,7 @@
         <EditForm Model="FiltrationModel" OnSubmit="AppointmentsUpdateAsync">
             <div class="container">
                 <div class="col ">
-                    <FormInputDate Label=@_localizer.GetString(LocalizationType.Date) Id="firstName" @bind-Value="FiltrationModel.Date" />
+                    <FormInputDateOnly Label=@_localizer.GetString(LocalizationType.Date) Id="firstName" @bind-Value="FiltrationModel.Date" />
                 </div>
                 <FormSubmitButton @ref="@SubmitButton" ButtonValue=@_localizer.GetString(LocalizationType.SearchButtonValue) />
             </div>
@@ -21,12 +21,7 @@
                       GetStatus="@GetPageStatus" />
             @foreach (var appointment in Appointments)
             {
-                <AppointmentCard Appointment="appointment" OnDataUpdated="AppointmentsUpdateAsync">
-                        @if (appointment.IsApproved)
-                        {
-                            <ResultInfo AppointmentId="@appointment.Id" />
-                        }
-                </AppointmentCard>
+                <AppointmentCard Appointment="appointment" OnDataUpdated="AppointmentsUpdateAsync"/>
             }
         }
         else

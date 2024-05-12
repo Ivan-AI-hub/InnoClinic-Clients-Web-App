@@ -6,8 +6,8 @@
 @inject NavigationManager Navigator
 
 <p>@_localizer.GetString(LocalizationType.AccountDeleteText)</p>
-<button @onclick="DeleteAsync">@_localizer.GetString(LocalizationType.AgreeButtonValue)</button>
-<button @onclick="Cancel">@_localizer.GetString(LocalizationType.DisagreeButtonValue)</button>
+<MudButton OnClick="DeleteAsync" Color="Color.Error" Variant="Variant.Filled">@_localizer.GetString(LocalizationType.AgreeButtonValue)</MudButton>
+<MudButton OnClick="Cancel" Color="Color.Primary" Variant="Variant.Filled">@_localizer.GetString(LocalizationType.DisagreeButtonValue)</MudButton>
 
 @code
 {

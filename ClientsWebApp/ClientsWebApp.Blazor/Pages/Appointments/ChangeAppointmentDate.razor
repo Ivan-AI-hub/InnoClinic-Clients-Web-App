@@ -9,7 +9,10 @@
     }
     else
     {
-        <input type="button" class="btn-primary w-100" value=@_localizer.GetString(LocalizationType.EditDateButtonValue) @onclick="StartChanging" />
+
+        <MudButton Color=Color.Primary Class="w-100" value="Edit date" OnClick="StartChanging" >
+            @_localizer.GetString(LocalizationType.EditDateButtonValue)
+        </MudButton>
     }
 </div>
 

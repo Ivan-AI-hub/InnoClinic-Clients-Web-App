@@ -1,72 +1,45 @@
 @inherits CancellableComponent
 @inject NavigationManager NavigationManager
 
-<div class="row mb-3 align-items-center border border-dark bg-success bg-opacity-10">
+<MudPaper Square Elevation=3 Class="row p-5 mb-3">
     @if (Appointment != null)
     {
         <div class="col">
-            <Row>
-                <Left>
-                    @Appointment.Date
-                </Left>
-                <Right>
-                    @if (service != null)
-                    {
-                        <span>
-                            @Appointment.Time - @Appointment.Time.AddMinutes(service.Category.TimeSlotSize)
-                        </span>
-                    }
-                    else
-                    {
-                        <Loading />
-                    }
-                </Right>
-            </Row>
-            @if (Appointment.IsApproved)
-            {
-                <button class="btn btn-outline-primary w-100" @onclick="@NavigateToDoctorPage">
-                    @_localizer.GetString(LocalizationType.Doctor):
-                    @Appointment.Doctor.GetFullName()
-                </button>
+            <div class="row">
+                <div class="col">
+                    <MudText Class="mb-3">@Appointment.Service.Name</MudText>
+                    <AuthorizeView Roles="Admin,Patient">
+                        <Authorized Context="editDate">
+                            <MudButton Disabled=!Appointment.IsApproved Color=Color.Primary Variant=Variant.Filled Class="w-100" @onclick="@NavigateToDoctorPage">
+                                @Appointment.Doctor.GetFullName()
+                            </MudButton>
+                        </Authorized>
+                    </AuthorizeView>
 
-                <br />
-
-                <button class="btn btn-outline-success w-100" @onclick="@NavigateToPatientPage">
-                    @_localizer.GetString(LocalizationType.Patient):
-                    @Appointment.Patient.GetFullName()
-                </button>
-            }
-            else
-            {
-                <button class="btn btn-outline-primary w-100 disabled">
-                    @_localizer.GetString(LocalizationType.Doctor):
-                    @Appointment.Doctor.GetFullName()
-                </button>
-
-                <br />
-
-                <button class="btn btn-outline-success w-100 disabled">
-                    @_localizer.GetString(LocalizationType.Patient):
-                    @Appointment.Patient.GetFullName()
-                </button>
-            }
-            <Row>
-                <Left>
-                    @Appointment.Service.Name
-                </Left>
-                <Right>
-                    @if (Appointment.IsApproved)
-                    {
-                        <div>@_localizer.GetString(LocalizationType.ApprovedStatus)</div>
-                    }
-                    else
-                    {
-                        <div>@_localizer.GetString(LocalizationType.NotApprovedStatus)</div>
-                    }
-                </Right>
-            </Row>
+                    <AuthorizeView Roles="Patient">
+                        <NotAuthorized Context="editDate">
+                            <MudButton Color=Color.Success Variant=Variant.Filled Class="w-100" Disabled=!Appointment.IsApproved @onclick="@NavigateToPatientPage">
+                                @Appointment.Patient.GetFullName()
+                            </MudButton>
+                        </NotAuthorized>
+                    </AuthorizeView>
+                </div>
+                <div class="col">
+                    <MudText Typo="Typo.h4"> <DisplayDate Date=@Appointment.Date.ToDateTime(TimeOnly.MinValue)/></MudText>
+                    <MudText Typo="Typo.h5">@Appointment.Time.ToString("HH:mm") - @Appointment.Time.AddMinutes(service?.Category?.TimeSlotSize ?? 0).ToString("HH:mm")</MudText>
+                </div>
+            </div>
         </div>
         <div class="col">
+            @if (Appointment.IsApproved && !_hasResult)
+            {
+                <MudButton Variant=Variant.Filled Color=Color.Success Class="mb-3 w-100" Href=@($"/conference/prepare?Channel={Appointment.Id}")>
+                    <MudIcon Icon="@Icons.Material.Filled.Camera" />
+                    <span class="ml-2">
+                        Go to video room
+                    </span>
+                </MudButton>
+            }
             <AuthorizeView Roles="Admin,Doctor">
                 <Authorized Context="editDate">
                     @if (service != null && !Appointment.IsApproved)
@@ -81,12 +54,26 @@
                     </div>
                 </Authorized>
             </AuthorizeView>
+            <div class="col">
+                <AuthorizeView Roles="Patient">
+                    <Authorized Context="editDate">
+                        @if (!Appointment.IsApproved)
+                        {
+                            <p>Appointment is not approved yet</p>
+                        }
+                    </Authorized>
+                </AuthorizeView>
+                @if (Appointment.IsApproved)
+                {
+                    <ResultInfo AppointmentId="@Appointment.Id" OnResultAvailable="ResultAvailable" HideEditButton=@(Appointment.Date.ToDateTime(Appointment.Time).AddHours(3) < DateTime.UtcNow) />
+                }
+            </div>
             @if (ChildContent != null)
             {
                 @ChildContent
             }
         </div>
     }
-</div>
+</MudPaper>
 
 

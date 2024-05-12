@@ -45,7 +45,11 @@ namespace ClientsWebApp.Blazor.Pages.Specializations
             parameters.Add(nameof(CreateService.OnModelCreated), EventCallback.Factory.Create<CreateServiceData>(this, StopCreateService));
             _openedModal = Modal.Show<CreateService>("Create service", parameters);
         }
-        private void StopCreateService(CreateServiceData model)
+        private void StopCreateService()
+        {
+            IsManagerCreating = false;
+        }
+        private void ServiceCreated(CreateServiceData model)
         {
             AddedServices.Add(model);
             _openedModal?.Close();

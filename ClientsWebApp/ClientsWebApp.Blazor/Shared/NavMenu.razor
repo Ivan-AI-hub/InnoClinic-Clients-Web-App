@@ -1,75 +1,41 @@
-﻿@inject IStringLocalizer<Localization> Loc
-<div class="top-row ps-3 navbar navbar-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="">Innoclinic</a>
-        <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-    </div>
-</div>
+﻿
+<MudPaper Width=@(collapseNavMenu? "50px" : "250px") Height="100vh" Class="pt-2" Elevation="0">
+    @if (!collapseNavMenu)
+    {
+        <div class="d-flex justify-content-between mud-width-full">
 
-<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
-    <nav class="flex-column">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> @Loc.GetString(LocalizationType.HomeTab)
-            </NavLink>
+            <MudText Typo="Typo.h6" Class="px-4">Innoclinic </MudText>
+
+            <div style="width:50px">
+                <MudNavLink OnClick="ToggleNavMenu" Icon="@Icons.Material.Filled.Menu" />
+            </div>
         </div>
-
+    }
+    else
+    {
+        <MudNavLink OnClick="ToggleNavMenu" Icon="@Icons.Material.Filled.Menu" />
+    }
+    <MudDivider Class="my-2" DividerType="DividerType.FullWidth" />
+    <MudNavMenu Class="mud-width-full" Color="Color.Primary">
+        <MudNavLink Href="/" Icon="@Icons.Material.Filled.Home">@GetLinkName(Loc.GetString(LocalizationType.HomeTab))</MudNavLink>
         <AuthorizeView Roles="Patient">
             <Authorized>
-                <div class="nav-item px-3">
-                    <NavLink class="nav-link" @onclick="OpenCreateAppointmentModal" Match="NavLinkMatch.All">
-                        <span class="oi oi-clipboard" aria-hidden="true"></span> @Loc.GetString(LocalizationType.CreateAppointmentTab)
-                    </NavLink>
-                </div>
+                <MudNavLink Icon="@Icons.Material.Filled.DocumentScanner" OnClick="OpenCreateAppointmentModal">@GetLinkName(@Loc.GetString(LocalizationType.CreateAppointmentTab))</MudNavLink>
             </Authorized>
         </AuthorizeView>
-
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="/services">
-                <span class="oi oi-list" aria-hidden="true"></span> @Loc.GetString(LocalizationType.ServicesTab)
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="doctors">
-                <span class="oi oi-people" aria-hidden="true"></span> @Loc.GetString(LocalizationType.DoctorsTab)
-            </NavLink>
-        </div>
-
-
+        <MudNavLink Href="/doctors" Icon="@Icons.Material.Filled.People">@GetLinkName(@Loc.GetString(LocalizationType.DoctorsTab))</MudNavLink>
         <AuthorizeView Roles="Admin">
             <Authorized>
-                <div class="nav-item px-3">
-                    <NavLink class="nav-link" href="receptionists">
-                        <span class="oi oi-people" aria-hidden="true"></span> @Loc.GetString(LocalizationType.ReceptionistsTab)
-                    </NavLink>
-                </div>
-                <div class="nav-item px-3">
-                    <NavLink class="nav-link" href="patients">
-                        <span class="oi oi-people" aria-hidden="true"></span> @Loc.GetString(LocalizationType.PatientsTab)
-                    </NavLink>
-                </div>
-                <div class="nav-item px-3">
-                    <NavLink class="nav-link" href="appointments">
-                        <span class="oi oi-list-rich" aria-hidden="true"></span> @Loc.GetString(LocalizationType.AppointmentsTab)
-                    </NavLink>
-                </div>
-                <div class="nav-item px-3">
-                    <NavLink class="nav-link" href="offices">
-                        <span class="oi oi-list-rich" aria-hidden="true"></span> @Loc.GetString(LocalizationType.OfficesTab)
-                    </NavLink>
-                </div>
-                <div class="nav-item px-3">
-                    <NavLink class="nav-link" href="/specializations">
-                        <span class="oi oi-list-rich" aria-hidden="true"></span> @Loc.GetString(LocalizationType.SpecializationsTab)
-                    </NavLink>
-                </div>
-
+                <MudNavLink Href="/services" Icon="@Icons.Material.Filled.MedicalServices">@GetLinkName(Loc.GetString(LocalizationType.ServicesTab))</MudNavLink>
+                <MudNavLink Href="/receptionists" Icon="@Icons.Material.Filled.People">@GetLinkName(Loc.GetString(LocalizationType.ReceptionistsTab))</MudNavLink>
+                <MudNavLink Href="/patients" Icon="@Icons.Material.Filled.People">@GetLinkName(Loc.GetString(LocalizationType.PatientsTab))</MudNavLink>
+                <MudNavLink Href="/appointments" Icon="@Icons.Material.Filled.List">@GetLinkName(Loc.GetString(LocalizationType.AppointmentsTab))</MudNavLink>
+                <MudNavLink Href="/offices" Icon="@Icons.Material.Filled.LocalPostOffice">@GetLinkName(Loc.GetString(LocalizationType.OfficesTab))</MudNavLink>
+                <MudNavLink Href="/specializations" Icon="@Icons.Material.Filled.List">@GetLinkName(Loc.GetString(LocalizationType.SpecializationsTab))</MudNavLink>
             </Authorized>
         </AuthorizeView>
-    </nav>
-</div>
+    </MudNavMenu>
+</MudPaper>
 
 @code {
     [CascadingParameter] public IModalService Modal { get; set; }
@@ -79,11 +45,11 @@
 
     private void OpenCreateAppointmentModal()
     {
-        var options = new ModalOptions() 
-        { 
-            Size = ModalSize.Large,
-            HideCloseButton = false
-        };
+        var options = new ModalOptions()
+            {
+                Size = ModalSize.Large,
+                HideCloseButton = false
+            };
         Modal.Show<CreateAppointment>(Loc.GetString(LocalizationType.CreateAppointmentTab).Value, options);
     }
 
@@ -95,5 +61,21 @@
     private void ToggleNavMenu()
     {
         collapseNavMenu = !collapseNavMenu;
+        StateHasChanged();
+    }
+
+    private string GetLinkName(string name)
+    {
+        if (collapseNavMenu)
+        {
+            return "";
+        }
+        return name;
     }
 }
+
+<style>
+    .menu {
+        padding-right: 0px !important;
+    }
+</style>

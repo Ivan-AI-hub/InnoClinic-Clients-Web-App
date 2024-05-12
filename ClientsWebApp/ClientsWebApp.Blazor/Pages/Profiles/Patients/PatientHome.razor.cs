@@ -3,6 +3,8 @@ using Blazored.Modal.Services;
 using ClientsWebApp.Application.Abstraction;
 using ClientsWebApp.Application.Models.Patients;
 using ClientsWebApp.Blazor.Components;
+using ClientsWebApp.Domain;
+using ClientsWebApp.Domain.Appointments;
 using ClientsWebApp.Domain.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
@@ -16,6 +18,10 @@ namespace ClientsWebApp.Blazor.Pages.Profiles.Patients
         [Inject] AuthenticationStateHelper StateHelper { get; set; }
         [Inject] IPatientManager PatientManager { get; set; }
         [Inject] NavigationManager NavigationManager { get; set; }
+        [Inject] private IAppointmentManager _appointmentManager { get; set; }
+        private IEnumerable<Appointment>? Appointments { get; set; }
+        private Page Page { get; set; } = new Page(20, 1);
+
         private PatientDTO? Patient { get; set; }
         protected override async void OnInitialized()
         {
@@ -24,10 +30,19 @@ namespace ClientsWebApp.Blazor.Pages.Profiles.Patients
             {
                 Patient = await PatientManager.GetByEmailAsync(email, _cts.Token);
             }
-            catch (NotFoundException ex)
+            catch (NotFoundException)
             {
                 NavigateToCreatePage();
             }
+
+            var filtrationModel = new AppointmentFiltrationModel
+            {
+                PatientId = Patient.Id,
+                Status = null
+            };
+            Appointments = await _appointmentManager.GetPageAsync(Page, filtrationModel, _cts.Token);
+
+            IsLoading = false;
             StateHasChanged();
         }
 
@@ -41,7 +56,8 @@ namespace ClientsWebApp.Blazor.Pages.Profiles.Patients
         {
             var options = new ModalOptions() 
             {
-                Size = ModalSize.Large
+                Size = ModalSize.Large,
+                DisableBackgroundCancel = true,
             };
             Modal.Show<CreatePatient>("Create profile", options);
             //NavigationManager.NavigateTo("/patients/create");
@@ -56,6 +72,10 @@ namespace ClientsWebApp.Blazor.Pages.Profiles.Patients
             parameters.Add(nameof(EditPatient.OldPatient), Patient);
             Modal.Show<EditPatient>("Edit profile", parameters, options);
             //NavigationManager.NavigateTo("/patients/edit");
+        }
+        private void NavigateToHistoryPage()
+        {
+            NavigationManager.NavigateTo($"/patients/{Patient.Id}/appointmentsHistory");
         }
     }
 }

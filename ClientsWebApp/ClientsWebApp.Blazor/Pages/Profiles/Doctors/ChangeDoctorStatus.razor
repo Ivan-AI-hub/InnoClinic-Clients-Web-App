@@ -14,15 +14,22 @@
             <EditForm Model="@Data" OnValidSubmit="ChangeAsync" class="form">
                 <FormInputSelect @bind-Value="@Data.Status" Label=@_localizer.GetString(LocalizationType.Status) Id="status"
                          Values="@Statuses" GetLabelHandler="@(x => x)" GetValueHandler="@(x => x)" />
-                <input type="submit" class="btn btn-success w-100" value=@_localizer.GetString(LocalizationType.EditButtonValue) />
-                <input type="button" class="btn btn-danger w-100" value=@_localizer.GetString(LocalizationType.CancelButtonValue) @onclick="@StopChanging" />
+                <MudButton Color="Color.Success" ButtonType=ButtonType.Submit class="w-100 m-1">
+                    @_localizer.GetString(LocalizationType.EditButtonValue)
+                </MudButton>
+                <MudButton Color="Color.Error" class="w-100 m-1" OnClick="StopChanging">
+                    @_localizer.GetString(LocalizationType.CancelButtonValue)
+                </MudButton>
             </EditForm>
         }
         else
         {
-            <button type="button" class="btn-primary w-100" @onclick="StartChanging" >
-                <span class="oi oi-pencil" aria-hidden="true"></span>@_localizer.GetString(LocalizationType.EditStatusButtonValue)
-            </button>
+            <MudButton Color=Color.Primary class="w-100" @onclick="StartChanging">
+                <MudIcon Icon="@Icons.Material.Filled.Edit" />
+                <span class="ml-2">
+                    @_localizer.GetString(LocalizationType.EditStatusButtonValue)
+                </span>
+            </MudButton>
         }
     }
 </div>

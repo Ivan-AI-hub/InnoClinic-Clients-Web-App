@@ -1,0 +1,55 @@
+﻿@using ClientsWebApp.Application.Models.Enums
+<MudItem xs="7" Class="position-relative">
+    <div class=@(ConnectionState == WebRtcConnectionState.Connected? "w-100 position-relative" : "d-none position-relative")>
+        <MudPaper class="p-2 d-flex justify-content-center">
+            <video @ref=RemoteStream id="remoteVideo" autoplay playsinline class="w-100"></video>
+        </MudPaper>
+        @if (ShowRemotePoster)
+        {
+            <MudPaper class="p-2 d-flex justify-content-center position-absolute w-100 h-100 poster">
+                @if (RemotePoster is not null)
+                {
+                    <ImageFromByteArray Image="RemotePoster.Content" ImageType="RemotePoster.ContentType" IsSvgImage="false" height="200" />
+                }
+                else
+                {
+                    <Loading />
+                }
+            </MudPaper>
+        }
+    </div>
+    <div class=@(ConnectionState == WebRtcConnectionState.Connected? "w-25 localVideo" : "w-100 position-relative")>
+        <MudPaper class="p-2 d-flex justify-content-center">
+            <video @ref=LocalStream id="localVideo" autoplay playsinline class="w-100" ></video>
+        </MudPaper>
+        @if (ShowLocalPoster)
+        {
+            <MudPaper class="p-2 d-flex justify-content-center w-100 h-100 poster">
+                @if (LocalPoster is not null)
+                {
+                    <ImageFromByteArray Image="LocalPoster.Content" ImageType="LocalPoster.ContentType" IsSvgImage="false" />
+                }
+                else
+                {
+                    <Loading />
+                }
+            </MudPaper>
+        }
+    </div>
+</MudItem>
+
+
+
+<style>
+    .localVideo {
+        position: absolute;
+        right: 7px;
+        bottom: 7px;
+    }
+
+    .poster {
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+</style>

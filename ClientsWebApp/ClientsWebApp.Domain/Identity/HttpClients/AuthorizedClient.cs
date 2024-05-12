@@ -18,6 +18,7 @@ namespace ClientsWebApp.Domain.Identity.HttpClients
 
         public async Task<HttpClient> GetHttpClientAsync()
         {
+            _client.DefaultRequestHeaders.Add("ngrok-skip-browser-warning", "yes");
             await SetTokenAsync(_storageService);
             return _client;
         }

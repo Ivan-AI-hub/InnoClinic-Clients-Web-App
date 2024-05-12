@@ -1,9 +1,13 @@
 ﻿using Blazored.Modal;
 using Blazored.Modal.Services;
 using ClientsWebApp.Application.Abstraction;
+using ClientsWebApp.Application.Managers;
 using ClientsWebApp.Application.Models.Doctors;
 using ClientsWebApp.Blazor.Components;
+using ClientsWebApp.Domain;
+using ClientsWebApp.Domain.Appointments;
 using ClientsWebApp.Domain.Exceptions;
+using ClientsWebApp.Domain.Profiles.Patient;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 
@@ -17,6 +21,10 @@ namespace ClientsWebApp.Blazor.Pages.Profiles.Doctors
         [Inject] IDoctorManager DoctorManager { get; set; }
         [Inject] NavigationManager NavigationManager { get; set; }
         private DoctorDTO? Doctor { get; set; }
+        private bool IsLoading { get; set; } = true;
+        [Inject] private IAppointmentManager _appointmentManager { get; set; }
+        private IEnumerable<Appointment>? Appointments { get; set; }
+        private Page Page { get; set; } = new Page(20, 1);
         protected override async void OnInitialized()
         {
             var email = await StateHelper.GetEmailAsync();
@@ -24,13 +32,29 @@ namespace ClientsWebApp.Blazor.Pages.Profiles.Doctors
             {
                 Doctor = await DoctorManager.GetByEmailAsync(email, _cts.Token);
             }
-            catch (NotFoundException ex)
+            catch (NotFoundException)
             {
                 NavigateToCreatePage();
             }
+
+            await AppointmentsUpdateAsync();
+
+            IsLoading = false;
             StateHasChanged();
         }
+        private async Task AppointmentsUpdateAsync()
+        {
+            Appointments = null;
+            StateHasChanged();
+            var filtrationModel = new AppointmentFiltrationModel
+            {
+                DoctorId = Doctor.Id,
+                Status = null
+            };
 
+            Appointments = await _appointmentManager.GetPageAsync(Page, filtrationModel, _cts.Token);
+            StateHasChanged();
+        }
         private void NavigateToEditPage()
         {
             var options = new ModalOptions() 

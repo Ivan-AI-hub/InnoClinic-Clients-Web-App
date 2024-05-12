@@ -13,12 +13,12 @@ else
         <ValidationSummary />
         <div class="row">
             <div class="col p-2">
-                <FormInputText Label=@_localizer.GetString(LocalizationType.Complaints) Id="Name" @bind-Value="@Data.Complaints" />
-                <FormInputText Label=@_localizer.GetString(LocalizationType.Conclusions) Id="Name" @bind-Value="@Data.Conclusion" />
-                <FormInputText Label=@_localizer.GetString(LocalizationType.Recomendations) Id="Name" @bind-Value="@Data.Recomendations" />
+                <FormInputText AutoGrow Lines=3 MaxLines=5 Label=@_localizer.GetString(LocalizationType.Complaints) Id="Complaints" @bind-Value="@Data.Complaints" />
+                <FormInputText AutoGrow Lines=3 MaxLines=5 Label=@_localizer.GetString(LocalizationType.Conclusions) Id="Conclusion" @bind-Value="@Data.Conclusion" />
+                <FormInputText AutoGrow Lines=3 MaxLines=5 Label=@_localizer.GetString(LocalizationType.Recomendations) Id="Recomendations" @bind-Value="@Data.Recomendations" />
             </div>
         </div>
-        <Row>
+        <InnoRow>
             <Left>
                 <FormSubmitButton @ref="@SubmitButton" ButtonValue=@_localizer.GetString(LocalizationType.SaveChangesButtonValue) />
             </Left>
@@ -26,6 +26,6 @@ else
                 <DobleQuestionButton OnSuccessAnswerClicked="@Cancel" PreviewButtonValue=@_localizer.GetString(LocalizationType.DisagreeButtonValue)
                                  QuestionLabel=@_localizer.GetString(LocalizationType.DataWillNotChangesText) />
             </Right>
-        </Row>
+        </InnoRow>
     </EditForm>
 }

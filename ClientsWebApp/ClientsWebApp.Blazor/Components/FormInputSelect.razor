@@ -2,39 +2,43 @@
 @typeparam TBindValue
 @inherits InputSelect<TBindValue>
 
-<div class="form-group mb-1">
-    @if (Label != null)
-    {
-        <label for="@Id" class="form-label">@Label</label>
-    }
-    <InputSelect class="form-select" id="@Id" @bind-Value="CurrentValue" @attributes=AdditionalAttributes>
+<div class="form-group mb-3">
+    <MudSelect id="@Id" Label="@Label" T="TBindValue" Value="CurrentValue" ValueChanged="CurrentValueChange" @attributes=AdditionalAttributes>
         @if(HasDefaultOption)
         {
-            <option value="@DefaultValue">@DefaultValueLabel</option>
+            <MudSelectItem T="TBindValue" Value="@DefaultValue" D>@DefaultValueLabel</MudSelectItem>
         }
         @if (Values != null)
         {
             @foreach (var value in Values)
             {
-                <option value="@GetValueHandler(value)">@GetLabelHandler(value)</option>
+                <MudSelectItem T="TBindValue" Value="@GetValueHandler(value)">@GetLabelHandler(value)</MudSelectItem>
             }
         }
         else
         {
             <Loading />
         }
-    </InputSelect>
+    </MudSelect>
 </div>
 
 @code
 {
     [Parameter] public IEnumerable<TListValue> Values { get; set; } = new List<TListValue>();
-    [Parameter] public Func<TListValue, object> GetValueHandler { get; set; }
+    [Parameter] public Func<TListValue, TBindValue> GetValueHandler { get; set; }
     [Parameter] public Func<TListValue, object> GetLabelHandler { get; set; }
+    [Parameter] public EventCallback BindValueChanged { get; set; }
     [Parameter] public bool HasDefaultOption { get; set; } = false;
     [Parameter] public string DefaultValueLabel {get;set;} = "Default";
     [Parameter] public string Label { get; set; }
     [Parameter] public string Id { get; set; } = "defaultId";
 
     private TBindValue? DefaultValue => default(TBindValue);
+
+    private async Task CurrentValueChange(TBindValue bindValue)
+    {
+        CurrentValue = bindValue;
+        await BindValueChanged.InvokeAsync();
+        StateHasChanged();
+    }
 }
