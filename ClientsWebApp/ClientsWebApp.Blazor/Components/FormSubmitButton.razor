@@ -1,3 +1,5 @@
+@inject IStringLocalizer<Localization> Loc
+
 <div class="row mb-1">
     <div class="col text-center">
         @if (IsLoading)
@@ -5,7 +7,7 @@
 
             <MudButton Color="Color.Primary" Variant=Variant.Filled Disabled>
                 <span class="spinner-border spinner-border-sm mr-3" role="status" aria-hidden="true"></span>
-                Loading...
+                @Loc.GetString(LocalizationType.Loading)
             </MudButton>
         }
         else

@@ -5,12 +5,12 @@
     @if (Office != null)
     {
         <div class="col">
-            <div>Address: @Office.Address</div>
-            Status: <input type="checkbox" checked="@Office.Status" class="disabled" />
+            <div>@_localizer.GetString(LocalizationType.Address): @Office.Address</div>
+            @_localizer.GetString(LocalizationType.Status): <input type="checkbox" checked="@Office.Status" class="disabled" />
         </div>
         <div class="col">
-            <div>Office number: @Office.OfficeNumber</div>
-            <div>Phone number: @Office.PhoneNumber</div>
+            <div>@_localizer.GetString(LocalizationType.OfficeNumber): @Office.OfficeNumber</div>
+            <div>@_localizer.GetString(LocalizationType.PhoneNumber): @Office.PhoneNumber</div>
         </div>
         @if (ChildContent != null)
         {

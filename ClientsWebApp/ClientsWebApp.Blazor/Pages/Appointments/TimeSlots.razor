@@ -6,7 +6,7 @@
         <div class="col p-2">
             <FormInputDateOnly min="@DateTime.Now.ToString("yyyy-MM-dd")"
                             max="@DateTime.Now.AddDays(15).ToString("yyyy-MM-dd")" 
-                            Label="Date" Id="Date" 
+                            Label=@_localizer.GetString(LocalizationType.Date) Id="Date" 
                             @bind-Value="@Data.Date"
                             DateChanged=DateWasSelected />
         </div>

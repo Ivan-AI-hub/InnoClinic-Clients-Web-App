@@ -1,7 +1,7 @@
 ﻿@page "/doctors/home"
 @inherits CancellableComponent
 @attribute [Authorize(Roles = "Doctor")]
-@if (!IsLoading)
+@if (Doctor != null)
 {
     <div class="container p-5">
         <DoctorCard Doctor="@Doctor">
@@ -9,21 +9,21 @@
                 <MudButton Color="Color.Info" class="w-100 m-1" OnClick="NavigateToEditPage">
                     <MudIcon Icon="@Icons.Material.Filled.Edit" />
                     <span class="ml-2">
-                        Edit profile info
+                        @_localizer.GetString(LocalizationType.EditButtonValue)
                     </span>
                 </MudButton>
                 @*             <ChangeDoctorStatus Doctor="@Doctor" OnStatusChanged="@Reload" /> *@
                 <MudButton Color="Color.Info" class="w-100 m-1" OnClick="NavigateToSchedulePage">
                     <MudIcon Icon="@Icons.Material.Filled.Schedule" />
                     <span class="ml-2">
-                        Schedule
+                        @_localizer.GetString(LocalizationType.Schedule)
                     </span>
                 </MudButton>
             </div>
         </DoctorCard>
     </div>
     <div class="container p-5 text-center">
-        <MudText Typo="Typo.h6">Appointments schedule</MudText>
+        <MudText Typo="Typo.h6">@_localizer.GetString(LocalizationType.Schedule)</MudText>
 
         @if (Appointments != null)
         {

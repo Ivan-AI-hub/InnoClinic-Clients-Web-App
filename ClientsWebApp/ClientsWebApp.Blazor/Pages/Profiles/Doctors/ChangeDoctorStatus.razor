@@ -12,13 +12,13 @@
         @if (IsDateChanges)
         {
             <EditForm Model="@Data" OnValidSubmit="ChangeAsync" class="form">
-                <FormInputSelect @bind-Value="@Data.Status" Label="Status" Id="status"
+                <FormInputSelect @bind-Value="@Data.Status" Label=@_localizer.GetString(LocalizationType.Status) Id="status"
                          Values="@Statuses" GetLabelHandler="@(x => x)" GetValueHandler="@(x => x)" />
                 <MudButton Color="Color.Success" ButtonType=ButtonType.Submit class="w-100 m-1">
-                    Edit
+                    @_localizer.GetString(LocalizationType.EditButtonValue)
                 </MudButton>
                 <MudButton Color="Color.Error" class="w-100 m-1" OnClick="StopChanging">
-                    Cancel
+                    @_localizer.GetString(LocalizationType.CancelButtonValue)
                 </MudButton>
             </EditForm>
         }
@@ -27,7 +27,7 @@
             <MudButton Color=Color.Primary class="w-100" @onclick="StartChanging">
                 <MudIcon Icon="@Icons.Material.Filled.Edit" />
                 <span class="ml-2">
-                    Change status
+                    @_localizer.GetString(LocalizationType.EditStatusButtonValue)
                 </span>
             </MudButton>
         }

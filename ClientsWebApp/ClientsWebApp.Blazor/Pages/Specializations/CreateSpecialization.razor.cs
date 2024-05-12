@@ -3,6 +3,7 @@ using Blazored.Modal.Services;
 using ClientsWebApp.Application.Abstraction;
 using ClientsWebApp.Application.Models.Services;
 using ClientsWebApp.Application.Models.Specializations;
+using ClientsWebApp.Blazor.AppLocalization;
 using ClientsWebApp.Blazor.Components;
 using ClientsWebApp.Blazor.Pages.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -29,7 +30,7 @@ namespace ClientsWebApp.Blazor.Pages.Specializations
             var parameters = new ModalParameters();
             parameters.Add(nameof(CreateService.SpecializationId), default(Guid));
             parameters.Add(nameof(CreateService.OnModelCreated), EventCallback.Factory.Create<CreateServiceData>(this, StopCreateService));
-            _openedModal = Modal.Show<CreateService>("Create service", parameters);
+            _openedModal = Modal.Show<CreateService>(_localizer.GetString(LocalizationType.CreateServiceButtonValue), parameters);
         }
         private void StopCreateService(CreateServiceData model)
         {
@@ -49,7 +50,7 @@ namespace ClientsWebApp.Blazor.Pages.Specializations
             if (Services.Count == 0)
             {
                 SubmitButton?.StopLoading();
-                ErrorMessage = "Create at least 1 service!";
+                ErrorMessage = @_localizer.GetString(LocalizationType.CreateSpecializationError);
                 return;
             }
 

@@ -27,7 +27,6 @@ namespace ClientsWebApp.Blazor.Pages.Profiles.Doctors
         private Page Page { get; set; } = new Page(20, 1);
         protected override async void OnInitialized()
         {
-            IsLoading = true;
             var email = await StateHelper.GetEmailAsync();
             try
             {

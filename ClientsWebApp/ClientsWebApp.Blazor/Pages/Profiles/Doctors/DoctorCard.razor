@@ -1,6 +1,8 @@
-﻿@inject NavigationManager NavigationManager
+﻿@inject IStringLocalizer<Localization> _localizer;
 
-<MudPaper Square Elevation=3 Class="row p-5 mb-3">
+@inject NavigationManager NavigationManager
+
+<MudPaper Square Elevation=3 Class="row p-5 mb-3 align-items-center">
     @if (Doctor != null)
     {
         if (Doctor.Info.Photo != null)
@@ -17,18 +19,18 @@
             </div>
         }
         <div class="col">
-            <p>Full name: @Doctor.Info.GetFullName() @Doctor.Status</p>
-            <p>Specialization: @Doctor.Specialization</p>
-            <p>Experience: @Doctor.Experience</p>
+            <p>@_localizer.GetString(LocalizationType.FullName): @Doctor.Info.GetFullName() @Doctor.Status</p>
+            <p>@_localizer.GetString(LocalizationType.Specialization): @Doctor.Specialization</p>
+            <p>@_localizer.GetString(LocalizationType.Experience): @Doctor.Experience</p>
             <p>
-                Office:
+                @_localizer.GetString(LocalizationType.Office):
                 @if (Doctor.Office != null)
                 {
                     @Doctor.Office.Address
                 }
                 else
                 {
-                    <span>Have not office</span>
+                    <span>@_localizer.GetString(LocalizationType.OfficeNotFound)</span>
                 }
             </p>
             @if (IsIncludeDetailsButton)
@@ -36,7 +38,7 @@
                 <MudButton Color="Color.Info" Variant=Variant.Filled Class="w-100" OnClick="ToDoctorInfoPage">
                     <MudIcon Icon="@Icons.Material.Filled.People" />
                     <span class="ml-2">
-                        Details
+                        @_localizer.GetString(LocalizationType.Details)
                     </span>
                 </MudButton>
             }

@@ -8,13 +8,13 @@
 {
     <AuthorizeView Roles="Patient">
         <Authorized Context="editDate">
-            <p>That appointment have not resul yet:(</p>
+            <p>@_localizer.GetString(LocalizationType.AppointmentHasNoResultText)</p>
         </Authorized>
     </AuthorizeView>
     <AuthorizeView Roles="Doctor">
         <Authorized>
             <MudButton Color="Color.Success" class="w-100" OnClick="@NavigateToCreateResultPage">
-                Create appointment result
+                @_localizer.GetString(LocalizationType.CreateResultButtonValue)
             </MudButton>
         </Authorized>
     </AuthorizeView>
@@ -28,15 +28,15 @@ else
     else
     {
         <div>
-            <p>Complains @result.Complaints</p>
-            <p>Conclusion @result.Conclusion</p>
-            <p>Recomendations @result.Recomendations</p>
+            <p>@_localizer.GetString(LocalizationType.Complaints) @result.Complaints</p>
+            <p>@_localizer.GetString(LocalizationType.Conclusions) @result.Conclusion</p>
+            <p>@_localizer.GetString(LocalizationType.Recomendations) @result.Recomendations</p>
             @if (!HideEditButton)
             {
                 <AuthorizeView Roles="Doctor">
                     <Authorized>
                         <MudButton Color="Color.Info" class="w-100" OnClick="@NavigateToEditPage">
-                            Edit appointment result
+                            @_localizer.GetString(LocalizationType.EditButtonValue)
                         </MudButton>
                     </Authorized>
                 </AuthorizeView>

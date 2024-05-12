@@ -11,27 +11,27 @@
             <div class="col p-2">
                 @if (Appointment != null)
                 {
-                    <p>Date @Appointment.Date</p>
-                    <p>Patient @Appointment.Patient.GetFullName()</p>
-                    <p>Doctor @Appointment.Doctor.GetFullName()</p>
-                    <p>Service @Appointment.Service.Name</p>
+                    <p>@_localizer.GetString(LocalizationType.Date) @Appointment.Date</p>
+                    <p>@_localizer.GetString(LocalizationType.Patient) @Appointment.Patient.GetFullName()</p>
+                    <p>@_localizer.GetString(LocalizationType.Doctor) @Appointment.Doctor.GetFullName()</p>
+                    <p>@_localizer.GetString(LocalizationType.Service) @Appointment.Service.Name</p>
                 }
                 else
                 {
                     <Loading />
                 }
-                <FormInputText AutoGrow Lines=3 MaxLines=5 Label="Complaints" Id="Complaints" @bind-Value="@Data.Complaints" />
-                <FormInputText AutoGrow Lines=3 MaxLines=5 Label="Conclusion" Id="Conclusion" @bind-Value="@Data.Conclusion" />
-                <FormInputText AutoGrow Lines=3 MaxLines=5 Label="Recomendations" Id="Recomendations" @bind-Value="@Data.Recomendations" />
+                <FormInputText AutoGrow Lines=3 MaxLines=5 Label=@_localizer.GetString(LocalizationType.Complaints) Id="Complaints" @bind-Value="@Data.Complaints" />
+                <FormInputText AutoGrow Lines=3 MaxLines=5 Label=@_localizer.GetString(LocalizationType.Conclusions) Id="Conclusion" @bind-Value="@Data.Conclusion" />
+                <FormInputText AutoGrow Lines=3 MaxLines=5 Label=@_localizer.GetString(LocalizationType.Recomendations) Id="Recomendations" @bind-Value="@Data.Recomendations" />
             </div>
         </div>
         <InnoRow>
             <Left>
-                <FormSubmitButton @ref="@SubmitButton" ButtonValue="Save Changes" />
+                <FormSubmitButton @ref="@SubmitButton" ButtonValue=@_localizer.GetString(LocalizationType.SaveChangesButtonValue) />
             </Left>
             <Right>
-                <DobleQuestionButton OnSuccessAnswerClicked="@Cancel" PreviewButtonValue="Cancel"
-                                 QuestionLabel="Do you really want to cancel? Changes will not be saved." />
+                <DobleQuestionButton OnSuccessAnswerClicked="@Cancel" PreviewButtonValue=@_localizer.GetString(LocalizationType.DisagreeButtonValue)
+                                 QuestionLabel=@_localizer.GetString(LocalizationType.DataWillNotChangesText) />
             </Right>
         </InnoRow>
     </EditForm>

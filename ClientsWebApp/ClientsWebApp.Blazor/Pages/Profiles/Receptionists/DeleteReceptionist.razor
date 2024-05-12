@@ -5,9 +5,9 @@
 @inject AuthenticationStateHelper AuthHelper
 @inject NavigationManager Navigator
 
-<p>Do you really want to delete? Data will be lost.</p>
-<MudButton OnClick="DeleteAsync" Color="Color.Error" Variant="Variant.Filled">Yes</MudButton>
-<MudButton OnClick="Cancel" Color="Color.Primary" Variant="Variant.Filled">No</MudButton>
+<p>@_localizer.GetString(LocalizationType.AccountDeleteText)</p>
+<MudButton OnClick="DeleteAsync" Color="Color.Error" Variant="Variant.Filled">@_localizer.GetString(LocalizationType.AgreeButtonValue)</MudButton>
+<MudButton OnClick="Cancel" Color="Color.Primary" Variant="Variant.Filled">@_localizer.GetString(LocalizationType.DisagreeButtonValue)</MudButton>
 
 @code
 {

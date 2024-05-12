@@ -23,10 +23,8 @@ namespace ClientsWebApp.Blazor.Pages.Profiles.Patients
         private Page Page { get; set; } = new Page(20, 1);
 
         private PatientDTO? Patient { get; set; }
-        private bool IsLoading { get; set; } = true;
         protected override async void OnInitialized()
         {
-            IsLoading = true;
             var email = await StateHelper.GetEmailAsync();
             try
             {
@@ -44,7 +42,6 @@ namespace ClientsWebApp.Blazor.Pages.Profiles.Patients
             };
             Appointments = await _appointmentManager.GetPageAsync(Page, filtrationModel, _cts.Token);
 
-            IsLoading = false;
             StateHasChanged();
         }
 

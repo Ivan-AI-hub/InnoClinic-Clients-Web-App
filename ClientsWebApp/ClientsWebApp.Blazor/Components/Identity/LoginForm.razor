@@ -5,8 +5,8 @@
     <FluentValidationValidator DisableAssemblyScanning=@true />
     <ValidationSummary />
     <MudPaper Class="pa-16 ma-2" Outlined="true" Square="true" Elevation="3">
-        <FormInputText Label="Email" Id="email" @bind-Value="@LoginData.Email" />
-        <FormInputText Label="Password" Id="password" type="password" @bind-Value="@LoginData.Password" />
-        <FormSubmitButton @ref="@SubmitButton" ButtonValue="Sign in" />
+        <FormInputText Label="@_localizer.GetString(LocalizationType.Email)" Id="email" @bind-Value="@LoginData.Email" />
+        <FormInputText Label="@_localizer.GetString(LocalizationType.Password)" Id="password" type="password" @bind-Value="@LoginData.Password" />
+        <FormSubmitButton @ref="@SubmitButton" ButtonValue="@_localizer.GetString(LocalizationType.SignInTitle)" />
     </MudPaper>
 </EditForm>

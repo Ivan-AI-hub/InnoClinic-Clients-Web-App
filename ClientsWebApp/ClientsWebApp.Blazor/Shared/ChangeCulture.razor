@@ -1,0 +1,32 @@
+﻿@inject IStorageService Storage;
+@inject IStringLocalizer<Localization> Loc
+@inject NavigationManager NavManager;
+
+<strong>@Loc.GetString(LocalizationType.CultureMessage):</strong>
+<select class="form-control" @bind="Culture" style="width:300px; margin-left:10px;">
+    @foreach (var culture in cultures)
+    {
+        <option value="@culture">@culture.DisplayName</option>
+    }
+</select>
+
+@code {
+    CultureInfo[] cultures = new[]
+    {
+        new CultureInfo("en-US"),
+        new CultureInfo("ru-RU")
+    };
+    CultureInfo Culture
+    {
+        get => CultureInfo.CurrentCulture;
+        set
+        {
+            if (CultureInfo.CurrentCulture != value)
+            {
+                Storage.SetStringAsync("Culture", value.Name);
+                NavManager.NavigateTo(NavManager.Uri, forceLoad: true);
+            }
+        }
+    }
+}
+

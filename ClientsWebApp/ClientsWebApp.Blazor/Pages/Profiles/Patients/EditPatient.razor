@@ -12,23 +12,23 @@
         <ValidationSummary />
         <div class="row">
             <div class="col p-2">
-                <FormInputText Label="FirstName" Id="firstName" @bind-Value="@Data.FirstName" />
-                <FormInputText Label="LastName" Id="lastName" @bind-Value="@Data.LastName" />
-                <FormInputText Label="MiddleName" Id="middleName" @bind-Value="@Data.MiddleName" />
+                <FormInputText Label=@_localizer.GetString(LocalizationType.FirstName) Id="firstName" @bind-Value="@Data.FirstName" />
+                <FormInputText Label=@_localizer.GetString(LocalizationType.LastName) Id="lastName" @bind-Value="@Data.LastName" />
+                <FormInputText Label=@_localizer.GetString(LocalizationType.MiddleName) Id="middleName" @bind-Value="@Data.MiddleName" />
             </div>
             <div class="col p-2">
-                <FormInputText Label="Phone number" Id="phoneNumber" @bind-Value="@Data.PhoneNumber" />
-                <FormInputDate Label="BirthDay" Id="birthDay" @bind-Value="@Data.BirthDay" />
-                <SelectImage Title="Photo" @bind-Value="@Data.Picture" SelectedImageData="@_image?.Content" />
+                <FormInputText Label=@_localizer.GetString(LocalizationType.PhoneNumber) Id="phoneNumber" @bind-Value="@Data.PhoneNumber" />
+                <FormInputDate Label=@_localizer.GetString(LocalizationType.BirthDay) Id="birthDay" @bind-Value="@Data.BirthDay" />
+                <SelectImage Title=@_localizer.GetString(LocalizationType.Photo) @bind-Value="@Data.Picture" SelectedImageData="@_image?.Content" />
             </div>
         </div>
         <InnoRow>
             <Left>
-                <FormSubmitButton @ref="@SubmitButton" ButtonValue="Save Changes" />
+                <FormSubmitButton @ref="@SubmitButton" ButtonValue=@_localizer.GetString(LocalizationType.SaveChangesButtonValue) />
             </Left>
             <Right>
-                <DobleQuestionButton OnSuccessAnswerClicked="@Cancel" PreviewButtonValue="Cancel"
-                                 QuestionLabel="Do you really want to cancel? Changes will not be saved." />
+                <DobleQuestionButton OnSuccessAnswerClicked="@Cancel" PreviewButtonValue=@_localizer.GetString(LocalizationType.DisagreeButtonValue)
+                                 QuestionLabel=@_localizer.GetString(LocalizationType.DataWillNotChangesText) />
             </Right>
         </InnoRow>
     </EditForm>

@@ -13,29 +13,29 @@
     @if (Services != null)
     {
         <div class="container p-5 text-center">
-            <h2>Provided Services</h2>
+            <h2>@_localizer.GetString(LocalizationType.ProvidedServicesText)</h2>
             @if (Services.Count() == 0)
             {
-                <h1>Services was not found (((( </h1>
+                <h1>@_localizer.GetString(LocalizationType.ServicesNotFoundText)</h1>
             }
             else
             {
                 <MudDataGrid Items="@Services" RowClass="big-cell" Filterable="true" QuickFilter="@_quickFilter">
                     <ToolBarContent>
-                        <MudTextField @bind-Value="_searchString" Placeholder="Search" Adornment="Adornment.Start" Immediate="true"
+                        <MudTextField @bind-Value="_searchString" Placeholder=@_localizer.GetString(LocalizationType.SearchButtonValue) Adornment="Adornment.Start" Immediate="true"
                                       AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
                     </ToolBarContent>
                     <Columns>
-                        <PropertyColumn Property="x => x.Name" Title="Name" />
-                        <PropertyColumn Property="x => x.Price" Title="Price" />
-                        <PropertyColumn Property="x => x.Category == null ? string.Empty : x.Category.Name" Title="Category" />
-                        <TemplateColumn StickyRight="true" Title="Appointment" Filterable="false" Sortable="false" Hidden=@(_role is null? false : _role != "Patient")>
+                        <PropertyColumn Property="x => x.Name" Title=@_localizer.GetString(LocalizationType.Name) />
+                        <PropertyColumn Property="x => x.Price" Title=@_localizer.GetString(LocalizationType.Price) />
+                        <PropertyColumn Property="x => x.Category == null ? string.Empty : _localizer.GetString(x.Category.Name)" Title=@_localizer.GetString(LocalizationType.Category) />
+                        <TemplateColumn StickyRight="true" Title=@_localizer.GetString(LocalizationType.AppointmentsTab) Filterable="false" Sortable="false" Hidden=@(_role is null? false : _role != "Patient")>
                             <CellTemplate>
                                 <div class="d-flex justify-content-center">
                                     <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick=@(() => ToCreateAppointmentPage(context.Item.Id, context.Item.Category.Name))>
                                         <MudIcon Icon="@Icons.Material.Filled.DocumentScanner" />
                                         <span class="ml-2">
-                                            Make appointment
+                                            @_localizer.GetString(LocalizationType.MakeAppointmentWithDoctorText)
                                         </span>
                                     </MudButton>
                                 </div>

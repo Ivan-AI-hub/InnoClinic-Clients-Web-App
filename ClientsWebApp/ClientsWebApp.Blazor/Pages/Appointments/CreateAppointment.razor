@@ -23,25 +23,30 @@ else
                 }
                 else
                 {
-                    <FormInputSelect HasDefaultOption="@true" DefaultValueLabel="Nothing" Label="Office" Id="office"
+                    <FormInputSelect HasDefaultOption="@true" DefaultValueLabel=@_localizer.GetString(LocalizationType.Nothing)  Label=@_localizer.GetString(LocalizationType.Office) Id="office"
                     @bind-Value="Data.OfficeId" Values="Offices" GetLabelHandler="@(x => x.Address)"
                         GetValueHandler="@(x => x.Id)" BindValueChanged="OfficeWasSelected" />
 
-                    <FormInputSelect HasDefaultOption="@true" DefaultValueLabel="Nothing" Label="Specialization"
+                    <FormInputSelect HasDefaultOption="@true"
+                        DefaultValueLabel=@_localizer.GetString(LocalizationType.Nothing)
+                        Label=@_localizer.GetString(LocalizationType.Specialization)
                         Id="specialization" @bind-Value="Data.Specialization" Values="Specializations"
                         GetLabelHandler="@(x => x.Name)" GetValueHandler="@(x => x.Name)"
                                      BindValueChanged="SpecializationWasSelected" />
 
-                    <FormInputSelect HasDefaultOption="@true" DefaultValueLabel="Nothing" Label="Doctor" Id="doctors"
+                    <FormInputSelect HasDefaultOption="@true" DefaultValueLabel=@_localizer.GetString(LocalizationType.Nothing)  Label=@_localizer.GetString(LocalizationType.Doctor) Id="doctors"
                     @bind-Value="Data.DoctorId" Values="Doctors" GetLabelHandler="@(x => x.Info.GetFullName())"
                                      GetValueHandler="@(x => x.Id)" BindValueChanged="DoctorWasSelected" />
 
-                    <FormInputSelect Label="Category" Id="doctors"
+                    <FormInputSelect Label=@_localizer.GetString(LocalizationType.Category) Id="doctors"
                     @bind-Value="Data.Category" Values="Categories" GetLabelHandler="@(x => x)" GetValueHandler="@(x => x)"
                                      BindValueChanged="CategoryWasSelected" />
 
-                    <FormInputSelect HasDefaultOption="@true" DefaultValueLabel="Nothing" Label="Service" Id="doctors"
-                    @bind-Value="Data.ServiceId" Values="Services" GetLabelHandler="@(x => x.Name)"
+                    <FormInputSelect HasDefaultOption="@true" 
+                        DefaultValueLabel=@_localizer.GetString(LocalizationType.Nothing) 
+                        Label=@_localizer.GetString(LocalizationType.Service)
+                        Id="services"
+                        @bind-Value="Data.ServiceId" Values="Services" GetLabelHandler="@(x => x.Name)"
                         GetValueHandler="@(x => x.Id)" />
                 }
             </div>
@@ -50,10 +55,10 @@ else
         {
             <InnoRow>
                 <Left>
-                    <input type="button" class="btn btn-info m-3" value="Back to value" @onclick="@StopSelectDateAndTime" />
+                    <input type="button" class="btn btn-info m-3" value=@_localizer.GetString(LocalizationType.BackToValuesButtonValue) @onclick="@StopSelectDateAndTime" />
                 </Left>
                 <Right>
-                    <FormSubmitButton @ref="@SubmitButton" ButtonValue="Create Appointment" />
+                    <FormSubmitButton @ref="@SubmitButton" ButtonValue=@_localizer.GetString(LocalizationType.CreateAppointmentButtonValue) />
                 </Right>
             </InnoRow>
         }
@@ -61,11 +66,11 @@ else
         {
             if(Data.ServiceId != default && Data.DoctorId != default)
             {
-                <input type="button" class="btn btn-info m-3" value="Select date and time" @onclick="@StartSelectDateAndTime" />
+                <input type="button" class="btn btn-info m-3" value=@_localizer.GetString(LocalizationType.SelectTimeSlotButtonValue) @onclick="@StartSelectDateAndTime" />
             }
             else
             {
-                <input type="button" class="btn btn-info m-3 disabled" value="Select date and time" />
+                <input type="button" class="btn btn-info m-3 disabled" value=@_localizer.GetString(LocalizationType.SelectTimeSlotButtonValue) />
             }
         }
     </EditForm>

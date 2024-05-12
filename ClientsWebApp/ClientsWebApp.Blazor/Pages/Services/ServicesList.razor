@@ -8,13 +8,13 @@
             @if (category == Data.CategoryName)
             {
                 <MudButton Color="Color.Success" Variant="Variant.Filled">
-                    @category
+                    @_localizer.GetString(category)
                 </MudButton>
             }
             else
             {
                 <MudButton Color="Color.Info" Variant="Variant.Filled" OnClick="@(() => ServicesUpdateAsync(category))">
-                    @category
+                     @_localizer.GetString(@category)
                 </MudButton>
             }
         </div>
@@ -26,7 +26,7 @@
     {
         @if (Services.Count() == 0)
         {
-            <h1>Services was not found (((( </h1>
+            <h1>@_localizer.GetString(LocalizationType.ServicesNotFoundText)</h1>
         }
         else
         {

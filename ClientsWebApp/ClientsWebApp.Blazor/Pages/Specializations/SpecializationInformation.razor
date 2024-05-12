@@ -11,13 +11,13 @@
             <MudText Typo=Typo.h5 class="d-flex justify-content-center mb-3">@Specialization.Name</MudText>
 
             <div class="col">
-                <MudCheckBox Color="Color.Primary" Label="Active" @bind-Value="Specialization.IsActive" @oninput="@CheckBoxChanged" />
+                <MudCheckBox Color="Color.Primary" Label=@_localizer.GetString(LocalizationType.Status) @bind-Value="Specialization.IsActive" @oninput="@CheckBoxChanged" />
             </div>
             <div class="col">
                 <MudButton Color="Color.Info" Variant=Variant.Filled OnClick="NavigateToEditPage">
                     <MudIcon Icon="@Icons.Material.Filled.Edit" />
                     <span class="ml-2">
-                        Edit specialization info
+                        @_localizer.GetString(LocalizationType.EditButtonValue)
                     </span>
                 </MudButton>
             </div>
@@ -60,6 +60,6 @@
         var parameters = new ModalParameters();
         parameters.Add(nameof(EditSpecialization.SpecializationId), SpecializationId);
         parameters.Add(nameof(EditSpecialization.OldSpecialization), Specialization);
-        Modal.Show<EditSpecialization>("Edit specialization", parameters, options);
+        Modal.Show<EditSpecialization>(@_localizer.GetString(LocalizationType.EditSpecializationButtonValue), parameters, options);
     }
 }

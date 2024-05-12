@@ -1,4 +1,5 @@
-﻿
+﻿@inject IStringLocalizer<Localization> Loc
+
 <MudPaper Width=@(collapseNavMenu? "50px" : "250px") Height="100vh" Class="pt-2" Elevation="0">
     @if (!collapseNavMenu)
     {
@@ -17,21 +18,21 @@
     }
     <MudDivider Class="my-2" DividerType="DividerType.FullWidth" />
     <MudNavMenu Class="mud-width-full" Color="Color.Primary">
-        <MudNavLink Href="/" Icon="@Icons.Material.Filled.Home">@GetLinkName("Home")</MudNavLink>
+        <MudNavLink Href="/" Icon="@Icons.Material.Filled.Home">@GetLinkName(Loc.GetString(LocalizationType.HomeTab))</MudNavLink>
         <AuthorizeView Roles="Patient">
             <Authorized>
-                <MudNavLink Icon="@Icons.Material.Filled.DocumentScanner" OnClick="OpenCreateAppointmentModal">@GetLinkName("Create appointment")</MudNavLink>
+                <MudNavLink Icon="@Icons.Material.Filled.DocumentScanner" OnClick="OpenCreateAppointmentModal">@GetLinkName(@Loc.GetString(LocalizationType.CreateAppointmentTab))</MudNavLink>
             </Authorized>
         </AuthorizeView>
-        <MudNavLink Href="/doctors" Icon="@Icons.Material.Filled.People">@GetLinkName("Doctors")</MudNavLink>
+        <MudNavLink Href="/doctors" Icon="@Icons.Material.Filled.People">@GetLinkName(@Loc.GetString(LocalizationType.DoctorsTab))</MudNavLink>
         <AuthorizeView Roles="Admin">
             <Authorized>
-                <MudNavLink Href="/services" Icon="@Icons.Material.Filled.MedicalServices">@GetLinkName("Services")</MudNavLink>
-                <MudNavLink Href="/receptionists" Icon="@Icons.Material.Filled.People">@GetLinkName("Receptionists")</MudNavLink>
-                <MudNavLink Href="/patients" Icon="@Icons.Material.Filled.People">@GetLinkName("Patients")</MudNavLink>
-                <MudNavLink Href="/appointments" Icon="@Icons.Material.Filled.List">@GetLinkName("Appointments")</MudNavLink>
-                <MudNavLink Href="/offices" Icon="@Icons.Material.Filled.LocalPostOffice">@GetLinkName("Offices")</MudNavLink>
-                <MudNavLink Href="/specializations" Icon="@Icons.Material.Filled.List">@GetLinkName("Specializations")</MudNavLink>
+                <MudNavLink Href="/services" Icon="@Icons.Material.Filled.MedicalServices">@GetLinkName(Loc.GetString(LocalizationType.ServicesTab))</MudNavLink>
+                <MudNavLink Href="/receptionists" Icon="@Icons.Material.Filled.People">@GetLinkName(Loc.GetString(LocalizationType.ReceptionistsTab))</MudNavLink>
+                <MudNavLink Href="/patients" Icon="@Icons.Material.Filled.People">@GetLinkName(Loc.GetString(LocalizationType.PatientsTab))</MudNavLink>
+                <MudNavLink Href="/appointments" Icon="@Icons.Material.Filled.List">@GetLinkName(Loc.GetString(LocalizationType.AppointmentsTab))</MudNavLink>
+                <MudNavLink Href="/offices" Icon="@Icons.Material.Filled.LocalPostOffice">@GetLinkName(Loc.GetString(LocalizationType.OfficesTab))</MudNavLink>
+                <MudNavLink Href="/specializations" Icon="@Icons.Material.Filled.List">@GetLinkName(Loc.GetString(LocalizationType.SpecializationsTab))</MudNavLink>
             </Authorized>
         </AuthorizeView>
     </MudNavMenu>
@@ -50,7 +51,7 @@
                 Size = ModalSize.Large,
                 HideCloseButton = false
             };
-        Modal.Show<CreateAppointment>("Create appointment", options);
+        Modal.Show<CreateAppointment>(Loc.GetString(LocalizationType.CreateAppointmentTab).Value, options);
     }
 
     private void OpenRegisterModal()

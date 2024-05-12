@@ -1,22 +1,25 @@
+@inject IStringLocalizer<Localization> Loc
+
+
 <InnoRow>
     <Left>
         @if (@Status != PageStatus.FirstPage && Status != PageStatus.OnlyPage)
         {
-            <MudButton Color="Color.Info" Variant="Variant.Filled" @onclick="PreviousPageClick">←Previous page</MudButton>
+            <MudButton Color="Color.Info" Variant="Variant.Filled" @onclick="PreviousPageClick">@Loc.GetString(LocalizationType.PrevPageButtonValue)</MudButton>
         }
         else
         {
-            <MudButton Color="Color.Info" Variant="Variant.Filled" Disabled>←Previous page</MudButton>
+            <MudButton Color="Color.Info" Variant="Variant.Filled" Disabled>@Loc.GetString(LocalizationType.PrevPageButtonValue)</MudButton>
         }
     </Left>
     <Right>
         @if (@Status != PageStatus.LastPage && @Status != PageStatus.OnlyPage)
         {
-            <MudButton Color="Color.Info" Variant="Variant.Filled" @onclick="NextPageClick">Next page→</MudButton>
+            <MudButton Color="Color.Info" Variant="Variant.Filled" @onclick="NextPageClick">@Loc.GetString(LocalizationType.NextPageButtonValue)</MudButton>
         }
         else
         {
-            <MudButton Color="Color.Info" Variant="Variant.Filled" Disabled>Next page→</MudButton>
+            <MudButton Color="Color.Info" Variant="Variant.Filled" Disabled>@Loc.GetString(LocalizationType.NextPageButtonValue)</MudButton>
         }
     </Right>
 </InnoRow>

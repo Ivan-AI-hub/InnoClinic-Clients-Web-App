@@ -7,9 +7,9 @@
     @* <FluentValidationValidator DisableAssemblyScanning=@true /> *@
     <ValidationSummary />
     <div class="row">
-            <FormInputText Label="Email" Id="email" @bind-Value="@Data.Email" />
-            <FormInputText Label="Password" Id="password" type="password" @bind-Value="@Data.Password" />
-            <FormInputText Label="Repeat entered password" Id="rePassword" type="password" @bind-Value="@Data.RePassword" />
+        <FormInputText Label=@_localizer.GetString(LocalizationType.Email) Id="email" @bind-Value="@Data.Email" />
+        <FormInputText Label=@_localizer.GetString(LocalizationType.Password) Id="password" type="password" @bind-Value="@Data.Password" />
+            <FormInputText Label=@_localizer.GetString(LocalizationType.RePassword) Id="rePassword" type="password" @bind-Value="@Data.RePassword" />
     </div>
-    <FormSubmitButton @ref="@SubmitButton" ButtonValue="Sign up" />
+    <FormSubmitButton @ref="@SubmitButton" ButtonValue=@_localizer.GetString(LocalizationType.SignUpTitle) />
 </EditForm>

@@ -23,7 +23,7 @@ namespace ClientsWebApp.Application.Validators
                 .MaximumLength(15);
 
             RuleFor(x => x.Password)
-                .Matches(x => x.RePassword)
+                .Matches(x => x.RePassword ?? "")
                 .WithMessage("The passwords you’ve entered don’t coincide");
 
         }

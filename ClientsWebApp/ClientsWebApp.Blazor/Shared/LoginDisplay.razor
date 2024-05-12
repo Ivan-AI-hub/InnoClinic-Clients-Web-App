@@ -1,15 +1,16 @@
 ﻿@using ClientsWebApp.Blazor.Components.Identity
 @inject NavigationManager Navigation
+@inject IStringLocalizer<Localization> Loc
 
 <AuthorizeView>
     <Authorized>
-        Welcome!
-        <a href="/logout">Sign out</a>
+        @Loc.GetString(LocalizationType.Greeting)
+        <a href="/logout">@Loc.GetString(LocalizationType.SignOutTitle)</a>
     </Authorized>
     <NotAuthorized>
 
-        <MudButton Color="Color.Primary" @onclick="OpenLoginModal">Sign in</MudButton>
-        <MudButton Color="Color.Primary" @onclick="OpenRegisterModal">Sign up</MudButton>
+        <MudButton Color="Color.Primary" @onclick="OpenLoginModal">@Loc.GetString(LocalizationType.SignInTitle)</MudButton>
+        <MudButton Color="Color.Primary" @onclick="OpenRegisterModal">@Loc.GetString(LocalizationType.SignUpTitle)</MudButton>
     </NotAuthorized>
 </AuthorizeView>
 
@@ -23,7 +24,7 @@
                 HideCloseButton = false,
                 DisableBackgroundCancel = false
             };
-        Modal.Show<LoginForm>("Sign in", options);
+        Modal.Show<LoginForm>(@Loc.GetString(LocalizationType.SignInTitle), options);
     }
 
     private void OpenRegisterModal()
@@ -33,7 +34,7 @@
                 HideCloseButton = false,
                 DisableBackgroundCancel = false
             };
-        Modal.Show<Register>("Sign up", options);
+        Modal.Show<Register>(@Loc.GetString(LocalizationType.SignUpTitle), options);
     }
 }
 

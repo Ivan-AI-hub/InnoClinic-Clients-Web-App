@@ -8,11 +8,11 @@
                 <div class="container">
                     <div class="col ">
 
-                        <FormInputText Label="FirstName" Id="firstName" @bind-Value="FiltrationModel.FirstName" />
-                        <FormInputText Label="LastName" Id="lastName" @bind-Value="FiltrationModel.LastName" />
-                        <FormInputText Label="MiddleName" Id="middleName" @bind-Value="FiltrationModel.MiddleName" />
+                        <FormInputText Label=@_localizer.GetString(LocalizationType.FirstName) Id="firstName" @bind-Value="FiltrationModel.FirstName" />
+                        <FormInputText Label=@_localizer.GetString(LocalizationType.LastName) Id="lastName" @bind-Value="FiltrationModel.LastName" />
+                        <FormInputText Label=@_localizer.GetString(LocalizationType.MiddleName) Id="middleName" @bind-Value="FiltrationModel.MiddleName" />
                     </div>
-                    <FormSubmitButton @ref="@SubmitButton" ButtonValue="Search" />
+                    <FormSubmitButton @ref="@SubmitButton" ButtonValue=@_localizer.GetString(LocalizationType.SearchButtonValue) />
                 </div>
             </EditForm>
         </MudPaper>

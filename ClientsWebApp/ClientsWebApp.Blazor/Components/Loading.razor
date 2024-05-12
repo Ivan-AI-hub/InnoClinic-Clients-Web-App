@@ -1,8 +1,11 @@
-﻿﻿<div class=@($"text-center {Class}")>
+﻿
+@inject IStringLocalizer<Localization> Loc
+﻿
+﻿<div class=@($"text-center {Class}")>
     <div>
         <p>
             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-            Loading...
+            @Loc.GetString(LocalizationType.Loading)
         </p>
     </div>
 </div>

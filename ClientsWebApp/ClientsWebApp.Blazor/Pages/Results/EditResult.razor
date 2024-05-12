@@ -13,18 +13,18 @@ else
         <ValidationSummary />
         <div class="row">
             <div class="col p-2">
-                <FormInputText AutoGrow Lines=3 MaxLines=5 Label="Complaints" Id="Complaints" @bind-Value="@Data.Complaints" />
-                <FormInputText AutoGrow Lines=3 MaxLines=5 Label="Conclusion" Id="Conclusion" @bind-Value="@Data.Conclusion" />
-                <FormInputText AutoGrow Lines=3 MaxLines=5 Label="Recomendations" Id="Recomendations" @bind-Value="@Data.Recomendations" />
+                <FormInputText AutoGrow Lines=3 MaxLines=5 Label=@_localizer.GetString(LocalizationType.Complaints) Id="Complaints" @bind-Value="@Data.Complaints" />
+                <FormInputText AutoGrow Lines=3 MaxLines=5 Label=@_localizer.GetString(LocalizationType.Conclusions) Id="Conclusion" @bind-Value="@Data.Conclusion" />
+                <FormInputText AutoGrow Lines=3 MaxLines=5 Label=@_localizer.GetString(LocalizationType.Recomendations) Id="Recomendations" @bind-Value="@Data.Recomendations" />
             </div>
         </div>
         <InnoRow>
             <Left>
-                <FormSubmitButton @ref="@SubmitButton" ButtonValue="Save Changes" />
+                <FormSubmitButton @ref="@SubmitButton" ButtonValue=@_localizer.GetString(LocalizationType.SaveChangesButtonValue) />
             </Left>
             <Right>
-                <DobleQuestionButton OnSuccessAnswerClicked="@Cancel" PreviewButtonValue="Cancel"
-                                 QuestionLabel="Do you really want to cancel? Changes will not be saved." />
+                <DobleQuestionButton OnSuccessAnswerClicked="@Cancel" PreviewButtonValue=@_localizer.GetString(LocalizationType.DisagreeButtonValue)
+                                 QuestionLabel=@_localizer.GetString(LocalizationType.DataWillNotChangesText) />
             </Right>
         </InnoRow>
     </EditForm>

@@ -2,7 +2,7 @@
 @attribute [Authorize(Roles = "Patient")]
 @inherits CancellableComponent
 
-@if (!IsLoading)
+@if (Patient != null)
 {
     <div class="container p-5">
         <PatientCard Patient="@Patient">
@@ -10,20 +10,20 @@
                 <MudButton Color="Color.Info" Variant=Variant.Filled Class="w-100" OnClick="NavigateToEditPage">
                     <MudIcon Icon="@Icons.Material.Filled.Edit" />
                     <span class="ml-2">
-                        Edit profile info
+                        @_localizer.GetString(LocalizationType.EditButtonValue)
                     </span>
                 </MudButton>
                 <MudButton Color="Color.Error" Variant=Variant.Filled Class="w-100" OnClick="NavigateToDeletePage">
                     <MudIcon Icon="@Icons.Material.Filled.Delete" />
                     <span class="ml-2">
-                        Delete profile
+                        @_localizer.GetString(LocalizationType.DeleteButtonValue)
                     </span>
                 </MudButton>
             </div>
         </PatientCard>
     </div>
     <div class="container p-5 text-center">
-        <MudText Typo="Typo.h6">Appointments schedule</MudText>
+        <MudText Typo="Typo.h6">@_localizer.GetString(LocalizationType.Schedule)</MudText>
         @if (Appointments != null)
         {
             @foreach (var appointment in Appointments)
@@ -33,7 +33,7 @@
 
             @if (Appointments.Count() >= Page.Size)
             {
-                <MudButton Color="Color.Info" @onclick="NavigateToHistoryPage">View all history</MudButton>
+                <MudButton Color="Color.Info" @onclick="NavigateToHistoryPage">@_localizer.GetString(LocalizationType.ViewHistoryButtonText)</MudButton>
             }
         }
         else

@@ -11,25 +11,25 @@
         <ValidationSummary />
         <div class="row">
             <div class="col p-2">
-                <FormInputText Label="City" Id="city" @bind-Value="@Data.City" />
-                <FormInputText Label="Street" Id="street" @bind-Value="@Data.Street" />
-                <FormInputNumber Label="House number" Id="houseNumber" @bind-Value="@Data.HouseNumber" />
-                <FormInputNumber Label="Office number" Id="officeNumber" @bind-Value="@Data.OfficeNumber" />
+                <FormInputText Label=@_localizer.GetString(LocalizationType.City) Id="city" @bind-Value="@Data.City" />
+                <FormInputText Label=@_localizer.GetString(LocalizationType.Street) Id="street" @bind-Value="@Data.Street" />
+                <FormInputNumber Label=@_localizer.GetString(LocalizationType.HouseNumber) Id="houseNumber" @bind-Value="@Data.HouseNumber" />
+                <FormInputNumber Label=@_localizer.GetString(LocalizationType.OfficeNumber) Id="officeNumber" @bind-Value="@Data.OfficeNumber" />
             </div>
             <div class="col p-2">
-                <FormInputText Label="Phone number" Id="phoneNumber" @bind-Value="@Data.PhoneNumber" />
-                <FormInputCheckBox Label="Status" Id="status" @bind-Value="@Data.Status" />
-                <SelectImage Title="Photo" @bind-Value="@Data.Picture" SelectedImageData="_image?.Content" />
+                <FormInputText Label=@_localizer.GetString(LocalizationType.PhoneNumber) Id="phoneNumber" @bind-Value="@Data.PhoneNumber" />
+                <FormInputCheckBox Label=@_localizer.GetString(LocalizationType.Status) Id="status" @bind-Value="@Data.Status" />
+                <SelectImage Title=@_localizer.GetString(LocalizationType.Photo) @bind-Value="@Data.Picture" SelectedImageData="_image?.Content" />
             </div>
         </div>
         <InnoRow>
             <Left>
-                <FormSubmitButton @ref="@SubmitButton" ButtonValue="Save Changes" />
+                <FormSubmitButton @ref="@SubmitButton" ButtonValue=@_localizer.GetString(LocalizationType.SaveChangesButtonValue) />
             </Left>
             <Right>
                 <div class="col">
-                    <DobleQuestionButton OnSuccessAnswerClicked="@Cancel" PreviewButtonValue="Cancel"
-                        QuestionLabel="Do you really want to cancel? Changes will not be saved." />
+                    <DobleQuestionButton OnSuccessAnswerClicked="@Cancel" PreviewButtonValue=@_localizer.GetString(LocalizationType.DisagreeButtonValue)
+                                     QuestionLabel=@_localizer.GetString(LocalizationType.DataWillNotChangesText) />
                 </div>
             </Right>
         </InnoRow>

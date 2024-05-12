@@ -9,7 +9,7 @@
                 <div class="col ">
                     <FormInputDateOnly Label="Date" Id="firstName" @bind-Value="FiltrationModel.Date"  />
                 </div>
-                <FormSubmitButton @ref="@SubmitButton" ButtonValue="Search" />
+                <FormSubmitButton @ref="@SubmitButton" ButtonValue=@_localizer.GetString(LocalizationType.SearchButtonValue) />
             </div>
         </EditForm>
     </div>

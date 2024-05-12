@@ -17,16 +17,16 @@
             </div>
         }
         <div class="col">
-            <p>Full name: @Receptionist.Info.GetFullName()</p>
+            <p>@_localizer.GetString(LocalizationType.FullName): @Receptionist.Info.GetFullName()</p>
             <p>
-                Office:
+                @_localizer.GetString(LocalizationType.Office):
                 @if (Receptionist.Office != null)
                 {
                         @Receptionist.Office.Address
                 }
                 else
                 {
-                    <span>Have not provided Office.</span>
+                    <span>@_localizer.GetString(LocalizationType.OfficeNotFound)</span>
                 }
             </p>
         </div>

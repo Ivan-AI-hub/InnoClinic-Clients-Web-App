@@ -12,24 +12,24 @@
         <ValidationSummary />
         <div class="row">
             <div class="col p-2">
-                <FormInputText Label="Cpecialization name" Id="firstName" @bind-Value="@Data.Name" />
-                <FormInputCheckBox Label="Active" Id="lastName" @bind-Value="@Data.IsActive" />
+                <FormInputText Label=@_localizer.GetString(LocalizationType.Name) Id="firstName" @bind-Value="@Data.Name" />
+                <FormInputCheckBox Label=@_localizer.GetString(LocalizationType.Status) Id="lastName" @bind-Value="@Data.IsActive" />
             </div>
             <div class="col p-2">
 
 
                 <h2>
-                    Services                 
+                    @_localizer.GetString(LocalizationType.ServicesTab)
                     @if (!IsManagerCreating)
                     {
                         <MudButton Color=Color.Primary Variant=Variant.Filled OnClick="@StartCreateService">
-                            Create a new service
+                            @_localizer.GetString(LocalizationType.CreateServiceButtonValue)
                         </MudButton>
                     }
                     else
                     {
                         <MudButton Color=Color.Error Variant=Variant.Filled OnClick="@StopCreateService">
-                            Exit
+                            @_localizer.GetString(LocalizationType.ServicesTab)
                         </MudButton>
                     }
                 </h2>
@@ -58,11 +58,12 @@
         </div>
         <InnoRow>
             <Left>
-                <FormSubmitButton @ref="@SubmitButton" ButtonValue="Save Changes" />
+                <FormSubmitButton @ref="@SubmitButton" ButtonValue=@_localizer.GetString(LocalizationType.SaveChangesButtonValue) />
             </Left>
             <Right>
-                <DobleQuestionButton OnSuccessAnswerClicked="@Cancel" PreviewButtonValue="Cancel"
-                                     QuestionLabel="Do you really want to cancel? Changes will not be saved." />
+                <DobleQuestionButton OnSuccessAnswerClicked="@Cancel" PreviewButtonValue=@_localizer.GetString(LocalizationType.DisagreeButtonValue)
+                                     AgreeButtonValue="@_localizer.GetString(LocalizationType.AgreeButtonValue)" DisagreeButtonValue="@_localizer.GetString(LocalizationType.DisagreeButtonValue)"
+                                     QuestionLabel=@_localizer.GetString(LocalizationType.DataWillNotChangesText) />
             </Right>
         </InnoRow>
     </EditForm>
