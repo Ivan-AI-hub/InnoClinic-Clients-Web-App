@@ -19,8 +19,8 @@
             </div>
         }
         <div class="col-sm m-lg-3">
-            <MudText Typo="Typo.h6">Full name: @Patient.Info.GetFullName()</MudText>
-            <MudText Typo="Typo.h6">Phone number: @Patient.PhoneNumber</MudText>
+            <MudText Typo="Typo.h6">@_localizer.GetString(LocalizationType.FullName): @Patient.Info.GetFullName()</MudText>
+            <MudText Typo="Typo.h6">@_localizer.GetString(LocalizationType.PhoneNumber): @Patient.PhoneNumber</MudText>
         </div>
         @if (ChildContent != null)
         {

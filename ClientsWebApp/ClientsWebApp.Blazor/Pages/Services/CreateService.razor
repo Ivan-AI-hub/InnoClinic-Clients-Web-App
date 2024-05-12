@@ -9,7 +9,7 @@
             <FormInputNumber Label=@_localizer.GetString(LocalizationType.Price) Id="Price" @bind-Value="@Data.Price" />
             <FormInputCheckBox Label=@_localizer.GetString(LocalizationType.Status) Id="Status" @bind-Value="@Data.Status" />
             <FormInputSelect Label=@_localizer.GetString(LocalizationType.Category) Id="CategoryName" @bind-Value="@Data.CategoryName" Values="@Categories"
-                             GetLabelHandler="@(x => x)" GetValueHandler="@(x => x)" />
+                             GetLabelHandler="@(x => _localizer.GetString(x))" GetValueHandler="@(x => x)" />
         </div>
     </div>
     <FormSubmitButton @ref="@SubmitButton" ButtonValue=@_localizer.GetString(LocalizationType.CreateServiceButtonValue) />

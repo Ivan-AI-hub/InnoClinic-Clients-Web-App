@@ -2,7 +2,7 @@
 
 @inject NavigationManager NavigationManager
 
-<MudPaper Square Elevation=3 Class="row p-5 mb-3">
+<MudPaper Square Elevation=3 Class="row p-5 mb-3 align-items-center">
     @if (Doctor != null)
     {
         if (Doctor.Info.Photo != null)
@@ -38,7 +38,7 @@
                 <MudButton Color="Color.Info" Variant=Variant.Filled Class="w-100" OnClick="ToDoctorInfoPage">
                     <MudIcon Icon="@Icons.Material.Filled.People" />
                     <span class="ml-2">
-                        Details
+                        @_localizer.GetString(LocalizationType.Details)
                     </span>
                 </MudButton>
             }

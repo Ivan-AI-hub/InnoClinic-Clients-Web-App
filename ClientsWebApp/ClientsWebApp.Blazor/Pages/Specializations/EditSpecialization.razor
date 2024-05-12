@@ -19,7 +19,7 @@
 
 
                 <h2>
-                    Services                 
+                    @_localizer.GetString(LocalizationType.ServicesTab)
                     @if (!IsManagerCreating)
                     {
                         <MudButton Color=Color.Primary Variant=Variant.Filled OnClick="@StartCreateService">
@@ -29,7 +29,7 @@
                     else
                     {
                         <MudButton Color=Color.Error Variant=Variant.Filled OnClick="@StopCreateService">
-                            Exit
+                            @_localizer.GetString(LocalizationType.ServicesTab)
                         </MudButton>
                     }
                 </h2>
@@ -61,8 +61,9 @@
                 <FormSubmitButton @ref="@SubmitButton" ButtonValue=@_localizer.GetString(LocalizationType.SaveChangesButtonValue) />
             </Left>
             <Right>
-                <DobleQuestionButton OnSuccessAnswerClicked="@Cancel" PreviewButtonValue="Cancel"
-                                     QuestionLabel="Do you really want to cancel? Changes will not be saved." />
+                <DobleQuestionButton OnSuccessAnswerClicked="@Cancel" PreviewButtonValue=@_localizer.GetString(LocalizationType.DisagreeButtonValue)
+                                     AgreeButtonValue="@_localizer.GetString(LocalizationType.AgreeButtonValue)" DisagreeButtonValue="@_localizer.GetString(LocalizationType.DisagreeButtonValue)"
+                                     QuestionLabel=@_localizer.GetString(LocalizationType.DataWillNotChangesText) />
             </Right>
         </InnoRow>
     </EditForm>

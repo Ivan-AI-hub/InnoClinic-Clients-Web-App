@@ -8,13 +8,13 @@
             @if (category == Data.CategoryName)
             {
                 <MudButton Color="Color.Success" Variant="Variant.Filled">
-                    @category
+                    @_localizer.GetString(category)
                 </MudButton>
             }
             else
             {
                 <MudButton Color="Color.Info" Variant="Variant.Filled" OnClick="@(() => ServicesUpdateAsync(category))">
-                    @category
+                     @_localizer.GetString(@category)
                 </MudButton>
             }
         </div>

@@ -17,7 +17,7 @@ else
                 <FormInputNumber Label=@_localizer.GetString(LocalizationType.Price) Id="Price" @bind-Value="@Data.Price" />
                 <FormInputCheckBox Label=@_localizer.GetString(LocalizationType.Status) Id="Status" @bind-Value="@Data.Status" />
                 <FormInputSelect Label=@_localizer.GetString(LocalizationType.Category) Id="CategoryName" @bind-Value="@Data.CategoryName" Values="@Categories"
-                                GetLabelHandler="@(x => x)" GetValueHandler="@(x => x)" />
+                                GetLabelHandler="@(x => _localizer.GetString(x))" GetValueHandler="@(x => x)" />
             </div>
         </div>
         <InnoRow>
@@ -26,7 +26,8 @@ else
             </Left>
             <Right>
                 <DobleQuestionButton OnSuccessAnswerClicked="@Cancel" PreviewButtonValue=@_localizer.GetString(LocalizationType.DisagreeButtonValue)
-                                 QuestionLabel=@_localizer.GetString(LocalizationType.DataWillNotChangesText) />
+                                     AgreeButtonValue="@_localizer.GetString(LocalizationType.AgreeButtonValue)" DisagreeButtonValue="@_localizer.GetString(LocalizationType.DisagreeButtonValue)"
+                                     QuestionLabel=@_localizer.GetString(LocalizationType.DataWillNotChangesText) />
             </Right>
         </InnoRow>
     </EditForm>

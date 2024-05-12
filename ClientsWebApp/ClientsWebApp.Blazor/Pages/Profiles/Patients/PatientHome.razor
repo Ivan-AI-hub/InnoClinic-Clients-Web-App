@@ -23,7 +23,7 @@
         </PatientCard>
     </div>
     <div class="container p-5 text-center">
-        <MudText Typo="Typo.h6">Appointments schedule</MudText>
+        <MudText Typo="Typo.h6">@_localizer.GetString(LocalizationType.Schedule)</MudText>
         @if (Appointments != null)
         {
             @foreach (var appointment in Appointments)
@@ -33,7 +33,7 @@
 
             @if (Appointments.Count() >= Page.Size)
             {
-                <MudButton Color="Color.Info" @onclick="NavigateToHistoryPage">View all history</MudButton>
+                <MudButton Color="Color.Info" @onclick="NavigateToHistoryPage">@_localizer.GetString(LocalizationType.ViewHistoryButtonText)</MudButton>
             }
         }
         else

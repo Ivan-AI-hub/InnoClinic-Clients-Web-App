@@ -8,8 +8,8 @@
                 <FormInputText Label=@_localizer.GetString(LocalizationType.FirstName) Id="firstName" @bind-Value="FiltrationModel.FirstName" />
                 <FormInputText Label=@_localizer.GetString(LocalizationType.LastName) Id="lastName" @bind-Value="FiltrationModel.LastName" />
                 <FormInputText Label=@_localizer.GetString(LocalizationType.MiddleName) Id="middleName" @bind-Value="FiltrationModel.MiddleName" />
-                <FormInputSelect HasDefaultOption="@true" DefaultValueLabel="All" Label=@_localizer.GetString(LocalizationType.Office) Id="office" @bind-Value="FiltrationModel.OfficeId" Values="Offices" GetLabelHandler="@(x => x.Address)" GetValueHandler="@(x => x.Id)" />
-                <FormInputSelect HasDefaultOption="@true" DefaultValueLabel="All" Label=@_localizer.GetString(LocalizationType.Specialization) Id="specialization" @bind-Value="FiltrationModel.Specialization" Values="Specializations" GetLabelHandler="@(x => x.Name)" GetValueHandler="@(x => x.Name)" />
+                <FormInputSelect HasDefaultOption="@true" DefaultValueLabel="@_localizer.GetString(LocalizationType.DropDownDefaultValue)" Label=@_localizer.GetString(LocalizationType.Office) Id="office" @bind-Value="FiltrationModel.OfficeId" Values="Offices" GetLabelHandler="@(x => x.Address)" GetValueHandler="@(x => x.Id)" />
+                <FormInputSelect HasDefaultOption="@true" DefaultValueLabel="@_localizer.GetString(LocalizationType.DropDownDefaultValue)" Label=@_localizer.GetString(LocalizationType.Specialization) Id="specialization" @bind-Value="FiltrationModel.Specialization" Values="Specializations" GetLabelHandler="@(x => x.Name)" GetValueHandler="@(x => x.Name)" />
                 <FormSubmitButton @ref="@SubmitButton" ButtonValue=@_localizer.GetString(LocalizationType.SearchButtonValue) />
             </EditForm>
         </MudPaper>

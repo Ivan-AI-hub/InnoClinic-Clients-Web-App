@@ -11,8 +11,8 @@
         {
             <p>@_localizer.GetString(LocalizationType.Specialization): @Specialization?.Name</p>
         }
-        <p>Category: @Service.Category?.Name</p>
-        <p>IsActive: @Service.Status</p>
+        <p>@_localizer.GetString(LocalizationType.Category): @_localizer.GetString(@Service.Category?.Name)</p>
+        <p>@_localizer.GetString(LocalizationType.Status): @Service.Status</p>
     </div>
     <AuthorizeView Roles="Admin">
         <div class="col">

@@ -8,7 +8,7 @@
 {
     <AuthorizeView Roles="Patient">
         <Authorized Context="editDate">
-            <p>That appointment have not resul yet:(</p>
+            <p>@_localizer.GetString(LocalizationType.AppointmentHasNoResultText)</p>
         </Authorized>
     </AuthorizeView>
     <AuthorizeView Roles="Doctor">

@@ -36,7 +36,7 @@
                 <MudButton Variant=Variant.Filled Color=Color.Success Class="mb-3 w-100" Href=@($"/conference/prepare?Channel={Appointment.Id}")>
                     <MudIcon Icon="@Icons.Material.Filled.Camera" />
                     <span class="ml-2">
-                        Go to video room
+                        @_localizer.GetString(LocalizationType.GoToVideoRoom)
                     </span>
                 </MudButton>
             }
@@ -59,7 +59,7 @@
                     <Authorized Context="editDate">
                         @if (!Appointment.IsApproved)
                         {
-                            <p>Appointment is not approved yet</p>
+                            <p>@_localizer.GetString(LocalizationType.AppointmentNotApprovedText)</p>
                         }
                     </Authorized>
                 </AuthorizeView>

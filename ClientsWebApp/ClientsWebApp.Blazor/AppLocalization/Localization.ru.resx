@@ -129,6 +129,12 @@
   <data name="AgreeButtonValue" xml:space="preserve">
     <value>Да</value>
   </data>
+  <data name="analyses" xml:space="preserve">
+    <value>Анализы</value>
+  </data>
+  <data name="AppointmentHasNoResultText" xml:space="preserve">
+    <value>Назначение еще не имеет результута</value>
+  </data>
   <data name="AppointmentNotApprovedText" xml:space="preserve">
     <value>Назначение еще не подтверждено</value>
   </data>
@@ -168,6 +174,9 @@
   <data name="Conclusions" xml:space="preserve">
     <value>Заключения</value>
   </data>
+  <data name="consultation" xml:space="preserve">
+    <value>Консультация</value>
+  </data>
   <data name="CreateAppointmentButtonValue" xml:space="preserve">
     <value>Создать назначение</value>
   </data>
@@ -176,6 +185,9 @@
   </data>
   <data name="CreateDoctorValue" xml:space="preserve">
     <value>Создать доктора</value>
+  </data>
+  <data name="CreateOfficeButtonValue" xml:space="preserve">
+    <value>Создать Офис</value>
   </data>
   <data name="CreatePatientButtonValue" xml:space="preserve">
     <value>Создать пациента</value>
@@ -189,6 +201,9 @@
   <data name="CreateSpecializationButtonValue" xml:space="preserve">
     <value>Создать специализацию</value>
   </data>
+  <data name="CreateSpecializationError" xml:space="preserve">
+    <value>Создайте как минимум 1 сервис!</value>
+  </data>
   <data name="CultureMessage" xml:space="preserve">
     <value>Язык</value>
   </data>
@@ -201,6 +216,12 @@
   <data name="DeleteButtonValue" xml:space="preserve">
     <value>Удалить</value>
   </data>
+  <data name="Details" xml:space="preserve">
+    <value>Информация</value>
+  </data>
+  <data name="diagnostics" xml:space="preserve">
+    <value>Диагностика</value>
+  </data>
   <data name="DisagreeButtonValue" xml:space="preserve">
     <value>Нет</value>
   </data>
@@ -212,6 +233,9 @@
   </data>
   <data name="DoctorsTab" xml:space="preserve">
     <value>Доктора</value>
+  </data>
+  <data name="DropDownDefaultValue" xml:space="preserve">
+    <value>Все</value>
   </data>
   <data name="EditButtonValue" xml:space="preserve">
     <value>Изменить</value>
@@ -240,6 +264,9 @@
   <data name="Email" xml:space="preserve">
     <value>Электронная почта</value>
   </data>
+  <data name="ExitLabel" xml:space="preserve">
+    <value>Выйти</value>
+  </data>
   <data name="Experience" xml:space="preserve">
     <value>Опыт</value>
   </data>
@@ -248,6 +275,9 @@
   </data>
   <data name="FullName" xml:space="preserve">
     <value>Имя</value>
+  </data>
+  <data name="GoToVideoRoom" xml:space="preserve">
+    <value>Перейти в видео комнату</value>
   </data>
   <data name="Greeting" xml:space="preserve">
     <value>Привееееет</value>
@@ -336,6 +366,9 @@
   <data name="SearchButtonValue" xml:space="preserve">
     <value>Найти</value>
   </data>
+  <data name="SelectDateModalTitle" xml:space="preserve">
+    <value>Выберите дату</value>
+  </data>
   <data name="SelectTimeSlotButtonValue" xml:space="preserve">
     <value>Выбрать дату и время</value>
   </data>
@@ -368,5 +401,8 @@
   </data>
   <data name="Street" xml:space="preserve">
     <value>Улица</value>
+  </data>
+  <data name="ViewHistoryButtonText" xml:space="preserve">
+    <value>Посмотреть историю</value>
   </data>
 </root>

@@ -126,6 +126,12 @@
   <data name="AgreeButtonValue" xml:space="preserve">
     <value>Yes</value>
   </data>
+  <data name="analyses" xml:space="preserve">
+    <value>analyses</value>
+  </data>
+  <data name="AppointmentHasNoResultText" xml:space="preserve">
+    <value>That appointment have not resul yet</value>
+  </data>
   <data name="AppointmentNotApprovedText" xml:space="preserve">
     <value>Appointment aren`t approved yet</value>
   </data>
@@ -165,6 +171,9 @@
   <data name="Conclusions" xml:space="preserve">
     <value>Conclusions</value>
   </data>
+  <data name="consultation" xml:space="preserve">
+    <value>consultation</value>
+  </data>
   <data name="CreateAppointmentButtonValue" xml:space="preserve">
     <value>Create appointment</value>
   </data>
@@ -173,6 +182,9 @@
   </data>
   <data name="CreateDoctorValue" xml:space="preserve">
     <value>Create doctor</value>
+  </data>
+  <data name="CreateOfficeButtonValue" xml:space="preserve">
+    <value>Create office</value>
   </data>
   <data name="CreatePatientButtonValue" xml:space="preserve">
     <value>Create Patient</value>
@@ -186,6 +198,9 @@
   <data name="CreateSpecializationButtonValue" xml:space="preserve">
     <value>Create specialization</value>
   </data>
+  <data name="CreateSpecializationError" xml:space="preserve">
+    <value>Create at least 1 service!</value>
+  </data>
   <data name="CultureMessage" xml:space="preserve">
     <value>Culture</value>
   </data>
@@ -198,6 +213,12 @@
   <data name="DeleteButtonValue" xml:space="preserve">
     <value>Delete</value>
   </data>
+  <data name="Details" xml:space="preserve">
+    <value>Details</value>
+  </data>
+  <data name="diagnostics" xml:space="preserve">
+    <value>diagnostics</value>
+  </data>
   <data name="DisagreeButtonValue" xml:space="preserve">
     <value>No</value>
   </data>
@@ -209,6 +230,9 @@
   </data>
   <data name="DoctorsTab" xml:space="preserve">
     <value>Doctors</value>
+  </data>
+  <data name="DropDownDefaultValue" xml:space="preserve">
+    <value>All</value>
   </data>
   <data name="EditButtonValue" xml:space="preserve">
     <value>Edit</value>
@@ -237,6 +261,9 @@
   <data name="Email" xml:space="preserve">
     <value>Email</value>
   </data>
+  <data name="ExitLabel" xml:space="preserve">
+    <value>Exit</value>
+  </data>
   <data name="Experience" xml:space="preserve">
     <value>Experience</value>
   </data>
@@ -245,6 +272,9 @@
   </data>
   <data name="FullName" xml:space="preserve">
     <value>FullName</value>
+  </data>
+  <data name="GoToVideoRoom" xml:space="preserve">
+    <value>Go to video room</value>
   </data>
   <data name="Greeting" xml:space="preserve">
     <value>helooooo</value>
@@ -333,6 +363,9 @@
   <data name="SearchButtonValue" xml:space="preserve">
     <value>Search</value>
   </data>
+  <data name="SelectDateModalTitle" xml:space="preserve">
+    <value>Select date</value>
+  </data>
   <data name="SelectTimeSlotButtonValue" xml:space="preserve">
     <value>Select date and time</value>
   </data>
@@ -365,5 +398,8 @@
   </data>
   <data name="Street" xml:space="preserve">
     <value>Street</value>
+  </data>
+  <data name="ViewHistoryButtonText" xml:space="preserve">
+    <value>View history</value>
   </data>
 </root>

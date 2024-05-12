@@ -5,7 +5,7 @@
 <AuthorizeView>
     <Authorized>
         @Loc.GetString(LocalizationType.Greeting)
-        <a href="/logout">Sign out</a>
+        <a href="/logout">@Loc.GetString(LocalizationType.SignOutTitle)</a>
     </Authorized>
     <NotAuthorized>
 

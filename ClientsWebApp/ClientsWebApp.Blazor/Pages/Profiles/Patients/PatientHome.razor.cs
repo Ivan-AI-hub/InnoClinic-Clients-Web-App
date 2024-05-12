@@ -42,7 +42,6 @@ namespace ClientsWebApp.Blazor.Pages.Profiles.Patients
             };
             Appointments = await _appointmentManager.GetPageAsync(Page, filtrationModel, _cts.Token);
 
-            IsLoading = false;
             StateHasChanged();
         }
 

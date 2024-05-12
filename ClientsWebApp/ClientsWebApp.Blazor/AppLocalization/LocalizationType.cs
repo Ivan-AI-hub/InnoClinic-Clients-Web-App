@@ -84,6 +84,14 @@
         DoctorsNotFoundText,
         CreatePatientButtonValue,
         AccountDeleteText,
-        DeleteButtonValue
+        DeleteButtonValue,
+        Details,
+        DropDownDefaultValue,
+        ExitLabel,
+        CreateSpecializationError,
+        CreateOfficeButtonValue,
+        ViewHistoryButtonText,
+        AppointmentHasNoResultText,
+        GoToVideoRoom
     }
 }
