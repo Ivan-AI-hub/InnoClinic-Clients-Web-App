@@ -9,6 +9,7 @@
         public string ImagesBaseUri { get; set; }
         public string OfficesBaseUri { get; set; }
         public string PatientsBaseUri { get; set; }
+        public string PatientInfoBaseUri { get; set; }
         public string DoctorsBaseUri { get; set; }
         public string ReceptionistsBaseUri { get; set; }
         public string ResultsBaseUri { get; set; }

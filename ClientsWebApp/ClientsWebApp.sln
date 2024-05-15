@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClientsWebApp.Blazor", "Cli
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClientsWebApp.Application", "ClientsWebApp.Application\ClientsWebApp.Application.csproj", "{6CB29DC2-CAD0-4610-A373-8E70805C08A5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientsWebApp.Shared", "ClientsWebApp.Shared\ClientsWebApp.Shared.csproj", "{C06C860F-B490-4666-B284-A9FB767A8913}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{6CB29DC2-CAD0-4610-A373-8E70805C08A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6CB29DC2-CAD0-4610-A373-8E70805C08A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6CB29DC2-CAD0-4610-A373-8E70805C08A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C06C860F-B490-4666-B284-A9FB767A8913}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C06C860F-B490-4666-B284-A9FB767A8913}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C06C860F-B490-4666-B284-A9FB767A8913}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C06C860F-B490-4666-B284-A9FB767A8913}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
