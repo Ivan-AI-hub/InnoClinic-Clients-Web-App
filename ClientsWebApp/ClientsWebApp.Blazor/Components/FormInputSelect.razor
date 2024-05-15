@@ -3,21 +3,17 @@
 @inherits InputSelect<TBindValue>
 
 <div class="form-group mb-3">
-    <MudSelect id="@Id" Label="@Label" T="TBindValue" Value="CurrentValue" ValueChanged="CurrentValueChange" @attributes=AdditionalAttributes>
+    <MudSelect id="@Id" Label="@Label" T="TBindValue" Value="CurrentValue" ValueChanged="CurrentValueChange" Disabled=@(Values is null) @attributes=AdditionalAttributes>
         @if(HasDefaultOption)
         {
             <MudSelectItem T="TBindValue" Value="@DefaultValue" D>@DefaultValueLabel</MudSelectItem>
         }
-        @if (Values != null)
+        @if (Values is not null)
         {
             @foreach (var value in Values)
             {
                 <MudSelectItem T="TBindValue" Value="@GetValueHandler(value)">@GetLabelHandler(value)</MudSelectItem>
             }
-        }
-        else
-        {
-            <Loading />
         }
     </MudSelect>
 </div>

@@ -2,19 +2,20 @@
 @inject IStringLocalizer<Localization> Loc
 @inject NavigationManager NavManager;
 
-<strong>@Loc.GetString(LocalizationType.CultureMessage):</strong>
-<select class="form-control" @bind="Culture" style="width:300px; margin-left:10px;">
-    @foreach (var culture in cultures)
-    {
-        <option value="@culture">@culture.DisplayName</option>
-    }
-</select>
+<div class="w-25 mx-4">
+    <MudSelect @bind-Value="Culture" Label=@Loc.GetString(LocalizationType.CultureMessage)>
+        @foreach (var culture in cultures)
+        {
+            <MudSelectItem Value="@culture">@culture.Name</MudSelectItem>
+        }
+    </MudSelect>
+</div>
 
 @code {
     CultureInfo[] cultures = new[]
     {
-        new CultureInfo("en-US"),
-        new CultureInfo("ru-RU")
+        CultureInfo.GetCultureInfo("en-US"),
+        CultureInfo.GetCultureInfo("ru")
     };
     CultureInfo Culture
     {

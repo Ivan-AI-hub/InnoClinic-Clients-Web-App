@@ -1,7 +1,7 @@
 ﻿@inherits CancellableComponent
 <AuthorizeView Roles="Admin">
     <Authorized Context="editRole">
-        <div class="col">
+        <div class="col mt-2">
             @if (IsLoading)
             {
                 <Loading />

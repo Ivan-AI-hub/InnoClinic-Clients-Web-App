@@ -28,12 +28,9 @@
                 {
                     <span>@_localizer.GetString(LocalizationType.OfficeNotFound)</span>
                 }
+                @ChildContent
             </p>
         </div>
-        @if (ChildContent != null)
-        {
-            @ChildContent
-        }
     }
 </MudPaper>
 
