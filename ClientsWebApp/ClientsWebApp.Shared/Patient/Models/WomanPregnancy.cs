@@ -8,6 +8,13 @@ namespace ClientsWebApp.Shared.Patient.Models
 {
     public class WomanPregnancy
     {
+        public WomanPregnancy(DateTime discoveryDate, DateTime endDate, string result)
+        {
+            DiscoveryDate = discoveryDate;
+            EndDate = endDate;
+            Result = result;
+        }
+
         public Guid Id { get; set; } = Guid.NewGuid();
 
         public DateTime DiscoveryDate { get; set; }

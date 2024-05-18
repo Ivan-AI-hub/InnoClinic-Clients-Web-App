@@ -4,14 +4,12 @@ namespace ClientsWebApp.Shared.Patient.Models;
 
 public class PatientMedicalSupport
 {
-    public Guid Id { get; set; } = Guid.NewGuid();
-
-    public IEnumerable<MedicalRecipeRecord> RecipeMedicals { get; set; }
-    public IEnumerable<MedicalNoRecipeRecord> NoRecipeMedicals { get; set; }
-    public IEnumerable<PhysicalTherapyRecord> PhysicalTherapyRecords { get; set; }
-    public IEnumerable<TherapeuticExerciseMassage> TherapeuticExerciseMassages { get; set; }
-    public IEnumerable<UnconventionalTreatmentMethod> UnconventionalTreatmentMethods { get; set; }
-    public IEnumerable<RadiationTherapy> RadiationTherapies { get; set; }
-    public IEnumerable<ClinicalExamination> ClinicalExaminations { get; set; }
+    public IList<MedicalRecipeRecord> RecipeMedicals { get; set; } = new List<MedicalRecipeRecord>();
+    public IList<MedicalNoRecipeRecord> NoRecipeMedicals { get; set; } = new List<MedicalNoRecipeRecord>();
+    public IList<PhysicalTherapyRecord> PhysicalTherapyRecords { get; set; } = new List<PhysicalTherapyRecord>();
+    public IList<TherapeuticExerciseMassage> TherapeuticExerciseMassages { get; set; } = new List<TherapeuticExerciseMassage>();
+    public IList<UnconventionalTreatmentMethod> UnconventionalTreatmentMethods { get; set; } = new List<UnconventionalTreatmentMethod>();
+    public IList<RadiationTherapy> RadiationTherapies { get; set; } = new List<RadiationTherapy>();
+    public IList<ClinicalExamination> ClinicalExaminations { get; set; } = new List<ClinicalExamination>();
 
 }

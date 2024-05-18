@@ -2,6 +2,15 @@
 {
     public class IncapacityWorkCertificate
     {
+        public IncapacityWorkCertificate(string documentNumber, string incapacityType, string incapacityReason, DateTime startDate, DateTime endDate)
+        {
+            DocumentNumber = documentNumber;
+            IncapacityType = incapacityType;
+            IncapacityReason = incapacityReason;
+            StartDate = startDate;
+            EndDate = endDate;
+        }
+
         public Guid Id { get; set; } = Guid.NewGuid();
 
         public string DocumentNumber { get; set; }

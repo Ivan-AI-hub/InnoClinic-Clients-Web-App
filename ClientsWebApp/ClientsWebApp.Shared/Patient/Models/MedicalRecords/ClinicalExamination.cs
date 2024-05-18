@@ -8,6 +8,19 @@ namespace ClientsWebApp.Shared.Patient.Models.MedicalRecords
 {
     public class ClinicalExamination
     {
+        public ClinicalExamination(DateTime startDate, string diagnos, DateTime diagnosDate, string clinicalGroup, DateTime clinicalGroupChangeDate, DateTime lastInspectionDate, DateTime nextInspectionDate, DateTime endDate, string endReason)
+        {
+            StartDate = startDate;
+            Diagnos = diagnos;
+            DiagnosDate = diagnosDate;
+            ClinicalGroup = clinicalGroup;
+            ClinicalGroupChangeDate = clinicalGroupChangeDate;
+            LastInspectionDate = lastInspectionDate;
+            NextInspectionDate = nextInspectionDate;
+            EndDate = endDate;
+            EndReason = endReason;
+        }
+
         public Guid Id { get; set; } = Guid.NewGuid();
 
         public DateTime StartDate { get; set; }

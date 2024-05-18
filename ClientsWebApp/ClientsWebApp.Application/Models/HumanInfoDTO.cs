@@ -6,7 +6,7 @@ namespace ClientsWebApp.Application.Models
 {
     public class HumanInfoDTO
     {
-        public Task<Image>? Photo { get; set; }
+        public Task<Image?> Photo { get; set; }
         public string Email { get; private set; }
         public string FirstName { get; private set; }
         public string LastName { get; private set; }
@@ -37,7 +37,8 @@ namespace ClientsWebApp.Application.Models
 
         public async Task<HumanInfo> ToHumanInfo()
         {
-            var image = Photo != null ? new ImageName((await Photo).FileName) : null;
+            var photo = await Photo;
+            var image = photo is not null ? new ImageName(photo.FileName) : null;
             return new HumanInfo(image, Email, FirstName, LastName, MiddleName, BirthDay);
         }
     }

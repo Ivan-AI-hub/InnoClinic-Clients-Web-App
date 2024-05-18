@@ -2,10 +2,8 @@
 {
     public class PatientPhysicInfo
     {
-        public Guid Id { get; set; } = Guid.NewGuid();
-
-        public string BloodType { get; set; }
-        public string RhFactor { get; set; }
-        public IEnumerable<BloodTransfer> BloodTransfers { get; set; }
+        public string BloodType { get; set; } = string.Empty;       
+        public string RhFactor { get; set; } = string.Empty;
+        public IList<BloodTransfer> BloodTransfers { get; set; } = new List<BloodTransfer>();
     }
 }

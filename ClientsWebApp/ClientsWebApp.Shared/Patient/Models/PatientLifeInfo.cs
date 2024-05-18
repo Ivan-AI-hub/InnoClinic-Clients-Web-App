@@ -2,9 +2,7 @@
 
 public class PatientLifeInfo
 {
-    public Guid Id { get; set; } = Guid.NewGuid();
-
-    public IEnumerable<BodyFeature> BodyFeatures { get; set; }
-    public IEnumerable<LifeCondition> LifeConditions { get; set; }
-    public IEnumerable<WorkCondition> WorkConditions { get; set; }
+    public IList<BodyFeature> BodyFeatures { get; set; } = new List<BodyFeature>();
+    public IList<LifeCondition> LifeConditions { get; set; } = new List<LifeCondition>();
+    public IList<WorkCondition> WorkConditions { get; set; } = new List<WorkCondition>();
 }

@@ -5,5 +5,10 @@
         public Guid Id { get; set; } = Guid.NewGuid();
 
         public string Name { get; set; }
+
+        public WorkCondition(string name)
+        {
+            Name = name;
+        }
     }
 }

@@ -2,25 +2,29 @@
 using ClientsWebApp.Application.Models.Patients;
 using ClientsWebApp.Domain;
 using ClientsWebApp.Domain.Images;
+using ClientsWebApp.Domain.PatientInfos;
 using ClientsWebApp.Domain.Profiles;
 using ClientsWebApp.Domain.Profiles.Patient;
+using ClientsWebApp.Shared.Patient;
 
 namespace ClientsWebApp.Application.Managers
 {
     public class PatientManager : IPatientManager
     {
+        private readonly IPatientInfoService _patientInfoService;
         private readonly IPatientService _patientService;
         private readonly IImageService _imageService;
 
-        public PatientManager(IPatientService patientService, IImageService imageService)
+        public PatientManager(IPatientService patientService, IImageService imageService, IPatientInfoService patientInfoService)
         {
             _patientService = patientService;
             _imageService = imageService;
+            _patientInfoService = patientInfoService;
         }
 
         public async Task CreateAsync(CreatePatientData data, CancellationToken cancellationToken)
         {
-            if(data.BirthDay is null)
+            if (data.BirthDay is null)
             {
                 return;
             }
@@ -31,27 +35,47 @@ namespace ClientsWebApp.Application.Managers
             await _imageService.CreateAsync(data.Picture, cancellationToken);
         }
 
+        public Task<PatientPersonalInfo> CreateInfoAsync(PatientPersonalInfo model, CancellationToken cancellationToken)
+        {
+            return _patientInfoService.CreateAsync(model, cancellationToken);
+        }
+
         public Task DeleteAsync(Guid id, CancellationToken cancellationToken)
         {
             return _patientService.DeleteAsync(id, cancellationToken);
         }
 
+        public Task DeleteInfoAsync(Guid patientId, CancellationToken cancellationToken)
+        {
+            return _patientInfoService.DeleteAsync(patientId, cancellationToken);
+        }
+
         public async Task EditAsync(PatientDTO oldPatient, EditPatientData data, CancellationToken cancellationToken)
         {
-            if(data.BirthDay is null)
+            if (data.BirthDay is null)
             {
                 return;
             }
 
-            var fileName = (await oldPatient.Info.ToHumanInfo()).Photo.Name; 
-            var imageName = data.Picture == null ? new ImageName(fileName) : new ImageName(data.Picture.FileName);
+            var fileName = (await oldPatient.Info.ToHumanInfo()).Photo;
+            var imageName = data.Picture == null ? fileName : new ImageName(data.Picture.FileName);
             var updateModel = new UpdatePatientModel(imageName, data.FirstName, data.LastName, data.MiddleName, data.BirthDay.Value, data.PhoneNumber);
 
             await _patientService.UpdateAsync(oldPatient.Id, updateModel, cancellationToken);
-            if (data.Picture != null && data.Picture.FileName != fileName)
+            if (data.Picture != null && data.Picture != fileName)
             {
-                await _imageService.DeleteAsync(fileName, cancellationToken);
-                await _imageService.CreateAsync(data.Picture, cancellationToken);
+                try
+                {
+                    await _imageService.DeleteAsync(fileName.Name, cancellationToken);
+                }
+                catch (Exception ex)
+                {
+
+                }
+                finally
+                {
+                    await _imageService.CreateAsync(data.Picture, cancellationToken);
+                }
             }
         }
 
@@ -72,6 +96,11 @@ namespace ClientsWebApp.Application.Managers
             return _patientService.GetByEmailAsync(email, cancellationToken);
         }
 
+        public Task<PatientPersonalInfo> GetInfoForPatientAsync(Guid patientId, CancellationToken cancellationToken)
+        {
+            return _patientInfoService.GetForPatientAsync(patientId, cancellationToken);
+        }
+
         public Task<IEnumerable<Patient>> GetInfoPageAsync(Page page, PatientFiltrationModel filtrationModel, CancellationToken cancellationToken)
         {
             return _patientService.GetPageAsync(page, filtrationModel, cancellationToken);
@@ -86,6 +115,11 @@ namespace ClientsWebApp.Application.Managers
                 patients.Add(await PatientToPatientDTOConvertor(patient, cancellationToken));
             }
             return patients;
+        }
+
+        public Task UpdateInfoAsync(Guid id, PatientPersonalInfo model, CancellationToken cancellationToken)
+        {
+            return _patientInfoService.UpdateAsync(id, model, cancellationToken);
         }
 
         private async Task<PatientDTO> PatientToPatientDTOConvertor(Patient patientData, CancellationToken cancellationToken)

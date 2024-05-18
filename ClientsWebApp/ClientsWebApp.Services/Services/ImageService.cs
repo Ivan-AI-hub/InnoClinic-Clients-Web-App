@@ -37,13 +37,21 @@ namespace ClientsWebApp.Services.Services
             await EnsureSuccessStatusCode(httpResponseMessage, cancellationToken);
         }
 
-        public async Task<Image> GetAsync(string imageName, CancellationToken cancellationToken)
+        public async Task<Image?> GetAsync(string imageName, CancellationToken cancellationToken)
         {
             string requestUri = _baseUri + $"/{imageName}";
 
             var httpResponseMessage = await (await RequestClient).GetAsync(requestUri, cancellationToken);
 
-            return await GetFromJsonAsync<Image>(httpResponseMessage, cancellationToken);
+            try
+            {
+                var image = await GetFromJsonAsync<Image>(httpResponseMessage, cancellationToken);
+                return image;
+            }
+            catch
+            {
+                return null;
+            }
         }
     }
 }

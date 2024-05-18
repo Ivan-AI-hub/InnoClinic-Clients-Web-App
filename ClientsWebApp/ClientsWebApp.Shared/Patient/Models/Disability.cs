@@ -8,6 +8,12 @@ namespace ClientsWebApp.Shared.Patient.Models
 {
     public class Disability
     {
+        public Disability(string conclusion, DateTime creationDate)
+        {
+            Conclusion = conclusion;
+            CreationDate = creationDate;
+        }
+
         public Guid Id { get; set; } = Guid.NewGuid();
 
         public string Conclusion { get; set; }

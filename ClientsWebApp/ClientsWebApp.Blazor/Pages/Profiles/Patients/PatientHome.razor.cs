@@ -6,6 +6,9 @@ using ClientsWebApp.Blazor.Components;
 using ClientsWebApp.Domain;
 using ClientsWebApp.Domain.Appointments;
 using ClientsWebApp.Domain.Exceptions;
+using ClientsWebApp.Shared.Patient;
+using ClientsWebApp.Shared.Patient.Models;
+using ClientsWebApp.Shared.Patient.Models.MedicalRecords;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 
@@ -23,6 +26,7 @@ namespace ClientsWebApp.Blazor.Pages.Profiles.Patients
         private Page Page { get; set; } = new Page(20, 1);
 
         private PatientDTO? Patient { get; set; }
+        private PatientPersonalInfo? PatientPersonalInfo { get; set; }
         protected override async void OnInitialized()
         {
             var email = await StateHelper.GetEmailAsync();
@@ -34,6 +38,18 @@ namespace ClientsWebApp.Blazor.Pages.Profiles.Patients
             {
                 NavigateToCreatePage();
             }
+
+
+            try
+            {
+                PatientPersonalInfo = await PatientManager.GetInfoForPatientAsync(Patient.Id, _cts.Token);
+            }
+            catch (NotFoundException)
+            {
+                PatientPersonalInfo = new PatientPersonalInfo(Patient.Id);
+                PatientPersonalInfo = await PatientManager.CreateInfoAsync(PatientPersonalInfo, _cts.Token);
+            }
+
 
             var filtrationModel = new AppointmentFiltrationModel
             {
@@ -53,7 +69,7 @@ namespace ClientsWebApp.Blazor.Pages.Profiles.Patients
 
         private void NavigateToCreatePage()
         {
-            var options = new ModalOptions() 
+            var options = new ModalOptions()
             {
                 Size = ModalSize.Large,
                 DisableBackgroundCancel = true,
@@ -63,7 +79,7 @@ namespace ClientsWebApp.Blazor.Pages.Profiles.Patients
         }
         private void NavigateToEditPage()
         {
-            var options = new ModalOptions() 
+            var options = new ModalOptions()
             {
                 Size = ModalSize.Large
             };
@@ -75,6 +91,111 @@ namespace ClientsWebApp.Blazor.Pages.Profiles.Patients
         private void NavigateToHistoryPage()
         {
             NavigationManager.NavigateTo($"/patients/{Patient.Id}/appointmentsHistory");
+        }
+
+
+        private void AddRepresenter()
+        {
+            PatientPersonalInfo.Representer = new HumanInfo("", "", "", "", DateTime.Now);
+        }
+
+        private void AddHereditaryIllness()
+        {
+            PatientPersonalInfo?.PatientMedicalInfo.FamilyInfo.HereditaryIllnesses.Add(new Illness("", DateTime.Now, null));
+        }
+
+        private void AddPastIllness()
+        {
+            PatientPersonalInfo?.PatientMedicalInfo.FamilyInfo.PastIllnesses.Add(new Illness("", DateTime.Now, null));
+        }
+
+        private void AddRiskFactors()
+        {
+            PatientPersonalInfo?.PatientMedicalInfo.FamilyInfo.RiskFactors.Add(new RiskFactor(""));
+        }
+        private void AddBodyFeature()
+        {
+            PatientPersonalInfo?.PatientMedicalInfo.LifeInfo.BodyFeatures.Add(new BodyFeature(""));
+        }
+        private void AddLifeCondition()
+        {
+            PatientPersonalInfo?.PatientMedicalInfo.LifeInfo.LifeConditions.Add(new LifeCondition(""));
+        }
+        private void AddWorkCondition()
+        {
+            PatientPersonalInfo?.PatientMedicalInfo.LifeInfo.WorkConditions.Add(new WorkCondition(""));
+        }
+        private void AddAllergicIllness()
+        {
+            PatientPersonalInfo?.PatientMedicalInfo.HealthInfo.AllergicIllnesses.Add(new Illness("", DateTime.Now, null));
+        }
+        private void AddMedicalReaction()
+        {
+            PatientPersonalInfo?.PatientMedicalInfo.HealthInfo.MedicalReactions.Add(new MedicalReaction("", DateTime.Now, ""));
+        }
+        private void AddPregnancy()
+        {
+            PatientPersonalInfo?.PatientMedicalInfo.WomanHealthInfo.Pregnancies.Add(new WomanPregnancy(DateTime.Now, DateTime.Now, ""));
+        }
+
+        private void AddBloodTransfer()
+        {
+            PatientPersonalInfo?.PatientMedicalInfo.PhysicInfo.BloodTransfers.Add(new BloodTransfer("", 0, DateTime.Now));
+        }
+
+        private void AddPreventiveVactination()
+        {
+            PatientPersonalInfo?.PatientMedicalInfo.PreventiveVaccinations.Add(new PreventiveVaccination(DateTime.Now, ""));
+        }
+
+        private void AddIncapacityWorkCertificates()
+        {
+            PatientPersonalInfo?.PatientMedicalInfo.IncapacityWorkCertificates.Add(new IncapacityWorkCertificate("", "", "", DateTime.Now, DateTime.Now));
+        }
+
+        private void AddDisability()
+        {
+            PatientPersonalInfo?.PatientMedicalInfo.Disabilities.Add(new Disability("", DateTime.UtcNow));
+        }
+
+        private void AddRegister()
+        {
+            PatientPersonalInfo?.PatientMedicalInfo.Registers.Add(new Register(DateTime.Now, "", ""));
+        }
+
+        private void AddAggrement()
+        {
+            PatientPersonalInfo?.PatientMedicalInfo.Aggrements.Add(new Aggrement("", "", ""));
+        }
+
+        private void AddRecipeMedicals()
+        {
+            PatientPersonalInfo?.PatientMedicalInfo.MedicalSupport.RecipeMedicals.Add(new MedicalRecipeRecord(new Guid(), "", 0, "", new MedicalRecipe("", "", DateTime.Now), 0, true));
+        }
+
+        private void AddNoRecipeMedicals()
+        {
+            PatientPersonalInfo?.PatientMedicalInfo.MedicalSupport.NoRecipeMedicals.Add(new MedicalNoRecipeRecord(new Guid(), "", 0, ""));
+        }
+        private void AddPhysicalTherapyRecords()
+        {
+            PatientPersonalInfo?.PatientMedicalInfo.MedicalSupport.PhysicalTherapyRecords.Add(new PhysicalTherapyRecord("", "", "", "", DateTime.Now, DateTime.Now));
+        }
+        private void AddTherapeuticExerciseMassages()
+        {
+            PatientPersonalInfo?.PatientMedicalInfo.MedicalSupport.TherapeuticExerciseMassages.Add(new TherapeuticExerciseMassage(""));
+        }
+        private void AddUnconventionalTreatmentMethods()
+        {
+            PatientPersonalInfo?.PatientMedicalInfo.MedicalSupport.UnconventionalTreatmentMethods.Add(new UnconventionalTreatmentMethod(""));
+        }
+        private void AddRadiationTherapies()
+        {
+            PatientPersonalInfo?.PatientMedicalInfo.MedicalSupport.RadiationTherapies.Add(new RadiationTherapy(""));
+        }
+        private void AddClinicalExaminations()
+        {
+            PatientPersonalInfo?.PatientMedicalInfo.MedicalSupport.ClinicalExaminations.Add(new ClinicalExamination(DateTime.Now, "", DateTime.Now, "", DateTime.Now, DateTime.Now, DateTime.Now, DateTime.Now, ""));
         }
     }
 }

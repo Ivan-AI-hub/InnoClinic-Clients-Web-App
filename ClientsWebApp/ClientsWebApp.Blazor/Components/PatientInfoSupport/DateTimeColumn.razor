@@ -1,0 +1,17 @@
+﻿@typeparam T
+@inherits PropertyColumn<T, DateTime?>
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        EditTemplate = (context) =>
+        {
+           return @<MudDatePicker Date=@(PropertyFunc(context.Item) as DateTime?) DateChanged=@(x => SetProperty(context.Item, x)) />;
+        };
+    }
+}

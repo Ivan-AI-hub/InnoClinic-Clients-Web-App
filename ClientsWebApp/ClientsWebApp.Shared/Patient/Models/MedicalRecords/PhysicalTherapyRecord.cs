@@ -8,6 +8,16 @@ namespace ClientsWebApp.Shared.Patient.Models.MedicalRecords;
 
 public class PhysicalTherapyRecord
 {
+    public PhysicalTherapyRecord(string name, string amount, string dosage, string dosageMetric, DateTime startDate, DateTime endDate)
+    {
+        Name = name;
+        Amount = amount;
+        Dosage = dosage;
+        DosageMetric = dosageMetric;
+        StartDate = startDate;
+        EndDate = endDate;
+    }
+
     public Guid Id { get; set; } = Guid.NewGuid();
 
     public string Name { get; set; }

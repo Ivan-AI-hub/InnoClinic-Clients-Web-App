@@ -40,6 +40,7 @@ namespace ClientsWebApp.Blazor.Pages.Profiles.Patients
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex);
                 ErrorMessage = ex.Message;
                 return;
             }

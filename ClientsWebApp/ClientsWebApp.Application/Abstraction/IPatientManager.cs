@@ -1,6 +1,7 @@
 ﻿using ClientsWebApp.Application.Models.Patients;
 using ClientsWebApp.Domain;
 using ClientsWebApp.Domain.Profiles.Patient;
+using ClientsWebApp.Shared.Patient;
 
 namespace ClientsWebApp.Application.Abstraction
 {
@@ -14,5 +15,10 @@ namespace ClientsWebApp.Application.Abstraction
         public Task<PatientDTO> GetByEmailAsync(string email, CancellationToken cancellationToken);
         public Task<Patient> GetInfoByEmailAsync(string email, CancellationToken cancellationToken);
         public Task<PatientDTO> GetByIdAsync(Guid id, CancellationToken cancellationToken);
+
+        public Task<PatientPersonalInfo> CreateInfoAsync(PatientPersonalInfo model, CancellationToken cancellationToken);
+        public Task UpdateInfoAsync(Guid id, PatientPersonalInfo model, CancellationToken cancellationToken);
+        public Task DeleteInfoAsync(Guid patientId, CancellationToken cancellationToken);
+        public Task<PatientPersonalInfo> GetInfoForPatientAsync(Guid patientId, CancellationToken cancellationToken);
     }
 }

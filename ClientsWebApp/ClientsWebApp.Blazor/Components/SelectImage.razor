@@ -33,7 +33,7 @@
 
     private async Task OnFileSelected(IBrowserFile file)
     {
-        using var stream = new MemoryStream();
+        var stream = new MemoryStream();
         await file.OpenReadStream().CopyToAsync(stream);
 
         CurrentValue = new FormFile(stream, 0, file.Size, file.Name, file.Name + Guid.NewGuid().ToString());

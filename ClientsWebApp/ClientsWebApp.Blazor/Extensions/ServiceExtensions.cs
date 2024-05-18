@@ -9,6 +9,7 @@ using ClientsWebApp.Domain.Identity;
 using ClientsWebApp.Domain.Identity.HttpClients;
 using ClientsWebApp.Domain.Images;
 using ClientsWebApp.Domain.Offices;
+using ClientsWebApp.Domain.PatientInfos;
 using ClientsWebApp.Domain.Profiles.Doctor;
 using ClientsWebApp.Domain.Profiles.Patient;
 using ClientsWebApp.Domain.Profiles.Receptionist;
@@ -31,6 +32,7 @@ namespace ClientsWebApp.Blazor.Extensions
             services.AddScoped<IImageService, ImageService>();
             services.AddScoped<IOfficeService, OfficeService>();
             services.AddScoped<IPatientService, PatientService>();
+            services.AddScoped<IPatientInfoService, PatientInfoService>();
             services.AddScoped<IReceptionistService, ReceptionistService>();
             services.AddScoped<IResultService, ResultService>();
             services.AddScoped<IServiceService, ServiceService>();
