@@ -2,7 +2,7 @@
 {
     public class MedicalRecipe
     {
-        public MedicalRecipe(string serie, string number, DateTime date)
+        public MedicalRecipe(string serie, string number, DateTime? date)
         {
             Serie = serie;
             Number = number;
@@ -13,6 +13,6 @@
 
         public string Serie { get; set; }
         public string Number { get; set; }
-        public DateTime Date { get; set; }
+        public DateTime? Date { get; set; }
     }
 }

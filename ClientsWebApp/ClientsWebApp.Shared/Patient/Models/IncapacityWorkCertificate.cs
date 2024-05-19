@@ -2,7 +2,7 @@
 {
     public class IncapacityWorkCertificate
     {
-        public IncapacityWorkCertificate(string documentNumber, string incapacityType, string incapacityReason, DateTime startDate, DateTime endDate)
+        public IncapacityWorkCertificate(string documentNumber, string incapacityType, string incapacityReason, DateTime? startDate, DateTime? endDate)
         {
             DocumentNumber = documentNumber;
             IncapacityType = incapacityType;
@@ -16,7 +16,7 @@
         public string DocumentNumber { get; set; }
         public string IncapacityType { get; set; }
         public string IncapacityReason { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
     }
 }

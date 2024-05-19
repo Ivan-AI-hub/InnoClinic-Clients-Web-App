@@ -8,7 +8,7 @@ namespace ClientsWebApp.Shared.Patient.Models
 {
     public class WomanPregnancy
     {
-        public WomanPregnancy(DateTime discoveryDate, DateTime endDate, string result)
+        public WomanPregnancy(DateTime? discoveryDate, DateTime? endDate, string result)
         {
             DiscoveryDate = discoveryDate;
             EndDate = endDate;
@@ -17,8 +17,8 @@ namespace ClientsWebApp.Shared.Patient.Models
 
         public Guid Id { get; set; } = Guid.NewGuid();
 
-        public DateTime DiscoveryDate { get; set; }
-        public DateTime EndDate { get; set; }
+        public DateTime? DiscoveryDate { get; set; }
+        public DateTime? EndDate { get; set; }
         public string Result { get; set; }
     }
 }

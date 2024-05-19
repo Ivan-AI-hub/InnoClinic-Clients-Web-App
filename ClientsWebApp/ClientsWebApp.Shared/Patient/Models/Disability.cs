@@ -8,7 +8,7 @@ namespace ClientsWebApp.Shared.Patient.Models
 {
     public class Disability
     {
-        public Disability(string conclusion, DateTime creationDate)
+        public Disability(string conclusion, DateTime? creationDate)
         {
             Conclusion = conclusion;
             CreationDate = creationDate;
@@ -17,6 +17,6 @@ namespace ClientsWebApp.Shared.Patient.Models
         public Guid Id { get; set; } = Guid.NewGuid();
 
         public string Conclusion { get; set; }
-        public DateTime CreationDate { get; set; }
+        public DateTime? CreationDate { get; set; }
     }
 }

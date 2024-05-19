@@ -21,6 +21,12 @@
         <div class="col-sm m-lg-3">
             <MudText Typo="Typo.h6">@_localizer.GetString(LocalizationType.FullName): @Patient.Info.GetFullName()</MudText>
             <MudText Typo="Typo.h6">@_localizer.GetString(LocalizationType.PhoneNumber): @Patient.PhoneNumber</MudText>
+            <MudButton Color="Color.Success" Variant=Variant.Filled Class="w-100" OnClick="NavigateToMedicalCardPage">
+                <MudIcon Icon="@Icons.Material.Filled.Edit" />
+                <span class="ml-2">
+                    Медицинская карта
+                </span>
+            </MudButton>
             @ChildContent
         </div>
     }
@@ -34,5 +40,10 @@
     protected async override Task OnInitializedAsync()
     {
         _image = Patient.Info.Photo != null? await Patient.Info.Photo : null;
+    }
+
+    private void NavigateToMedicalCardPage()
+    {
+        NavigationManager.NavigateTo($"/patients/{Patient.Id}/card");
     }
 }

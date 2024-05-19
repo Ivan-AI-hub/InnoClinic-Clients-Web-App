@@ -8,7 +8,7 @@ namespace ClientsWebApp.Shared.Patient.Models.MedicalRecords;
 
 public class PhysicalTherapyRecord
 {
-    public PhysicalTherapyRecord(string name, string amount, string dosage, string dosageMetric, DateTime startDate, DateTime endDate)
+    public PhysicalTherapyRecord(string name, string amount, string dosage, string dosageMetric, DateTime? startDate, DateTime? endDate)
     {
         Name = name;
         Amount = amount;
@@ -24,6 +24,6 @@ public class PhysicalTherapyRecord
     public string Amount { get; set; }
     public string Dosage { get; set; }
     public string DosageMetric { get; set; }
-    public DateTime StartDate { get; set; }
-    public DateTime EndDate { get; set; }
+    public DateTime? StartDate { get; set; }
+    public DateTime? EndDate { get; set; }
 }

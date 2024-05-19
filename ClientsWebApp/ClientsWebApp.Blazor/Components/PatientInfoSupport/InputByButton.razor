@@ -1,0 +1,33 @@
+﻿@typeparam T
+
+<MudGrid Class="align-center">
+    <MudItem xs=@(ReadOnly? 12 : 10)>
+        @if (!_isEdit)
+        {
+            <MudText Typo="Typo.h6">@Label: @Value</MudText>
+        }
+        else
+        {
+            <MudTextField Label="@Label" Value="Value" ValueChanged="ValueChanged" @onfocusout="ChangeEditState" />
+        }
+    </MudItem>
+    @if (!ReadOnly)
+    {
+        <MudItem xs="2">
+            <MudIconButton Icon="@Icons.Material.Filled.Edit" OnClick="ChangeEditState" />
+        </MudItem>
+    }
+</MudGrid>
+@code {
+    [Parameter] public string Label { get; set; }
+    [Parameter] public bool ReadOnly { get; set; }
+    [Parameter] public T Value { get; set; }
+    [Parameter] public EventCallback<T> ValueChanged { get; set; }
+
+    private bool _isEdit;
+
+    public void ChangeEditState()
+    {
+        _isEdit = !_isEdit;
+    }
+}

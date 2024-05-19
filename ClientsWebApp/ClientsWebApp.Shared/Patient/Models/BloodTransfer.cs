@@ -2,7 +2,7 @@
 {
     public class BloodTransfer
     {
-        public BloodTransfer(string bloodType, int amount, DateTime date)
+        public BloodTransfer(string bloodType, int amount, DateTime? date)
         {
             BloodType = bloodType;
             Amount = amount;
@@ -13,6 +13,6 @@
 
         public string BloodType { get; set; }
         public int Amount { get; set; }
-        public DateTime Date { get; set; }
+        public DateTime? Date { get; set; }
     }
 }

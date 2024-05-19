@@ -1,0 +1,445 @@
+﻿@page "/patients/{PatientId:guid}/card"
+@using ClientsWebApp.Shared.Patient.Models
+@inherits CancellableComponent
+
+<div class="container p-0">
+
+    @if (PatientPersonalInfo != null)
+    {
+        <MudTabs Position=Position.Top Elevation="2" Rounded="true" ApplyEffectsToContainer="true" PanelClass="pa-6">
+            <MudTabPanel Text="Сводная информация о пациенте">
+                @if (Appointments != null)
+                {
+                    @foreach (var appointment in Appointments.Where(x => x.IsApproved))
+                    {
+                        <AppointmentCard Appointment="appointment" />
+                    }
+
+                    @if (Appointments.Count() >= Page.Size)
+                    {
+                        <MudButton Color="Color.Info" @onclick="NavigateToHistoryPage">@_localizer.GetString(LocalizationType.ViewHistoryButtonText)</MudButton>
+                    }
+                }
+                else
+                {
+                    <Loading />
+                }
+            </MudTabPanel>
+            @*                 <MudTabPanel Text="Владелец документов">
+        <div>
+        <MudText>
+        Раздел содержит сведения об организации
+        здравоохранения (далее – ОЗ), которая создала ЭМД по каждому законченному случаю
+        заболевания (обращения), в том числе наименование и реквизиты ОЗ, сведения
+        о ее руководителе;
+        </MudText>
+        </div>
+        </MudTabPanel> *@
+            <MudTabPanel Text="Персональные данные пациента">
+                <MudPaper Square Elevation=3 Class="row p-5 mb-3">
+
+                    <PatientCard Patient="@Patient">
+                        <MudText Typo="Typo.h6">Дата рождения: @Patient.Info.BirthDay.ToString("yyyy-MM-dd")</MudText>
+                        <MudText Typo="Typo.h6">Возраст: @(((DateTime.UtcNow - Patient.Info.BirthDay).TotalDays / 365.2425).ToString("C1")) лет</MudText>
+                        <MudText Typo="Typo.h6">Email: @Patient.Info.Email</MudText>
+                        <MudText Typo="Typo.h6">Гендер: @PatientPersonalInfo.Gender</MudText> @* Добавить мультиселект *@
+                        <InputByButton ReadOnly=!IsAdmin Label="Адрес" @bind-Value=@PatientPersonalInfo.Address />
+                        <InputByButton ReadOnly=!IsAdmin Label="Номер мед страхования" @bind-Value=PatientPersonalInfo.EnsurenceNumber />
+                    </PatientCard>
+                    <AddInfoButton OnClick="AddRepresenter" Text="Добавить  предстовителя" Label="Представители" Disabled=@(PatientPersonalInfo.Representer is not null) Hidden=!IsAdmin />
+
+                    @if (PatientPersonalInfo.Representer is not null)
+                    {
+                        <MudDataGrid ReadOnly=!IsAdmin Bordered EditMode=DataGridEditMode.Cell Items=@(new List<HumanInfo>(){PatientPersonalInfo.Representer})>
+                            <Columns>
+                                <PropertyColumn Property="x => x.Email" Required />
+                                <PropertyColumn Property="x => x.FirstName" Required />
+                                <PropertyColumn Property="x => x.LastName" Required />
+                                <PropertyColumn Property="x => x.MiddleName" Required />
+                                <DateTimeColumn Property="x => x.BirthDay" Required />
+                            </Columns>
+                        </MudDataGrid>
+                    }
+                </MudPaper>
+            </MudTabPanel>
+            <MudTabPanel Text="Медицинские данные">
+                <MudTabs Elevation="2" Position=Position.Top Rounded="true" ApplyEffectsToContainer="true" PanelClass="pa-6">
+                    <MudTabPanel Text="Семейный анамнез">
+                        <EditableDataGrid ReadOnly=IsPatient Label="Наследственные заболевания" Items=PatientPersonalInfo.PatientMedicalInfo.FamilyInfo.HereditaryIllnesses OnAddButtonClick="AddHereditaryIllness" ButtonText="Добавить наследственные заболевание">
+                            <Columns>
+                                <PropertyColumn Property="x => x.Name" />
+                                <DateTimeColumn Property="x => x.RegistrationDate" />
+                                <DoctorColumn Property="x => x.DoctorId" OnDoctorLoaded="Refresch" />
+                            </Columns>
+                        </EditableDataGrid>
+
+                        <EditableDataGrid ReadOnly=IsPatient Label="Перенесенные заболевания" Items=PatientPersonalInfo.PatientMedicalInfo.FamilyInfo.PastIllnesses OnAddButtonClick="AddPastIllness" ButtonText="Добавить  заболевание">
+                            <Columns>
+                                <PropertyColumn Property="x => x.Name" />
+                                <DateTimeColumn Property="x => x.RegistrationDate" />
+                                <DoctorColumn Property="x => x.DoctorId" OnDoctorLoaded="Refresch" />
+                            </Columns>
+                        </EditableDataGrid>
+                        <EditableDataGrid ReadOnly=IsPatient Label="Факторы риска"
+                                          Items=PatientPersonalInfo.PatientMedicalInfo.FamilyInfo.RiskFactors
+                                          OnAddButtonClick="AddRiskFactors"
+                                          ButtonText="Добавить  фактор риска">
+                            <Columns>
+                                <PropertyColumn Property="x => x.Name" />
+
+                            </Columns>
+                        </EditableDataGrid>
+                    </MudTabPanel>
+                    <MudTabPanel Text="Анамнез жизни">
+                        <EditableDataGrid ReadOnly=IsPatient Label="Особенности тела" Items=PatientPersonalInfo.PatientMedicalInfo.LifeInfo.BodyFeatures OnAddButtonClick="AddBodyFeature" ButtonText="Добавить особенность тела">
+                            <Columns>
+                                <PropertyColumn Property="x => x.Name" />
+                            </Columns>
+                        </EditableDataGrid>
+
+                        <EditableDataGrid ReadOnly=IsPatient Label="Условия жизни" Items=PatientPersonalInfo.PatientMedicalInfo.LifeInfo.LifeConditions OnAddButtonClick="AddLifeCondition" ButtonText="Добавить условие жизни">
+                            <Columns>
+                                <PropertyColumn Property="x => x.Name" />
+                            </Columns>
+                        </EditableDataGrid>
+
+                        <EditableDataGrid ReadOnly=IsPatient Label="Условия работы" Items=PatientPersonalInfo.PatientMedicalInfo.LifeInfo.WorkConditions OnAddButtonClick="AddWorkCondition" ButtonText="Добавить условие работы">
+                            <Columns>
+                                <PropertyColumn Property="x => x.Name" />
+                            </Columns>
+                        </EditableDataGrid>
+                    </MudTabPanel>
+                    <MudTabPanel Text="Аллергологический анамнез">
+                        <EditableDataGrid ReadOnly=!IsDoctor Label="Алергические заболевания" Items=PatientPersonalInfo.PatientMedicalInfo.HealthInfo.AllergicIllnesses OnAddButtonClick="AddAllergicIllness" ButtonText="Добавить алергическое заболевание">
+                            <Columns>
+                                <PropertyColumn Property="x => x.Name" />
+                                <DateTimeColumn Property="x => x.RegistrationDate" />
+                                <DoctorColumn Property="x => x.DoctorId" OnDoctorLoaded="Refresch" />
+                            </Columns>
+                        </EditableDataGrid>
+                    </MudTabPanel>
+                    <MudTabPanel Text="Реакция на иммунобиологические лекарственные препараты">
+
+                        <EditableDataGrid ReadOnly=!IsDoctor Label="Реакция на иммунобиологические лекарственные препараты"
+                                          Items=PatientPersonalInfo.PatientMedicalInfo.HealthInfo.MedicalReactions
+                                          OnAddButtonClick="AddMedicalReaction"
+                                          ButtonText="Добавить лекарственный препорат">
+                            <Columns>
+                                <PropertyColumn Property="x => x.MedicalName" />
+                                <DateTimeColumn Property="x => x.Date" />
+                                <PropertyColumn Property="x => x.ReactionDescription" />
+                            </Columns>
+                        </EditableDataGrid>
+                    </MudTabPanel>
+                    <MudTabPanel Text="Трансфузиологический анамнез">
+                        <InputByButton ReadOnly=IsPatient Label="Тип крови" @bind-Value=@PatientPersonalInfo.PatientMedicalInfo.PhysicInfo.BloodType />
+                        <InputByButton ReadOnly=IsPatient Label="Резус фактор" @bind-Value=@PatientPersonalInfo.PatientMedicalInfo.PhysicInfo.RhFactor />
+
+                        <EditableDataGrid ReadOnly=IsPatient Label="Перелевания крови"
+                                          Items=PatientPersonalInfo.PatientMedicalInfo.PhysicInfo.BloodTransfers
+                                          OnAddButtonClick="AddBloodTransfer"
+                                          ButtonText="Добавить переливание крови">
+                            <Columns>
+                                <PropertyColumn Property="x => x.BloodType" />
+                                <PropertyColumn Property="x => x.Amount" />
+                                <DateTimeColumn Property="x => x.Date" />
+                            </Columns>
+                        </EditableDataGrid>
+                    </MudTabPanel>
+                    <MudTabPanel Text="Акушерско-гинекологический анамнез (для женщин)">
+                        <InputByButton ReadOnly=IsPatient Label="время появления первых менструаций" @bind-Value=@PatientPersonalInfo.PatientMedicalInfo.WomanHealthInfo.FirstMenstruationDate />
+                        <InputByButton ReadOnly=IsPatient Label="дата последней менструации" @bind-Value=@PatientPersonalInfo.PatientMedicalInfo.WomanHealthInfo.LastMenstruationDate />
+                        <InputByButton ReadOnly=IsPatient Label="продолжительность менструации" @bind-Value=@PatientPersonalInfo.PatientMedicalInfo.WomanHealthInfo.MenstruationPeriodInDays />
+                        <InputByButton ReadOnly=IsPatient Label="интенсивность менструации" @bind-Value=@PatientPersonalInfo.PatientMedicalInfo.WomanHealthInfo.MenstuationIntensivity />
+
+                        <EditableDataGrid ReadOnly=!IsDoctor Label="Беременности"
+                                          Items=PatientPersonalInfo.PatientMedicalInfo.WomanHealthInfo.Pregnancies
+                                          OnAddButtonClick="AddPregnancy"
+                                          ButtonText="Добавить беременность">
+                            <Columns>
+                                <PropertyColumn Property="x => x.DiscoveryDate" />
+                                <DateTimeColumn Property="x => x.EndDate" />
+                                <PropertyColumn Property="x => x.Result" />
+                            </Columns>
+                        </EditableDataGrid>
+                    </MudTabPanel>
+                    <MudTabPanel Text="Метрические данные">
+                        <InputByButton ReadOnly=!IsDoctor Label="Рост (см.)" @bind-Value=@PatientPersonalInfo.PatientMedicalInfo.MetricInfo.Height />
+                        <InputByButton ReadOnly=!IsDoctor Label="Вес (кг.)" @bind-Value=@PatientPersonalInfo.PatientMedicalInfo.MetricInfo.Weight />
+                        <InputByButton ReadOnly=!IsDoctor Label="Нижнее давление (бар)" @bind-Value=@PatientPersonalInfo.PatientMedicalInfo.MetricInfo.NormalLowerPressure />
+                        <InputByButton ReadOnly=!IsDoctor Label="Верхнее давление (бар)" @bind-Value=@PatientPersonalInfo.PatientMedicalInfo.MetricInfo.NormalHigherPressure />
+                        <InputByButton ReadOnly=!IsDoctor Label="Пульс (ударов в минуту)" @bind-Value=@PatientPersonalInfo.PatientMedicalInfo.MetricInfo.NormalPulse />
+                        <InputByButton ReadOnly=!IsDoctor Label="Температура (°C)" @bind-Value=@PatientPersonalInfo.PatientMedicalInfo.MetricInfo.NormalTemperature />
+                    </MudTabPanel>
+                </MudTabs>
+
+            </MudTabPanel>
+            <MudTabPanel Text="Профилактические прививки">
+                <EditableDataGrid ReadOnly=!IsDoctor Label="Профилактические прививки"
+                                  Items=PatientPersonalInfo.PatientMedicalInfo.PreventiveVaccinations
+                                  OnAddButtonClick="AddPreventiveVactination"
+                                  ButtonText="Добавить прививку">
+                    <Columns>
+                        <PropertyColumn Property="x => x.Medicament" />
+                        <DateTimeColumn Property="x => x.Date" />
+                    </Columns>
+                </EditableDataGrid>
+            </MudTabPanel>
+            <MudTabPanel Text="Заключительные (уточненные) диагнозы">
+                @if (Appointments != null)
+                {
+                    @foreach (var appointment in Appointments)
+                    {
+                        <AppointmentCard Appointment="appointment" />
+                    }
+
+                    @if (Appointments.Count() >= Page.Size)
+                    {
+                        <MudButton Color="Color.Info" @onclick="NavigateToHistoryPage">@_localizer.GetString(LocalizationType.ViewHistoryButtonText)</MudButton>
+                    }
+                }
+                else
+                {
+                    <Loading />
+                }
+
+            </MudTabPanel>
+            <MudTabPanel Text="Лабораторные исследования">
+                @if (Appointments != null)
+                {
+                    @foreach (var appointment in Appointments.Where(x => x.Service.Name == "analyses"))
+                    {
+                        <AppointmentCard Appointment="appointment" />
+                    }
+
+                    @if (Appointments.Count() >= Page.Size)
+                    {
+                        <MudButton Color="Color.Info" @onclick="NavigateToHistoryPage">@_localizer.GetString(LocalizationType.ViewHistoryButtonText)</MudButton>
+                    }
+                }
+                else
+                {
+                    <Loading />
+                }
+            </MudTabPanel>
+            <MudTabPanel Text="Лучевые и радиологические исследования">
+                <EditableDataGrid ReadOnly=!IsDoctor Label="Проведенные лучевые и радиологические исследования"
+                                  Items=PatientPersonalInfo.PatientMedicalInfo.MedicalSupport.RadiationTherapies
+                                  OnAddButtonClick="AddRadiationTherapies"
+                                  ButtonText="Добавить исследование">
+                    <Columns>
+                        <PropertyColumn Property="x => x.Name" />
+                    </Columns>
+                </EditableDataGrid>
+            </MudTabPanel>
+            <MudTabPanel Text="Функциональные исследования">
+                <div>
+
+                    <MudText>
+                        Раздел содержит подробную
+                        информацию о проведенных функциональных исследованиях пациента и их результатах,
+                        в том числе графические результаты (изображения, снимки);
+                    </MudText>
+                </div>
+
+            </MudTabPanel>
+            <MudTabPanel Text="Оперативные вмешательства">
+                <div>
+
+                    <MudText>
+                        Раздел формируется на основании
+                        данных ОЗ по каждому случаю оперативного вмешательства пациента и содержит
+                        информацию обо всех перенесенных пациентом оперативных вмешательствах;
+                    </MudText>
+                </div>
+                <EditableDataGrid ReadOnly=IsPatient Label="Оперативные вмешательства"
+                                  Items=PatientPersonalInfo.PatientMedicalInfo.MedicalSupport.RadiationTherapies
+                                  OnAddButtonClick="AddRadiationTherapies"
+                                  ButtonText="Добавить исследование">
+                    <Columns>
+                        <PropertyColumn Property="x => x.Name" />
+                    </Columns>
+                </EditableDataGrid>
+            </MudTabPanel>
+            <MudTabPanel Text="Лекарственное обеспечение">
+                <MudTabs Elevation="2" Rounded="true" ApplyEffectsToContainer="true" PanelClass="pa-6">
+                    <MudTabPanel ReadOnly=IsPatient Text="Рецептурное льготное обеспечение">
+                        <EditableDataGrid ReadOnly=IsPatient Label="Рецептурное льготное обеспечение"
+                                          Items=@(PatientPersonalInfo.PatientMedicalInfo.MedicalSupport.RecipeMedicals.Where(x => x.IsPreferential))
+                                          OnAddButtonClick="@(() => AddRecipeMedicals(true))"
+                                          ButtonText="Добавить лекарственный препорат">
+                            <Columns>
+                                <PropertyColumn Property="x => x.Name" />
+                                <PropertyColumn Property="x => x.Dosage" />
+                                <PropertyColumn Property="x => x.DosageMetric" />
+                                <PropertyColumn Property="x => x.Price" />
+                                <PropertyColumn Property="x => x.RecipeInfo.Serie" />
+                                <PropertyColumn Property="x => x.RecipeInfo.Number" />
+                                <DateTimeColumn Property="x => x.RecipeInfo.Date" />
+                            </Columns>
+                        </EditableDataGrid>
+                    </MudTabPanel>
+
+                    <MudTabPanel Text="Рецептурное нельготное обеспечение">
+                        <EditableDataGrid ReadOnly=IsPatient Label="Рецептурное нельготное обеспечение"
+                                          Items=@(PatientPersonalInfo.PatientMedicalInfo.MedicalSupport.RecipeMedicals.Where(x => !x.IsPreferential))
+                                          OnAddButtonClick="@(() => AddRecipeMedicals(false))"
+                                          ButtonText="Добавить лекарственный препорат">
+                            <Columns>
+                                <PropertyColumn Property="x => x.Name" />
+                                <PropertyColumn Property="x => x.Dosage" />
+                                <PropertyColumn Property="x => x.DosageMetric" />
+                                <PropertyColumn Property="x => x.Price" />
+                                <PropertyColumn Property="x => x.RecipeInfo.Serie" />
+                                <PropertyColumn Property="x => x.RecipeInfo.Number" />
+                                <DateTimeColumn Property="x => x.RecipeInfo.Date" />
+                            </Columns>
+                        </EditableDataGrid>
+                    </MudTabPanel>
+                    <MudTabPanel Text="Безрецептурные назначения">
+                        <EditableDataGrid ReadOnly=IsPatient Label="Безрецептурные назначения"
+                                          Items=PatientPersonalInfo.PatientMedicalInfo.MedicalSupport.NoRecipeMedicals
+                                          OnAddButtonClick="AddNoRecipeMedicals"
+                                          ButtonText="Добавить лекарственный препорат">
+                            <Columns>
+                                <PropertyColumn Property="x => x.Name" />
+                                <PropertyColumn Property="x => x.Dosage" />
+                                <PropertyColumn Property="x => x.DosageMetric" />
+                            </Columns>
+                        </EditableDataGrid>
+                    </MudTabPanel>
+                </MudTabs>
+            </MudTabPanel>
+            <MudTabPanel Text="Немедикаментозное лечение">
+                <MudTabs Elevation="2" Rounded="true" ApplyEffectsToContainer="true" PanelClass="pa-6">
+                    <MudTabPanel Text="Физиотерапевтическое лечение">
+                        <EditableDataGrid ReadOnly=IsPatient Label="Физиотерапевтическое лечение"
+                                          Items=PatientPersonalInfo?.PatientMedicalInfo.MedicalSupport.PhysicalTherapyRecords
+                                          OnAddButtonClick="AddPhysicalTherapyRecords"
+                                          ButtonText="Добавить лечение">
+                            <Columns>
+                                <PropertyColumn Property="x => x.Name" />
+                                <PropertyColumn Property="x => x.Dosage" />
+                                <PropertyColumn Property="x => x.DosageMetric" />
+                                <PropertyColumn Property="x => x.Amount" />
+                                <PropertyColumn Property="x => x.StartDate" />
+                                <PropertyColumn Property="x => x.EndDate" />
+                            </Columns>
+                        </EditableDataGrid>
+                    </MudTabPanel>
+                    <MudTabPanel Text="Лечебная физкультура и массаж">
+                        <EditableDataGrid ReadOnly=IsPatient Label="Лечебная физкультура и массаж"
+                                          Items=PatientPersonalInfo?.PatientMedicalInfo.MedicalSupport.TherapeuticExerciseMassages
+                                          OnAddButtonClick="AddTherapeuticExerciseMassages"
+                                          ButtonText="Добавить лечение">
+                            <Columns>
+                                <PropertyColumn Property="x => x.Name" />
+                            </Columns>
+                        </EditableDataGrid>
+                    </MudTabPanel>
+                    <MudTabPanel Text="Нетрадиционные методы лечения">
+                        <EditableDataGrid ReadOnly=IsPatient Label="Нетрадиционные методы лечения"
+                                          Items=PatientPersonalInfo?.PatientMedicalInfo.MedicalSupport.UnconventionalTreatmentMethods
+                                          OnAddButtonClick="AddUnconventionalTreatmentMethods"
+                                          ButtonText="Добавить лечение">
+                            <Columns>
+                                <PropertyColumn Property="x => x.Name" />
+                            </Columns>
+                        </EditableDataGrid>
+                    </MudTabPanel>
+                    <MudTabPanel Text="Лучевая терапия">
+                        <EditableDataGrid ReadOnly=IsPatient Label="Лучевая терапия"
+                                          Items=PatientPersonalInfo?.PatientMedicalInfo.MedicalSupport.RadiationTherapies
+                                          OnAddButtonClick="AddRadiationTherapies"
+                                          ButtonText="Добавить лучевую терапию">
+                            <Columns>
+                                <PropertyColumn Property="x => x.Name" />
+                            </Columns>
+                        </EditableDataGrid>
+                    </MudTabPanel>
+                </MudTabs>
+            </MudTabPanel>
+            <MudTabPanel Text="Диспансеризация">
+                <EditableDataGrid ReadOnly=IsPatient Label="Диспансеризация"
+                                  Items=PatientPersonalInfo?.PatientMedicalInfo.MedicalSupport.ClinicalExaminations
+                                  OnAddButtonClick="AddClinicalExaminations"
+                                  ButtonText="Добавить диспансерное наблюдение">
+                    <Columns>
+                        <DateTimeColumn Property="x => x.StartDate" />
+                        <PropertyColumn Property="x => x.Diagnos" />
+                        <DateTimeColumn Property="x => x.DiagnosDate" />
+                        <PropertyColumn Property="x => x.ClinicalGroup" />
+                        <DateTimeColumn Property="x => x.ClinicalGroupChangeDate" />
+                        <DateTimeColumn Property="x => x.LastInspectionDate" />
+                        <DateTimeColumn Property="x => x.NextInspectionDate" />
+                        <DateTimeColumn Property="x => x.EndDate" />
+                        <PropertyColumn Property="x => x.EndReason" />
+                    </Columns>
+                </EditableDataGrid>
+            </MudTabPanel>
+            <MudTabPanel Text="Временная нетрудоспособность">
+                <EditableDataGrid ReadOnly=IsPatient Label="Временная нетрудоспособность"
+                                  Items=PatientPersonalInfo?.PatientMedicalInfo.IncapacityWorkCertificates
+                                  OnAddButtonClick="AddIncapacityWorkCertificates"
+                                  ButtonText="Добавить листок о временной нетрудоспособности">
+                    <Columns>
+                        <DateTimeColumn Property="x => x.StartDate" />
+                        <PropertyColumn Property="x => x.DocumentNumber" />
+                        <PropertyColumn Property="x => x.IncapacityType" />
+                        <PropertyColumn Property="x => x.IncapacityReason" />
+                        <DateTimeColumn Property="x => x.EndDate" />
+                    </Columns>
+                </EditableDataGrid>
+            </MudTabPanel>
+            <MudTabPanel Text="Инвалидность">
+                <EditableDataGrid ReadOnly=IsPatient Label="Инвалидность"
+                                  Items=PatientPersonalInfo?.PatientMedicalInfo.Disabilities
+                                  OnAddButtonClick="AddDisability"
+                                  ButtonText="Добавить инвалидность">
+                    <Columns>
+                        <DateTimeColumn Property="x => x.CreationDate" />
+                        <PropertyColumn Property="x => x.Conclusion" />
+                    </Columns>
+                </EditableDataGrid>
+            </MudTabPanel>
+            <MudTabPanel Text="Регистры">
+                <EditableDataGrid ReadOnly=IsPatient Label="Регистры"
+                                  Items=PatientPersonalInfo?.PatientMedicalInfo.Registers
+                                  OnAddButtonClick="AddRegister"
+                                  ButtonText="Добавить регистр">
+                    <Columns>
+                        <DateTimeColumn Property="x => x.Date" />
+                        <PropertyColumn Property="x => x.Name" />
+                        <PropertyColumn Property="x => x.Status" />
+                    </Columns>
+                </EditableDataGrid>
+            </MudTabPanel>
+            <MudTabPanel Text="Согласия, отказы, информирование пациента">
+                <EditableDataGrid ReadOnly=!IsAdmin Label="Согласия, отказы, информирование пациента"
+                                  Items=PatientPersonalInfo?.PatientMedicalInfo.Aggrements
+                                  OnAddButtonClick="AddAggrement"
+                                  ButtonText="Добавить">
+                    <Columns>
+                        <PropertyColumn Property="x => x.Title" />
+                        <PropertyColumn Property="x => x.Description" />
+                        <PropertyColumn Property="x => x.Status" />
+                    </Columns>
+                </EditableDataGrid>
+            </MudTabPanel>
+        </MudTabs>
+        @if (!IsPatient)
+        {
+            <MudButton Color="Color.Info" Variant=Variant.Filled Class="w-100" OnClick="UpdateCardAsync">
+                <MudIcon Icon="@Icons.Material.Filled.Edit" />
+                <span class="ml-2">
+                    @_localizer.GetString(LocalizationType.EditButtonValue)
+                </span>
+            </MudButton>
+        }
+    }
+    else
+    {
+        <Loading />
+    }
+</div>
+

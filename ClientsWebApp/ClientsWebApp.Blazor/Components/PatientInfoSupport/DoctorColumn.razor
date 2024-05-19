@@ -1,0 +1,65 @@
+﻿@typeparam T
+@inherits PropertyColumn<T, Guid?>
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+
+    [Inject] IDoctorManager DoctorManager { get; set; }
+
+    [Parameter]
+    [EditorRequired]
+    public EventCallback OnDoctorLoaded { get; set; }
+
+
+    private DoctorDTO? _doctor;
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        EditTemplate = (context) =>
+        {
+            Task.Run( async () => await InitializeDoctorAsync(PropertyFunc(context.Item)));
+
+            if (_doctor is null)
+            {
+                return @<Loading />;
+            }
+
+            return @<MudText>@_doctor.Info.GetFullName()</MudText>;
+        };
+
+        CellTemplate = (context) =>
+        {
+        Task.Run(async () => await InitializeDoctorAsync(PropertyFunc(context.Item)));
+
+        if (_doctor is null)
+        {
+            return @<Loading />;
+        }
+
+        return @<MudText>@_doctor.Info.GetFullName()</MudText>;
+        };
+    }
+
+    private async Task InitializeDoctorAsync(object? doctorId)
+    {
+        if (_doctor is not null || doctorId is null)
+        {
+            return;
+        }
+
+        var DoctorGuidId = doctorId as Guid?;
+        if (DoctorGuidId is null)
+        {
+            _doctor = null;
+        }
+        else
+        {
+            _doctor = await DoctorManager.GetByIdAsync(DoctorGuidId.Value, default);
+            await OnDoctorLoaded.InvokeAsync();
+        }
+    }
+}
