@@ -2,6 +2,7 @@
 using ClientsWebApp.Domain.Identity;
 using ClientsWebApp.Domain.Identity.Tokens;
 using ClientsWebApp.Services.Settings;
+using ClientsWebApp.Shared;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.Options;
@@ -23,6 +24,7 @@ public class WebRtcService : IAsyncDisposable
 
     public event Action OnRemoteVideoLeave;
     public event Action<WebRtcConnectionState> OnStateChanged;
+    public event Action<Message> OnMessageCreated;
     public event Action OnRemoteStreamPaused;
     public event Action OnRemoteStreamStarted;
     public bool HasRemoteUser { get; private set; }
@@ -102,6 +104,18 @@ public class WebRtcService : IAsyncDisposable
         await hub.SendAsync("leave", _channel);
     }
 
+    public async Task CreateMessage(string content)
+    {
+        var hub = await GetHub();
+        await hub.SendAsync("CreateMessage", _channel, content);
+    }
+
+    public async Task<IEnumerable<Message>> GetMessages()
+    {
+        var hub = await GetHub();
+        return await hub.InvokeAsync<IEnumerable<Message>>("GetMessages", _channel);
+    }
+
     private async Task<HubConnection> GetHub()
     {
         if (_hub is not null) return _hub;
@@ -149,6 +163,12 @@ public class WebRtcService : IAsyncDisposable
         {
             HasRemoteUser = true;
             await Call();
+        });
+
+        hub.On<Message>("MessageCreated", async (Message message) =>
+        {
+            Console.WriteLine("Message created");
+            OnMessageCreated?.Invoke(message);
         });
 
         hub.On<string>("Leave", async (connectionId) =>

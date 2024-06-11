@@ -9,13 +9,13 @@ namespace ClientsWebApp.Application.Validators
         public LoginDataValidator()
         {
             RuleFor(x => x.Email)
-                .NotEmpty().WithMessage("Please, enter the email")
-                .Matches(_emailRegex).WithMessage("You've entered an invalid email"); ;
+                .NotEmpty().WithMessage("Пожалуйста введите адрес электронной почты")
+                .Matches(_emailRegex).WithMessage("Вы ввели некоректный адрес электронной почты"); ;
 
             RuleFor(x => x.Password)
-                .NotEmpty().WithMessage("Please, enter the password")
-                .MinimumLength(6)
-                .MaximumLength(15);
+                .NotEmpty().WithMessage("Пожалуйста, введите пароль")
+                .MinimumLength(6).WithMessage("Пароль должен быть больше 6 символов")
+                .MaximumLength(15).WithMessage("Пароль должен быть меньше 15 символов");
         }
     }
 }

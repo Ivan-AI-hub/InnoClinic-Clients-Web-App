@@ -7,7 +7,7 @@ namespace ClientsWebApp.Application.Models.Offices
     public class OfficeDTO
     {
         public Guid Id { get; private set; }
-        public Task<Image>? Photo { get; set; }
+        public Task<Image?> Photo { get; set; }
         public Address Address { get; private set; }
         public int OfficeNumber { get; private set; }
         public string PhoneNumber { get; private set; }
@@ -32,7 +32,8 @@ namespace ClientsWebApp.Application.Models.Offices
 
         public async Task<Office> ToOfficeAsync()
         {
-            var image = Photo is not null ? new ImageName((await Photo).FileName) : null;
+            var photo = await Photo;
+            var image = photo is not null ? new ImageName(photo.FileName) : null;
             return new Office(Id, image, Address, OfficeNumber, PhoneNumber, Status);
         }
     }

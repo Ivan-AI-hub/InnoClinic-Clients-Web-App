@@ -1,5 +1,6 @@
 ﻿@page "/conference"
 @using ClientsWebApp.Application.Models.Enums
+@using ClientsWebApp.Blazor.Components.Messages
 @layout EmptyLayout;
 @inherits CancellableComponent;
 <PageTitle>WebRtc</PageTitle>
@@ -14,8 +15,8 @@
     }
     else
     {
-        <MudGrid Spacing="2" Justify="Justify.SpaceAround">
-            <MudItem xs="7" Class="position-relative">
+        <MudGrid Spacing="2" Justify="Justify.SpaceAround" Class="align-items-center">
+            <MudItem xs="12" md="7" Class="position-relative" Style="height:fit-content; w-100">
                 <div class=@(_state == WebRtcConnectionState.Connected? "w-100 position-relative" : "d-none position-relative")>
                     <MudPaper class="p-2 d-flex justify-content-center">
                         <video @ref=_remoteVideoStream id="remoteVideo" autoplay playsinline class="w-100" @onplaying=OnRemoteStreamPlaying @onpause=OnRemoteStreamStop></video>
@@ -25,7 +26,7 @@
                         <MudPaper class="p-2 d-flex justify-content-center position-absolute w-100 h-100 poster">
                             @if (_localPoster is not null)
                             {
-                                <ImageFromByteArray Image="_localPoster.Content" ImageType="_patientImage.ContentType" IsSvgImage="false"/>
+                                <ImageFromByteArray Image="_localPoster.Content" ImageType="_patientImage.ContentType" IsSvgImage="false" />
                             }
                             else
                             {
@@ -53,13 +54,9 @@
                     }
                 </div>
             </MudItem>
-            <AuthorizeView Roles="Doctor">
-                <Authorized>
-                    <MudItem xs="5">
-                        <ManageAppointmentResult AppointmentId="@Guid.Parse(Channel)"/>
-                    </MudItem>
-                </Authorized>
-            </AuthorizeView>
+            <MudItem xs="12" md="5">
+                <MessageList @ref=_messagesList Messages="_messages" UserId="_selfId" OnCreateMessageCicked="CreateMessageAsync" />
+            </MudItem>
             @if (_state == WebRtcConnectionState.Connecting)
             {
                 <div class="load__container w-100 h-100 d-flex justify-content-center ">
@@ -70,28 +67,25 @@
 
         <MudGrid Spacing="2" Justify="Justify.Center">
             <MudItem>
-                <MudIconButton 
-                    Icon="@Icons.Material.Filled.CallEnd" 
-                    Variant=Variant.Filled 
-                    Color="Color.Error"
+                <MudIconButton Icon="@Icons.Material.Filled.CallEnd"
+                               Variant=Variant.Filled
+                               Color="Color.Error"
                                Size="Size.Large"
-                    OnClick="HangUp" />
+                               OnClick="HangUp" />
             </MudItem>
             <MudItem>
-                <MudIconButton 
-                    Icon=@(_videoEnabled? Icons.Material.Filled.Videocam : Icons.Material.Filled.VideocamOff) 
-                    Variant=Variant.Filled
-                    Color=@(_videoEnabled? Color.Success : Color.Error)
-                    Size="Size.Large"
-                    OnClick="VideoStreamSettingChange" />
+                <MudIconButton Icon=@(_videoEnabled? Icons.Material.Filled.Videocam : Icons.Material.Filled.VideocamOff)
+                               Variant=Variant.Filled
+                               Color=@(_videoEnabled? Color.Success : Color.Error)
+                               Size="Size.Large"
+                               OnClick="VideoStreamSettingChange" />
             </MudItem>
             <MudItem>
-                <MudIconButton 
-                    Icon=@(_micEnabled? Icons.Material.Filled.Mic : Icons.Material.Filled.MicOff) 
-                    Variant=Variant.Filled
-                    Size="Size.Large"
-                    Color=@(_micEnabled? Color.Success : Color.Error)
-                    OnClick="MicSettingChangeAsync" />
+                <MudIconButton Icon=@(_micEnabled? Icons.Material.Filled.Mic : Icons.Material.Filled.MicOff)
+                               Variant=Variant.Filled
+                               Size="Size.Large"
+                               Color=@(_micEnabled? Color.Success : Color.Error)
+                               OnClick="MicSettingChangeAsync" />
             </MudItem>
         </MudGrid>
     }
@@ -110,7 +104,7 @@
         left: 0;
     }
 
-    .load__container{
+    .load__container {
         position: absolute;
         top: 0;
         left: 0;

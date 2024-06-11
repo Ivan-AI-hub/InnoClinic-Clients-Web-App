@@ -23,6 +23,22 @@
             </div>
         </PatientCard>
     </div>
+    <div class="container p-5 text-center">
+        <MudText Typo="Typo.h6">@_localizer.GetString(LocalizationType.Schedule)</MudText>
+
+        @if (Appointments != null)
+        {
+            @foreach (var appointment in Appointments)
+            {
+                <AppointmentCard Appointment="appointment"/>
+            }
+        }
+        else
+        {
+            <Loading />
+        }
+
+    </div>
 }
 else
 {

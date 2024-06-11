@@ -1,20 +1,23 @@
-﻿using Blazored.Modal.Services;
-using Blazored.Modal;
+﻿using Blazored.Modal;
+using Blazored.Modal.Services;
 using BlazorRtc.Client.WebRtc;
-using ClientsWebApp.Blazor.Components.Modals;
-using Microsoft.AspNetCore.Components;
-using ClientsWebApp.Application.Models.Enums;
 using ClientsWebApp.Application.Abstraction;
+using ClientsWebApp.Application.Models.Enums;
 using ClientsWebApp.Blazor.Components;
+using ClientsWebApp.Blazor.Components.Messages;
+using ClientsWebApp.Blazor.Components.Modals;
 using ClientsWebApp.Domain.Identity;
 using ClientsWebApp.Domain.Images;
+using ClientsWebApp.Shared;
+using Microsoft.AspNetCore.Components;
 using MudBlazor;
-using ClientsWebApp.Domain.Appointments;
 
 namespace ClientsWebApp.Blazor.Pages.Conference
 {
     public partial class ConversationRoom : CancellableComponent
     {
+        private List<Message> _messages = new List<Message>();
+
         private bool _showLocalPoster;
         private bool _showRemotePoster;
 
@@ -23,11 +26,15 @@ namespace ClientsWebApp.Blazor.Pages.Conference
         private bool _videoEnabled = true;
         private WebRtcConnectionState _state;
 
+        private MessageList? _messagesList;
+
         private ElementReference _localVideoStream;
         private ElementReference _remoteVideoStream;
 
         public Image? _localPoster;
         public Image? _remotePoster;
+
+        private Guid _selfId;
 
         [SupplyParameterFromQuery]
         [Parameter]
@@ -57,6 +64,7 @@ namespace ClientsWebApp.Blazor.Pages.Conference
             RtcService.OnStateChanged += ConnectionStateChanged;
             RtcService.OnRemoteStreamPaused += RemoteStreamPaused;
             RtcService.OnRemoteStreamStarted += RemoteStreamStarted;
+            RtcService.OnMessageCreated += OnMessageCreated;
 
             if (!Guid.TryParse(Channel, out var channelId))
             {
@@ -81,6 +89,15 @@ namespace ClientsWebApp.Blazor.Pages.Conference
             _remotePoster = role == nameof(Role.Patient)
                 ? doctor.Info.Photo is not null ? await doctor.Info.Photo : null
                 : patient.Info.Photo is not null ? await patient.Info.Photo : null;
+
+            if(role  == nameof(Role.Doctor))
+            {
+                _selfId = doctor.Id;
+            }
+            else
+            {
+                _selfId = patient.Id;
+            }
 
         }
 
@@ -107,6 +124,16 @@ namespace ClientsWebApp.Blazor.Pages.Conference
                 _isConnectError = true;
                 StateHasChanged();
                 return;
+            }
+
+            var messages = await RtcService.GetMessages();
+            _messages.Clear();
+            _messages.AddRange(messages);
+
+            StateHasChanged();
+            if (_messagesList is not null)
+            {
+                await _messagesList.ScrollContainerToEnd();
             }
         }
 
@@ -179,6 +206,27 @@ namespace ClientsWebApp.Blazor.Pages.Conference
         public async ValueTask DisposeAsync()
         {
             await RtcService.DisposeAsync();
+        }
+
+        public async Task CreateMessageAsync(string messageContent)
+        {
+            if(string.IsNullOrEmpty(messageContent))
+            {
+                return;
+            }
+
+            await RtcService.CreateMessage(messageContent);
+            StateHasChanged();
+        }
+
+        public async void OnMessageCreated(Message message)
+        {
+            _messages.Add(message);
+            StateHasChanged();
+            if (_messagesList is not null)
+            {
+                await _messagesList.ScrollContainerToEnd();
+            }
         }
 
         public void OnRemoteStreamPlaying()

@@ -1,6 +1,6 @@
 ﻿@inject IStringLocalizer<Localization> Loc
 
-<MudPaper Width=@(collapseNavMenu? "50px" : "250px") Height="100vh" Class="pt-2" Elevation="0">
+<MudPaper Class=@(collapseNavMenu? "pt-2 deactive-menu" : "pt-2 active-menu") Elevation="0">
     @if (!collapseNavMenu)
     {
         <div class="d-flex justify-content-between mud-width-full">
@@ -78,5 +78,38 @@
 <style>
     .menu {
         padding-right: 0px !important;
+    }
+
+    @@media (min-width: 641px) {
+        .navbar-toggler {
+            display: none;
+        }
+
+        .deactive-menu {
+            width: 50px;
+            height: 100vh;
+        }
+
+        .active-menu {
+            width: 250px;
+            height: 100vh;
+        }
+        .collapse {
+            /* Never collapse the sidebar for wide screens */
+            display: block;
+        }
+    }
+
+    @@media (max-width: 640.98px) {
+        .deactive-menu {
+            width: 100%;
+            height: 50px;
+            overflow: hidden;
+        }
+
+        .active-menu {
+            width: 100%;
+            height: 100vh;
+        }
     }
 </style>

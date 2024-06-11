@@ -1,0 +1,102 @@
+﻿@using ClientsWebApp.Shared
+@using Microsoft.JSInterop
+@inject IJSRuntime JS
+
+<MudPaper Square Elevation=3 Class="row p-2 mb-3 h-100 chat">
+    <div class="d-flex flex-column justify-content-between align-items-center">
+        <div @ref=ChatContiner class="chat-history d-flex flex-column ">
+            @foreach (var message in Messages)
+            {
+                @if (message.CreatorId == UserId)
+                {
+                    <MudPaper Square Elevation=3 Class="p-2 mb-3" Outlined>
+                        <MudGrid Justify=Justify.SpaceBetween Class="align-items-center">
+                            <MudItem xs="2" Class="h-auto">
+                                <MudText Align=Align.Left Color=Color.Success Class="message-data-time other-message">@message.CreationDate.ToString("HH:mm")</MudText>
+                            </MudItem>
+                            <MudItem xs="10">
+                                <MudText Align=Align.Right Color=Color.Success Class="message other-message">@message.Content </MudText>
+
+                            </MudItem>
+
+                        </MudGrid>
+                    </MudPaper>
+                }
+                @if (message.CreatorId != UserId)
+                {
+                    <MudPaper Square Elevation=3 Class="p-2 mb-3" Outlined>
+                        <MudGrid Justify=Justify.SpaceBetween Class="align-items-center">
+                            <MudItem xs="10">
+                                <MudText Typo=Typo.body1 Align=Align.Left Color=Color.Primary Class="message other-message">@message.Content </MudText>
+                            </MudItem>
+                            <MudItem xs="2" Class="h-auto">
+                                <MudText Typo=Typo.body1 Align=Align.Right Color=Color.Primary Class="message-data-time other-message">@message.CreationDate.ToString("HH:mm") </MudText>
+                            </MudItem>
+                        </MudGrid>
+                    </MudPaper>
+                }
+            }
+        </div>
+        <div class="w-100">
+            <MudTextField FullWidth @bind-Value=_message AutoGrow Placeholder="Введите сообщение...." Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Filled.Send" OnAdornmentClick="AdormentClicked" />
+        </div>
+    </div>
+</MudPaper>
+
+<style>
+    .chat-history {
+        overflow-y: auto;
+        overflow-x: clip;
+        height: 47vh;
+    }
+
+    .message {
+        font-size: 20px;
+        hyphens: manual;
+        word-break: break-word;
+    }
+
+    .message-data-time {
+        font-size: 14px;
+    }
+
+    .float-right {
+        float: right
+    }
+</style>
+
+<script>
+    function scrollToEnd(container) {
+        container.scrollTop = container.scrollHeight;
+    }
+</script>
+
+@code {
+    [Parameter]
+    [EditorRequired]
+    public IEnumerable<Message> Messages { get; set; }
+
+    [Parameter]
+    [EditorRequired]
+    public Guid UserId { get; set; }
+
+    [Parameter]
+    public EventCallback<string> OnCreateMessageCicked { get; set; }
+
+    private ElementReference ChatContiner;
+    private string _message = "";
+
+
+    private async void AdormentClicked()
+    {
+        await OnCreateMessageCicked.InvokeAsync(_message);
+        _message = "";
+        StateHasChanged();
+    }
+
+    public async Task ScrollContainerToEnd()
+    {
+        await JS.InvokeVoidAsync("scrollToEnd", new object[] { ChatContiner });
+    }
+
+}

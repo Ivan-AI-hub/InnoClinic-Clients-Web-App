@@ -27,14 +27,22 @@ namespace ClientsWebApp.Application.Managers
         }
         public async Task EditAsync(OfficeDTO oldOffice, EditOfficeData data, CancellationToken cancellationToken)
         {
-            var fileName = (await oldOffice.ToOfficeAsync()).Photo; 
-            var imageName = data.Picture == null ? fileName : new ImageName(data.Picture.FileName);
+            var fileName = (await oldOffice.ToOfficeAsync()).Photo?.Name; 
+            var imageName = data.Picture == null ? new ImageName(fileName) : new ImageName(data.Picture.FileName);
             var updateModel = new UpdateOfficeModel(imageName, data.City, data.Street, data.HouseNumber, data.OfficeNumber, data.PhoneNumber, data.Status);
 
             await _officeService.UpdateAsync(oldOffice.Id, updateModel, cancellationToken);
-            if (data.Picture is not null && data.Picture != fileName)
+            if (data.Picture is not null && data.Picture.FileName != fileName)
             {
-                await _imageService.DeleteAsync(fileName.Name, cancellationToken);
+                try
+                {
+                    await _imageService.DeleteAsync(fileName, cancellationToken);
+                }
+                catch
+                {
+
+                }
+
                 await _imageService.CreateAsync(data.Picture, cancellationToken);
             }
 
